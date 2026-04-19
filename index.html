@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEPSE Daily Master Report — Broker 58 · April 17, 2026</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14px;display:flex;min-height:100vh;}
+.sidebar{width:230px;min-width:230px;background:#1a0800;color:#ffb86c;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform .3s;}
+.sidebar-logo{padding:18px 16px 12px;border-bottom:1px solid #3a1a00;}
+.sidebar-logo .brand{font-size:11px;color:#aa6a20;letter-spacing:0.06em;margin-bottom:4px;}
+.sidebar-logo h2{font-size:14px;font-weight:700;color:#ffcc88;line-height:1.3;}
+.sidebar-logo .date{font-size:11px;color:#aa6a20;margin-top:4px;}
+.nav-label{font-size:10px;font-weight:700;color:#7a4a10;text-transform:uppercase;letter-spacing:0.08em;padding:14px 16px 6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;font-size:12px;color:#ddaa66;border-left:3px solid transparent;transition:all .15s;}
+.nav-item:hover{background:#2a1500;color:#ffcc88;border-left-color:#aa6a20;}
+.nav-item.active{background:#3a2000;color:#ffcc88;border-left-color:#ddaa66;font-weight:600;}
+.nav-item .icon{font-size:14px;min-width:18px;text-align:center;}
+.nav-badge{margin-left:auto;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;}
+.nb-red{background:#4d1e1e;color:#e68a8a;}
+.nb-green{background:#1e4d1e;color:#7dca7d;}
+.nb-gold{background:#4d3a0a;color:#f0d080;}
+.nb-blue{background:#0a2a4d;color:#80b8f0;}
+.nb-critical{background:#7a0000;color:#ffaaaa;}
+.sidebar-footer{padding:14px 16px;border-top:1px solid #3a1a00;margin-top:auto;font-size:10px;color:#7a4a10;line-height:1.6;}
+.dl-btn{margin:10px 16px 0;background:#c0392b;color:#fff;border:none;border-radius:7px;padding:10px 0;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.04em;width:calc(100% - 32px);display:block;}
+.main{margin-left:230px;flex:1;min-height:100vh;}
+.topbar{background:#1a0800;color:#ffcc88;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:8px;}
+.topbar h1{font-size:15px;font-weight:700;}
+.topbar .badges{display:flex;gap:8px;flex-wrap:wrap;}
+.badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;}
+.bg{background:#1e4d1e;color:#a8e6a8;}
+.br{background:#4d1e1e;color:#e6a8a8;}
+.ba{background:#4d3a0a;color:#f0d080;}
+.bb{background:#0a2a4d;color:#80b8f0;}
+.bcrit{background:#7a0000;color:#ffaaaa;}
+.hamburger{display:none;background:none;border:none;color:#ffcc88;font-size:20px;cursor:pointer;margin-right:12px;}
+.content{padding:24px;}
+.section{background:#fff;border-radius:10px;border:1px solid #e2e6ea;padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:none;}
+.section.active-section{display:block;}
+.section-title{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #e8ecf0;display:flex;align-items:center;gap:8px;}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.metric{background:#f8fafc;border-radius:8px;padding:14px;text-align:center;border:1px solid #e8ecf0;}
+.metric .val{font-size:20px;font-weight:700;}
+.metric .lbl{font-size:11px;color:#888;margin-top:3px;}
+.metric .chg{font-size:13px;font-weight:600;margin-top:3px;}
+.green{color:#1e7e34;}.red{color:#c0392b;}.amber{color:#b8860b;}.blue{color:#1a5276;}.purple{color:#6a0dad;}.crimson{color:#7a0000;}
+.sectors-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
+.sector-green{background:#f0faf4;border:1px solid #eef4ee;}
+.sector-red{background:#fef5f5;border:1px solid #fde8e8;}
+.sector-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:6px;font-size:12px;}
+.movers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.mover-card{background:#f8fafc;border-radius:8px;padding:12px;border:1px solid #e8ecf0;}
+.mover-card .card-title{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.mover-item{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #eee;}
+.mover-item:last-child{border-bottom:none;}
+.b58-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.b58-metric{background:#f8fafc;border-radius:8px;padding:14px;text-align:center;border:1px solid #e8ecf0;}
+.b58-metric .val{font-size:20px;font-weight:700;}
+.b58-metric .lbl{font-size:11px;color:#888;margin-top:3px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.sub-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{text-align:left;padding:8px;font-size:11px;color:#555;font-weight:700;background:#f4f6f8;border-bottom:2px solid #e2e6ea;}
+td{padding:7px 8px;border-bottom:1px solid #f0f2f4;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafbfc;}
+.bar-pos{display:inline-block;height:7px;background:#27ae60;border-radius:2px;vertical-align:middle;}
+.bar-neg{display:inline-block;height:7px;background:#c0392b;border-radius:2px;vertical-align:middle;}
+.star{color:#e6b800;}
+.w52h{background:#fff3cd;color:#856404;font-size:10px;font-weight:700;padding:2px 5px;border-radius:3px;margin-left:3px;}
+.sig{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;}
+.sig-bull{background:#e6f7ee;color:#1e7e34;}.sig-bear{background:#fdecea;color:#c0392b;}.sig-mix{background:#fef9e7;color:#8a6a00;}.sig-neu{background:#eaf4fb;color:#1a4a6e;}.sig-ob{background:#f3e5f5;color:#6a1b9a;}
+.act-add{color:#1e7e34;font-weight:700;}.act-hold{color:#1a5276;font-weight:700;}.act-watch{color:#8a6a00;font-weight:700;}.act-avoid{color:#c0392b;font-weight:700;}.act-caut{color:#c05000;font-weight:700;}
+.ap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
+.ap-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px 9px 14px;background:#f8fafc;border-radius:7px;font-size:12px;gap:8px;border:1px solid #eef1f4;}
+.ap-sym{font-weight:700;min-width:60px;}
+.ap-note{font-size:10px;color:#888;flex:1;text-align:right;}
+.ap-urgent{border-left:4px solid #27ae60;}.ap-monitor{border-left:4px solid #2980b9;}.ap-watch{border-left:4px solid #e6b800;}.ap-caution{border-left:4px solid #c05000;}.ap-avoid-row{border-left:4px solid #c0392b;}.ap-critical{border-left:4px solid #7a0000;}
+.insight{background:#f8fafc;border-radius:8px;padding:14px 16px;margin-bottom:10px;border:1px solid #e8ecf0;border-left:4px solid #27ae60;}
+.insight.warn{border-left-color:#c0392b;}.insight.amber-ins{border-left-color:#e6b800;}.insight.blue-ins{border-left-color:#2980b9;}.insight.purple-ins{border-left-color:#8e24aa;}.insight.critical{border-left-color:#7a0000;background:#fff5f5;}
+.ins-num{font-size:10px;font-weight:700;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;}
+.ins-title{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:5px;}
+.ins-body{font-size:12px;color:#555;line-height:1.65;}
+.alert{background:#f0faf4;border:1px solid #a8dfc0;border-radius:8px;padding:10px 14px;font-size:12px;color:#1e5c34;margin-top:10px;line-height:1.6;}
+.alert-warn{background:#fef5f5;border-color:#f0b0b0;color:#7a1a1a;}
+.alert-amber{background:#fffbf0;border-color:#f0d080;color:#7a5a00;}
+.alert-critical{background:#fff0f0;border:2px solid #7a0000;border-radius:8px;padding:12px 16px;font-size:13px;color:#7a0000;margin-top:10px;line-height:1.6;font-weight:700;}
+.hmap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px;}
+.hmap-cell{border-radius:8px;padding:10px 6px;text-align:center;}
+.hmap-sym{font-size:12px;font-weight:700;}.hmap-val{font-size:10px;margin-top:3px;}
+.disc-list{display:flex;flex-direction:column;gap:8px;}
+.disc-item{background:#f8fafc;border-radius:7px;padding:10px 14px;font-size:12px;color:#555;border:1px solid #eee;border-left:3px solid #e2e6ea;line-height:1.6;}
+.disc-item strong{color:#333;}
+.page-footer{text-align:center;font-size:11px;color:#aaa;padding:20px 0 30px;border-top:1px solid #e8ecf0;margin-top:10px;}
+.highlight-green td{background:#f0faf4!important;}.highlight-red td{background:#fef5f5!important;}.highlight-gold td{background:#fffbf0!important;}.highlight-critical td{background:#fff0f0!important;}
+.crisis-banner{background:linear-gradient(135deg,#fff0f0,#ffe0e0);border:3px solid #7a0000;border-radius:10px;padding:16px 20px;margin-bottom:16px;}
+.crisis-banner .icon{font-size:30px;margin-bottom:6px;}
+.crisis-banner .title{font-size:16px;font-weight:700;color:#7a0000;margin-bottom:6px;}
+.crisis-banner .body{font-size:12px;color:#5a1010;line-height:1.7;}
+/* About section styles */
+.about-card{background:#f8fafc;border-radius:10px;padding:18px;border:1px solid #e8ecf0;margin-bottom:18px;display:flex;align-items:center;gap:18px;}
+.about-avatar{width:70px;height:70px;border-radius:50%;background:#1a0800;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#ffcc88;flex-shrink:0;}
+.about-obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.about-obj-item{border-radius:8px;padding:12px;border-left:3px solid;}
+.about-step{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:#444;margin-bottom:8px;}
+.about-step-num{color:#c0392b;font-weight:700;min-width:20px;}
+.series-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;}
+.series-day{background:#f8fafc;border-radius:6px;padding:8px;border:1px solid #e8ecf0;}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .hamburger{display:block;}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);}
+  .movers-grid{grid-template-columns:1fr;}
+  .sectors-grid{grid-template-columns:1fr;}
+  .ap-grid{grid-template-columns:1fr;}
+  .two-col{grid-template-columns:1fr;}
+  .hmap-grid{grid-template-columns:repeat(3,1fr);}
+  .topbar h1{font-size:13px;}
+  .about-obj-grid{grid-template-columns:1fr;}
+  .series-grid{grid-template-columns:repeat(3,1fr);}
+}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90;}
+.overlay.show{display:block;}
+</style>
+</head>
+<body>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">BROKER 58 — NAASA SECURITIES</div>
+    <h2>NEPSE Daily Master Report</h2>
+    <div class="date">April 17, 2026 · B58 HISTORIC SELL!</div>
+  </div>
+  <div class="nav-label">Market Overview</div>
+  <div class="nav-item active" onclick="showSection('market-pulse',this)"><span class="icon">📊</span> Market Pulse<span class="nav-badge nb-gold">+0.18%</span></div>
+  <div class="nav-item" onclick="showSection('sub-indices',this)"><span class="icon">📈</span> Sub-Indices<span class="nav-badge nb-gold">Mixed</span></div>
+  <div class="nav-item" onclick="showSection('top-movers',this)"><span class="icon">🔥</span> Top Movers</div>
+  <div class="nav-label">Broker 58 Analysis</div>
+  <div class="nav-item" onclick="showSection('b58-overview',this)"><span class="icon">🏦</span> B58 Overview<span class="nav-badge nb-critical">−500M!</span></div>
+  <div class="nav-item" onclick="showSection('net-accum',this)"><span class="icon">📋</span> Net Accumulation</div>
+  <div class="nav-item" onclick="showSection('heatmap',this)"><span class="icon">🟥</span> Heatmap</div>
+  <div class="nav-label">Technical & Trade</div>
+  <div class="nav-item" onclick="showSection('technical',this)"><span class="icon">📉</span> Technical Analysis<span class="nav-badge nb-blue">52W H/L</span></div>
+  <div class="nav-item" onclick="showSection('trade-plan',this)"><span class="icon">🎯</span> Trade Plan</div>
+  <div class="nav-label">Insights & Actions</div>
+  <div class="nav-item" onclick="showSection('key-insights',this)"><span class="icon">💡</span> Key Insights<span class="nav-badge nb-blue">7 Signals</span></div>
+  <div class="nav-item" onclick="showSection('action-plan',this)"><span class="icon">✅</span> Action Plan</div>
+  <div class="nav-item" onclick="showSection('disclaimer',this)"><span class="icon">⚠️</span> Disclaimer<span class="nav-badge nb-red">Read</span></div>
+  <div class="nav-item" onclick="showSection('about',this)"><span class="icon">👤</span> About This Report</div>
+  <div class="nav-item" onclick="showSection('analytics',this)"><span class="icon">📊</span> Page Analytics</div>
+  <button class="dl-btn" onclick="downloadPDF()">⬇ Download PDF</button>
+  <div class="sidebar-footer">Data: nepalstock.com<br>nepsealpha.com · v2.5<br>For personal tracking only.<br>Not financial advice.</div>
+</nav>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <h1>NEPSE Daily Master Report · Apr 17, 2026</h1>
+    </div>
+    <div class="badges">
+      <span class="badge bg">NEPSE +5.36 (+0.18%)</span>
+      <span class="badge bcrit">B58 NET SELL −Rs.500.1M !</span>
+      <span class="badge ba">108 Adv / 150 Dec</span>
+      <span class="badge bcrit">PRVU 92.89% SELL!</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- 1. Market Pulse -->
+    <div class="section active-section" id="market-pulse">
+      <div class="section-title"><span>📊</span> 1. Market Pulse — Apr 17, 2026 · 3:00 PM Closed</div>
+      <div class="crisis-banner">
+        <div class="icon">🚨</div>
+        <div class="title">CRITICAL ALERT — B58 HISTORIC NET SELL: −Rs.500.1M!</div>
+        <div class="body">
+          Largest single-day B58 net sell in this entire report series. B58 sold Rs.955.8M vs bought Rs.455.6M = net −Rs.500.1M. PRVU: 92.89% pure sell 1,110,605 kitta (Rs.228M) — near-total liquidation. KBL 32.92% pure sell 144K + API 33.06% pure sell 100K + FMDBL 56.49% pure sell. NEPSE is slim green (+0.18%) but B58 signal is historic distribution. KEY QUESTION for Apr 19: Does B58 return to net buyer?
+        </div>
+      </div>
+      <div class="metrics-grid" style="margin-bottom:14px;">
+        <div class="metric"><div class="val">2,838.40</div><div class="lbl">NEPSE Close</div><div class="chg green">+5.36 (+0.18%)</div></div>
+        <div class="metric"><div class="val">Rs.7.46B</div><div class="lbl">Turnover</div><div class="chg red">Lowest in series</div></div>
+        <div class="metric"><div class="val">108 / 150 / 12</div><div class="lbl">Adv / Dec / Unch</div><div class="chg red">Still negative breadth</div></div>
+        <div class="metric"><div class="val">96,573</div><div class="lbl">Transactions</div></div>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric"><div class="val">18,063,728</div><div class="lbl">Shares Traded</div></div>
+        <div class="metric"><div class="val">Rs.4.84T</div><div class="lbl">Market Cap</div></div>
+        <div class="metric"><div class="val">Rs.1.61T</div><div class="lbl">Float Cap</div></div>
+        <div class="metric"><div class="val crimson" style="font-size:16px;">NET SELL</div><div class="lbl">B58 −Rs.500.1M !</div></div>
+      </div>
+      <div class="alert-critical">⚠️ NOTE: Sensitive Index −0.11% / Float Index −0.01% still RED despite NEPSE green. Misleading green day!</div>
+    </div>
+
+    <!-- 2. Sub-Indices -->
+    <div class="section" id="sub-indices">
+      <div class="section-title"><span>📈</span> 2. Sub-Indices — Apr 17, 2026 · Mixed</div>
+      <div class="sectors-grid">
+        <div class="sector-row sector-red"><span style="color:#555">Banking</span><span>1,471.96</span><span class="red" style="font-weight:700">−0.27%</span></div>
+        <div class="sector-row sector-red"><span style="color:#555">Development Bank</span><span>5,998.07</span><span class="red" style="font-weight:700">−0.38%</span></div>
+        <div class="sector-row sector-red"><span style="color:#555">Finance</span><span>2,451.33</span><span class="red" style="font-weight:700">−0.32%</span></div>
+        <div class="sector-row sector-green" style="border-left:3px solid #27ae60;"><span style="color:#555">Hotels &amp; Tourism ★</span><span>8,276.85</span><span class="green" style="font-weight:700">+1.38%</span></div>
+        <div class="sector-row sector-green" style="border-left:3px solid #27ae60;"><span style="color:#555">HydroPower ★</span><span>4,094.65</span><span class="green" style="font-weight:700">+0.67%</span></div>
+        <div class="sector-row sector-red"><span style="color:#555">Investment</span><span>106.25</span><span class="red" style="font-weight:700">−0.09%</span></div>
+        <div class="sector-row sector-red"><span style="color:#555">Life Insurance</span><span>12,773.56</span><span class="red" style="font-weight:700">−0.07%</span></div>
+        <div class="sector-row sector-green" style="border-left:3px solid #27ae60;"><span style="color:#555">Mfg &amp; Processing ★</span><span>11,685.31</span><span class="green" style="font-weight:700">+1.40%</span></div>
+        <div class="sector-row sector-red"><span style="color:#555">Microfinance</span><span>4,925.53</span><span class="red" style="font-weight:700">−0.33%</span></div>
+        <div class="sector-row sector-red"><span style="color:#555">Mutual Fund</span><span>22.01</span><span class="red" style="font-weight:700">−0.13%</span></div>
+        <div class="sector-row sector-red"><span style="color:#555">Non Life Insurance</span><span>11,086.70</span><span class="red" style="font-weight:700">−0.51%</span></div>
+        <div class="sector-row sector-green"><span style="color:#555">Others</span><span>2,086.23</span><span class="green" style="font-weight:700">+0.56%</span></div>
+        <div class="sector-row sector-green"><span style="color:#555">Trading</span><span>3,843.03</span><span class="green" style="font-weight:700">+0.03%</span></div>
+      </div>
+      <div class="alert alert-amber" style="margin-top:12px;">Mixed day: Hotels +1.38% · Mfg +1.40% · HydroPower +0.67% green. Banking −0.27% · Finance −0.32% · Non-Life −0.51% still red.</div>
+    </div>
+
+    <!-- 3. Top Movers -->
+    <div class="section" id="top-movers">
+      <div class="section-title"><span>🔥</span> 3. Top Market Movers</div>
+      <div class="movers-grid">
+        <div class="mover-card">
+          <div class="card-title">Top Gainers</div>
+          <div style="font-size:11px;color:#888;padding:5px 0;">Multiple stocks hit +10% / +9.99% circuit. Slim green day with only 108 advancers.</div>
+        </div>
+        <div class="mover-card">
+          <div class="card-title">Top Losers</div>
+          <div class="mover-item"><span style="font-weight:600">AHL</span><span class="red">−4.54%</span><span style="color:#999;font-size:11px">555.00</span></div>
+          <div class="mover-item"><span style="font-weight:600">SKHL</span><span class="red">−4.40%</span><span style="color:#999;font-size:11px">1,196.00</span></div>
+          <div class="mover-item"><span style="font-weight:600">ENL</span><span class="red">−3.59%</span><span style="color:#999;font-size:11px">873.00</span></div>
+          <div class="mover-item"><span style="font-weight:600">NABBC</span><span class="red">−3.37%</span><span style="color:#999;font-size:11px">1,176.00</span></div>
+          <div class="mover-item"><span style="font-weight:600">HLICF</span><span class="red">−3.09%</span><span style="color:#999;font-size:11px">9.09</span></div>
+        </div>
+        <div class="mover-card">
+          <div class="card-title">Top Turnover</div>
+          <div class="mover-item"><span style="font-weight:600">NHPC</span><span style="color:#999;font-size:11px">Rs.668.6M</span><span>318.50</span></div>
+          <div class="mover-item"><span style="font-weight:600">SOHL</span><span style="color:#999;font-size:11px">Rs.372.7M</span><span>847.00</span></div>
+          <div class="mover-item"><span style="font-weight:600">RIDI</span><span style="color:#999;font-size:11px">Rs.340.2M</span><span>365.00</span></div>
+          <div class="mover-item"><span style="font-weight:600">RSML</span><span style="color:#999;font-size:11px">Rs.329.5M</span><span>4,649</span></div>
+          <div class="mover-item"><span style="font-weight:600">HDHPC</span><span style="color:#999;font-size:11px">Rs.251.5M</span><span>246.00</span></div>
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="card-title" style="margin-bottom:8px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;">Top Volume</div>
+        <table><thead><tr><th>Symbol</th><th>Shares Traded</th><th>LTP</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:700">NHPC</td><td>2,116,424</td><td>318.50</td><td></td></tr>
+          <tr class="highlight-critical"><td style="font-weight:700;color:#7a0000">PRVU !</td><td>1,194,367</td><td>206.00</td><td style="color:#7a0000;font-weight:700">B58 sold 92.89% of market!</td></tr>
+          <tr><td style="font-weight:700">HDHPC</td><td>1,039,020</td><td>246.00</td><td></td></tr>
+          <tr><td style="font-weight:700">RIDI</td><td>937,821</td><td>365.00</td><td></td></tr>
+          <tr><td style="font-weight:700">SOHL</td><td>455,168</td><td>847.00</td><td style="color:#c0392b;font-size:11px">7th+ day B58 net sell</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+
+    <!-- 4. B58 Overview -->
+    <div class="section" id="b58-overview">
+      <div class="section-title"><span>🏦</span> 4. Broker 58 — NAASA Securities · NET SELLER −Rs.500.1M · HISTORIC!</div>
+      <div class="b58-grid">
+        <div class="b58-metric"><div class="val green">Rs.455.6M</div><div class="lbl">Total Purchase</div></div>
+        <div class="b58-metric"><div class="val red">Rs.955.8M</div><div class="lbl">Total Sales</div></div>
+        <div class="b58-metric" style="background:#fff0f0;border-color:#c0392b;"><div class="val crimson">−Rs.500.1M</div><div class="lbl" style="color:#c0392b;font-weight:700">NET SELL — LARGEST EVER!</div></div>
+      </div>
+      <div class="alert-critical">🚨 HISTORIC: Apr13 +78.6M → Apr15 +24.9M → Apr16 +26.4M → Apr17 −500.1M. Dramatic reversal from consistent net buying to historic net selling. Possible: (1) Major portfolio rebalancing (2) Risk-off before market event (3) Top formation in key holdings.</div>
+      <div style="height:14px;"></div>
+      <div class="two-col">
+        <div>
+          <div class="sub-label green">Top 10 Purchases</div>
+          <table><thead><tr><th>Symbol</th><th>Mkt%</th><th>Kitta</th><th>Avg Price</th></tr></thead>
+          <tbody>
+            <tr><td style="font-weight:700">NHPC</td><td>7.11%</td><td>151,130</td><td>314.55</td></tr>
+            <tr><td style="font-weight:700">RIDI</td><td>9.35%</td><td>88,042</td><td>361.30</td></tr>
+            <tr><td style="font-weight:700">PRVU</td><td>8.87%</td><td>104,966</td><td>207.84</td></tr>
+            <tr><td style="font-weight:700">RSML</td><td>6.09%</td><td>4,418</td><td>4,540.83</td></tr>
+            <tr><td style="font-weight:700">SOHL</td><td>4.72%</td><td>21,561</td><td>815.15</td></tr>
+            <tr><td style="font-weight:700">SHIVM</td><td>6.97%</td><td>24,118</td><td>691.94</td></tr>
+            <tr><td style="font-weight:700">SKHL</td><td>10.91%</td><td>13,303</td><td>1,191.35</td></tr>
+            <tr><td style="font-weight:700">HDHPC</td><td>5.01%</td><td>51,847</td><td>242.83</td></tr>
+            <tr><td style="font-weight:700">RLEL</td><td style="color:#27ae60;font-weight:700">81.79%</td><td>10,000</td><td>1,252.40</td></tr>
+            <tr><td style="font-weight:700">SYPNL</td><td>4.67%</td><td>6,215</td><td>1,742.58</td></tr>
+          </tbody></table>
+        </div>
+        <div>
+          <div class="sub-label red">Top 10 Sales — PRVU DOMINATES</div>
+          <table><thead><tr><th>Symbol</th><th>Mkt%</th><th>Kitta</th><th>Avg Price</th></tr></thead>
+          <tbody>
+            <tr class="highlight-critical"><td style="font-weight:700;color:#7a0000">PRVU !</td><td style="color:#7a0000;font-weight:700">92.89%</td><td style="font-weight:700">1,110,605</td><td>205.63</td></tr>
+            <tr><td style="font-weight:700">NHPC</td><td>10.88%</td><td>231,218</td><td>314.69</td></tr>
+            <tr><td style="font-weight:700;color:#c0392b">NRN ▼</td><td style="color:#c0392b;font-weight:700">42.17%</td><td>41,899</td><td>1,568.44</td></tr>
+            <tr><td style="font-weight:700">SHIVM</td><td>16.47%</td><td>57,022</td><td>691.83</td></tr>
+            <tr><td style="font-weight:700;color:#c0392b">API ▼</td><td style="color:#c0392b;font-weight:700">33.06%</td><td>100,311</td><td>348.03</td></tr>
+            <tr><td style="font-weight:700">SOHL</td><td>9.01%</td><td>41,176</td><td>815.55</td></tr>
+            <tr><td style="font-weight:700;color:#c0392b">KBL ▼</td><td style="color:#c0392b;font-weight:700">32.92%</td><td>144,717</td><td>225.73</td></tr>
+            <tr><td style="font-weight:700;color:#c0392b">FMDBL ▼</td><td style="color:#c0392b;font-weight:700">56.49%</td><td>34,669</td><td>806.44</td></tr>
+            <tr><td style="font-weight:700">SKHL</td><td>17.09%</td><td>20,805</td><td>1,193.33</td></tr>
+            <tr><td style="font-weight:700">RIDI</td><td>6.60%</td><td>61,039</td><td>368.16</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Net Accumulation -->
+    <div class="section" id="net-accum">
+      <div class="section-title"><span>📋</span> 5. Net Accumulation — Buy − Sell Kitta · Conviction Ranking</div>
+      <table>
+        <thead><tr><th>Symbol</th><th>Net Kitta</th><th>Sell Mkt%</th><th>Conviction</th><th>Rating</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:700">RLEL</td><td class="green">+10,000</td><td>Zero sell</td><td><span class="bar-pos" style="width:75px"></span></td><td><span class="star">★★</span></td><td>81.79% mkt clean buy — only 10K kitta though</td></tr>
+          <tr><td style="font-weight:700">HDHPC</td><td class="green">+51,847</td><td>Zero sell</td><td><span class="bar-pos" style="width:55px"></span></td><td><span class="star">★</span></td><td>Clean buy 51K HDHPC 5.01% mkt</td></tr>
+          <tr><td style="font-weight:700">SYPNL</td><td class="green">+6,215</td><td>Zero sell</td><td><span class="bar-pos" style="width:32px"></span></td><td><span class="star">★</span></td><td>Small clean buy 6.2K — 4.67% mkt</td></tr>
+          <tr><td style="font-weight:700">RIDI</td><td class="green">+27,003</td><td>6.60%</td><td><span class="bar-pos" style="width:35px"></span></td><td style="color:#888">~</td><td>Slight net buy 88K vs 61K sell</td></tr>
+          <tr><td style="font-weight:700">NHPC</td><td class="red">−80,088</td><td>10.88%</td><td><span class="bar-neg" style="width:38px"></span></td><td class="red">▼</td><td>Net sell — 151K buy vs 231K sell; first time net sell</td></tr>
+          <tr><td style="font-weight:700">SHIVM</td><td class="red">−32,904</td><td>16.47%</td><td><span class="bar-neg" style="width:32px"></span></td><td class="red">▼</td><td>Net sell — sell 57K vs buy 24K</td></tr>
+          <tr><td style="font-weight:700">SKHL</td><td class="amber">−7,502</td><td>17.09%</td><td><span class="bar-neg" style="width:22px"></span></td><td style="color:#888">~</td><td>Two-way net sell — buy 13K vs sell 20K</td></tr>
+          <tr><td style="font-weight:700">SOHL</td><td class="red">−19,615</td><td>9.01%</td><td><span class="bar-neg" style="width:35px"></span></td><td class="red">▼</td><td>7th+ day net sell — buy 21K vs sell 41K</td></tr>
+          <tr><td style="font-weight:700;color:#c0392b">NRN ▼</td><td class="red">−41,899</td><td style="color:#c0392b;font-weight:700">42.17%</td><td><span class="bar-neg" style="width:65px"></span></td><td class="red">▼▼</td><td>Pure sell 41K NRN 42.17% mkt</td></tr>
+          <tr><td style="font-weight:700;color:#c0392b">FMDBL ▼</td><td class="red">−34,669</td><td style="color:#c0392b;font-weight:700">56.49%</td><td><span class="bar-neg" style="width:65px"></span></td><td class="red">▼▼</td><td>Pure sell 34K FMDBL 56.49% mkt</td></tr>
+          <tr><td style="font-weight:700;color:#c0392b">API ▼</td><td class="red">−100,311</td><td style="color:#c0392b;font-weight:700">33.06%</td><td><span class="bar-neg" style="width:70px"></span></td><td class="red">▼▼</td><td>Pure sell 100K API 33.06% mkt</td></tr>
+          <tr><td style="font-weight:700;color:#c0392b">KBL ▼</td><td class="red">−144,717</td><td style="color:#c0392b;font-weight:700">32.92%</td><td><span class="bar-neg" style="width:75px"></span></td><td class="red">▼▼</td><td>Pure sell 144K KBL 32.92% mkt — back to selling</td></tr>
+          <tr class="highlight-critical"><td style="font-weight:700;color:#7a0000">PRVU !</td><td class="crimson" style="font-weight:700">−1,005,639</td><td style="color:#7a0000;font-weight:700">92.89%</td><td><span class="bar-neg" style="width:100px"></span></td><td class="crimson" style="font-weight:700">▼▼▼</td><td style="color:#7a0000;font-weight:700">PURE SELL 1.11M kitta 92.89% mkt — HISTORIC!</td></tr>
+        </tbody>
+      </table>
+      <div class="alert-critical" style="margin-top:12px;">🚨 PRVU 1.11M kitta = near-complete liquidation. Combined PRVU+KBL+API+FMDBL+NRN = Rs.389M+ in concentrated sells on a single day.</div>
+    </div>
+
+    <!-- 6. Heatmap -->
+    <div class="section" id="heatmap">
+      <div class="section-title"><span>🟥</span> 10. Broker 58 Heatmap Dashboard · Apr 17, 2026</div>
+      <div class="sub-label green" style="margin-bottom:10px;">Purchase Heatmap — Top 10 Buy (NHPC 151K = 100%)</div>
+      <div class="hmap-grid">
+        <div class="hmap-cell" style="background:#0d4a1a;"><div class="hmap-sym" style="color:#a8e6a8">NHPC</div><div class="hmap-val" style="color:#7dca7d">151,130 K</div><div class="hmap-val" style="color:#5aad5a">100%</div></div>
+        <div class="hmap-cell" style="background:#1e7a30;"><div class="hmap-sym" style="color:#b0f0b0">RIDI</div><div class="hmap-val" style="color:#7dca7d">88,042 K</div><div class="hmap-val" style="color:#5aad5a">58%</div></div>
+        <div class="hmap-cell" style="background:#2d8a3e;"><div class="hmap-sym" style="color:#c8f0c8">HDHPC</div><div class="hmap-val" style="color:#a8e6a8">51,847 K</div><div class="hmap-val" style="color:#7dca7d">34%</div></div>
+        <div class="hmap-cell" style="background:#3a9c4a;"><div class="hmap-sym" style="color:#d8f5d8">PRVU</div><div class="hmap-val" style="color:#b0f0b0">104,966 K</div><div class="hmap-val" style="color:#7dca7d">69%</div></div>
+        <div class="hmap-cell" style="background:#4aaa58;"><div class="hmap-sym" style="color:#e0f8e0">SHIVM</div><div class="hmap-val" style="color:#c8f0c8">24,118 K</div><div class="hmap-val" style="color:#a8e6a8">16%</div></div>
+        <div class="hmap-cell" style="background:#5aaa68;"><div class="hmap-sym" style="color:#e8fce8">SOHL</div><div class="hmap-val" style="color:#d0f0d0">21,561 K</div><div class="hmap-val" style="color:#a8e6a8">14%</div></div>
+        <div class="hmap-cell" style="background:#7eca88;"><div class="hmap-sym" style="color:#1a4d22">SKHL</div><div class="hmap-val" style="color:#2a6e32">13,303 K</div><div class="hmap-val" style="color:#2a6e32">9%</div></div>
+        <div class="hmap-cell" style="background:#a8e0b0;"><div class="hmap-sym" style="color:#1a4d22">SYPNL</div><div class="hmap-val" style="color:#2a6e32">6,215 K</div><div class="hmap-val" style="color:#2a6e32">4%</div></div>
+        <div class="hmap-cell" style="background:#c8f0d0;"><div class="hmap-sym" style="color:#1a4d22">RSML</div><div class="hmap-val" style="color:#2a6e32">4,418 K</div><div class="hmap-val" style="color:#2a6e32">3%</div></div>
+        <div class="hmap-cell" style="background:#d8f8e0;"><div class="hmap-sym" style="color:#1a4d22">RLEL</div><div class="hmap-val" style="color:#2a6e32">10,000 K</div><div class="hmap-val" style="color:#2a6e32">7%</div></div>
+      </div>
+      <div class="sub-label red" style="margin-bottom:6px;margin-top:6px;">Sales Heatmap — PRVU COMPLETELY DOMINATES (1.11M kitta = 100% scale)</div>
+      <div style="background:#fff0f0;border:2px solid #7a0000;border-radius:8px;padding:12px;margin-bottom:10px;text-align:center;">
+        <div style="font-size:28px;font-weight:700;color:#7a0000;">PRVU</div>
+        <div style="font-size:16px;font-weight:700;color:#c0392b;">1,110,605 Kitta &nbsp;·&nbsp; 92.89% of Market &nbsp;·&nbsp; Rs.228M</div>
+        <div style="font-size:12px;color:#888;margin-top:4px;">All other sells pale in comparison. Scale: PRVU = 100%, all others below 15%.</div>
+      </div>
+      <div class="hmap-grid">
+        <div class="hmap-cell" style="background:#6b1515;"><div class="hmap-sym" style="color:#f0b0b0">KBL</div><div class="hmap-val" style="color:#e68a8a">144,717 K</div><div class="hmap-val" style="color:#cc6666">13%</div></div>
+        <div class="hmap-cell" style="background:#7a2020;"><div class="hmap-sym" style="color:#f0b8b8">NHPC</div><div class="hmap-val" style="color:#e68a8a">231,218 K</div><div class="hmap-val" style="color:#cc6666">21%</div></div>
+        <div class="hmap-cell" style="background:#8a2a2a;"><div class="hmap-sym" style="color:#f0c0c0">API</div><div class="hmap-val" style="color:#e8a0a0">100,311 K</div><div class="hmap-val" style="color:#cc6666">9%</div></div>
+        <div class="hmap-cell" style="background:#9a3232;"><div class="hmap-sym" style="color:#f0c8c8">SHIVM</div><div class="hmap-val" style="color:#e8a8a8">57,022 K</div><div class="hmap-val" style="color:#cc6666">5%</div></div>
+        <div class="hmap-cell" style="background:#aa4040;"><div class="hmap-sym" style="color:#f5d0d0">NRN</div><div class="hmap-val" style="color:#ebb0b0">41,899 K</div><div class="hmap-val" style="color:#dd7777">4%</div></div>
+        <div class="hmap-cell" style="background:#ba5050;"><div class="hmap-sym" style="color:#f5d8d8">SOHL</div><div class="hmap-val" style="color:#ebc0c0">41,176 K</div><div class="hmap-val" style="color:#dd8888">4%</div></div>
+        <div class="hmap-cell" style="background:#cc6666;"><div class="hmap-sym" style="color:#5a1a1a">FMDBL</div><div class="hmap-val" style="color:#5a1a1a">34,669 K</div><div class="hmap-val" style="color:#7a2a2a">3%</div></div>
+        <div class="hmap-cell" style="background:#dd8888;"><div class="hmap-sym" style="color:#5a1a1a">SKHL</div><div class="hmap-val" style="color:#5a1a1a">20,805 K</div><div class="hmap-val" style="color:#7a2a2a">2%</div></div>
+        <div class="hmap-cell" style="background:#eeaaaa;"><div class="hmap-sym" style="color:#5a1a1a">RIDI</div><div class="hmap-val" style="color:#5a1a1a">61,039 K</div><div class="hmap-val" style="color:#7a2a2a">6%</div></div>
+      </div>
+    </div>
+
+    <!-- 7. Technical Analysis -->
+    <div class="section" id="technical">
+      <div class="section-title"><span>📉</span> 6. Technical Analysis — 21 Stocks · LTP · 52W H/L · Apr 17, 2026</div>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Stock</th><th>LTP</th><th>52W High</th><th>52W Low</th><th>Chg%</th><th>RSI</th><th>ADX</th><th>Aroon↑</th><th>A/D Signal</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:700">NHPC</td><td>318.50</td><td>331.20</td><td>178.60</td><td class="red">−1.61%</td><td>61.42</td><td>36.12</td><td>85.71%</td><td><span class="sig sig-bull">Bullish</span></td><td class="act-hold">HOLD — B58 net sell today; AD still +ve</td></tr>
+          <tr><td style="font-weight:700">RIDI</td><td>365.00</td><td>380.00</td><td>209.00</td><td class="red">−2.30%</td><td>55.66</td><td>24.08</td><td>100%</td><td><span class="sig sig-bull">Bullish</span></td><td class="act-hold">HOLD — AD most bullish; slight B58 net buy</td></tr>
+          <tr><td style="font-weight:700">NGPL</td><td>462.30</td><td>491.00</td><td>395.00</td><td class="red">−1.85%</td><td>51.05</td><td>23.27</td><td>92.86%</td><td><span class="sig sig-neu">Neutral</span></td><td class="act-hold">HOLD — AD mixed; RSI neutral</td></tr>
+          <tr><td style="font-weight:700">NICA</td><td>366.30</td><td>420.10</td><td>306.40</td><td class="red">−1.43%</td><td>49.62</td><td>21.47</td><td>35.71%</td><td><span class="sig sig-neu">Neutral</span></td><td class="act-hold">HOLD — AD barely +ve; RSI 49</td></tr>
+          <tr><td style="font-weight:700">JBBL</td><td>385.00</td><td>404.70</td><td>305.00</td><td class="red">−1.02%</td><td>59.72</td><td>19.32</td><td>42.86%</td><td><span class="sig sig-neu">Neutral</span></td><td class="act-hold">HOLD — AD barely +ve; B58 absent today</td></tr>
+          <tr><td style="font-weight:700">SYPNL</td><td>1,750</td><td>~2,000</td><td>~500</td><td class="red">−3.96%</td><td>41.70</td><td>14.78</td><td>35.71%</td><td><span class="sig sig-neu">Neutral</span></td><td class="act-hold">HOLD — RSI 41 weak; small B58 buy</td></tr>
+          <tr class="highlight-red"><td style="font-weight:700;color:#c0392b">KBL ▼</td><td>228.90</td><td>246.70</td><td>176.50</td><td class="red">−1.85%</td><td>55.03</td><td>29.75</td><td>85.71%</td><td><span class="sig sig-neu">Neutral</span></td><td class="act-avoid">CAUTION — B58 pure sell 144K</td></tr>
+          <tr><td style="font-weight:700">FMDBL</td><td>891.90</td><td>1,011.00</td><td>718.70</td><td class="red">−1.19%</td><td>47.28</td><td>47.35</td><td>92.86%</td><td><span class="sig sig-bull">Bullish</span></td><td class="act-caut">CAUTION — ADX 47 strong BUT B58 56.49% sell!</td></tr>
+          <tr><td style="font-weight:700">SMHL</td><td>443.00</td><td>1,145.40</td><td>445.00</td><td class="red">−4.17%</td><td>53.63</td><td>38.36</td><td>42.86%</td><td><span class="sig sig-neu">Neutral</span></td><td class="act-watch">WATCH — near 52W low 445</td></tr>
+          <tr><td style="font-weight:700">RADHI</td><td>806.00</td><td>920.00</td><td>560.00</td><td class="red">−0.08%</td><td>41.29</td><td>22.78</td><td>92.86%</td><td><span class="sig sig-neu">Neutral</span></td><td class="act-watch">WATCH — RSI 41 weak</td></tr>
+          <tr><td style="font-weight:700">SHIVM</td><td>695.00</td><td>720.00</td><td>488.80</td><td class="green">+0.26%</td><td>56.38</td><td>41.80</td><td>92.86%</td><td><span class="sig sig-bull">Bullish</span></td><td class="act-watch">WATCH — ADX 41 strong; near 52W high</td></tr>
+          <tr><td style="font-weight:700">SHEL</td><td>325.20</td><td>354.10</td><td>233.85</td><td class="green">+0.03%</td><td>51.20</td><td>18.03</td><td>42.86%</td><td><span class="sig sig-bear">Bearish</span></td><td class="act-caut">CAUTION — AD both −ve</td></tr>
+          <tr><td style="font-weight:700">SONA</td><td>490.50</td><td>513.50</td><td>401.00</td><td class="green">+0.95%</td><td>52.68</td><td>27.14</td><td>92.86%</td><td><span class="sig sig-bull">Bullish</span></td><td class="act-hold">HOLD — AD both +ve</td></tr>
+          <tr><td style="font-weight:700;color:#c0392b">API ▼</td><td>349.00</td><td>364.20</td><td>247.70</td><td class="red">−0.14%</td><td>54.34</td><td>29.51</td><td>42.86%</td><td><span class="sig sig-bear">Bearish</span></td><td class="act-avoid">AVOID — AD both −ve; B58 100K pure sell</td></tr>
+          <tr><td style="font-weight:700">HDL</td><td>1,170.00</td><td>1,271.40</td><td>974.10</td><td class="red">−1.45%</td><td>47.39</td><td>48.38</td><td>35.71%</td><td><span class="sig sig-bear">Bearish</span></td><td class="act-caut">CAUTION — ADX 48 strong bear</td></tr>
+          <tr class="highlight-red"><td style="font-weight:700;color:#c0392b">FOWAD ▼</td><td>1,163.00</td><td>1,299.40</td><td>1,038.00</td><td class="red">−2.01%</td><td>57.86</td><td>24.45</td><td>85.71%</td><td><span class="sig sig-neu">Neutral</span></td><td class="act-avoid">AVOID — confirmed reversal stock</td></tr>
+          <tr><td style="font-weight:700">HRL</td><td>715.20</td><td>1,103.70</td><td>704.70</td><td class="green">+0.31%</td><td>33.53</td><td>36.48</td><td>42.86%</td><td><span class="sig sig-bear">Bearish</span></td><td class="act-avoid">AVOID — RSI 33; AD both strongly −ve</td></tr>
+          <tr><td style="font-weight:700">SABBL</td><td>1,538.00</td><td>~2,000</td><td>~400</td><td>~0%</td><td>64.55</td><td>62.25</td><td>42.86%</td><td><span class="sig sig-ob">OB</span></td><td class="act-avoid">ADX 62 + RSI 64 — strongly OB; no chase</td></tr>
+          <tr><td style="font-weight:700;color:#8e24aa">MPFL</td><td>655.00</td><td>730.00</td><td>498.00</td><td class="green">+0.58%</td><td>49.01</td><td>23.07</td><td>42.86%</td><td><span class="sig sig-neu">Neutral</span></td><td class="act-watch">WATCH — AD +ve; RSI 49 recovering</td></tr>
+          <tr><td style="font-weight:700">ULHC</td><td>486.00</td><td>587.50</td><td>420.00</td><td class="red">−0.07%</td><td>46.16</td><td>21.29</td><td>85.71%</td><td><span class="sig sig-bull">Bullish</span></td><td class="act-watch">WATCH — AD both +ve; recovering</td></tr>
+          <tr class="highlight-critical"><td style="font-weight:700;color:#7a0000">BHL (NEW)</td><td>230.00</td><td>257.70</td><td>167.00</td><td class="red">−0.59%</td><td>51.66</td><td>20.75</td><td>42.86%</td><td><span class="sig sig-bear">Bearish</span></td><td class="act-avoid">AVOID — AD both strongly −ve (−1.59M/−2.32M)</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div style="font-size:11px;color:#888;margin-top:10px;">RIDI AD Osc most bullish (+3.17M/+2.77M). FMDBL ADX 47 strong but B58 56.49% pure sell — caution. SHIVM ADX 41 near strong. HRL RSI 33 near oversold. BHL new addition — AD both strongly negative.</div>
+    </div>
+
+    <!-- 8. Trade Plan -->
+    <div class="section" id="trade-plan">
+      <div class="section-title"><span>🎯</span> 7. Trade Plan — Entry · Stop · T1 · T2 · T3 · Priority Ranked</div>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Rk</th><th>Symbol</th><th>LTP</th><th>52W H/L</th><th>Entry</th><th>Stop</th><th>T1</th><th>T2</th><th>T3</th><th>R:R</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td style="font-weight:700">NHPC</td><td>318.50</td><td>331.20/178.60</td><td>310-322</td><td style="color:#c0392b">290</td><td>368</td><td>398</td><td>438</td><td>1:2.2</td><td class="act-hold">HOLD — watch for B58 buy return</td></tr>
+          <tr><td>2</td><td style="font-weight:700">RIDI</td><td>365.00</td><td>380.00/209.00</td><td>358-372</td><td style="color:#c0392b">335</td><td>428</td><td>462</td><td>507</td><td>1:2.5</td><td class="act-hold">HOLD — AD most bullish; slight net buy</td></tr>
+          <tr><td>3</td><td style="font-weight:700">SHIVM</td><td>695.00</td><td>720.00/488.80</td><td>682-706</td><td style="color:#c0392b">662</td><td>808</td><td>880</td><td>966</td><td>1:2.5</td><td class="act-watch">WATCH — ADX 41 strong; near 52W high</td></tr>
+          <tr><td>4</td><td style="font-weight:700">SONA</td><td>490.50</td><td>513.50/401.00</td><td>481-498</td><td style="color:#c0392b">464</td><td>539</td><td>585</td><td>640</td><td>1:2.0</td><td class="act-hold">HOLD — AD both +ve</td></tr>
+          <tr><td>5</td><td style="font-weight:700">ULHC</td><td>486.00</td><td>587.50/420.00</td><td>476-494</td><td style="color:#c0392b">449</td><td>564</td><td>615</td><td>675</td><td>1:2.5</td><td class="act-watch">WATCH — AD both +ve; recovering</td></tr>
+          <tr><td>6</td><td style="font-weight:700;color:#8e24aa">MPFL</td><td>655.00</td><td>730.00/498.00</td><td>641-663</td><td style="color:#c0392b">610</td><td>745</td><td>815</td><td>895</td><td>1:2.2</td><td class="act-watch">WATCH — RSI 49; AD +ve</td></tr>
+          <tr><td>7</td><td style="font-weight:700">NGPL</td><td>462.30</td><td>491.00/395.00</td><td>454-468</td><td style="color:#c0392b">437</td><td>528</td><td>568</td><td>612</td><td>1:2.0</td><td class="act-hold">HOLD — AD mixed; RSI 51</td></tr>
+          <tr><td>8</td><td style="font-weight:700">NICA</td><td>366.30</td><td>420.10/306.40</td><td>359-372</td><td style="color:#c0392b">345</td><td>422</td><td>457</td><td>497</td><td>1:2.0</td><td class="act-hold">HOLD — AD barely +ve</td></tr>
+          <tr><td>9</td><td style="font-weight:700">JBBL</td><td>385.00</td><td>404.70/305.00</td><td>377-391</td><td style="color:#c0392b">364</td><td>440</td><td>475</td><td>515</td><td>1:2.5</td><td class="act-hold">HOLD — AD barely +ve; B58 absent today</td></tr>
+          <tr><td>10</td><td style="font-weight:700">FMDBL</td><td>891.90</td><td>1011/718.70</td><td>875-903</td><td style="color:#c0392b">843</td><td>990</td><td>1,080</td><td>1,185</td><td>1:3.0</td><td class="act-caut">CAUTION — ADX 47 BUT B58 56.49% sell!</td></tr>
+          <tr><td>11</td><td style="font-weight:700">SMHL</td><td>443.00</td><td>1145.40/445.00</td><td>434-451</td><td style="color:#c0392b">413</td><td>518</td><td>565</td><td>620</td><td>1:2.5</td><td class="act-watch">WATCH — near 52W low 445</td></tr>
+          <tr><td>12</td><td style="font-weight:700">RADHI</td><td>806.00</td><td>920.00/560.00</td><td>790-820</td><td style="color:#c0392b">764</td><td>930</td><td>1,015</td><td>1,110</td><td>1:2.5</td><td class="act-watch">WATCH — RSI 41; AD barely +ve</td></tr>
+          <tr><td>13</td><td style="font-weight:700">SYPNL</td><td>1,750</td><td>~2000/~500</td><td>1,715-1,778</td><td style="color:#c0392b">1,622</td><td>2,060</td><td>2,355</td><td>2,700</td><td>1:2.0</td><td class="act-hold">HOLD — RSI 41 weak</td></tr>
+          <tr><td>14</td><td style="font-weight:700">HDL</td><td>1,170</td><td>1271.40/974.10</td><td style="color:#c05000">CAUTION</td><td style="color:#c0392b">1,132</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="act-caut">CAUTION — ADX 48 bearish</td></tr>
+          <tr><td>15</td><td style="font-weight:700">SHEL</td><td>325.20</td><td>354.10/233.85</td><td style="color:#c05000">CAUTION</td><td style="color:#c0392b">304</td><td>378</td><td>413</td><td>452</td><td>—</td><td class="act-caut">CAUTION — AD both −ve</td></tr>
+          <tr class="highlight-critical"><td>16</td><td style="font-weight:700;color:#7a0000">PRVU !</td><td>206.00</td><td>~260/~170</td><td style="color:#7a0000">AVOID</td><td style="color:#c0392b">174</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="act-avoid">AVOID — 92.89% pure sell 1.11M kitta!</td></tr>
+          <tr class="highlight-red"><td>17</td><td style="font-weight:700;color:#c0392b">KBL ▼</td><td>228.90</td><td>246.70/176.50</td><td style="color:#c0392b">AVOID</td><td style="color:#c0392b">215</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="act-avoid">AVOID — 144K pure sell; AD weak</td></tr>
+          <tr><td>18</td><td style="font-weight:700;color:#c0392b">API ▼</td><td>349.00</td><td>364.20/247.70</td><td style="color:#c0392b">AVOID</td><td style="color:#c0392b">331</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="act-avoid">AVOID — AD both −ve; 100K pure sell</td></tr>
+          <tr><td>19</td><td style="font-weight:700;color:#c0392b">FMDBL(sell)</td><td>891.90</td><td>1011/718.70</td><td style="color:#c0392b">AVOID</td><td style="color:#c0392b">843</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="act-avoid">AVOID — B58 56.49% distribution</td></tr>
+          <tr><td>20</td><td style="font-weight:700">SOHL</td><td>847.00</td><td>~900/~700</td><td style="color:#c0392b">AVOID</td><td style="color:#c0392b">805</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="act-avoid">AVOID — 7th+ day net sell</td></tr>
+          <tr><td>21</td><td style="font-weight:700">HRL</td><td>715.20</td><td>1103.70/704.70</td><td style="color:#c0392b">AVOID</td><td style="color:#c0392b">665</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="act-avoid">AVOID — RSI 33; near 52W low</td></tr>
+          <tr class="highlight-critical"><td>22</td><td style="font-weight:700;color:#7a0000">BHL (NEW)</td><td>230.00</td><td>257.70/167.00</td><td style="color:#c0392b">AVOID</td><td style="color:#c0392b">214</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="act-avoid">AVOID — AD both strongly −ve</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div style="font-size:11px;color:#888;margin-top:10px;">Stop = Entry − (1.5 × ATR 14) &nbsp;|&nbsp; T1 = 30–40% target &nbsp;|&nbsp; T2 = 50–60% of remainder &nbsp;|&nbsp; T3 = trailing stop</div>
+    </div>
+
+    <!-- 9. Key Insights -->
+    <div class="section" id="key-insights">
+      <div class="section-title"><span>💡</span> 8. Key Insights — Slim Green / Massive B58 Sell · 7 Signals for April 19, 2026</div>
+      <div class="insight critical">
+        <div class="ins-num">Signal 1 — HISTORIC ALERT</div>
+        <div class="ins-title" style="color:#7a0000;">B58 Net Seller −Rs.500.1M — Largest distribution in ENTIRE report series!</div>
+        <div class="ins-body">B58 sold Rs.955.8M vs bought Rs.455.6M = net −Rs.500.1M. Trend: Apr13 +78.6M → Apr15 +24.9M → Apr16 +26.4M → Apr17 −500.1M. The dramatic reversal from consistent net buying to historic net selling is the most important signal of this entire series. Could indicate: (1) Major portfolio rebalancing, (2) Risk-off before a market event, (3) Top formation in key holdings. KEY QUESTION: Does B58 return to buyer on Apr 19?</div>
+      </div>
+      <div class="insight critical">
+        <div class="ins-num">Signal 2 — EXTREME</div>
+        <div class="ins-title" style="color:#7a0000;">PRVU 92.89% pure sell 1,110,605 kitta (Rs.228M) — Single largest B58 sell ever!</div>
+        <div class="ins-body">PRVU (Prabhu Bank): B58 sold 1,110,605 kitta at 92.89% of total PRVU market — zero buying (Rs.228M, avg Rs.205.63). Nearly 93% of total PRVU daily volume was B58 selling. This looks like a complete liquidation of a major B58 PRVU position. Action: AVOID PRVU completely. This level of concentration sell has never appeared in this series.</div>
+      </div>
+      <div class="insight warn">
+        <div class="ins-num">Signal 3 — Warning</div>
+        <div class="ins-title">KBL 32.92% pure sell 144K + API 33.06% pure sell 100K + FMDBL 56.49% — multi-stock distribution.</div>
+        <div class="ins-body">KBL: pure sell 144,717 kitta at 32.92% mkt (Rs.32.7M) — zero buying. Had buy reversal Apr 15-16 but now back to pure sell. API: pure sell 100,311 kitta at 33.06% mkt (Rs.34.9M). FMDBL: 56.49% pure sell 34,669 kitta. Combined PRVU+KBL+API+FMDBL+NRN = Rs.389M+ in concentrated sells in one day.</div>
+      </div>
+      <div class="insight amber-ins">
+        <div class="ins-num">Signal 4 — Caution</div>
+        <div class="ins-title">NHPC net sell for first time — shift in B58 conviction.</div>
+        <div class="ins-body">NHPC: B58 bought 151,130 (7.11%) but sold 231,218 (10.88%) = net −80,088. First time NHPC shows B58 as net seller in recent sessions. Combined with overall Rs.500M net sell, suggests B58 reducing NHPC exposure after accumulating near 52W high. NHPC LTP 318.50 vs 52W high 331.20. AD Osc still both positive (+3.15M/+1.69M) — technical picture still bullish. Watch closely on Apr 19.</div>
+      </div>
+      <div class="insight">
+        <div class="ins-num">Signal 5 — Only Positive</div>
+        <div class="ins-title">RIDI slight net buy + AD Osc most bullish — the single positive B58 signal today.</div>
+        <div class="ins-body">Despite market-wide distribution, RIDI: B58 slight net buyer — 88K bought vs 61K sold = +27K. RIDI AD Osc remains most bullish: Teal +3.17M / Red +2.77M — both strongly positive. RSI 55.66, ADX 24.08. LTP 365.00 vs 52W high 380.00. Action: HOLD RIDI. This is the single most positive B58 signal on Apr 17 amid mass distribution.</div>
+      </div>
+      <div class="insight warn">
+        <div class="ins-num">Signal 6 — Warning</div>
+        <div class="ins-title">SOHL 7th+ consecutive day of B58 net selling — textbook distribution.</div>
+        <div class="ins-body">SOHL: B58 bought 21,561 (4.72%) but sold 41,176 (9.01%) = net −19,615. Still net seller on 7th+ day. SOHL #2 turnover (Rs.372M), #1 transactions (12,525) — retail continues absorbing. 7+ day sustained distribution into retail buying is one of the clearest distribution patterns in this series. Action: AVOID SOHL completely.</div>
+      </div>
+      <div class="insight blue-ins">
+        <div class="ins-num">Signal 7 — Outlook</div>
+        <div class="ins-title">Outlook for Apr 19 — Critical week. Does B58 return to buyer?</div>
+        <div class="ins-body">NEPSE closes the week at 2,838.40. 4-day context: 2,834 (Apr13) → 2,867 (Apr15) → 2,833 (Apr16) → 2,838 (Apr17) = zero net weekly progress. Recovery signals for Apr 19: (1) B58 net buyer &gt;Rs.100M, (2) NHPC &gt;320, (3) Breadth &gt;150 adv, (4) Turnover &gt;10B. If B58 is a net seller again on Apr 19 → major caution flag for the market. Support 2,820 remains critical.</div>
+      </div>
+    </div>
+
+    <!-- 10. Action Plan -->
+    <div class="section" id="action-plan">
+      <div class="section-title"><span>✅</span> 9. Tomorrow's Action Plan — April 19, 2026</div>
+      <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;font-size:11px;">
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;background:#27ae60;border-radius:2px;display:inline-block;"></span>Urgent</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;background:#2980b9;border-radius:2px;display:inline-block;"></span>Monitor</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;background:#e6b800;border-radius:2px;display:inline-block;"></span>Watch</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;background:#c05000;border-radius:2px;display:inline-block;"></span>Caution</span>
+        <span style="display:flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;background:#c0392b;border-radius:2px;display:inline-block;"></span>Avoid</span>
+      </div>
+      <div class="ap-grid">
+        <div class="ap-row ap-urgent"><span class="ap-sym">NHPC</span><span class="act-watch">WATCH</span><span class="ap-note">B58 net sold today. Watch for return of buy. Hold if AD +ve.</span></div>
+        <div class="ap-row ap-urgent"><span class="ap-sym">RIDI</span><span class="act-hold">HOLD</span><span class="ap-note">B58 net buy + AD most bullish. Hold all.</span></div>
+        <div class="ap-row ap-monitor"><span class="ap-sym">SHIVM</span><span class="act-watch">WATCH</span><span class="ap-note">ADX 41 strong; AD +ve; near 52W high 720.</span></div>
+        <div class="ap-row ap-monitor"><span class="ap-sym">SONA</span><span class="act-hold">HOLD</span><span class="ap-note">AD both +ve. Target 513.</span></div>
+        <div class="ap-row ap-monitor"><span class="ap-sym">NGPL</span><span class="act-hold">HOLD</span><span class="ap-note">AD mixed. RSI 51. Near 52W high 491.</span></div>
+        <div class="ap-row ap-monitor"><span class="ap-sym">ULHC</span><span class="act-watch">WATCH</span><span class="ap-note">AD both +ve; recovering. Entry 476-494.</span></div>
+        <div class="ap-row ap-monitor"><span class="ap-sym">JBBL</span><span class="act-hold">HOLD</span><span class="ap-note">AD barely +ve. Absent from B58 — watch.</span></div>
+        <div class="ap-row ap-watch"><span class="ap-sym">MPFL</span><span class="act-watch">WATCH</span><span class="ap-note">RSI 49; AD +ve. Entry 641-663.</span></div>
+        <div class="ap-row ap-watch"><span class="ap-sym">SMHL</span><span class="act-watch">WATCH</span><span class="ap-note">Near 52W low 445 — bounce watch. 434-451.</span></div>
+        <div class="ap-row ap-watch"><span class="ap-sym">RADHI</span><span class="act-watch">WATCH</span><span class="ap-note">RSI 41; AD barely +ve.</span></div>
+        <div class="ap-row ap-watch"><span class="ap-sym">NICA</span><span class="act-hold">HOLD</span><span class="ap-note">AD barely +ve. RSI 49. Hold.</span></div>
+        <div class="ap-row ap-watch"><span class="ap-sym">SYPNL</span><span class="act-hold">HOLD</span><span class="ap-note">RSI 41 weakening. Consider reducing on bounce.</span></div>
+        <div class="ap-row ap-caution"><span class="ap-sym">FMDBL</span><span class="act-caut">CAUTION</span><span class="ap-note">B58 56.49% pure sell — hold existing; no new add.</span></div>
+        <div class="ap-row ap-caution"><span class="ap-sym">HDL</span><span class="act-caut">CAUTION</span><span class="ap-note">AD both −ve. ADX 48 bearish.</span></div>
+        <div class="ap-row ap-avoid-row" style="background:#fff0f0;"><span class="ap-sym crimson">PRVU !</span><span class="act-avoid">NO ENTRY</span><span class="ap-note">92.89% pure sell 1.11M kitta — complete liquidation.</span></div>
+        <div class="ap-row ap-avoid-row"><span class="ap-sym red">KBL ▼</span><span class="act-avoid">NO ENTRY</span><span class="ap-note">144K pure sell. AD Red weak.</span></div>
+        <div class="ap-row ap-avoid-row"><span class="ap-sym red">API ▼</span><span class="act-avoid">NO ENTRY</span><span class="ap-note">AD both −ve; B58 100K pure sell.</span></div>
+        <div class="ap-row ap-avoid-row"><span class="ap-sym">SOHL</span><span class="act-avoid">NO ENTRY</span><span class="ap-note">7th+ net sell day. Distribution ongoing.</span></div>
+        <div class="ap-row ap-avoid-row"><span class="ap-sym">HRL</span><span class="act-avoid">NO ENTRY</span><span class="ap-note">RSI 33 near OS; AD both strongly −ve.</span></div>
+        <div class="ap-row ap-avoid-row"><span class="ap-sym crimson">BHL !</span><span class="act-avoid">NO ENTRY</span><span class="ap-note">NEW: AD both −ve (−1.59M/−2.32M); avoid.</span></div>
+      </div>
+      <div class="alert-critical" style="margin-top:12px;">🔑 KEY: Does B58 return to net buyer on Apr 19? If YES → recovery. If NO (net seller again) → MAJOR CAUTION for market. Support 2,820 critical.</div>
+    </div>
+
+    <!-- 11. Disclaimer -->
+    <div class="section" id="disclaimer">
+      <div class="section-title"><span>⚠️</span> 11. Disclaimer &amp; Terms of Use</div>
+      <div class="disc-list">
+        <div class="disc-item"><strong>NOT FINANCIAL ADVICE:</strong> Personal tracking &amp; educational purposes only. Consult a qualified SEBON-registered advisor before investing.</div>
+        <div class="disc-item"><strong>NO ACCURACY GUARANTEE:</strong> Data from nepalstock.com &amp; nepsealpha.com. May contain errors. Verify before trading.</div>
+        <div class="disc-item"><strong>BROKER 58 INTERPRETATION:</strong> Naasa Securities [#58] floorsheet — public data. Concentration does not predict price movement.</div>
+        <div class="disc-item" style="border-left-color:#c0392b;"><strong>PRVU SELL CONTEXT:</strong> 92.89% single-day concentration may reflect unique portfolio rebalancing, not necessarily bearish for the overall market.</div>
+        <div class="disc-item" style="border-left-color:#c0392b;"><strong>RISK WARNING:</strong> NEPSE carries significant risks. Never invest what you cannot afford to lose. Always set stop-losses.</div>
+        <div class="disc-item" style="border-left-color:#c0392b;"><strong>STOP LOSS MANDATORY:</strong> Stop = Entry − (1.5 × ATR 14). Mandatory. Author accepts NO responsibility for losses from failure to implement stops.</div>
+        <div class="disc-item"><strong>52W H/L NOTICE:</strong> Verify at nepalstock.com before trading decisions.</div>
+        <div class="disc-item"><strong>PERSONAL USE ONLY:</strong> Not for distribution. All decisions at your own risk. Subject to SEBON/NEPSE/CDSC regulations. v2.5 — Apr 17, 2026.</div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="section" id="about">
+      <div class="section-title"><span>👤</span> About This Report</div>
+      <div class="about-card">
+        <div class="about-avatar">SP</div>
+        <div>
+          <div style="font-size:18px;font-weight:700;color:#1a1a1a;">Sagun Prajapati</div>
+          <div style="font-size:13px;color:#c0392b;font-weight:600;margin-top:3px;">MBA (Finance)</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Personal Investment Researcher &amp; NEPSE Market Analyst</div>
+        </div>
+      </div>
+      <div style="margin-bottom:18px;">
+        <div style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee;">📋 Report Background</div>
+        <p style="font-size:12px;color:#444;line-height:1.8;margin-bottom:10px;">This report is a personal investment tracking tool developed by <strong>Sagun Prajapati</strong>, MBA (Finance), to systematically analyze daily NEPSE market activity with a specific focus on <strong>Broker 58 — NAASA Securities</strong> floorsheet data. It bridges the gap between raw market data and actionable investment intelligence for informed decision-making in the Nepal Stock Exchange (NEPSE).</p>
+        <p style="font-size:12px;color:#444;line-height:1.8;">Drawing on a strong foundation in financial analysis from an MBA in Finance, this report applies institutional-level thinking to retail investing — tracking broker concentration, accumulation/distribution patterns, technical indicators, and market breadth to identify high-conviction trade setups in the Nepali capital market.</p>
+      </div>
+      <div style="margin-bottom:18px;">
+        <div style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;">🎯 Objectives</div>
+        <div class="about-obj-grid">
+          <div class="about-obj-item" style="background:#f0faf4;border-left-color:#27ae60;"><div style="font-size:11px;font-weight:700;color:#1e7e34;margin-bottom:4px;">Track B58 Activity</div><div style="font-size:11px;color:#444;line-height:1.6;">Monitor Broker 58 daily buy/sell patterns to identify institutional accumulation and distribution signals.</div></div>
+          <div class="about-obj-item" style="background:#f0faf4;border-left-color:#27ae60;"><div style="font-size:11px;font-weight:700;color:#1e7e34;margin-bottom:4px;">Market Breadth Analysis</div><div style="font-size:11px;color:#444;line-height:1.6;">Evaluate daily advance/decline ratios, sector performance, and turnover trends to gauge market health.</div></div>
+          <div class="about-obj-item" style="background:#eaf2fb;border-left-color:#2980b9;"><div style="font-size:11px;font-weight:700;color:#1a5276;margin-bottom:4px;">Technical Confluence</div><div style="font-size:11px;color:#444;line-height:1.6;">Combine RSI, ADX, ATR, Aroon, and AD Oscillator with broker data to find high-probability setups.</div></div>
+          <div class="about-obj-item" style="background:#eaf2fb;border-left-color:#2980b9;"><div style="font-size:11px;font-weight:700;color:#1a5276;margin-bottom:4px;">Risk Management</div><div style="font-size:11px;color:#444;line-height:1.6;">Structured trade plans with defined entries, ATR-based stops, and tiered profit targets (T1/T2/T3).</div></div>
+        </div>
+      </div>
+      <div style="margin-bottom:18px;">
+        <div style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;">📊 Methodology</div>
+        <div class="about-step"><span class="about-step-num">1.</span><span><strong>Floorsheet Analysis:</strong> Extracting Broker 58's daily buy/sell transactions per stock, calculating net kitta positions and market concentration percentages.</span></div>
+        <div class="about-step"><span class="about-step-num">2.</span><span><strong>Conviction Scoring:</strong> Ranking stocks by net accumulation, market percentage, and zero-sell patterns to derive a conviction hierarchy.</span></div>
+        <div class="about-step"><span class="about-step-num">3.</span><span><strong>Technical Overlay:</strong> Applying chart-based indicators (RSI, ADX, AD Oscillator, 52W High/Low) on top of broker data to confirm or reject signals.</span></div>
+        <div class="about-step"><span class="about-step-num">4.</span><span><strong>Trade Planning:</strong> Generating structured trade plans using ATR-based stop losses and tiered profit targets aligned with risk-reward ratios of 1:2 or better.</span></div>
+        <div class="about-step"><span class="about-step-num">5.</span><span><strong>Multi-day Pattern Recognition:</strong> Tracking consecutive buying/selling streaks, reversals, and distribution patterns across sessions for deeper insight.</span></div>
+      </div>
+      <div style="margin-bottom:18px;">
+        <div style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;">📅 Report Series Coverage</div>
+        <div class="series-grid">
+          <div class="series-day"><div style="font-size:11px;font-weight:700;">Apr 9</div><div style="font-size:10px;color:#27ae60;font-weight:600;">+1.73%</div><div style="font-size:9px;color:#888;">Mega Buy</div></div>
+          <div class="series-day"><div style="font-size:11px;font-weight:700;">Apr 10</div><div style="font-size:10px;color:#c0392b;font-weight:600;">−0.47%</div><div style="font-size:9px;color:#888;">Pullback</div></div>
+          <div class="series-day"><div style="font-size:11px;font-weight:700;">Apr 13</div><div style="font-size:10px;color:#c0392b;font-weight:600;">−0.14%</div><div style="font-size:9px;color:#e6b800;font-weight:600;">52W High</div></div>
+          <div class="series-day"><div style="font-size:11px;font-weight:700;">Apr 15</div><div style="font-size:10px;color:#27ae60;font-weight:600;">+1.17%</div><div style="font-size:9px;color:#888;">Best Breadth</div></div>
+          <div class="series-day"><div style="font-size:11px;font-weight:700;">Apr 16</div><div style="font-size:10px;color:#c0392b;font-weight:600;">−1.18%</div><div style="font-size:9px;color:#888;">Red Day</div></div>
+          <div class="series-day" style="background:#fff0f0;border-color:#c0392b;"><div style="font-size:11px;font-weight:700;color:#7a0000;">Apr 17</div><div style="font-size:10px;color:#7a0000;font-weight:600;">+0.18%</div><div style="font-size:9px;color:#c0392b;font-weight:600;">Historic Sell!</div></div>
+        </div>
+      </div>
+      <div style="background:#fffbf0;border:1px solid #f0d080;border-radius:8px;padding:14px 16px;">
+        <div style="font-size:12px;font-weight:700;color:#7a5a00;margin-bottom:6px;">⚠️ Important Note</div>
+        <div style="font-size:11px;color:#7a5a00;line-height:1.7;">This report is prepared by <strong>Sagun Prajapati, MBA (Finance)</strong> purely for <strong>personal investment tracking and educational purposes</strong>. It does not constitute financial advice, a recommendation to buy or sell, or an investment solicitation of any kind. All investment decisions are made entirely at the reader's own risk. Past broker activity patterns do not guarantee future price movements. Always consult a SEBON-registered investment advisor before making any investment decisions.</div>
+      </div>
+    </div>
+
+    <!-- Analytics Section -->
+    <div class="section" id="analytics">
+      <div class="section-title"><span>📊</span> Page Analytics — View Tracker</div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;" id="stat-cards">
+        <div class="metric" style="border-left:4px solid #2980b9;">
+          <div class="val blue" id="total-views">—</div>
+          <div class="lbl">Total Page Views</div>
+        </div>
+        <div class="metric" style="border-left:4px solid #27ae60;">
+          <div class="val green" id="today-views">—</div>
+          <div class="lbl">Views Today</div>
+        </div>
+        <div class="metric" style="border-left:4px solid #e6b800;">
+          <div class="val amber" id="last-viewed">—</div>
+          <div class="lbl">Last Viewed</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;">📅 Daily View Summary</div>
+        <div id="daily-chart" style="display:flex;align-items:flex-end;gap:6px;height:100px;padding:8px;background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;"></div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;">🕐 Recent View Log</div>
+        <div id="view-log" style="display:flex;flex-direction:column;gap:5px;max-height:280px;overflow-y:auto;"></div>
+      </div>
+
+      <div style="display:flex;gap:8px;">
+        <button onclick="resetAnalytics()" style="flex:1;background:#fef5f5;color:#c0392b;border:1px solid #f0b0b0;border-radius:7px;padding:9px 0;font-size:12px;font-weight:700;cursor:pointer;">🗑 Reset Analytics</button>
+        <button onclick="exportLog()" style="flex:1;background:#f0faf4;color:#1e7e34;border:1px solid #a8dfc0;border-radius:7px;padding:9px 0;font-size:12px;font-weight:700;cursor:pointer;">⬇ Export Log</button>
+      </div>
+
+      <div class="alert alert-amber" style="margin-top:12px;font-size:11px;">
+        <strong>Note:</strong> This tracker counts page opens on this device/browser only. It uses local session storage and persists across visits on the same browser. It does not track other users or devices — Claude.ai's sandbox prevents external analytics.
+      </div>
+    </div>
+
+    <div class="page-footer">
+      BROKER 58 — NAASA SECURITIES &nbsp;·&nbsp; NEPSE Daily Master Report &nbsp;·&nbsp; April 17, 2026 &nbsp;·&nbsp; Prepared by Sagun Prajapati, MBA (Finance) &nbsp;·&nbsp; v2.5<br>
+      <span style="color:#ccc">Data: nepalstock.com / nepsealpha.com &nbsp;·&nbsp; For personal tracking only. Not financial advice. Always set stop losses.</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showSection(id,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active-section');
+  el.classList.add('active');
+  if(window.innerWidth<=768)closeSidebar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ── Analytics ──────────────────────────────────────────────
+const STORAGE_KEY = 'nepse_b58_apr17_views';
+
+function getViews(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {total:0, log:[], daily:{}};
+  }catch(e){ return {total:0, log:[], daily:{}}; }
+}
+
+function saveViews(data){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }catch(e){}
+}
+
+function todayKey(){
+  const d = new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');
+}
+
+function formatTime(ts){
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-NP',{month:'short',day:'numeric'}) + ' ' +
+    d.toLocaleTimeString('en-NP',{hour:'2-digit',minute:'2-digit',hour12:true});
+}
+
+function recordView(){
+  const data = getViews();
+  const now = Date.now();
+  const key = todayKey();
+  data.total = (data.total||0) + 1;
+  data.daily[key] = (data.daily[key]||0) + 1;
+  data.log.unshift({ts: now, label: 'Page opened'});
+  if(data.log.length > 50) data.log = data.log.slice(0,50);
+  saveViews(data);
+}
+
+function renderAnalytics(){
+  const data = getViews();
+  const key = todayKey();
+
+  document.getElementById('total-views').textContent = data.total || 0;
+  document.getElementById('today-views').textContent = data.daily[key] || 0;
+  document.getElementById('last-viewed').textContent = data.log[0] ? formatTime(data.log[0].ts) : 'N/A';
+
+  // Daily bar chart
+  const chartEl = document.getElementById('daily-chart');
+  chartEl.innerHTML = '';
+  const days = Object.keys(data.daily).sort().slice(-14);
+  if(days.length === 0){
+    chartEl.innerHTML = '<div style="font-size:11px;color:#aaa;margin:auto;">No data yet</div>';
+  } else {
+    const max = Math.max(...days.map(d=>data.daily[d]));
+    days.forEach(day=>{
+      const count = data.daily[day];
+      const pct = max>0 ? Math.round((count/max)*80) : 4;
+      const isToday = day===key;
+      const label = day.slice(5);
+      const col = document.createElement('div');
+      col.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;';
+      col.innerHTML = `
+        <div style="font-size:9px;font-weight:700;color:${isToday?'#1e7e34':'#555'}">${count}</div>
+        <div style="width:100%;background:${isToday?'#27ae60':'#2980b9'};border-radius:3px 3px 0 0;height:${pct}px;min-height:4px;"></div>
+        <div style="font-size:8px;color:#888;transform:rotate(-40deg);margin-top:2px;white-space:nowrap;">${label}</div>`;
+      chartEl.appendChild(col);
+    });
+  }
+
+  // View log
+  const logEl = document.getElementById('view-log');
+  logEl.innerHTML = '';
+  if(!data.log || data.log.length===0){
+    logEl.innerHTML = '<div style="font-size:12px;color:#aaa;padding:10px;">No views recorded yet.</div>';
+  } else {
+    data.log.forEach((entry,i)=>{
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:'+
+        (i===0?'#f0faf4':'#f8fafc')+';border-radius:6px;border:1px solid '+(i===0?'#a8dfc0':'#e8ecf0')+';font-size:11px;';
+      row.innerHTML = `<span style="color:#555;">👁 ${entry.label||'Page opened'}</span>
+        <span style="color:#888;font-size:10px;">${formatTime(entry.ts)}</span>`;
+      logEl.appendChild(row);
+    });
+  }
+}
+
+function resetAnalytics(){
+  if(confirm('Reset all analytics data? This cannot be undone.')){
+    localStorage.removeItem(STORAGE_KEY);
+    renderAnalytics();
+  }
+}
+
+function exportLog(){
+  const data = getViews();
+  let csv = 'View #,Date & Time\n';
+  [...data.log].reverse().forEach((e,i)=>{
+    csv += `${i+1},"${formatTime(e.ts)}"\n`;
+  });
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download = 'NEPSE-B58-ViewLog-Apr17.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// Record this visit and render on analytics section open
+recordView();
+document.querySelectorAll('.nav-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    setTimeout(()=>{
+      if(document.getElementById('analytics').classList.contains('active-section')) renderAnalytics();
+    },50);
+  });
+});
+function downloadPDF(){
+  const allSections=document.querySelectorAll('.section');
+  let bodyHTML='';
+  allSections.forEach(s=>{bodyHTML+=s.outerHTML;});
+  const topbar=document.querySelector('.topbar').outerHTML;
+  const fullHTML=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>NEPSE B58 Apr17 2026 - Sagun Prajapati MBA Finance</title>
+<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#1a1a1a;background:#fff;padding:10px;}.topbar{background:#1a0800;color:#ffcc88;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:12px;border-radius:6px;}.topbar h1{font-size:13px;font-weight:700;color:#ffcc88;}.badges{display:flex;gap:6px;flex-wrap:wrap;}.badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:999px;}.bg{background:#1e4d1e;color:#a8e6a8;}.br{background:#4d1e1e;color:#e6a8a8;}.ba{background:#4d3a0a;color:#f0d080;}.bcrit{background:#7a0000;color:#ffaaaa;}.section{background:#fff;border:1px solid #ddd;border-radius:6px;padding:10px 12px;margin-bottom:10px;page-break-inside:avoid;display:block!important;}.section-title{font-size:11px;font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid #e8ecf0;}.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px;}.metric{background:#f8fafc;border-radius:5px;padding:7px;text-align:center;border:1px solid #e8ecf0;}.metric .val{font-size:13px;font-weight:700;}.metric .lbl{font-size:9px;color:#888;margin-top:1px;}.metric .chg{font-size:10px;font-weight:600;margin-top:1px;}.green{color:#1e7e34;}.red{color:#c0392b;}.amber{color:#b8860b;}.crimson{color:#7a0000;}.sectors-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;}.sector-row{display:flex;justify-content:space-between;padding:4px 8px;border-radius:4px;font-size:10px;}.sector-green{background:#f0faf4;border:1px solid #eef4ee;}.sector-red{background:#fef5f5;border:1px solid #fde8e8;}.movers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}.b58-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px;}.mover-card,.b58-metric{background:#f8fafc;border-radius:5px;padding:8px;border:1px solid #e8ecf0;}.b58-metric .val{font-size:14px;font-weight:700;}.b58-metric .lbl{font-size:9px;color:#888;margin-top:1px;text-align:center;}.card-title{font-size:9px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:5px;}.mover-item{display:flex;justify-content:space-between;padding:3px 0;font-size:10px;border-bottom:1px solid #eee;}.mover-item:last-child{border-bottom:none;}.sub-label{font-size:9px;font-weight:700;text-transform:uppercase;margin-bottom:5px;}table{width:100%;border-collapse:collapse;font-size:10px;}th{text-align:left;padding:4px 5px;font-size:9px;color:#555;font-weight:700;background:#f4f6f8;border-bottom:1px solid #ddd;}td{padding:3px 5px;border-bottom:1px solid #f0f2f4;}tr:last-child td{border-bottom:none;}.bar-pos{display:inline-block;height:6px;background:#27ae60;border-radius:2px;vertical-align:middle;}.bar-neg{display:inline-block;height:6px;background:#c0392b;border-radius:2px;vertical-align:middle;}.star{color:#e6b800;}.sig{font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;}.sig-bull{background:#e6f7ee;color:#1e7e34;}.sig-bear{background:#fdecea;color:#c0392b;}.sig-mix{background:#fef9e7;color:#8a6a00;}.sig-neu{background:#eaf4fb;color:#1a4a6e;}.sig-ob{background:#f3e5f5;color:#6a1b9a;}.act-add{color:#1e7e34;font-weight:700;}.act-hold{color:#1a5276;font-weight:700;}.act-watch{color:#8a6a00;font-weight:700;}.act-avoid{color:#c0392b;font-weight:700;}.act-caut{color:#c05000;font-weight:700;}.ap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;}.ap-row{display:flex;justify-content:space-between;align-items:center;padding:4px 8px 4px 9px;background:#f8fafc;border-radius:4px;font-size:10px;gap:5px;border:1px solid #eef1f4;}.ap-sym{font-weight:700;min-width:48px;}.ap-note{font-size:8px;color:#888;flex:1;text-align:right;}.ap-urgent{border-left:3px solid #27ae60;}.ap-monitor{border-left:3px solid #2980b9;}.ap-watch{border-left:3px solid #e6b800;}.ap-caution{border-left:3px solid #c05000;}.ap-avoid-row{border-left:3px solid #c0392b;}.insight{background:#f8fafc;border-radius:5px;padding:7px 9px;margin-bottom:6px;border:1px solid #e8ecf0;border-left:3px solid #27ae60;}.insight.warn{border-left-color:#c0392b;}.insight.amber-ins{border-left-color:#e6b800;}.insight.blue-ins{border-left-color:#2980b9;}.insight.critical{border-left-color:#7a0000;background:#fff5f5;}.ins-num{font-size:8px;font-weight:700;color:#888;margin-bottom:2px;text-transform:uppercase;}.ins-title{font-size:10px;font-weight:700;margin-bottom:2px;}.ins-body{font-size:9px;color:#555;line-height:1.5;}.alert{background:#f0faf4;border:1px solid #a8dfc0;border-radius:4px;padding:5px 8px;font-size:9px;color:#1e5c34;margin-top:6px;line-height:1.5;}.alert-warn{background:#fef5f5;border-color:#f0b0b0;color:#7a1a1a;}.alert-amber{background:#fffbf0;border-color:#f0d080;color:#7a5a00;}.alert-critical{background:#fff0f0;border:2px solid #7a0000;border-radius:4px;padding:6px 8px;font-size:10px;color:#7a0000;margin-top:6px;font-weight:700;}.hmap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:7px;}.hmap-cell{border-radius:4px;padding:5px 3px;text-align:center;}.hmap-sym{font-size:9px;font-weight:700;}.hmap-val{font-size:7px;margin-top:1px;}.disc-list{display:flex;flex-direction:column;gap:4px;}.disc-item{background:#f8fafc;border-radius:4px;padding:5px 8px;font-size:9px;color:#555;border:1px solid #eee;border-left:2px solid #e2e6ea;line-height:1.5;}.disc-item strong{color:#333;}.crisis-banner{background:#fff0f0;border:2px solid #7a0000;border-radius:6px;padding:8px 10px;margin-bottom:8px;}.crisis-banner .title{font-size:11px;font-weight:700;color:#7a0000;margin-bottom:4px;}.crisis-banner .body{font-size:9px;color:#5a1010;line-height:1.5;}.highlight-green td{background:#f0faf4!important;}.highlight-red td{background:#fef5f5!important;}.highlight-gold td{background:#fffbf0!important;}.highlight-critical td{background:#fff0f0!important;}.about-card{background:#f8fafc;border-radius:8px;padding:12px;border:1px solid #e8ecf0;margin-bottom:12px;display:flex;align-items:center;gap:12px;}.about-avatar{width:50px;height:50px;border-radius:50%;background:#1a0800;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#ffcc88;flex-shrink:0;}.about-obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;}.about-obj-item{border-radius:6px;padding:8px;border-left:3px solid;}.about-step{display:flex;gap:8px;align-items:flex-start;font-size:10px;color:#444;margin-bottom:6px;}.about-step-num{color:#c0392b;font-weight:700;min-width:18px;}.series-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;text-align:center;}.series-day{background:#f8fafc;border-radius:5px;padding:6px;border:1px solid #e8ecf0;}.page-footer{text-align:center;font-size:9px;color:#aaa;padding:10px 0;border-top:1px solid #e8ecf0;margin-top:8px;}@page{margin:12mm;}@media print{*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}.section{page-break-inside:avoid;}}</style></head>
+<body>${topbar}${bodyHTML}<div class="page-footer">BROKER 58 — NAASA SECURITIES &nbsp;·&nbsp; NEPSE Daily Master Report &nbsp;·&nbsp; April 17, 2026 &nbsp;·&nbsp; Prepared by Sagun Prajapati, MBA (Finance) &nbsp;·&nbsp; v2.5 &nbsp;·&nbsp; For personal tracking only. Not financial advice.</div></body></html>`;
+  const encoded='data:text/html;charset=utf-8,'+encodeURIComponent(fullHTML);
+  const a=document.createElement('a');
+  a.href=encoded;
+  a.download='NEPSE-B58-Report-Apr17-2026-SagunPrajapati.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+</script>
+</body>
+</html>
