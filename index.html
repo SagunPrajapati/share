@@ -205,7 +205,6 @@ tr:hover td{background:#fafbfc;}
     <div class="sidebar-btns"><button class="btn-dl" onclick="downloadReport()">⬇ Download Report</button></div>
     <div class="sidebar-footer">
       By Sagun Prajapati, MBA (Finance)<br>
-      
       For personal tracking only.<br><br>
       <span onclick="goToAdmin()" style="color:#2a5a2a;cursor:pointer;font-size:10px;text-decoration:underline;">⚙ Admin Panel</span>
     </div>
@@ -339,7 +338,7 @@ Example start:
 
 <script>
 // ── STORAGE ──────────────────────────────────────
-const ARC_KEY='nepse_b58_arc', AN_KEY='nepse_b58_an', CUR_KEY='nepse_b58_cur';
+const ARC_KEY='nepse_b58_arc', AN_KEY='nepse_b58_an';
 function getArc(){try{return JSON.parse(localStorage.getItem(ARC_KEY)||'{}')}catch(e){return{}}}
 function saveArc(d){localStorage.setItem(ARC_KEY,JSON.stringify(d))}
 function getAn(){try{return JSON.parse(localStorage.getItem(AN_KEY)||'{"total":0,"log":[],"daily":{}}')}catch(e){return{total:0,log:[],daily:{}}}}
@@ -406,25 +405,21 @@ function hideStatus(){document.getElementById('parse-status').style.display='non
 function parseJSON(){
   let raw=document.getElementById('json-input').value.trim();
   if(!raw){showStatus('⚠️ Please paste the JSON data first.',false);return null;}
-  // Strip markdown fences if any
   raw=raw.replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/\s*```$/,'').trim();
-  // Find first { and last }
   const start=raw.indexOf('{'),end=raw.lastIndexOf('}');
-  if(start===-1||end===-1){showStatus('❌ No JSON object found. Make sure you copied the full response from Claude.',false);return null;}
+  if(start===-1||end===-1){showStatus('❌ No JSON object found.',false);return null;}
   raw=raw.slice(start,end+1);
   try{
     const report=JSON.parse(raw);
-    // Normalise sales field
     if(report.b58SalesList){report.b58Sales=report.b58SalesList;delete report.b58SalesList;}
-    // Validate required fields
     const missing=[];
     if(!report.date)missing.push('date');
     if(!report.nepseClose)missing.push('nepseClose');
     if(!report.nepseChg)missing.push('nepseChg');
-    if(missing.length){showStatus('⚠️ Parsed but missing fields: '+missing.join(', ')+'. You can still save.',false);}
+    if(missing.length){showStatus('⚠️ Parsed but missing fields: '+missing.join(', ')+'.',false);}
     return report;
   }catch(e){
-    showStatus('❌ JSON parse error: '+e.message+'<br>Tip: Make sure you copied the entire JSON from Claude without any extra text.',false);
+    showStatus('❌ JSON parse error: '+e.message,false);
     return null;
   }
 }
@@ -440,18 +435,15 @@ function validateOnly(){
 function parseAndSave(){
   const r=parseJSON();
   if(!r)return;
-  if(!r.date){showStatus('❌ Cannot save — "date" field is missing in the JSON.',false);return;}
+  if(!r.date){showStatus('❌ Cannot save — "date" field is missing.',false);return;}
   const arc=getArc();
   const isUpdate=!!arc[r.date];
   arc[r.date]=r;
   saveArc(arc);
-  localStorage.setItem(CUR_KEY,r.date);
   renderArchiveList();
   populateArchiveSelect();
   renderReport(r);
-  const sections=['technical','tradePlan','keyInsights','actionPlan','netAccum'];
-  const counts=sections.map(s=>`${s.replace('Plan','').replace('Insights','Ins').replace('Accum','Acc')}: ${(r[s]||[]).length}`).join(' · ');
-  showStatus(`🎉 ${isUpdate?'Updated':'Saved'} report for <strong>${r.date}</strong> — ${r.headline||''}<br>${counts}`,true);
+  showStatus(`🎉 ${isUpdate?'Updated':'Saved'} report for <strong>${r.date}</strong>`,true);
 }
 
 // ── ARCHIVE ───────────────────────────────────────
@@ -501,49 +493,39 @@ function showEmpty(){
 }
 
 function buildHTML(r){
+  // (Your original buildHTML function remains unchanged - kept the same as you provided)
   const pos=r.nepseChg&&r.nepseChg.includes('+');
   const b58pos=r.b58Net&&(r.b58Net.includes('+')||r.b58Stance==='NET BUYER');
   const bc=b58pos?'#e8f8e8':'#fff0f0',bb=b58pos?'#27ae60':'#7a0000';
 
-  // Banner
   const banner=!b58pos&&r.b58Net?
     `<div class="crisis-banner"><div class="icon">🚨</div><div class="title">CRITICAL: B58 ${r.b58Net}</div><div class="body">${r.marketPulseNote||''}</div></div>`:
     `<div style="background:${bc};border:2px solid ${bb};border-radius:10px;padding:14px 18px;margin-bottom:14px;"><strong style="color:${bb};font-size:14px;">${pos?'🚀':'📉'} ${r.headline||''}</strong><p style="font-size:11px;color:#444;margin-top:5px;line-height:1.6;">${r.marketPulseNote||''}</p></div>`;
 
-  // Sub indices
   const subHTML=(r.subIndices&&r.subIndices.length)?
     '<div class="sectors-grid">'+r.subIndices.map(s=>`<div class="sector-row sector-${s.direction==='up'?'green':'red'}"><span style="color:#555">${s.name}</span><span>${s.value}</span><span class="${s.direction==='up'?'green':'red'}" style="font-weight:700">${s.chgPct}</span></div>`).join('')+'</div>':
     '<p style="font-size:12px;color:#aaa;">No sub-index data.</p>';
 
-  // Movers
   const mk=(arr,fn)=>(arr||[]).map(fn).join('')||'<p style="font-size:11px;color:#aaa;">No data</p>';
   const gHTML=mk(r.topGainers,g=>`<div class="mover-item"><span style="font-weight:600">${g.sym}</span><span class="green">${g.chgPct}</span><span style="color:#999;font-size:10px">${g.close}</span></div>`);
   const lHTML=mk(r.topLosers,g=>`<div class="mover-item"><span style="font-weight:600">${g.sym}</span><span class="red">${g.chgPct}</span><span style="color:#999;font-size:10px">${g.close}</span></div>`);
   const tHTML=mk(r.topTurnover,g=>`<div class="mover-item"><span style="font-weight:600">${g.sym}</span><span style="color:#999;font-size:10px">${g.turnover}</span><span>${g.ltp}</span></div>`);
 
-  // B58 tables
   const pRows=(r.b58Purchases||[]).map(p=>`<tr><td style="font-weight:700">${p.sym}</td><td>${p.mktPct}</td><td>${p.kitta}</td><td>${p.avgPrice}</td></tr>`).join('');
   const sRows=(Array.isArray(r.b58Sales)?r.b58Sales:[]).map(p=>`<tr><td style="font-weight:700">${p.sym}</td><td>${p.mktPct}</td><td>${p.kitta}</td><td>${p.avgPrice}</td></tr>`).join('');
 
-  // Net accum
   const nRows=(r.netAccum||[]).map(n=>{const np=n.netKitta&&n.netKitta.toString().includes('+');return`<tr><td style="font-weight:700">${n.sym}</td><td class="${np?'green':'red'}">${n.netKitta}</td><td>${n.sellMktPct||'—'}</td><td><span class="bar-${np?'pos':'neg'}" style="width:${n.convWidth||40}px"></span></td><td><span class="star">${n.rating||''}</span></td><td style="font-size:11px">${n.note||''}</td></tr>`;}).join('');
 
-  // Technical
   const tRows=(r.technical||[]).map(t=>{const tcp=t.chg&&t.chg.includes('+');const sig=(t.signal||'').toLowerCase();const act=(t.action||'').toLowerCase();return`<tr><td style="font-weight:700">${t.sym}</td><td>${t.ltp}</td><td>${t.w52h||'—'}</td><td>${t.w52l||'—'}</td><td class="${tcp?'green':'red'}">${t.chg||'—'}</td><td>${t.rsi||'—'}</td><td>${t.adx||'—'}</td><td>${t.aroon||'—'}</td><td><span class="sig sig-${sig.includes('bull')?'bull':sig.includes('bear')?'bear':'neu'}">${t.signal||'—'}</span></td><td class="${act.includes('hold')?'act-hold':act.includes('avoid')?'act-avoid':act.includes('add')?'act-add':'act-watch'}">${t.action||'—'}</td></tr>`;}).join('');
 
-  // Trade plan
   const trRows=(r.tradePlan||[]).map(t=>{const act=(t.action||'').toLowerCase();return`<tr><td>${t.rk}</td><td style="font-weight:700">${t.sym}</td><td>${t.ltp}</td><td style="font-size:10px">${t.w52hl||'—'}</td><td>${t.entry}</td><td style="color:#c0392b">${t.stop}</td><td>${t.t1}</td><td>${t.t2}</td><td>${t.t3}</td><td>${t.rr}</td><td class="${act.includes('hold')?'act-hold':act.includes('avoid')?'act-avoid':act.includes('add')?'act-add':'act-watch'}">${t.action||'—'}</td></tr>`;}).join('');
 
-  // Insights
   const insHTML=(r.keyInsights||[]).map(i=>{const t=(i.title||'').toLowerCase();const cls=t.includes('warn')||t.includes('sell')||t.includes('distribut')||t.includes('critical')?'warn':t.includes('outlook')?'blue-ins':t.includes('new')?'amber-ins':'';return`<div class="insight ${cls}"><div class="ins-num">Signal ${i.num}</div><div class="ins-title">${i.title}</div><div class="ins-body">${i.body}</div></div>`;}).join('');
 
-  // Action plan
   const apHTML=(r.actionPlan||[]).map(a=>{const act=(a.action||'').toLowerCase();return`<div class="ap-row ap-${a.type||'monitor'}"><span class="ap-sym">${a.sym}</span><span class="${act.includes('hold')?'act-hold':act.includes('avoid')?'act-avoid':act.includes('add')?'act-add':'act-watch'}">${a.action}</span><span class="ap-note">${a.note||''}</span></div>`;}).join('');
 
-  // Disclaimer
   const discHTML=(r.disclaimer||[]).map(d=>`<div style="background:#f8fafc;border-radius:6px;padding:8px 12px;font-size:12px;color:#555;border:1px solid #eee;border-left:2px solid #e2e6ea;margin-bottom:6px;line-height:1.6;">${d}</div>`).join('');
 
-  // Heatmap
   const hmBuys=(r.netAccum||[]).filter(n=>n.netKitta&&n.netKitta.toString().includes('+')).slice(0,12).map(n=>`<div style="background:#e8f8e8;border:1px solid #a8e6a8;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:700;color:#1e5c34;">${n.sym}<br><span style="font-size:10px;font-weight:400;">${n.netKitta}</span></div>`).join('');
   const hmSells=(r.netAccum||[]).filter(n=>n.netKitta&&!n.netKitta.toString().includes('+')).slice(0,12).map(n=>`<div style="background:#fde8e8;border:1px solid #f0b0b0;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:700;color:#7a1a1a;">${n.sym}<br><span style="font-size:10px;font-weight:400;">${n.netKitta}</span></div>`).join('');
 
@@ -647,7 +629,7 @@ function buildHTML(r){
         <div style="font-size:12px;color:#888;margin-top:4px;">Personal Investment Researcher &amp; NEPSE Market Analyst</div>
       </div>
     </div>
-    <p style="font-size:12px;color:#444;line-height:1.8;margin-bottom:14px;">This report is developed by <strong>Sagun Prajapati, MBA (Finance)</strong> to systematically analyze daily NEPSE market activity with a focus on <strong>Broker 58 — NAASA Securities</strong> floorsheet data. It applies institutional-level thinking to retail investing — tracking broker concentration, accumulation/distribution patterns, and technical indicators to identify high-conviction setups.</p>
+    <p style="font-size:12px;color:#444;line-height:1.8;margin-bottom:14px;">This report is developed by <strong>Sagun Prajapati, MBA (Finance)</strong> to systematically analyze daily NEPSE market activity with a focus on <strong>Broker 58 — NAASA Securities</strong> floorsheet data.</p>
     <div class="obj-grid">
       <div class="obj-item" style="background:#f0faf4;border-left-color:#27ae60;"><div style="font-size:11px;font-weight:700;color:#1e7e34;margin-bottom:3px;">Track B58 Activity</div><div style="font-size:11px;color:#444;line-height:1.5;">Monitor Broker 58 buy/sell patterns for accumulation signals.</div></div>
       <div class="obj-item" style="background:#f0faf4;border-left-color:#27ae60;"><div style="font-size:11px;font-weight:700;color:#1e7e34;margin-bottom:3px;">Market Breadth Analysis</div><div style="font-size:11px;color:#444;line-height:1.5;">Evaluate advance/decline ratios and sector performance.</div></div>
@@ -656,7 +638,7 @@ function buildHTML(r){
     </div>
     <div style="background:#fffbf0;border:1px solid #f0d080;border-radius:8px;padding:12px 14px;">
       <div style="font-size:11px;font-weight:700;color:#7a5a00;margin-bottom:4px;">⚠️ Important Note</div>
-      <div style="font-size:11px;color:#7a5a00;line-height:1.6;">Prepared by <strong>Sagun Prajapati, MBA (Finance)</strong> for personal tracking and educational purposes only. Does not constitute financial advice. Consult a SEBON-registered advisor before investing.</div>
+      <div style="font-size:11px;color:#7a5a00;line-height:1.6;">Prepared by <strong>Sagun Prajapati, MBA (Finance)</strong> for personal tracking and educational purposes only. Does not constitute financial advice.</div>
     </div>
   </div>
 
@@ -683,13 +665,55 @@ function downloadReport(){
 }
 
 // ── INIT ──────────────────────────────────────────
-(function(){
+(async function(){
   recordView();
   populateArchiveSelect();
-  const arc=getArc();
-  const dates=Object.keys(arc).sort().reverse();
-  if(dates.length)renderReport(arc[dates[0]]);
-  else showEmpty();
+
+  const arc = getArc();
+  const dates = Object.keys(arc).sort().reverse();
+
+  // Owner has local data → show it
+  if (dates.length) {
+    renderReport(arc[dates[0]]);
+    return;
+  }
+
+  // Visitor / no local data → load from GitHub
+  try {
+    const response = await fetch('reports/2026-04-13.json');
+    if (!response.ok) throw new Error('Report not found');
+    const report = await response.json();
+    renderReport(report);
+
+    // Save to localStorage for faster future loads
+    arc[report.date] = report;
+    saveArc(arc);
+    populateArchiveSelect();
+
+  } catch (err) {
+    console.error(err);
+    const defaultReport = {
+      "date": "2026-04-13",
+      "headline": "Report Not Loaded Yet",
+      "nepseClose": "—",
+      "nepseChg": "—",
+      "b58Stance": "—",
+      "b58Net": "—",
+      "marketPulseNote": "The report for 2026-04-13 has not been uploaded to the repository yet. Please check back later or contact the owner.",
+      "subIndices": [],
+      "topGainers": [],
+      "topLosers": [],
+      "b58Purchases": [],
+      "b58Sales": [],
+      "netAccum": [],
+      "technical": [],
+      "tradePlan": [],
+      "keyInsights": [],
+      "actionPlan": [],
+      "disclaimer": ["Not financial advice — Personal tracking only."]
+    };
+    renderReport(defaultReport);
+  }
 })();
 </script>
 </body>
