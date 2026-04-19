@@ -1,1 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEPSE Daily Master Report — Broker 58</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14px;min-height:100vh;}
+.hidden{display:none!important;}
+.green{color:#1e7e34;}.red{color:#c0392b;}.amber{color:#b8860b;}.blue{color:#1a5276;}.crimson{color:#7a0000;}
+.badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;}
+.bg{background:#1e4d1e;color:#a8e6a8;}.br{background:#4d1e1e;color:#e6a8a8;}.ba{background:#4d3a0a;color:#f0d080;}.bb{background:#0a2a4d;color:#80b8f0;}.bcrit{background:#7a0000;color:#ffaaaa;}
+.alert{background:#f0faf4;border:1px solid #a8dfc0;border-radius:8px;padding:10px 14px;font-size:12px;color:#1e5c34;margin-top:10px;line-height:1.6;}
+.alert-warn{background:#fef5f5;border-color:#f0b0b0;color:#7a1a1a;}
+.alert-amber{background:#fffbf0;border-color:#f0d080;color:#7a5a00;}
+.alert-critical{background:#fff0f0;border:2px solid #7a0000;border-radius:8px;padding:12px 16px;font-size:13px;color:#7a0000;margin-top:10px;font-weight:700;}
+.btn{border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.btn-primary{background:#1a0f0f;color:#ffcc88;}.btn-primary:hover{background:#2a1a1a;}
+.btn-danger{background:#c0392b;color:#fff;}.btn-success{background:#1e7e34;color:#fff;}
+.btn-outline{background:#f8fafc;color:#444;border:1px solid #ddd;}.btn-outline:hover{background:#eee;}
 
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a0f0f,#0f1a10);}
+.login-card{background:#fff;border-radius:16px;padding:40px;width:360px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.login-card .logo{font-size:40px;margin-bottom:12px;}
+.login-card h2{font-size:18px;font-weight:700;margin-bottom:4px;}
+.login-card p{font-size:12px;color:#888;margin-bottom:24px;}
+.login-card input{width:100%;border:1px solid #ddd;border-radius:8px;padding:10px 14px;font-size:14px;margin-bottom:12px;outline:none;}
+.login-card input:focus{border-color:#1a0f0f;}
+.login-error{font-size:12px;color:#c0392b;margin-bottom:10px;display:none;}
+
+/* APP */
+#app{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:235px;min-width:235px;background:#0f1a10;color:#a8e6a8;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform .3s;}
+.sidebar-logo{padding:16px 16px 10px;border-bottom:1px solid #1e4d1e;}
+.sidebar-logo .brand{font-size:10px;color:#5aad5a;letter-spacing:.06em;margin-bottom:3px;}
+.sidebar-logo h2{font-size:13px;font-weight:700;color:#b0f0b0;line-height:1.3;}
+.sidebar-logo .date-badge{font-size:10px;color:#fff;background:#c0392b;border-radius:4px;padding:2px 6px;margin-top:5px;display:inline-block;}
+
+.archive-wrap{padding:10px 14px;border-bottom:1px solid #1e4d1e;}
+.archive-wrap label{font-size:10px;font-weight:700;color:#5aad5a;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px;}
+.archive-wrap select{width:100%;background:#0a1a0a;color:#b0f0b0;border:1px solid #2a5a2a;border-radius:5px;padding:6px 8px;font-size:11px;outline:none;cursor:pointer;}
+.refresh-btn{width:100%;margin-top:6px;background:#1e3a1e;color:#7dca7d;border:1px solid #2a5a2a;border-radius:5px;padding:6px 0;font-size:11px;font-weight:700;cursor:pointer;}
+.refresh-btn:hover{background:#2a5a2a;}
+
+.nav-label{font-size:10px;font-weight:700;color:#3a7a3a;text-transform:uppercase;letter-spacing:.08em;padding:12px 16px 5px;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 16px;cursor:pointer;font-size:12px;color:#7dca7d;border-left:3px solid transparent;transition:all .15s;}
+.nav-item:hover{background:#1a3a1a;color:#b0f0b0;border-left-color:#5aad5a;}
+.nav-item.active{background:#1e4d1e;color:#b0f0b0;border-left-color:#7dca7d;font-weight:600;}
+.nav-item .icon{font-size:13px;min-width:16px;text-align:center;}
+.nav-badge{margin-left:auto;font-size:9px;font-weight:700;padding:2px 6px;border-radius:999px;}
+.nb-red{background:#4d1e1e;color:#e68a8a;}.nb-gold{background:#4d3a0a;color:#f0d080;}.nb-blue{background:#0a2a4d;color:#80b8f0;}.nb-crit{background:#7a0000;color:#ffaaaa;}
+
+.sidebar-btns{padding:10px 14px;display:flex;flex-direction:column;gap:6px;}
+.btn-dl{background:#c0392b;color:#fff;border:none;border-radius:6px;padding:9px 0;font-size:11px;font-weight:700;cursor:pointer;width:100%;}
+.btn-dl:hover{background:#a93226;}
+.sidebar-footer{padding:10px 16px;border-top:1px solid #1e4d1e;font-size:10px;color:#3a7a3a;line-height:1.5;}
+
+/* MAIN */
+.main{margin-left:235px;flex:1;}
+.topbar{background:#0f1a10;color:#b0f0b0;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:8px;}
+.topbar h1{font-size:14px;font-weight:700;}
+.hamburger{display:none;background:none;border:none;color:#b0f0b0;font-size:20px;cursor:pointer;margin-right:10px;}
+.content{padding:20px;}
+
+/* SECTIONS */
+.section{background:#fff;border-radius:10px;border:1px solid #e2e6ea;padding:1.1rem 1.4rem;margin-bottom:1.1rem;display:none;}
+.section.active-section{display:block;}
+.section-title{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #e8ecf0;display:flex;align-items:center;gap:7px;}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.metric{background:#f8fafc;border-radius:8px;padding:12px;text-align:center;border:1px solid #e8ecf0;}
+.metric .val{font-size:18px;font-weight:700;}.metric .lbl{font-size:10px;color:#888;margin-top:2px;}.metric .chg{font-size:12px;font-weight:600;margin-top:2px;}
+.sectors-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;}
+.sector-row{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:5px;font-size:12px;}
+.sector-green{background:#f0faf4;border:1px solid #c8e8d0;}.sector-red{background:#fef5f5;border:1px solid #f0c8c8;}
+.movers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.mover-card{background:#f8fafc;border-radius:7px;padding:10px;border:1px solid #e8ecf0;}
+.card-title{font-size:9px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
+.mover-item{display:flex;justify-content:space-between;padding:4px 0;font-size:11px;border-bottom:1px solid #eee;}.mover-item:last-child{border-bottom:none;}
+.b58-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.b58-metric{background:#f8fafc;border-radius:7px;padding:12px;text-align:center;border:1px solid #e8ecf0;}
+.b58-metric .val{font-size:18px;font-weight:700;}.b58-metric .lbl{font-size:10px;color:#888;margin-top:2px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.sub-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+th{text-align:left;padding:7px;font-size:10px;color:#555;font-weight:700;background:#f4f6f8;border-bottom:2px solid #e2e6ea;}
+td{padding:6px 7px;border-bottom:1px solid #f0f2f4;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafbfc;}
+.bar-pos{display:inline-block;height:6px;background:#27ae60;border-radius:2px;vertical-align:middle;}
+.bar-neg{display:inline-block;height:6px;background:#c0392b;border-radius:2px;vertical-align:middle;}
+.star{color:#e6b800;}
+.sig{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;}
+.sig-bull{background:#e6f7ee;color:#1e7e34;}.sig-bear{background:#fdecea;color:#c0392b;}.sig-mix{background:#fef9e7;color:#8a6a00;}.sig-neu{background:#eaf4fb;color:#1a4a6e;}.sig-ob{background:#f3e5f5;color:#6a1b9a;}
+.act-add{color:#1e7e34;font-weight:700;}.act-hold{color:#1a5276;font-weight:700;}.act-watch{color:#8a6a00;font-weight:700;}.act-avoid{color:#c0392b;font-weight:700;}.act-caut{color:#c05000;font-weight:700;}
+.ap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
+.ap-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px 8px 12px;background:#f8fafc;border-radius:6px;font-size:11px;gap:7px;border:1px solid #eef1f4;}
+.ap-sym{font-weight:700;min-width:55px;}.ap-note{font-size:9px;color:#888;flex:1;text-align:right;}
+.ap-urgent{border-left:4px solid #27ae60;}.ap-monitor{border-left:4px solid #2980b9;}.ap-watch{border-left:4px solid #e6b800;}.ap-caution{border-left:4px solid #c05000;}.ap-avoid-row{border-left:4px solid #c0392b;}
+.insight{background:#f8fafc;border-radius:7px;padding:12px 14px;margin-bottom:9px;border:1px solid #e8ecf0;border-left:4px solid #27ae60;}
+.insight.warn{border-left-color:#c0392b;}.insight.amber-ins{border-left-color:#e6b800;}.insight.blue-ins{border-left-color:#2980b9;}.insight.critical{border-left-color:#7a0000;background:#fff5f5;}
+.ins-num{font-size:9px;font-weight:700;color:#888;margin-bottom:3px;text-transform:uppercase;}
+.ins-title{font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:4px;}
+.ins-body{font-size:11px;color:#555;line-height:1.6;}
+.highlight-green td{background:#f0faf4!important;}.highlight-red td{background:#fef5f5!important;}.highlight-critical td{background:#fff0f0!important;}
+.crisis-banner{background:#fff0f0;border:3px solid #7a0000;border-radius:10px;padding:14px 18px;margin-bottom:14px;}
+.crisis-banner .icon{font-size:26px;margin-bottom:5px;}
+.crisis-banner .title{font-size:15px;font-weight:700;color:#7a0000;margin-bottom:5px;}
+.crisis-banner .body{font-size:11px;color:#5a1010;line-height:1.65;}
+
+/* Loading spinner */
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;color:#888;}
+.spinner{width:40px;height:40px;border:4px solid #e8ecf0;border-top-color:#1e7e34;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.no-report{text-align:center;padding:60px 20px;color:#888;}
+.no-report .icon{font-size:48px;margin-bottom:12px;}
+
+/* About */
+.about-card{background:#f8fafc;border-radius:10px;padding:16px;border:1px solid #e8ecf0;margin-bottom:16px;display:flex;align-items:center;gap:16px;}
+.about-avatar{width:65px;height:65px;border-radius:50%;background:#0f1a10;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#b0f0b0;flex-shrink:0;}
+.obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;}
+.obj-item{border-radius:7px;padding:10px;border-left:3px solid;}
+.page-footer{text-align:center;font-size:10px;color:#aaa;padding:16px 0 24px;border-top:1px solid #e8ecf0;margin-top:8px;}
+
+/* BACKEND */
+#backend{display:none;flex:1;min-height:100vh;background:#f0f2f5;}
+.backend-topbar{background:#1a0f0f;color:#ffcc88;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;}
+.backend-topbar h1{font-size:15px;font-weight:700;}
+.backend-content{padding:24px;max-width:960px;margin:0 auto;}
+.be-card{background:#fff;border-radius:10px;border:1px solid #e2e6ea;padding:1.25rem 1.5rem;margin-bottom:1.25rem;}
+.be-card-title{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #e8ecf0;}
+.prompt-box{background:#f8fafc;border:1px solid #e8ecf0;border-radius:8px;padding:14px;font-size:11px;font-family:monospace;line-height:1.7;color:#333;white-space:pre-wrap;word-break:break-word;max-height:340px;overflow-y:auto;}
+.copy-btn{background:#1a5276;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;margin-top:8px;}
+.copy-btn:hover{background:#154360;}
+.steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:0;}
+.step-card{background:#f8fafc;border-radius:8px;padding:14px;border:1px solid #e8ecf0;border-top:3px solid #1e7e34;}
+.step-card h4{font-size:12px;font-weight:700;margin-bottom:6px;color:#1a1a1a;}
+.step-card p,.step-card li{font-size:11px;color:#555;line-height:1.7;}
+.step-card ol{padding-left:16px;}
+.step-card code{background:#eef;border-radius:3px;padding:1px 5px;font-size:10px;font-family:monospace;}
+.archive-table{width:100%;border-collapse:collapse;font-size:12px;}
+.archive-table th{text-align:left;padding:8px 10px;font-size:11px;font-weight:700;background:#f4f6f8;border-bottom:2px solid #e2e6ea;}
+.archive-table td{padding:8px 10px;border-bottom:1px solid #f0f2f4;}
+.archive-table tr:hover td{background:#fafbfc;}
+.analytics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.analytics-card{background:#f8fafc;border-radius:8px;padding:14px;text-align:center;border:1px solid #e8ecf0;}
+.analytics-card .val{font-size:22px;font-weight:700;}.analytics-card .lbl{font-size:10px;color:#888;margin-top:3px;}
+.status-pill{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;margin-left:8px;}
+.pill-ok{background:#e6f7ee;color:#1e7e34;}.pill-err{background:#fdecea;color:#c0392b;}.pill-loading{background:#eaf2fb;color:#1a5276;}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90;}
+.overlay.show{display:block;}
+
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .hamburger{display:block;}
+  .metrics-grid,.analytics-grid{grid-template-columns:repeat(2,1fr);}
+  .movers-grid,.two-col,.obj-grid,.steps-grid{grid-template-columns:1fr;}
+  .ap-grid,.sectors-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen" class="hidden">
+  <div class="login-card">
+    <div class="logo">🔐</div>
+    <h2>Admin Backend</h2>
+    <p>NEPSE B58 Report Manager</p>
+    <input type="password" id="admin-pass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')adminLogin()">
+    <div class="login-error" id="login-error">Incorrect password. Try again.</div>
+    <button class="btn btn-primary" style="width:100%" onclick="adminLogin()">Login</button>
+    <button class="btn btn-outline" style="width:100%;margin-top:8px;" onclick="showFrontend()">← Back to Report</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="brand">BROKER 58 — NAASA SECURITIES</div>
+      <h2>NEPSE Daily Master Report</h2>
+      <span class="date-badge" id="sidebar-date">Loading...</span>
+    </div>
+
+    <div class="archive-wrap">
+      <label>📅 Select Report Date</label>
+      <select id="archive-select" onchange="loadByDate(this.value)">
+        <option value="">— Loading dates... —</option>
+      </select>
+      <button class="refresh-btn" onclick="refreshDates()">🔄 Refresh Dates</button>
+    </div>
+
+    <div class="nav-label">Market Overview</div>
+    <div class="nav-item active" onclick="showSection('market-pulse',this)"><span class="icon">📊</span> Market Pulse <span class="nav-badge nb-gold" id="nav-nepse">—</span></div>
+    <div class="nav-item" onclick="showSection('sub-indices',this)"><span class="icon">📈</span> Sub-Indices</div>
+    <div class="nav-item" onclick="showSection('top-movers',this)"><span class="icon">🔥</span> Top Movers</div>
+    <div class="nav-label">Broker 58 Analysis</div>
+    <div class="nav-item" onclick="showSection('b58-overview',this)"><span class="icon">🏦</span> B58 Overview <span class="nav-badge nb-gold" id="nav-b58">—</span></div>
+    <div class="nav-item" onclick="showSection('net-accum',this)"><span class="icon">📋</span> Net Accumulation</div>
+    <div class="nav-item" onclick="showSection('heatmap',this)"><span class="icon">🟩</span> Heatmap</div>
+    <div class="nav-label">Technical & Trade</div>
+    <div class="nav-item" onclick="showSection('technical',this)"><span class="icon">📉</span> Technical Analysis</div>
+    <div class="nav-item" onclick="showSection('trade-plan',this)"><span class="icon">🎯</span> Trade Plan</div>
+    <div class="nav-label">Insights & Actions</div>
+    <div class="nav-item" onclick="showSection('key-insights',this)"><span class="icon">💡</span> Key Insights</div>
+    <div class="nav-item" onclick="showSection('action-plan',this)"><span class="icon">✅</span> Action Plan</div>
+    <div class="nav-item" onclick="showSection('disclaimer',this)"><span class="icon">⚠️</span> Disclaimer</div>
+    <div class="nav-item" onclick="showSection('about',this)"><span class="icon">👤</span> About</div>
+
+    <div class="sidebar-btns">
+      <button class="btn-dl" onclick="downloadReport()">⬇ Download Report</button>
+    </div>
+    <div class="sidebar-footer">
+      By Sagun Prajapati, MBA (Finance)<br>
+      nepalstock.com / nepsealpha.com<br>
+      For personal tracking only.<br><br>
+      <span onclick="goToAdmin()" style="color:#2a5a2a;cursor:pointer;font-size:10px;text-decoration:underline;">⚙ Admin Panel</span>
+    </div>
+  </nav>
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <div class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;">
+        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+        <h1 id="topbar-title">NEPSE Daily Master Report — Broker 58</h1>
+      </div>
+      <div id="topbar-badges" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+    </div>
+    <div class="content" id="report-content">
+      <div class="loading-wrap">
+        <div class="spinner"></div>
+        <p>Loading latest report from GitHub...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BACKEND -->
+<div id="backend">
+  <div class="backend-topbar">
+    <h1>⚙️ Admin — NEPSE B58 Report Manager</h1>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-outline" onclick="showFrontend()" style="font-size:12px;padding:7px 14px;">← View Report</button>
+      <button class="btn btn-danger" onclick="adminLogout()" style="font-size:12px;padding:7px 14px;">Logout</button>
+    </div>
+  </div>
+  <div class="backend-content">
+
+    <!-- Workflow Guide -->
+    <div class="be-card">
+      <div class="be-card-title">🗺️ How to Add a New Daily Report</div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <h4>Step 1 — Generate JSON via Claude</h4>
+          <ol>
+            <li>Open <strong>claude.ai</strong> in a new tab</li>
+            <li>Upload your NEPSE PDF report</li>
+            <li>Copy the prompt below and paste it to Claude</li>
+            <li>Claude returns a JSON object</li>
+          </ol>
+        </div>
+        <div class="step-card" style="border-top-color:#2980b9;">
+          <h4>Step 2 — Upload to GitHub Repo</h4>
+          <ol>
+            <li>Go to <a href="https://github.com/SagunPrajapati/share" target="_blank" style="color:#1a5276;">github.com/SagunPrajapati/share</a></li>
+            <li>Click <strong>Add file → Create new file</strong></li>
+            <li>Name it <code>YYYY-MM-DD.json</code> (e.g. <code>2026-04-17.json</code>)</li>
+            <li>Paste the JSON → click <strong>Commit changes</strong></li>
+            <li>Click <strong>🔄 Refresh Dates</strong> on the frontend</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prompt -->
+    <div class="be-card">
+      <div class="be-card-title">📋 Claude Prompt — Copy and send with your PDF</div>
+      <p style="font-size:12px;color:#555;margin-bottom:12px;">Upload your NEPSE PDF to Claude and paste this prompt. Copy the entire JSON response and save it as a <code style="background:#eef;padding:2px 5px;border-radius:3px;font-size:11px;">YYYY-MM-DD.json</code> file in your GitHub repo.</p>
+      <div class="prompt-box" id="prompt-box">Extract ALL data from this NEPSE Daily Master Report PDF and return ONLY a valid JSON object. No markdown, no explanation, no backticks — just raw JSON starting with { and ending with }.
+
+Use this EXACT structure (fill every field found in the PDF, use [] or "—" if not found):
+{
+  "date": "YYYY-MM-DD",
+  "headline": "e.g. STRONG GREEN / Broad Rally",
+  "nepseClose": "2851.24",
+  "nepseChg": "+48.71 (+1.73%)",
+  "turnover": "Rs.9.92B",
+  "sharesTraded": "27,931,770",
+  "transactions": "108,869",
+  "advDecUnch": "251 / 16 / 1",
+  "marketCap": "Rs.4.85T",
+  "floatCap": "Rs.1.63T",
+  "b58Stance": "NET BUYER",
+  "b58Net": "+Rs.287.5M",
+  "b58Purchase": "Rs.956.7M",
+  "b58SalesTotal": "Rs.669.2M",
+  "b58TopBuy": "NHPC",
+  "b58PeakMkt": "44.06% (LBBL BUY)",
+  "marketPulseNote": "Full summary paragraph from market pulse section",
+  "subIndices": [
+    {"name":"Banking","value":"1486.99","chg":"+18.27","chgPct":"+1.24%","direction":"up"}
+  ],
+  "topGainers": [{"sym":"ANLB","close":"6128.60","chgPct":"+10%"}],
+  "topLosers":  [{"sym":"NICBF","close":"9.83","chgPct":"-6.74%"}],
+  "topTurnover":[{"sym":"NHPC","turnover":"Rs.434.8M","ltp":"307"}],
+  "topVolume":  [{"sym":"NHPC","shares":"1,439,197","ltp":"307"}],
+  "b58Purchases":[{"sym":"NRN","mktPct":"37.73%","amount":"Rs.138.2M","kitta":"84,660","avgPrice":"1,632.08","txns":"364"}],
+  "b58SalesList":[{"sym":"AKJCL","mktPct":"21.41%","amount":"Rs.73.6M","kitta":"183,888","avgPrice":"400.24","txns":"189"}],
+  "netAccum":[{"sym":"NHPC","netKitta":"+194,082","sellMktPct":"7.91%","convWidth":"90","rating":"★★★","note":"Mega accumulation — #1 conviction"}],
+  "technical":[{"sym":"NHPC","ltp":"307","w52h":"331.20","w52l":"178.60","chg":"+1.11%","rsi":"61.05","adx":"37.61","atr":"19.36","aroon":"71.43%","adOsc":"Bullish","signal":"Bullish","action":"ADD"}],
+  "tradePlan":[{"rk":"1","sym":"NHPC","ltp":"307","w52hl":"331.20/178.60","entry":"300-310","stop":"281","t1":"355","t2":"385","t3":"420","rr":"1:2.0","action":"ADD — B58 +194K"}],
+  "keyInsights":[{"num":"1","title":"Full insight title","body":"Full insight body paragraph"}],
+  "actionPlan":[{"priority":"URGENT","sym":"NHPC","ltp":"307","w52h":"331.20","action":"ADD","note":"B58 +194K. ADD at 300-310.","type":"urgent"}],
+  "disclaimer":["Not financial advice — Personal tracking only."]
+}
+
+RULES:
+- Extract EVERY stock from every table — do not truncate
+- "date" MUST be YYYY-MM-DD (April 9 2026 → "2026-04-09")
+- "direction" in subIndices: "up" if positive chg, "down" if negative
+- "type" in actionPlan: urgent / monitor / watch / caution / avoid-row
+- "convWidth" in netAccum: number 10-100 based on conviction bar length shown
+- Return ONLY the JSON object — nothing before { or after }</div>
+      <button class="copy-btn" onclick="copyPrompt()">📋 Copy Prompt</button>
+      <span id="copy-confirm" style="font-size:11px;color:#1e7e34;margin-left:10px;display:none;">✅ Copied!</span>
+    </div>
+
+    <!-- Repo Status -->
+    <div class="be-card">
+      <div class="be-card-title">📦 GitHub Repository Status
+        <span class="status-pill pill-loading" id="repo-status-pill">Checking...</span>
+      </div>
+      <p style="font-size:12px;color:#555;margin-bottom:12px;">Repo: <a href="https://github.com/SagunPrajapati/share" target="_blank" style="color:#1a5276;font-weight:700;">github.com/SagunPrajapati/share</a></p>
+      <div id="repo-file-list"><p style="font-size:12px;color:#aaa;">Loading...</p></div>
+      <button class="btn btn-outline" onclick="checkRepo()" style="margin-top:12px;font-size:12px;padding:8px 16px;">🔄 Refresh Repo Status</button>
+    </div>
+
+    <!-- Analytics -->
+    <div class="be-card">
+      <div class="be-card-title">📊 Page Analytics</div>
+      <div class="analytics-grid">
+        <div class="analytics-card"><div class="val blue" id="be-total">0</div><div class="lbl">Total Views</div></div>
+        <div class="analytics-card"><div class="val green" id="be-today">0</div><div class="lbl">Views Today</div></div>
+        <div class="analytics-card"><div class="val amber" id="be-count">0</div><div class="lbl">Dates Available</div></div>
+        <div class="analytics-card"><div class="val" style="font-size:13px;" id="be-last">—</div><div class="lbl">Last Viewed</div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:12px;font-weight:700;margin-bottom:8px;">Daily View Chart</div>
+        <div id="be-chart" style="display:flex;align-items:flex-end;gap:5px;height:90px;padding:8px;background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;"></div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:8px;">Recent View Log</div>
+        <div id="be-log" style="max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button class="btn btn-outline" onclick="exportLog()" style="flex:1;font-size:12px;">⬇ Export CSV</button>
+        <button class="btn btn-danger" onclick="resetAnalytics()" style="flex:1;font-size:12px;">🗑 Reset Analytics</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════
+const GITHUB_USER = 'SagunPrajapati';
+const GITHUB_REPO = 'share';
+const GITHUB_BRANCH = 'main';
+const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
+const API_BASE = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents`;
+const ADMIN_PASS = 'sabina#7';
+const AN_KEY = 'nepse_b58_an';
+const CACHE_KEY = 'nepse_b58_dates';
+
+// ═══════════════════════════════════════════════
+//  ANALYTICS
+// ═══════════════════════════════════════════════
+function todayKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function fmtTime(ts){const d=new Date(ts);return d.toLocaleDateString('en-NP',{month:'short',day:'numeric'})+' '+d.toLocaleTimeString('en-NP',{hour:'2-digit',minute:'2-digit',hour12:true});}
+function getAn(){try{return JSON.parse(localStorage.getItem(AN_KEY)||'{"total":0,"log":[],"daily":{}}')}catch(e){return{total:0,log:[],daily:{}}}}
+function saveAn(d){localStorage.setItem(AN_KEY,JSON.stringify(d));}
+function recordView(date){
+  const a=getAn(),k=todayKey();
+  a.total=(a.total||0)+1;
+  a.daily[k]=(a.daily[k]||0)+1;
+  a.log.unshift({ts:Date.now(),label:'Viewed: '+(date||'report')});
+  if(a.log.length>100)a.log=a.log.slice(0,100);
+  saveAn(a);
+}
+function resetAnalytics(){if(confirm('Reset all analytics?')){localStorage.removeItem(AN_KEY);renderBeAnalytics();}}
+function exportLog(){
+  const a=getAn();let csv='#,Date & Time,Page\n';
+  [...a.log].reverse().forEach((e,i)=>{csv+=`${i+1},"${fmtTime(e.ts)}","${e.label}"\n`;});
+  const an=document.createElement('a');an.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);an.download='ViewLog.csv';document.body.appendChild(an);an.click();document.body.removeChild(an);
+}
+function renderBeAnalytics(){
+  const a=getAn(),k=todayKey();
+  document.getElementById('be-total').textContent=a.total||0;
+  document.getElementById('be-today').textContent=a.daily[k]||0;
+  document.getElementById('be-last').textContent=a.log[0]?fmtTime(a.log[0].ts):'N/A';
+  const ch=document.getElementById('be-chart');ch.innerHTML='';
+  const days=Object.keys(a.daily).sort().slice(-14);
+  if(!days.length){ch.innerHTML='<div style="font-size:11px;color:#aaa;margin:auto;">No data yet</div>';}
+  else{const mx=Math.max(...days.map(d=>a.daily[d]));days.forEach(day=>{const cnt=a.daily[day],pct=mx>0?Math.round((cnt/mx)*75):4,isT=day===k;const col=document.createElement('div');col.style.cssText='display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;';col.innerHTML=`<div style="font-size:9px;font-weight:700;color:${isT?'#1e7e34':'#555'}">${cnt}</div><div style="width:100%;background:${isT?'#27ae60':'#2980b9'};border-radius:3px 3px 0 0;height:${pct}px;min-height:4px;"></div><div style="font-size:8px;color:#888;transform:rotate(-40deg);margin-top:2px;white-space:nowrap;">${day.slice(5)}</div>`;ch.appendChild(col);});}
+  const lg=document.getElementById('be-log');lg.innerHTML='';
+  if(!a.log.length){lg.innerHTML='<div style="font-size:12px;color:#aaa;padding:8px;">No views yet.</div>';}
+  else{a.log.forEach((e,i)=>{const row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;padding:5px 10px;background:'+(i===0?'#f0faf4':'#f8fafc')+';border-radius:5px;border:1px solid '+(i===0?'#a8dfc0':'#e8ecf0')+';font-size:11px;';row.innerHTML=`<span>👁 ${e.label}</span><span style="color:#888;font-size:10px;">${fmtTime(e.ts)}</span>`;lg.appendChild(row);});}
+}
+
+// ═══════════════════════════════════════════════
+//  GITHUB FETCH
+// ═══════════════════════════════════════════════
+let availableDates = [];
+
+async function fetchDatesFromGithub(){
+  try{
+    // Use GitHub API to list files
+    const resp = await fetch(`${API_BASE}?ref=${GITHUB_BRANCH}`,{
+      headers:{'Accept':'application/vnd.github.v3+json'}
+    });
+    if(!resp.ok) throw new Error('GitHub API error: '+resp.status);
+    const files = await resp.json();
+    // Filter only YYYY-MM-DD.json files
+    const dates = files
+      .filter(f=>f.name&&/^\d{4}-\d{2}-\d{2}\.json$/.test(f.name))
+      .map(f=>f.name.replace('.json',''))
+      .sort()
+      .reverse();
+    availableDates = dates;
+    // Cache dates
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ts:Date.now(), dates}));
+    return dates;
+  }catch(e){
+    console.warn('GitHub API failed, using cache:', e);
+    // Fallback to cache
+    try{
+      const cached = JSON.parse(localStorage.getItem(CACHE_KEY)||'{}');
+      if(cached.dates) return cached.dates;
+    }catch(e2){}
+    return [];
+  }
+}
+
+async function fetchReport(date){
+  const url = `${RAW_BASE}/${date}.json?t=${Date.now()}`;
+  const resp = await fetch(url);
+  if(!resp.ok) throw new Error(`Report for ${date} not found (${resp.status})`);
+  const data = await resp.json();
+  // normalise sales field
+  if(data.b58SalesList){data.b58Sales=data.b58SalesList;delete data.b58SalesList;}
+  return data;
+}
+
+async function loadByDate(date){
+  if(!date) return;
+  showLoading();
+  try{
+    const report = await fetchReport(date);
+    renderReport(report);
+    recordView(date);
+    document.getElementById('archive-select').value = date;
+  }catch(e){
+    showError(`Could not load report for ${date}.\n${e.message}`);
+  }
+}
+
+async function loadLatest(){
+  showLoading();
+  const dates = await fetchDatesFromGithub();
+  populateDateSelect(dates);
+  if(!dates.length){showEmpty();return;}
+  try{
+    const report = await fetchReport(dates[0]);
+    renderReport(report);
+    recordView(dates[0]);
+    document.getElementById('archive-select').value = dates[0];
+    document.getElementById('be-count').textContent = dates.length;
+  }catch(e){
+    showError('Could not load latest report: '+e.message);
+  }
+}
+
+async function refreshDates(){
+  const btn=document.querySelector('.refresh-btn');
+  if(btn){btn.textContent='🔄 Refreshing...';btn.disabled=true;}
+  const dates = await fetchDatesFromGithub();
+  populateDateSelect(dates);
+  document.getElementById('be-count').textContent = dates.length;
+  if(btn){btn.textContent='🔄 Refresh Dates';btn.disabled=false;}
+}
+
+function populateDateSelect(dates){
+  const sel = document.getElementById('archive-select');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— Select a date —</option>';
+  dates.forEach(d=>{
+    const o=document.createElement('option');
+    o.value=d;
+    // Pretty label: 2026-04-13 → April 13, 2026
+    const dt=new Date(d+'T00:00:00');
+    o.textContent=dt.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    sel.appendChild(o);
+  });
+  if(cur && dates.includes(cur)) sel.value=cur;
+  else if(dates.length) sel.value=dates[0];
+}
+
+async function checkRepo(){
+  const pill=document.getElementById('repo-status-pill');
+  const listEl=document.getElementById('repo-file-list');
+  pill.className='status-pill pill-loading';pill.textContent='Checking...';
+  listEl.innerHTML='<p style="font-size:12px;color:#aaa;">Loading...</p>';
+  try{
+    const dates = await fetchDatesFromGithub();
+    pill.className='status-pill pill-ok';pill.textContent='✅ Connected ('+dates.length+' reports)';
+    if(!dates.length){listEl.innerHTML='<p style="font-size:12px;color:#888;">No JSON report files found yet. Add files named <code>YYYY-MM-DD.json</code></p>';return;}
+    let h='<table class="archive-table"><thead><tr><th>Date</th><th>Pretty Label</th><th>Action</th></tr></thead><tbody>';
+    dates.forEach(d=>{
+      const dt=new Date(d+'T00:00:00');
+      const label=dt.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+      h+=`<tr><td style="font-weight:700;font-family:monospace;">${d}.json</td><td>${label}</td>
+      <td><button onclick="loadByDate('${d}');showFrontend();" style="font-size:10px;padding:3px 8px;background:#e6f7ee;color:#1e7e34;border:1px solid #a8dfc0;border-radius:4px;cursor:pointer;">View</button>
+      <a href="${RAW_BASE}/${d}.json" target="_blank" style="margin-left:4px;font-size:10px;padding:3px 8px;background:#eaf2fb;color:#1a5276;border:1px solid #b0d0f0;border-radius:4px;text-decoration:none;">Raw</a></td></tr>`;
+    });
+    listEl.innerHTML=h+'</tbody></table>';
+    document.getElementById('be-count').textContent=dates.length;
+  }catch(e){
+    pill.className='status-pill pill-err';pill.textContent='❌ Error';
+    listEl.innerHTML='<p style="font-size:12px;color:#c0392b;">'+e.message+'</p>';
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════
+function goToAdmin(){document.getElementById('login-screen').classList.remove('hidden');document.getElementById('app').style.display='none';document.getElementById('backend').style.display='none';}
+function adminLogin(){
+  if(document.getElementById('admin-pass').value===ADMIN_PASS){
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('backend').style.display='block';
+    document.getElementById('app').style.display='none';
+    document.getElementById('admin-pass').value='';
+    document.getElementById('login-error').style.display='none';
+    renderBeAnalytics();checkRepo();
+  }else{document.getElementById('login-error').style.display='block';}
+}
+function adminLogout(){document.getElementById('backend').style.display='none';showFrontend();}
+function showFrontend(){document.getElementById('login-screen').classList.add('hidden');document.getElementById('backend').style.display='none';document.getElementById('app').style.display='flex';}
+
+// ═══════════════════════════════════════════════
+//  PROMPT
+// ═══════════════════════════════════════════════
+function copyPrompt(){
+  const txt=document.getElementById('prompt-box').textContent;
+  navigator.clipboard.writeText(txt).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);});
+  const c=document.getElementById('copy-confirm');c.style.display='inline';setTimeout(()=>c.style.display='none',2500);
+}
+
+// ═══════════════════════════════════════════════
+//  UI STATES
+// ═══════════════════════════════════════════════
+function showLoading(){
+  document.getElementById('report-content').innerHTML=`<div class="loading-wrap"><div class="spinner"></div><p>Loading report from GitHub...</p></div>`;
+}
+function showEmpty(){
+  document.getElementById('sidebar-date').textContent='No reports yet';
+  document.getElementById('report-content').innerHTML=`<div class="no-report"><div class="icon">📊</div><h3 style="font-size:16px;margin-bottom:8px;">No Reports Available</h3><p style="font-size:12px;color:#aaa;">No JSON report files found in the GitHub repository.<br>Add a file named <strong>2026-04-13.json</strong> to get started.</p><button class="btn btn-primary" onclick="goToAdmin()" style="margin-top:16px;">⚙️ Admin — How to add reports</button></div>`;
+}
+function showError(msg){
+  document.getElementById('report-content').innerHTML=`<div class="no-report"><div class="icon">⚠️</div><h3 style="font-size:16px;margin-bottom:8px;color:#c0392b;">Failed to Load</h3><p style="font-size:12px;color:#888;">${msg}</p><button class="btn btn-outline" onclick="loadLatest()" style="margin-top:14px;">Retry</button></div>`;
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER REPORT
+// ═══════════════════════════════════════════════
+function renderReport(r){
+  if(!r){showEmpty();return;}
+  const pos=r.nepseChg&&r.nepseChg.includes('+');
+  const b58pos=r.b58Net&&(r.b58Net.includes('+')||r.b58Stance==='NET BUYER');
+  document.getElementById('topbar-title').textContent='NEPSE Daily Master Report · '+r.date;
+  document.getElementById('topbar-badges').innerHTML=`
+    <span class="badge ${pos?'bg':'br'}">NEPSE ${r.nepseChg||'—'}</span>
+    <span class="badge ba">B58 ${r.b58Net||'—'}</span>
+    <span class="badge bb">${r.advDecUnch||'—'}</span>`;
+  document.getElementById('sidebar-date').textContent=r.date+' · '+(r.headline||'');
+  document.getElementById('nav-nepse').textContent=r.nepseChg||'—';
+  document.getElementById('nav-nepse').className='nav-badge '+(pos?'nb-gold':'nb-red');
+  document.getElementById('nav-b58').textContent=r.b58Net||'—';
+  document.getElementById('nav-b58').className='nav-badge '+(b58pos?'nb-gold':'nb-crit');
+  document.getElementById('report-content').innerHTML=buildHTML(r);
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const mp=document.getElementById('market-pulse');if(mp)mp.classList.add('active-section');
+  document.querySelector('.nav-item')?.classList.add('active');
+}
+
+function buildHTML(r){
+  const pos=r.nepseChg&&r.nepseChg.includes('+');
+  const b58pos=r.b58Net&&(r.b58Net.includes('+')||r.b58Stance==='NET BUYER');
+  const bc=b58pos?'#e8f8e8':'#fff0f0',bb=b58pos?'#27ae60':'#7a0000';
+  const banner=!b58pos&&r.b58Net?
+    `<div class="crisis-banner"><div class="icon">🚨</div><div class="title">CRITICAL: B58 ${r.b58Net}</div><div class="body">${r.marketPulseNote||''}</div></div>`:
+    `<div style="background:${bc};border:2px solid ${bb};border-radius:10px;padding:14px 18px;margin-bottom:14px;"><strong style="color:${bb};font-size:14px;">${pos?'🚀':'📉'} ${r.headline||''}</strong><p style="font-size:11px;color:#444;margin-top:5px;line-height:1.6;">${r.marketPulseNote||''}</p></div>`;
+
+  const subHTML=(r.subIndices&&r.subIndices.length)?
+    '<div class="sectors-grid">'+r.subIndices.map(s=>`<div class="sector-row sector-${s.direction==='up'?'green':'red'}"><span style="color:#555">${s.name}</span><span>${s.value}</span><span class="${s.direction==='up'?'green':'red'}" style="font-weight:700">${s.chgPct}</span></div>`).join('')+'</div>':
+    '<p style="font-size:12px;color:#aaa;">No sub-index data.</p>';
+
+  const mk=(arr,fn)=>(arr||[]).map(fn).join('')||'<p style="font-size:11px;color:#aaa;">No data</p>';
+  const gH=mk(r.topGainers,g=>`<div class="mover-item"><span style="font-weight:600">${g.sym}</span><span class="green">${g.chgPct}</span><span style="color:#999;font-size:10px">${g.close}</span></div>`);
+  const lH=mk(r.topLosers,g=>`<div class="mover-item"><span style="font-weight:600">${g.sym}</span><span class="red">${g.chgPct}</span><span style="color:#999;font-size:10px">${g.close}</span></div>`);
+  const tH=mk(r.topTurnover,g=>`<div class="mover-item"><span style="font-weight:600">${g.sym}</span><span style="color:#999;font-size:10px">${g.turnover}</span><span>${g.ltp}</span></div>`);
+
+  const pR=(r.b58Purchases||[]).map(p=>`<tr><td style="font-weight:700">${p.sym}</td><td>${p.mktPct}</td><td>${p.kitta}</td><td>${p.avgPrice}</td></tr>`).join('');
+  const sR=(Array.isArray(r.b58Sales)?r.b58Sales:[]).map(p=>`<tr><td style="font-weight:700">${p.sym}</td><td>${p.mktPct}</td><td>${p.kitta}</td><td>${p.avgPrice}</td></tr>`).join('');
+  const nR=(r.netAccum||[]).map(n=>{const np=n.netKitta&&n.netKitta.toString().includes('+');return`<tr><td style="font-weight:700">${n.sym}</td><td class="${np?'green':'red'}">${n.netKitta}</td><td>${n.sellMktPct||'—'}</td><td><span class="bar-${np?'pos':'neg'}" style="width:${n.convWidth||40}px"></span></td><td><span class="star">${n.rating||''}</span></td><td style="font-size:11px">${n.note||''}</td></tr>`;}).join('');
+  const techR=(r.technical||[]).map(t=>{const tcp=t.chg&&t.chg.includes('+');const sig=(t.signal||'').toLowerCase();const act=(t.action||'').toLowerCase();return`<tr><td style="font-weight:700">${t.sym}</td><td>${t.ltp}</td><td>${t.w52h||'—'}</td><td>${t.w52l||'—'}</td><td class="${tcp?'green':'red'}">${t.chg||'—'}</td><td>${t.rsi||'—'}</td><td>${t.adx||'—'}</td><td>${t.aroon||'—'}</td><td><span class="sig sig-${sig.includes('bull')?'bull':sig.includes('bear')?'bear':'neu'}">${t.signal||'—'}</span></td><td class="${act.includes('hold')?'act-hold':act.includes('avoid')?'act-avoid':act.includes('add')?'act-add':'act-watch'}">${t.action||'—'}</td></tr>`;}).join('');
+  const trR=(r.tradePlan||[]).map(t=>{const act=(t.action||'').toLowerCase();return`<tr><td>${t.rk}</td><td style="font-weight:700">${t.sym}</td><td>${t.ltp}</td><td style="font-size:10px">${t.w52hl||'—'}</td><td>${t.entry}</td><td style="color:#c0392b">${t.stop}</td><td>${t.t1}</td><td>${t.t2}</td><td>${t.t3}</td><td>${t.rr}</td><td class="${act.includes('hold')?'act-hold':act.includes('avoid')?'act-avoid':act.includes('add')?'act-add':'act-watch'}">${t.action||'—'}</td></tr>`;}).join('');
+  const insH=(r.keyInsights||[]).map(i=>{const t=(i.title||'').toLowerCase();const cls=t.includes('warn')||t.includes('sell')||t.includes('distribut')||t.includes('critical')?'warn':t.includes('outlook')?'blue-ins':t.includes('new')?'amber-ins':'';return`<div class="insight ${cls}"><div class="ins-num">Signal ${i.num}</div><div class="ins-title">${i.title}</div><div class="ins-body">${i.body}</div></div>`;}).join('');
+  const apH=(r.actionPlan||[]).map(a=>{const act=(a.action||'').toLowerCase();return`<div class="ap-row ap-${a.type||'monitor'}"><span class="ap-sym">${a.sym}</span><span class="${act.includes('hold')?'act-hold':act.includes('avoid')?'act-avoid':act.includes('add')?'act-add':'act-watch'}">${a.action}</span><span class="ap-note">${a.note||''}</span></div>`;}).join('');
+  const discH=(r.disclaimer||[]).map(d=>`<div style="background:#f8fafc;border-radius:6px;padding:8px 12px;font-size:12px;color:#555;border:1px solid #eee;border-left:2px solid #e2e6ea;margin-bottom:6px;line-height:1.6;">${d}</div>`).join('');
+  const hmBuys=(r.netAccum||[]).filter(n=>n.netKitta&&n.netKitta.toString().includes('+')).slice(0,12).map(n=>`<div style="background:#e8f8e8;border:1px solid #a8e6a8;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:700;color:#1e5c34;">${n.sym}<br><span style="font-size:10px;font-weight:400;">${n.netKitta}</span></div>`).join('');
+  const hmSells=(r.netAccum||[]).filter(n=>n.netKitta&&!n.netKitta.toString().includes('+')).slice(0,12).map(n=>`<div style="background:#fde8e8;border:1px solid #f0b0b0;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:700;color:#7a1a1a;">${n.sym}<br><span style="font-size:10px;font-weight:400;">${n.netKitta}</span></div>`).join('');
+
+  return `
+  <div class="section active-section" id="market-pulse">
+    <div class="section-title">📊 1. Market Pulse — ${r.date}</div>
+    ${banner}
+    <div class="metrics-grid" style="margin-bottom:10px;">
+      <div class="metric"><div class="val">${r.nepseClose||'—'}</div><div class="lbl">NEPSE Close</div><div class="chg ${pos?'green':'red'}">${r.nepseChg||'—'}</div></div>
+      <div class="metric"><div class="val">${r.turnover||'—'}</div><div class="lbl">Turnover</div></div>
+      <div class="metric"><div class="val">${r.advDecUnch||'—'}</div><div class="lbl">Adv / Dec / Unch</div></div>
+      <div class="metric"><div class="val">${r.transactions||'—'}</div><div class="lbl">Transactions</div></div>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric"><div class="val">${r.sharesTraded||'—'}</div><div class="lbl">Shares Traded</div></div>
+      <div class="metric"><div class="val">${r.marketCap||'—'}</div><div class="lbl">Market Cap</div></div>
+      <div class="metric"><div class="val">${r.floatCap||'—'}</div><div class="lbl">Float Cap</div></div>
+      <div class="metric"><div class="val ${b58pos?'green':'crimson'}" style="font-size:14px;">${r.b58Stance||'—'}</div><div class="lbl">B58 ${r.b58Net||''}</div></div>
+    </div>
+  </div>
+  <div class="section" id="sub-indices"><div class="section-title">📈 2. Sub-Indices — ${r.date}</div>${subHTML}</div>
+  <div class="section" id="top-movers">
+    <div class="section-title">🔥 3. Top Market Movers</div>
+    <div class="movers-grid">
+      <div class="mover-card"><div class="card-title">Top Gainers</div>${gH}</div>
+      <div class="mover-card"><div class="card-title">Top Losers</div>${lH}</div>
+      <div class="mover-card"><div class="card-title">Top Turnover</div>${tH}</div>
+    </div>
+  </div>
+  <div class="section" id="b58-overview">
+    <div class="section-title">🏦 4. Broker 58 — ${r.b58Stance||'—'} ${r.b58Net||''}</div>
+    <div class="b58-grid">
+      <div class="b58-metric"><div class="val green">${r.b58Purchase||'—'}</div><div class="lbl">Total Purchase</div></div>
+      <div class="b58-metric"><div class="val red">${r.b58SalesTotal||'—'}</div><div class="lbl">Total Sales</div></div>
+      <div class="b58-metric" style="background:${b58pos?'#f0faf4':'#fff0f0'};border-color:${b58pos?'#a8dfc0':'#c0392b'};"><div class="val ${b58pos?'green':'crimson'}">${r.b58Net||'—'}</div><div class="lbl">Net Position</div></div>
+    </div>
+    <div class="two-col">
+      <div><div class="sub-label green">Top 10 Purchases</div><table><thead><tr><th>Symbol</th><th>Mkt%</th><th>Kitta</th><th>Avg Price</th></tr></thead><tbody>${pR||'<tr><td colspan="4" style="color:#aaa;">No data</td></tr>'}</tbody></table></div>
+      <div><div class="sub-label red">Top 10 Sales</div><table><thead><tr><th>Symbol</th><th>Mkt%</th><th>Kitta</th><th>Avg Price</th></tr></thead><tbody>${sR||'<tr><td colspan="4" style="color:#aaa;">No data</td></tr>'}</tbody></table></div>
+    </div>
+  </div>
+  <div class="section" id="net-accum"><div class="section-title">📋 5. Net Accumulation — Conviction Ranking</div><table><thead><tr><th>Symbol</th><th>Net Kitta</th><th>Sell Mkt%</th><th>Conviction</th><th>Rating</th><th>Note</th></tr></thead><tbody>${nR||'<tr><td colspan="6" style="color:#aaa;">No data</td></tr>'}</tbody></table></div>
+  <div class="section" id="heatmap">
+    <div class="section-title">🟩 10. B58 Heatmap — ${r.date}</div>
+    <div style="font-size:12px;font-weight:700;color:#1e7e34;margin-bottom:8px;">▲ Buy Side</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">${hmBuys||'<p style="font-size:11px;color:#aaa;">No data</p>'}</div>
+    <div style="font-size:12px;font-weight:700;color:#c0392b;margin-bottom:8px;">▼ Sell Side</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;">${hmSells||'<p style="font-size:11px;color:#aaa;">No data</p>'}</div>
+  </div>
+  <div class="section" id="technical"><div class="section-title">📉 6. Technical Analysis — ${r.date}</div><div style="overflow-x:auto"><table><thead><tr><th>Stock</th><th>LTP</th><th>52W High</th><th>52W Low</th><th>Chg%</th><th>RSI</th><th>ADX</th><th>Aroon↑</th><th>A/D Signal</th><th>Action</th></tr></thead><tbody>${techR||'<tr><td colspan="10" style="color:#aaa;">No data</td></tr>'}</tbody></table></div></div>
+  <div class="section" id="trade-plan"><div class="section-title">🎯 7. Trade Plan — Entry · Stop · Targets</div><div style="overflow-x:auto"><table><thead><tr><th>Rk</th><th>Symbol</th><th>LTP</th><th>52W H/L</th><th>Entry</th><th>Stop</th><th>T1</th><th>T2</th><th>T3</th><th>R:R</th><th>Action</th></tr></thead><tbody>${trR||'<tr><td colspan="11" style="color:#aaa;">No data</td></tr>'}</tbody></table></div><div style="font-size:11px;color:#888;margin-top:8px;">Stop = Entry − (1.5 × ATR 14) | T1 = 30–40% | T2 = 50–60% remainder | T3 = trailing</div></div>
+  <div class="section" id="key-insights"><div class="section-title">💡 8. Key Insights — ${r.date}</div>${insH||'<p style="font-size:12px;color:#aaa;">No insights.</p>'}</div>
+  <div class="section" id="action-plan">
+    <div class="section-title">✅ 9. Action Plan</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;font-size:11px;">
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:#27ae60;border-radius:2px;display:inline-block;"></span>Urgent</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:#2980b9;border-radius:2px;display:inline-block;"></span>Monitor</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:#e6b800;border-radius:2px;display:inline-block;"></span>Watch</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;background:#c0392b;border-radius:2px;display:inline-block;"></span>Avoid</span>
+    </div>
+    <div class="ap-grid">${apH||'<p style="font-size:12px;color:#aaa;">No action plan.</p>'}</div>
+  </div>
+  <div class="section" id="disclaimer"><div class="section-title">⚠️ 11. Disclaimer</div>${discH||'<div class="alert alert-warn">Not financial advice. For personal tracking only.</div>'}</div>
+  <div class="section" id="about">
+    <div class="section-title">👤 About This Report</div>
+    <div class="about-card">
+      <div class="about-avatar">SP</div>
+      <div>
+        <div style="font-size:18px;font-weight:700;">Sagun Prajapati</div>
+        <div style="font-size:13px;color:#c0392b;font-weight:600;margin-top:3px;">MBA (Finance)</div>
+        <div style="font-size:12px;color:#888;margin-top:4px;">Personal Investment Researcher &amp; NEPSE Market Analyst</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:#444;line-height:1.8;margin-bottom:14px;">This report is developed by <strong>Sagun Prajapati, MBA (Finance)</strong> to systematically analyze daily NEPSE market activity with a focus on <strong>Broker 58 — NAASA Securities</strong> floorsheet data. It applies institutional-level thinking to retail investing — tracking broker concentration, accumulation/distribution patterns, and technical indicators.</p>
+    <div class="obj-grid">
+      <div class="obj-item" style="background:#f0faf4;border-left-color:#27ae60;"><div style="font-size:11px;font-weight:700;color:#1e7e34;margin-bottom:3px;">Track B58 Activity</div><div style="font-size:11px;color:#444;line-height:1.5;">Monitor Broker 58 buy/sell patterns for accumulation signals.</div></div>
+      <div class="obj-item" style="background:#f0faf4;border-left-color:#27ae60;"><div style="font-size:11px;font-weight:700;color:#1e7e34;margin-bottom:3px;">Market Breadth Analysis</div><div style="font-size:11px;color:#444;line-height:1.5;">Evaluate advance/decline ratios and sector performance.</div></div>
+      <div class="obj-item" style="background:#eaf2fb;border-left-color:#2980b9;"><div style="font-size:11px;font-weight:700;color:#1a5276;margin-bottom:3px;">Technical Confluence</div><div style="font-size:11px;color:#444;line-height:1.5;">Combine RSI, ADX, ATR, Aroon and AD Oscillator with broker data.</div></div>
+      <div class="obj-item" style="background:#eaf2fb;border-left-color:#2980b9;"><div style="font-size:11px;font-weight:700;color:#1a5276;margin-bottom:3px;">Risk Management</div><div style="font-size:11px;color:#444;line-height:1.5;">ATR-based stop losses and tiered profit targets T1/T2/T3.</div></div>
+    </div>
+    <div style="background:#fffbf0;border:1px solid #f0d080;border-radius:8px;padding:12px 14px;">
+      <div style="font-size:11px;font-weight:700;color:#7a5a00;margin-bottom:4px;">⚠️ Important Note</div>
+      <div style="font-size:11px;color:#7a5a00;line-height:1.6;">Prepared by <strong>Sagun Prajapati, MBA (Finance)</strong> for personal tracking and educational purposes only. Does not constitute financial advice. Consult a SEBON-registered advisor before investing.</div>
+    </div>
+  </div>
+  <div class="page-footer">BROKER 58 — NAASA SECURITIES &nbsp;·&nbsp; NEPSE Daily Master Report &nbsp;·&nbsp; ${r.date} &nbsp;·&nbsp; Prepared by Sagun Prajapati, MBA (Finance) &nbsp;·&nbsp; v3.0<br>Data: nepalstock.com / nepsealpha.com &nbsp;·&nbsp; For personal tracking only. Not financial advice.</div>`;
+}
+
+// ═══════════════════════════════════════════════
+//  FRONTEND NAV + UTILS
+// ═══════════════════════════════════════════════
+function showSection(id,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const s=document.getElementById(id);if(s)s.classList.add('active-section');
+  if(el)el.classList.add('active');
+  if(window.innerWidth<=768)closeSidebar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+function downloadReport(){
+  const c=document.getElementById('report-content');
+  if(!c||!c.innerHTML.trim()){alert('No report to download.');return;}
+  const a=document.createElement('a');a.href='data:text/html;charset=utf-8,'+encodeURIComponent(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>NEPSE B58 Report</title></head><body style="font-family:sans-serif;padding:20px;">${c.innerHTML}</body></html>`);a.download='NEPSE-B58-Report.html';document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+
+// ═══════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════
+recordView('init');
+loadLatest();
+</script>
+</body>
+</html>
