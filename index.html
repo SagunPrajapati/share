@@ -246,10 +246,9 @@ tr:hover td{background:#fafbfc;}
     <div class="nav-item" onclick="showSection('about',this)"><span class="icon">👤</span> About This Report</div>
 
     <div class="sidebar-btns">
-      <button class="btn-admin" onclick="goToAdmin()">⚙️ Admin / Upload PDF</button>
       <button class="btn-dl" onclick="downloadReport()">⬇ Download PDF</button>
     </div>
-    <div class="sidebar-footer">By Sagun Prajapati, MBA (Finance)<br>Data: nepalstock.com / nepsealpha.com<br>For personal tracking only. Not financial advice.</div>
+    <div class="sidebar-footer">By Sagun Prajapati, MBA (Finance)<br>Data: nepalstock.com / nepsealpha.com<br>For personal tracking only. Not financial advice.<br><br><span onclick="goToAdmin()" style="color:#2a5a2a;cursor:pointer;font-size:10px;text-decoration:underline;">⚙ Admin</span></div>
   </nav>
   <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
@@ -279,13 +278,26 @@ tr:hover td{background:#fafbfc;}
   </div>
   <div class="backend-content">
 
+    <!-- API Key Card -->
+    <div class="be-card">
+      <div class="be-card-title">🔑 Anthropic API Key</div>
+      <p style="font-size:12px;color:#555;margin-bottom:10px;">Required to read and extract data from uploaded PDFs. Your key is stored only in this browser and never sent anywhere except directly to Anthropic's API.</p>
+      <div style="display:flex;gap:8px;">
+        <input type="password" id="api-key-input" placeholder="sk-ant-..." style="flex:1;border:1px solid #ddd;border-radius:7px;padding:9px 12px;font-size:13px;outline:none;" oninput="checkApiKey()">
+        <button class="btn btn-success" onclick="saveApiKey()" style="padding:9px 16px;font-size:12px;">Save</button>
+        <button class="btn btn-outline" onclick="clearApiKey()" style="padding:9px 16px;font-size:12px;">Clear</button>
+      </div>
+      <div id="api-key-status" style="font-size:11px;margin-top:7px;color:#888;"></div>
+      <div class="alert alert-amber" style="margin-top:10px;font-size:11px;">Get your API key from <strong>console.anthropic.com</strong> → API Keys. You need a key with access to <strong>claude-sonnet-4-20250514</strong>.</div>
+    </div>
+
     <!-- Upload Card -->
     <div class="be-card">
       <div class="be-card-title">📤 Upload New Report PDF</div>
       <div class="upload-zone" id="upload-zone" onclick="document.getElementById('pdf-input').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
         <div class="icon">📄</div>
         <p>Click or drag & drop your NEPSE PDF report here</p>
-        <small>Supported: PDF files from nepalstock.com / nepsealpha.com</small>
+        <small>Supported: PDF files from nepalstock.com / nepsealpha.com · Max ~10MB</small>
       </div>
       <input type="file" id="pdf-input" accept=".pdf" style="display:none" onchange="handleFile(event)">
       <div class="progress-bar" id="progress-bar"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
@@ -378,7 +390,7 @@ let adminLoggedIn=false;
 function goToAdmin(){document.getElementById('login-screen').classList.remove('hidden');document.getElementById('app').style.display='none';document.getElementById('backend').style.display='none';}
 function adminLogin(){
   const v=document.getElementById('admin-pass').value;
-  if(v===ADMIN_PASS){adminLoggedIn=true;document.getElementById('login-screen').classList.add('hidden');document.getElementById('backend').style.display='block';document.getElementById('app').style.display='none';document.getElementById('admin-pass').value='';document.getElementById('login-error').style.display='none';renderArchiveList();renderAnalyticsBackend();}
+  if(v===ADMIN_PASS){adminLoggedIn=true;document.getElementById('login-screen').classList.add('hidden');document.getElementById('backend').style.display='block';document.getElementById('app').style.display='none';document.getElementById('admin-pass').value='';document.getElementById('login-error').style.display='none';renderArchiveList();renderAnalyticsBackend();loadApiKeyField();}
   else{document.getElementById('login-error').style.display='block';}
 }
 function adminLogout(){adminLoggedIn=false;document.getElementById('backend').style.display='none';showFrontend();}
@@ -424,22 +436,33 @@ function log(msg,type=''){const el=document.getElementById('status-log');el.styl
 function setProgress(pct){const b=document.getElementById('progress-bar'),f=document.getElementById('progress-fill');b.style.display='block';f.style.width=pct+'%';}
 
 async function processPDF(file){
+  const apiKey=getApiKey();
+  if(!apiKey){
+    alert('⚠️ No API key found. Please enter your Anthropic API key in the API Key section above and save it first.');
+    return;
+  }
   document.getElementById('status-log').innerHTML='';
   document.getElementById('status-log').style.display='block';
-  setProgress(10);
-  log('📄 Reading PDF: '+file.name);
+  setProgress(5);
+  log('📄 Reading PDF: '+file.name+' ('+Math.round(file.size/1024)+'KB)');
 
-  // Read PDF as base64
-  const base64 = await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});
-  setProgress(25);
-  log('🔄 Sending to Claude AI for extraction...');
+  let base64;
+  try{
+    base64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});
+  }catch(e){log('❌ Failed to read file: '+e.message,'error');return;}
+  setProgress(20);
+  log('✅ File loaded. Sending to Claude AI...','success');
+  log('⏳ This may take 15–30 seconds for large PDFs...','info');
 
-  const prompt = `You are a financial data extraction assistant. Extract ALL data from this NEPSE Daily Master Report PDF and return ONLY a valid JSON object — no markdown, no explanation, no backticks.
+  const prompt=`You are a financial data extraction assistant specializing in NEPSE (Nepal Stock Exchange) broker reports. Extract ALL data from this NEPSE Daily Master Report PDF.
 
-The JSON must follow this exact structure:
+Return ONLY a single valid JSON object. No markdown, no backticks, no explanation — just the raw JSON.
+
+Use this EXACT structure (fill every field you find in the PDF, use empty array [] or "—" if not found):
+
 {
   "date": "YYYY-MM-DD",
-  "headline": "Brief description e.g. STRONG GREEN / Broad Rally",
+  "headline": "e.g. STRONG GREEN / Broad Rally",
   "nepseClose": "2851.24",
   "nepseChg": "+48.71 (+1.73%)",
   "turnover": "Rs.9.92B",
@@ -451,32 +474,63 @@ The JSON must follow this exact structure:
   "b58Stance": "NET BUYER",
   "b58Net": "+Rs.287.5M",
   "b58Purchase": "Rs.956.7M",
-  "b58Sales": "Rs.669.2M",
+  "b58SalesTotal": "Rs.669.2M",
   "b58TopBuy": "NHPC",
   "b58PeakMkt": "44.06% (LBBL BUY)",
-  "marketPulseNote": "Brief summary of market conditions",
-  "subIndices": [{"name":"Banking","value":"1486.99","chg":"+18.27","chgPct":"+1.24%","direction":"up"}],
+  "marketPulseNote": "Full summary paragraph from market pulse section",
+  "subIndices": [
+    {"name":"Banking","value":"1486.99","chg":"+18.27","chgPct":"+1.24%","direction":"up"}
+  ],
   "topGainers": [{"sym":"ANLB","close":"6128.60","chgPct":"+10%"}],
   "topLosers": [{"sym":"NICBF","close":"9.83","chgPct":"-6.74%"}],
   "topTurnover": [{"sym":"NHPC","turnover":"Rs.434.8M","ltp":"307"}],
   "topVolume": [{"sym":"NHPC","shares":"1,439,197","ltp":"307"}],
-  "b58Purchases": [{"sym":"NRN","mktPct":"37.73%","amount":"Rs.138.2M","kitta":"84,660","avgPrice":"1,632.08","txns":"364"}],
-  "b58Sales": [{"sym":"AKJCL","mktPct":"21.41%","amount":"Rs.73.6M","kitta":"183,888","avgPrice":"400.24","txns":"189"}],
-  "netAccum": [{"sym":"NHPC","netKitta":"+194,082","sellMktPct":"7.91%","convWidth":"95","rating":"★★★","note":"Mega accumulation"}],
-  "technical": [{"sym":"NHPC","ltp":"307","w52h":"331.20","w52l":"178.60","chg":"+1.11%","rsi":"61.05","adx":"37.61","atr":"19.36","aroon":"71.43%","adOsc":"Bullish","signal":"Bullish","action":"ADD"}],
-  "tradePlan": [{"rk":"1","sym":"NHPC","ltp":"307","w52hl":"331.20/178.60","entry":"300-310","stop":"281","t1":"355","t2":"385","t3":"420","rr":"1:2.0","action":"ADD"}],
-  "keyInsights": [{"num":"1","title":"Insight title","body":"Insight body text"}],
-  "actionPlan": [{"priority":"URGENT","sym":"NHPC","ltp":"307","w52h":"331.20","action":"ADD","note":"B58 +194K. ADD at 300-310.","type":"urgent"}],
-  "disclaimer": ["Disclaimer point 1", "Disclaimer point 2"]
+  "b58Purchases": [
+    {"sym":"NRN","mktPct":"37.73%","amount":"Rs.138.2M","kitta":"84,660","avgPrice":"1,632.08","txns":"364"}
+  ],
+  "b58SalesList": [
+    {"sym":"AKJCL","mktPct":"21.41%","amount":"Rs.73.6M","kitta":"183,888","avgPrice":"400.24","txns":"189"}
+  ],
+  "netAccum": [
+    {"sym":"NHPC","netKitta":"+194,082","sellMktPct":"7.91%","convWidth":"90","rating":"★★★","note":"Mega accumulation — #1 conviction"}
+  ],
+  "technical": [
+    {"sym":"NHPC","ltp":"307","w52h":"331.20","w52l":"178.60","chg":"+1.11%","rsi":"61.05","adx":"37.61","atr":"19.36","aroon":"71.43%","adOsc":"Bullish","signal":"Bullish","action":"ADD"}
+  ],
+  "tradePlan": [
+    {"rk":"1","sym":"NHPC","ltp":"307","w52hl":"331.20/178.60","entry":"300-310","stop":"281","t1":"355","t2":"385","t3":"420","rr":"1:2.0","action":"ADD — B58 mega +194K"}
+  ],
+  "keyInsights": [
+    {"num":"1","title":"Full insight title here","body":"Full insight body text here"}
+  ],
+  "actionPlan": [
+    {"priority":"URGENT","sym":"NHPC","ltp":"307","w52h":"331.20","action":"ADD","note":"B58 +194K. ADD at 300-310.","type":"urgent"}
+  ],
+  "disclaimer": [
+    "Not financial advice — Personal tracking only.",
+    "No accuracy guarantee — Data from nepalstock.com."
+  ]
 }
 
-Extract EVERY stock, every insight, every action plan item. Return only the JSON.`;
+IMPORTANT RULES:
+- Extract ALL stocks from every table (purchases, sales, net accumulation, technical, trade plan, action plan)
+- For "type" in actionPlan: use "urgent", "monitor", "watch", "caution", or "avoid-row" based on the priority label
+- For netAccum "convWidth": estimate a number 10-100 based on conviction bar length shown
+- For "direction" in subIndices: "up" if positive change, "down" if negative
+- The "date" must be in YYYY-MM-DD format (convert "April 9, 2026" to "2026-04-09")
+- Extract the complete text of insights and action notes, not summaries
+- Return ONLY the JSON object, nothing else`;
 
   try{
-    setProgress(40);
-    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+    setProgress(35);
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:8000,
@@ -487,33 +541,69 @@ Extract EVERY stock, every insight, every action plan item. Return only the JSON
       })
     });
     setProgress(70);
-    log('📥 Response received. Parsing data...');
+
+    if(!resp.ok){
+      const errText=await resp.text();
+      let errMsg='';
+      try{const errJson=JSON.parse(errText);errMsg=errJson.error?.message||errText;}
+      catch(e){errMsg=errText;}
+      if(resp.status===401){log('❌ Authentication failed. Check your API key is correct and active.','error');}
+      else if(resp.status===400){log('❌ Bad request: '+errMsg,'error');}
+      else if(resp.status===529||resp.status===503){log('❌ Anthropic API overloaded. Please try again in a few seconds.','error');}
+      else{log('❌ API Error '+resp.status+': '+errMsg,'error');}
+      setProgress(0);document.getElementById('progress-bar').style.display='none';
+      return;
+    }
+
     const data=await resp.json();
+    setProgress(80);
+    log('📥 Response received. Parsing JSON...','info');
+
     if(data.error){log('❌ API Error: '+data.error.message,'error');return;}
-    const text=data.content.map(b=>b.text||'').join('').trim().replace(/^```json\s*/,'').replace(/\s*```$/,'');
+
+    const rawText=data.content.map(b=>b.text||'').join('').trim();
+    // Strip any accidental markdown fences
+    const cleanText=rawText.replace(/^```json\s*/i,'').replace(/^```\s*/i,'').replace(/\s*```$/,'').trim();
+
     let report;
-    try{report=JSON.parse(text);}
-    catch(e){log('❌ Failed to parse JSON. Raw: '+text.slice(0,200),'error');return;}
-    setProgress(85);
-    log('✅ Data extracted successfully!','success');
+    try{
+      report=JSON.parse(cleanText);
+    }catch(e){
+      log('❌ JSON parse failed. Raw response (first 500 chars):','error');
+      log(cleanText.slice(0,500),'error');
+      log('Tip: Try uploading a smaller/cleaner PDF.','info');
+      return;
+    }
+
+    // Fix b58Sales field name collision
+    if(report.b58SalesList){report.b58Sales=report.b58SalesList;delete report.b58SalesList;}
+    if(report.b58SalesTotal){report.b58SalesTotal=report.b58SalesTotal;}
+
+    setProgress(90);
+    log('✅ JSON parsed successfully!','success');
     log('📅 Report date: '+report.date,'info');
     log('📊 NEPSE: '+report.nepseChg,'info');
     log('🏦 B58 Net: '+report.b58Net,'info');
+    log('📋 Stocks extracted: technical='+((report.technical||[]).length)+', tradePlan='+((report.tradePlan||[]).length),'info');
+
     // Save to archive
     const arc=getArchive();
     arc[report.date]=report;
     saveArchive(arc);
     setProgress(100);
-    log('💾 Report saved to archive: '+report.date,'success');
-    log('🎉 Done! View it from the frontend.','success');
+    log('💾 Archived under date: '+report.date,'success');
+    log('🎉 Complete! View it from the frontend.','success');
+
     renderArchiveList();
     populateArchiveSelect();
     renderAnalyticsBackend();
-    // Auto-load the new report
     renderReport(report);
     localStorage.setItem(CURRENT_KEY,report.date);
+
   }catch(err){
-    log('❌ Error: '+err.message,'error');
+    log('❌ Network/fetch error: '+err.message,'error');
+    log('If hosted on GitHub Pages, make sure your API key is correct and Anthropic allows browser access.','info');
+    setProgress(0);document.getElementById('progress-bar').style.display='none';
   }
 }
 
