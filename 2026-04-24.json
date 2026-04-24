@@ -151,7 +151,13 @@
     {"sym": "HRL", "ltp": "683.00", "w52h": "1103.70", "w52l": "—", "chg": "-0.29%", "rsi": "28.88", "adx": "38.56", "atr": "33.99", "aroon": "28.57%", "adOsc": "Bearish", "signal": "Bearish", "action": "AVOID"},
     {"sym": "BHL", "ltp": "220.90", "w52h": "257.70", "w52l": "167.00", "chg": "-0.05%", "rsi": "45.29", "adx": "17.17", "atr": "10.35", "aroon": "50.00%", "adOsc": "Bearish", "signal": "Neutral", "action": "HOLD"},
     {"sym": "SOHL", "ltp": "814.90", "w52h": "—", "w52l": "—", "chg": "+2.50%", "rsi": "74.04", "adx": "62.80", "atr": "54.87", "aroon": "71.43%", "adOsc": "Bullish", "signal": "Bullish", "action": "BUY"},
-    {"sym": "KBL", "ltp": "223.00", "w52h": "246.70", "w52l": "176.50", "chg": "+0.36%", "rsi": "49.95", "adx": "22.32", "atr": "9.93", "aroon": "50.00%", "adOsc": "Bearish", "signal": "Neutral", "action": "HOLD"}
+    {"sym": "KBL", "ltp": "223.00", "w52h": "246.70", "w52l": "176.50", "chg": "+0.36%", "rsi": "49.95", "adx": "22.32", "atr": "9.93", "aroon": "50.00%", "adOsc": "Bearish", "signal": "Neutral", "action": "HOLD"},
+    {"sym": "ALICL", "ltp": "458.00", "w52h": "516.00", "w52l": "424.40", "chg": "0.00%", "rsi": "44.68", "adx": "18.65", "atr": "14.12", "aroon": "71.43%", "adOsc": "Bearish", "signal": "Neutral", "action": "WATCH"},
+    {"sym": "ILI", "ltp": "437.80", "w52h": "493.70", "w52l": "411.10", "chg": "+0.32%", "rsi": "42.67", "adx": "14.65", "atr": "9.61", "aroon": "85.71%", "adOsc": "Bullish", "signal": "Neutral", "action": "WATCH"},
+    {"sym": "NIMB", "ltp": "203.50", "w52h": "242.60", "w52l": "184.60", "chg": "+0.79%", "rsi": "44.75", "adx": "20.82", "atr": "9.11", "aroon": "28.57%", "adOsc": "Bearish", "signal": "Neutral", "action": "HOLD"},
+    {"sym": "NABIL", "ltp": "518.00", "w52h": "554.60", "w52l": "476.90", "chg": "-0.38%", "rsi": "43.74", "adx": "19.65", "atr": "11.18", "aroon": "78.57%", "adOsc": "Bearish", "signal": "Neutral", "action": "WATCH"},
+    {"sym": "SKBBL", "ltp": "768.90", "w52h": "865.40", "w52l": "684.70", "chg": "-0.40%", "rsi": "44.17", "adx": "22.90", "atr": "19.16", "aroon": "92.86%", "adOsc": "Bearish", "signal": "Neutral", "action": "WATCH"},
+    {"sym": "PCBL", "ltp": "242.50", "w52h": "269.00", "w52l": "214.80", "chg": "+0.62%", "rsi": "45.72", "adx": "20.38", "atr": "7.77", "aroon": "71.43%", "adOsc": "Bullish", "signal": "Neutral", "action": "WATCH"}
   ],
   "tradePlan": [
     {"rk": "1", "sym": "RIDI", "ltp": "362.00", "w52hl": "380.00/209.00", "entry": "350-365", "stop": "330", "t1": "400", "t2": "440", "t3": "—", "rr": "1:2.0", "action": "BUY — B58 net +27K, two-day accumulation"},
