@@ -151,33 +151,16 @@ tr:hover td{background:#fafbfc;}
 .page-footer{text-align:center;font-size:10px;color:#aaa;padding:16px 0 24px;border-top:1px solid #e8ecf0;margin-top:8px;}
 
 /* BACKEND */
-/* ══ BACKEND LAYOUT ══ */
-#backend{display:none;min-height:100vh;background:#f0f2f5;}
-.be-layout{display:flex;min-height:100vh;}
-.be-sidebar{width:220px;min-width:220px;background:#1a0f0f;color:#ffcc88;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:200;}
-.be-sidebar-logo{padding:16px 16px 12px;border-bottom:1px solid #2a1a1a;}
-.be-sidebar-logo .brand{font-size:9px;color:#c0a060;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}
-.be-sidebar-logo h2{font-size:13px;font-weight:700;color:#ffcc88;line-height:1.3;}
-.be-sidebar-logo .sub{font-size:10px;color:#a08040;margin-top:2px;}
-.be-nav-label{font-size:9px;font-weight:700;color:#6a4a1a;text-transform:uppercase;letter-spacing:.1em;padding:14px 16px 5px;}
-.be-nav-item{display:flex;align-items:center;gap:8px;padding:8px 16px;cursor:pointer;font-size:12px;color:#c0a060;border-left:3px solid transparent;transition:all .15s;}
-.be-nav-item:hover{background:#2a1a0a;color:#ffcc88;border-left-color:#c0a060;}
-.be-nav-item.active{background:#2a1a0a;color:#ffcc88;border-left-color:#ffcc88;font-weight:700;}
-.be-nav-item .icon{font-size:13px;min-width:16px;text-align:center;}
-.be-sidebar-footer{padding:12px 16px;border-top:1px solid #2a1a1a;margin-top:auto;}
-.be-main{margin-left:220px;flex:1;display:flex;flex-direction:column;}
-.be-topbar{background:#1a0f0f;color:#ffcc88;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.be-topbar h1{font-size:14px;font-weight:700;}
-.be-content{padding:22px;max-width:1100px;}
-.be-section{display:none;}.be-section.active{display:block;}
+#backend{display:none;flex:1;min-height:100vh;background:#f0f2f5;}
+.backend-topbar{background:#1a0f0f;color:#ffcc88;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;}
+.backend-topbar h1{font-size:15px;font-weight:700;}
+.backend-content{padding:24px;max-width:960px;margin:0 auto;}
 .be-card{background:#fff;border-radius:10px;border:1px solid #e2e6ea;padding:1.25rem 1.5rem;margin-bottom:1.25rem;}
-.be-card-title{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #e8ecf0;display:flex;align-items:center;gap:8px;}
-.be-two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-.be-three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;}
+.be-card-title{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #e8ecf0;}
 .prompt-box{background:#f8fafc;border:1px solid #e8ecf0;border-radius:8px;padding:14px;font-size:11px;font-family:monospace;line-height:1.7;color:#333;white-space:pre-wrap;word-break:break-word;max-height:340px;overflow-y:auto;}
 .copy-btn{background:#1a5276;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;margin-top:8px;}
 .copy-btn:hover{background:#154360;}
-.steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:0;}
 .step-card{background:#f8fafc;border-radius:8px;padding:14px;border:1px solid #e8ecf0;border-top:3px solid #1e7e34;}
 .step-card h4{font-size:12px;font-weight:700;margin-bottom:6px;color:#1a1a1a;}
 .step-card p,.step-card li{font-size:11px;color:#555;line-height:1.7;}
@@ -187,115 +170,13 @@ tr:hover td{background:#fafbfc;}
 .archive-table th{text-align:left;padding:8px 10px;font-size:11px;font-weight:700;background:#f4f6f8;border-bottom:2px solid #e2e6ea;}
 .archive-table td{padding:8px 10px;border-bottom:1px solid #f0f2f4;}
 .archive-table tr:hover td{background:#fafbfc;}
+.analytics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.analytics-card{background:#f8fafc;border-radius:8px;padding:14px;text-align:center;border:1px solid #e8ecf0;}
+.analytics-card .val{font-size:22px;font-weight:700;}.analytics-card .lbl{font-size:10px;color:#888;margin-top:3px;}
 .status-pill{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;margin-left:8px;}
 .pill-ok{background:#e6f7ee;color:#1e7e34;}.pill-err{background:#fdecea;color:#c0392b;}.pill-loading{background:#eaf2fb;color:#1a5276;}
-.an-kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px;}
-.an-kpi{background:#f8fafc;border-radius:8px;padding:12px 10px;text-align:center;border:1px solid #e8ecf0;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;}
-.an-kpi:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08);}
-.an-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.an-kpi.kpi-blue::before{background:#1a5276;}.an-kpi.kpi-green::before{background:#1e7e34;}.an-kpi.kpi-amber::before{background:#b8860b;}
-.an-kpi.kpi-red::before{background:#c0392b;}.an-kpi.kpi-purple::before{background:#6c3483;}.an-kpi.kpi-teal::before{background:#148f77;}
-.an-kpi .kv{font-size:22px;font-weight:700;line-height:1;margin-bottom:3px;}
-.an-kpi .kl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.05em;}
-.an-kpi .kt{font-size:9px;margin-top:2px;font-weight:600;}
-.an-kpi .kt.up{color:#1e7e34;}.an-kpi .kt.down{color:#c0392b;}.an-kpi .kt.flat{color:#888;}
-.an-panel{background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;padding:12px;}
-.an-panel-title{font-size:10px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
-.an-two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
-.an-three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
-.donut-wrap{position:relative;width:180px;height:180px;margin:0 auto;}
-.donut-wrap svg{width:180px;height:180px;transform:rotate(-90deg);}
-.donut-seg{transition:stroke-width .2s,opacity .2s;cursor:pointer;}
-.donut-seg:hover{stroke-width:28px;opacity:.9;}
-.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;}
-.donut-center .dc-val{font-size:26px;font-weight:700;color:#1a1a1a;line-height:1;}
-.donut-center .dc-lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.05em;}
-.donut-legend{display:flex;flex-direction:column;gap:6px;justify-content:center;}
-.donut-leg-item{display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;padding:7px 10px;border-radius:6px;transition:background .15s;}
-.donut-leg-item:hover{background:#eef2f7;}
-.donut-leg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
-.donut-leg-label{flex:1;color:#444;}
-.donut-leg-val{font-weight:700;color:#1a1a1a;}
-.donut-leg-pct{font-size:10px;color:#888;margin-left:4px;}
-.geo-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #f0f2f4;font-size:11px;}
-.geo-row:last-child{border-bottom:none;}
-.geo-flag{font-size:14px;min-width:22px;}
-.geo-bar-wrap{flex:1;background:#e8ecf0;border-radius:2px;height:5px;}
-.geo-bar{height:5px;border-radius:2px;background:#1a5276;transition:width .5s ease;}
-.geo-count{font-weight:700;color:#1a5276;min-width:28px;text-align:right;font-size:10px;}
-.visitor-row{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid #f0f2f4;font-size:11px;}
-.visitor-row:last-child{border-bottom:none;}
-.vis-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
-.vis-new{background:#e8f8e8;color:#1e7e34;}.vis-ret{background:#eaf2fb;color:#1a5276;}
-.vis-info{flex:1;}.vis-loc{font-weight:600;color:#1a1a1a;}.vis-meta{font-size:10px;color:#888;margin-top:1px;}
-.vis-time{font-size:9px;color:#aaa;white-space:nowrap;}
-.badge-new{background:#e8f8e8;color:#1e7e34;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;}
-.badge-ret{background:#eaf2fb;color:#1a5276;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;}
-.device-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;font-size:11px;border-bottom:1px solid #f0f2f4;}
-.device-item:last-child{border-bottom:none;}
-.page-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:11px;border-bottom:1px solid #f0f2f4;}
-.page-row:last-child{border-bottom:none;}
-.hr-col{display:flex;flex-direction:column;align-items:center;flex:1;}
-.hr-bar{width:100%;border-radius:2px 2px 0 0;background:#1a5276;min-height:2px;transition:height .3s;}
-.hr-label{font-size:8px;color:#aaa;margin-top:2px;}
-.hourly-bar-row{display:flex;align-items:flex-end;gap:3px;height:60px;padding:0 0 4px;}
-.an-tabs{display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid #e2e6ea;}
-.an-tab{padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;}
-.an-tab.active{color:#1a5276;border-bottom-color:#1a5276;}
-.an-tab-content{display:none;}.an-tab-content.active{display:block;}
-.heatmap-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:6px;}
-.heatmap-cell{height:20px;border-radius:3px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;}
-.heatmap-cell:hover{transform:scale(1.4);box-shadow:0 2px 8px rgba(0,0,0,.2);z-index:2;}
-.heatmap-cell:hover::after{content:attr(data-tip);position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:9px;padding:3px 7px;border-radius:4px;white-space:nowrap;pointer-events:none;}
-.insight-strip{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;margin-bottom:7px;border:1px solid #e8ecf0;}
-.insight-strip.pos{background:#f0faf4;border-color:#a8dfc0;}
-.insight-strip.neg{background:#fef5f5;border-color:#f0c0c0;}
-.insight-strip.neu{background:#f8fafc;border-color:#e2e6ea;}
-.insight-strip .is-icon{font-size:18px;}
-.insight-strip .is-text{font-size:11px;color:#444;line-height:1.5;}
-.insight-strip .is-val{font-size:13px;font-weight:700;margin-left:auto;white-space:nowrap;}
-@media(max-width:768px){
-  .be-sidebar{transform:translateX(-100%);}
-  .be-sidebar.open{transform:translateX(0);}
-  .be-main{margin-left:0;}
-  .an-kpi-grid,.be-three-col{grid-template-columns:repeat(2,1fr);}
-  .an-two-col,.an-three-col,.be-two-col,.steps-grid{grid-template-columns:1fr;}
-}
-/* ── B58 ANALYSIS SECTION ── */
-.b58a-kpi{background:#f8fafc;border-radius:8px;padding:12px;text-align:center;border:1px solid #e8ecf0;border-top:3px solid #1a0f0f;}
-.b58a-kpi .val{font-size:20px;font-weight:700;line-height:1.1;}.b58a-kpi .lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-top:3px;}
-.b58a-kpi .sub{font-size:10px;color:#aaa;margin-top:2px;}
-.b58a-bar-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f0f2f4;font-size:11px;}
-.b58a-bar-row:last-child{border-bottom:none;}
-.b58a-sym{font-weight:700;min-width:52px;color:#1a1a1a;}
-.b58a-bar-wrap{flex:1;height:14px;background:#f0f2f4;border-radius:3px;overflow:hidden;position:relative;}
-.b58a-bar-buy{height:14px;background:linear-gradient(90deg,#1e7e34,#27ae60);border-radius:3px;transition:width .5s ease;}
-.b58a-bar-sell{height:14px;background:linear-gradient(90deg,#c0392b,#e74c3c);border-radius:3px;transition:width .5s ease;}
-.b58a-val{min-width:70px;text-align:right;font-size:10px;font-weight:700;}
-.b58a-days{min-width:24px;text-align:right;font-size:9px;color:#aaa;}
-.b58a-chart-wrap{height:180px;display:flex;align-items:flex-end;gap:2px;padding:4px 0;}
-.b58a-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;transition:opacity .15s;}
-.b58a-col:hover{opacity:.8;}
-.b58a-col-buy{border-radius:2px 2px 0 0;background:#27ae60;min-height:2px;}
-.b58a-col-sell{border-radius:0 0 2px 2px;background:#e74c3c;min-height:2px;}
-.b58a-col-net-pos{border-radius:2px 2px 0 0;background:#1a5276;min-height:2px;}
-.b58a-col-net-neg{border-radius:2px 2px 0 0;background:#c0392b;min-height:2px;}
-.b58a-date-label{font-size:8px;color:#aaa;transform:rotate(-35deg);margin-top:3px;white-space:nowrap;}
-.b58a-timeline-wrap{overflow-x:auto;}
-.b58a-tl-row{display:grid;align-items:center;padding:4px 0;border-bottom:1px solid #f8f8f8;font-size:10px;gap:3px;}
-.b58a-tl-row:hover{background:#fafbfc;}
-.b58a-tl-cell{text-align:center;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}
-.tl-buy{background:#e8f8e8;color:#1e7e34;}
-.tl-sell{background:#fde8e8;color:#c0392b;}
-.tl-both{background:#fff3cd;color:#856404;}
-.tl-none{background:#f8f8f8;color:#ccc;}
-.b58a-tabs{display:flex;gap:0;border-bottom:2px solid #e2e6ea;margin-bottom:14px;}
-.b58a-tab{padding:7px 16px;font-size:11px;font-weight:700;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;}
-.b58a-tab.active{color:#1a0f0f;border-bottom-color:#1a0f0f;}
-.b58a-tab-content{display:none;}.b58a-tab-content.active{display:block;}
-.stance-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;}
-.stance-buy{background:#e8f8e8;color:#1e7e34;}.stance-sell{background:#fde8e8;color:#c0392b;}
-.b58a-stock-select{padding:6px 10px;font-size:11px;border:1px solid #ddd;border-radius:6px;outline:none;background:#fff;cursor:pointer;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90;}
+.overlay.show{display:block;}
 
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%);}
@@ -307,7 +188,6 @@ tr:hover td{background:#fafbfc;}
   .ap-grid,.sectors-grid{grid-template-columns:1fr;}
 }
 </style>
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </head>
 <body>
 
@@ -363,11 +243,9 @@ tr:hover td{background:#fafbfc;}
     <div class="nav-item" onclick="showSection('b58-overview',this)"><span class="icon">🏦</span> B58 Overview <span class="nav-badge nb-gold" id="nav-b58">—</span></div>
     <div class="nav-item" onclick="showSection('net-accum',this)"><span class="icon">📋</span> Net Accumulation</div>
     <div class="nav-item" onclick="showSection('heatmap',this)"><span class="icon">🟩</span> Heatmap</div>
-    <div class="nav-item" onclick="showSection('b58-analysis',this)"><span class="icon">📐</span> B58 Analysis</div>
     <div class="nav-label">Technical &amp; Trade</div>
     <div class="nav-item" onclick="showSection('technical',this)"><span class="icon">📉</span> Technical Analysis</div>
     <div class="nav-item" onclick="showSection('trade-plan',this)"><span class="icon">🎯</span> Trade Plan</div>
-    <div class="nav-item" onclick="showSection('analysis',this)"><span class="icon">📈</span> Python Analysis</div>
     <div class="nav-label">Insights &amp; Actions</div>
     <div class="nav-item" onclick="showSection('key-insights',this)"><span class="icon">💡</span> Key Insights</div>
     <div class="nav-item" onclick="showSection('action-plan',this)"><span class="icon">✅</span> Action Plan</div>
@@ -405,252 +283,42 @@ tr:hover td{background:#fafbfc;}
 
 <!-- BACKEND -->
 <div id="backend">
-  <div class="be-layout">
-
-    <!-- BACKEND SIDEBAR -->
-    <nav class="be-sidebar" id="be-sidebar">
-      <div class="be-sidebar-logo">
-        <div class="brand">BROKER 58 — NAASA SECURITIES</div>
-        <h2>Admin Panel</h2>
-        <div class="sub">NEPSE B58 Report Manager</div>
-      </div>
-      <div class="be-nav-label">Dashboard</div>
-      <div class="be-nav-item active" onclick="showBeSection('be-analytics',this)"><span class="icon">📊</span> Analytics</div>
-      <div class="be-nav-label">Report Management</div>
-      <div class="be-nav-item" onclick="showBeSection('be-workflow',this)"><span class="icon">🗺️</span> How to Add Report</div>
-      <div class="be-nav-item" onclick="showBeSection('be-prompt',this)"><span class="icon">📋</span> Claude Prompt</div>
-      <div class="be-nav-item" onclick="showBeSection('be-repo',this)"><span class="icon">📦</span> GitHub Repo <span id="be-repo-pill" style="margin-left:auto;font-size:9px;background:#4d3a0a;color:#f0d080;padding:2px 6px;border-radius:999px;">—</span></div>
-      <div class="be-nav-label">Analytics Setup</div>
-      <div class="be-nav-item" onclick="showBeSection('be-gas-setup',this)"><span class="icon">🔗</span> Google Sheets</div>
-      <div class="be-sidebar-footer">
-        <button class="btn btn-outline" onclick="showFrontend()" style="font-size:11px;padding:7px 12px;width:100%;margin-bottom:6px;">← View Report</button>
-        <button class="btn btn-danger" onclick="adminLogout()" style="font-size:11px;padding:7px 12px;width:100%;">Logout</button>
-      </div>
-    </nav>
-
-    <!-- BACKEND MAIN -->
-    <div class="be-main">
-      <div class="be-topbar">
-        <h1 id="be-section-title">📊 Analytics Dashboard</h1>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span id="an-live-dot" style="display:inline-block;width:7px;height:7px;background:#27ae60;border-radius:50%;animation:pulse 2s infinite;"></span>
-          <span style="font-size:11px;color:#ffcc88;" id="an-status-bar">Loading...</span>
+  <div class="backend-topbar">
+    <h1>⚙️ Admin — NEPSE B58 Report Manager</h1>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-outline" onclick="showFrontend()" style="font-size:12px;padding:7px 14px;">← View Report</button>
+      <button class="btn btn-danger" onclick="adminLogout()" style="font-size:12px;padding:7px 14px;">Logout</button>
+    </div>
+  </div>
+  <div class="backend-content">
+    <div class="be-card">
+      <div class="be-card-title">🗺️ How to Add a New Daily Report</div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <h4>Step 1 — Generate JSON via Claude</h4>
+          <ol>
+            <li>Open <strong>claude.ai</strong> in a new tab</li>
+            <li>Upload your NEPSE PDF report</li>
+            <li>Copy the prompt below and paste it to Claude</li>
+            <li>Claude returns a JSON object</li>
+          </ol>
+        </div>
+        <div class="step-card" style="border-top-color:#2980b9;">
+          <h4>Step 2 — Upload to GitHub Repo</h4>
+          <ol>
+            <li>Go to <a href="https://github.com/SagunPrajapati/share" target="_blank" style="color:#1a5276;">github.com/SagunPrajapati/share</a></li>
+            <li>Click <strong>Add file → Create new file</strong></li>
+            <li>Name it <code>YYYY-MM-DD.json</code> (e.g. <code>2026-04-17.json</code>)</li>
+            <li>Paste the JSON → click <strong>Commit changes</strong></li>
+            <li>Click <strong>🔄 Refresh Dates</strong> on the frontend</li>
+          </ol>
         </div>
       </div>
-      <div class="be-content">
-
-        <!-- ── ANALYTICS SECTION (default open) ── -->
-        <div class="be-section active" id="be-analytics">
-
-          <!-- KPI Row -->
-          <div class="an-kpi-grid" id="an-kpi-grid">
-            <div class="an-kpi kpi-blue"><div class="kv blue" id="an-total">—</div><div class="kl">Total Views</div><div class="kt flat" id="an-total-t"></div></div>
-            <div class="an-kpi kpi-green"><div class="kv green" id="an-today">—</div><div class="kl">Today</div><div class="kt flat" id="an-today-t"></div></div>
-            <div class="an-kpi kpi-purple"><div class="kv" style="color:#6c3483" id="an-unique">—</div><div class="kl">Unique Visitors</div><div class="kt flat" id="an-unique-t"></div></div>
-            <div class="an-kpi kpi-teal"><div class="kv" style="color:#148f77" id="an-new">—</div><div class="kl">New Visitors</div><div class="kt up" id="an-new-t"></div></div>
-            <div class="an-kpi kpi-amber"><div class="kv amber" id="an-return">—</div><div class="kl">Returning</div><div class="kt flat" id="an-return-t"></div></div>
-            <div class="an-kpi kpi-red"><div class="kv" style="color:#c0392b" id="an-countries">—</div><div class="kl">Countries</div><div class="kt flat"></div></div>
-          </div>
-
-          <!-- Row 1: Daily chart + Donut -->
-          <div class="an-two-col">
-            <div class="an-panel" style="grid-column:span 1;">
-              <div class="an-panel-title">📈 Daily Traffic — Last 30 Days</div>
-              <div id="an-daily-chart" style="height:80px;display:flex;align-items:flex-end;gap:3px;"></div>
-              <div id="an-daily-labels" style="display:flex;gap:3px;margin-top:4px;"></div>
-            </div>
-            <div class="an-panel">
-              <div class="an-panel-title">🍩 New vs Returning Visitors</div>
-              <div style="display:flex;align-items:center;gap:20px;padding:8px 0;">
-                <div class="donut-wrap" id="donut-wrap">
-                  <svg viewBox="0 0 100 100" id="donut-svg"></svg>
-                  <div class="donut-center"><div class="dc-val" id="donut-center-val">—</div><div class="dc-lbl" id="donut-center-lbl">visitors</div></div>
-                </div>
-                <div class="donut-legend" id="donut-legend"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Row 2: Hourly + Devices + Pages -->
-          <div class="an-three-col">
-            <div class="an-panel">
-              <div class="an-panel-title">⏰ Hourly Distribution (Today)</div>
-              <div class="hourly-bar-row" id="an-hourly"></div>
-            </div>
-            <div class="an-panel">
-              <div class="an-panel-title">📱 Device Breakdown</div>
-              <div id="an-devices"></div>
-            </div>
-            <div class="an-panel">
-              <div class="an-panel-title">📄 Top Pages Viewed</div>
-              <div id="an-pages"></div>
-            </div>
-          </div>
-
-          <!-- Row 3: Activity Heatmap -->
-          <div class="be-card">
-            <div class="be-card-title">🗓️ Activity Heatmap — Last 12 Weeks</div>
-            <div style="display:flex;gap:8px;align-items:flex-start;overflow-x:auto;">
-              <div style="display:flex;flex-direction:column;gap:3px;padding-top:22px;">
-                <div style="font-size:9px;color:#aaa;height:20px;line-height:20px;">Mon</div>
-                <div style="font-size:9px;color:#aaa;height:20px;line-height:20px;">Wed</div>
-                <div style="font-size:9px;color:#aaa;height:20px;line-height:20px;">Fri</div>
-              </div>
-              <div id="an-heatmap-wrap" style="flex:1;"></div>
-            </div>
-            <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:10px;color:#888;">
-              <span>Less</span>
-              <div style="display:flex;gap:2px;">
-                <div style="width:12px;height:12px;background:#eef2f7;border-radius:2px;"></div>
-                <div style="width:12px;height:12px;background:#b0c8e0;border-radius:2px;"></div>
-                <div style="width:12px;height:12px;background:#6699cc;border-radius:2px;"></div>
-                <div style="width:12px;height:12px;background:#2266aa;border-radius:2px;"></div>
-                <div style="width:12px;height:12px;background:#1a3a6a;border-radius:2px;"></div>
-              </div>
-              <span>More</span>
-            </div>
-          </div>
-
-          <!-- Row 4: Analytics tabs (Visitors / Geo / Insights) -->
-          <div class="be-card">
-            <div class="an-tabs">
-              <div class="an-tab active" onclick="switchAnTab('overview',this)">👥 Visitors</div>
-              <div class="an-tab" onclick="switchAnTab('geo',this)">🌍 Geography</div>
-              <div class="an-tab" onclick="switchAnTab('behaviour',this)">🧠 Insights</div>
-              <div class="an-tab" onclick="switchAnTab('reports',this)">📅 Report Stats</div>
-            </div>
-
-            <!-- Visitors -->
-            <div class="an-tab-content active" id="ant-overview">
-              <div style="display:flex;gap:8px;margin-bottom:10px;">
-                <input type="text" id="an-visitor-search" placeholder="Search by city, country, device..." style="flex:1;padding:6px 10px;font-size:11px;border:1px solid #ddd;border-radius:6px;outline:none;" oninput="filterVisitors(this.value)">
-                <select id="an-visitor-filter" style="padding:6px 8px;font-size:11px;border:1px solid #ddd;border-radius:6px;outline:none;" onchange="filterVisitors('')">
-                  <option value="all">All visitors</option>
-                  <option value="new">New only</option>
-                  <option value="returning">Returning only</option>
-                </select>
-              </div>
-              <div id="an-visitor-list" style="max-height:320px;overflow-y:auto;"></div>
-            </div>
-
-            <!-- Geo -->
-            <div class="an-tab-content" id="ant-geo">
-              <div class="an-two-col">
-                <div class="an-panel">
-                  <div class="an-panel-title">Top Countries</div>
-                  <div id="an-countries-list"></div>
-                </div>
-                <div class="an-panel">
-                  <div class="an-panel-title">Top Cities</div>
-                  <div id="an-cities-list"></div>
-                </div>
-              </div>
-              <div class="an-panel">
-                <div class="an-panel-title">All Visitor Locations</div>
-                <div id="an-location-tags" style="display:flex;flex-wrap:wrap;gap:5px;padding-top:4px;"></div>
-              </div>
-            </div>
-
-            <!-- Insights -->
-            <div class="an-tab-content" id="ant-behaviour">
-              <div class="an-three-col">
-                <div class="trend-card">
-                  <div class="trend-val blue" id="an-avg-session">—</div>
-                  <div class="trend-lbl">Avg Session</div>
-                  <div class="trend-sub">minutes per visit</div>
-                </div>
-                <div class="trend-card">
-                  <div class="trend-val green" id="an-ppv">—</div>
-                  <div class="trend-lbl">Pages / Visit</div>
-                  <div class="trend-sub">avg sections viewed</div>
-                </div>
-                <div class="trend-card">
-                  <div class="trend-val amber" id="an-bounce">—</div>
-                  <div class="trend-lbl">Bounce Rate</div>
-                  <div class="trend-sub">single-page sessions</div>
-                </div>
-              </div>
-              <div class="an-panel" style="margin-bottom:12px;">
-                <div class="an-panel-title">🔥 Peak Activity Hours</div>
-                <div id="an-peak-times" style="display:flex;flex-wrap:wrap;gap:6px;padding-top:4px;"></div>
-              </div>
-              <div class="an-panel">
-                <div class="an-panel-title">🤖 Auto Insights</div>
-                <div id="an-auto-insights"></div>
-              </div>
-            </div>
-
-            <!-- Report Stats -->
-            <div class="an-tab-content" id="ant-reports">
-              <div class="an-two-col">
-                <div class="an-panel">
-                  <div class="an-panel-title">📅 Most Viewed Report Dates</div>
-                  <div id="an-top-reports"></div>
-                </div>
-                <div class="an-panel">
-                  <div class="an-panel-title">📊 Report Views Trend</div>
-                  <div id="an-report-trend" style="height:80px;display:flex;align-items:flex-end;gap:4px;"></div>
-                </div>
-              </div>
-              <div class="an-panel">
-                <div class="an-panel-title">📋 All Reports Archive</div>
-                <div id="an-reports-table"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Actions -->
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-outline" onclick="exportEnhancedLog()" style="font-size:11px;padding:8px 16px;">⬇ Export CSV</button>
-            <button class="btn btn-outline" onclick="renderBeAnalytics()" style="font-size:11px;padding:8px 16px;">🔄 Refresh Data</button>
-            <button class="btn btn-danger" onclick="resetAnalytics()" style="font-size:11px;padding:8px 16px;">🗑 Reset Local Data</button>
-            <span id="be-count" style="display:none;"></span>
-          </div>
-        </div>
-
-        <!-- ── WORKFLOW SECTION ── -->
-        <div class="be-section" id="be-workflow">
-          <div class="be-card">
-            <div class="be-card-title">🗺️ How to Add a New Daily Report</div>
-            <div class="steps-grid">
-              <div class="step-card">
-                <h4>Step 1 — Generate JSON via Claude</h4>
-                <ol>
-                  <li>Open <strong>claude.ai</strong> in a new tab</li>
-                  <li>Upload your NEPSE PDF report</li>
-                  <li>Go to the <strong>Claude Prompt</strong> section in this panel</li>
-                  <li>Copy the prompt and paste it to Claude</li>
-                  <li>Claude returns a JSON object</li>
-                </ol>
-              </div>
-              <div class="step-card" style="border-top-color:#2980b9;">
-                <h4>Step 2 — Upload to GitHub Repo</h4>
-                <ol>
-                  <li>Go to <a href="https://github.com/SagunPrajapati/share" target="_blank" style="color:#1a5276;">github.com/SagunPrajapati/share</a></li>
-                  <li>Click <strong>Add file → Create new file</strong></li>
-                  <li>Name it <code>YYYY-MM-DD.json</code> (e.g. <code>2026-04-29.json</code>)</li>
-                  <li>Paste the JSON → click <strong>Commit changes</strong></li>
-                  <li>Click <strong>🔄 Refresh Dates</strong> on the frontend</li>
-                </ol>
-              </div>
-            </div>
-          </div>
-          <div class="be-card" style="background:#f0faf4;border-color:#a8dfc0;">
-            <div class="be-card-title" style="color:#1e5c34;">💡 Pro Tips</div>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <div class="insight-strip pos"><span class="is-icon">📸</span><span class="is-text">Collect screenshots of: NEPSE Index, Sub-Indices, Top Gainers/Losers/Turnover/Volume, B58 Floorsheet (Buy+Sell), and individual stock charts from nepsealpha.com</span></div>
-              <div class="insight-strip neu"><span class="is-icon">⏱</span><span class="is-text">Best time to collect data: <strong>After 3:00 PM</strong> once the market closes and all floorsheet data is finalized</span></div>
-              <div class="insight-strip neu"><span class="is-icon">📊</span><span class="is-text">For each stock chart: capture RSI, ADX, ATR, Aroon, and the Accumulation/Distribution Oscillator values from nepsealpha.com charts</span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── CLAUDE PROMPT SECTION ── -->
-        <div class="be-section" id="be-prompt">
-          <div class="be-card">
-            <div class="be-card-title">📋 Claude Prompt — Copy and send with your PDF</div>
-            <p style="font-size:12px;color:#555;margin-bottom:12px;">Upload your NEPSE screenshots/PDF to Claude and paste this prompt. Copy the entire JSON response and save as <code style="background:#eef;padding:2px 5px;border-radius:3px;font-size:11px;">YYYY-MM-DD.json</code> in your GitHub repo.</p>
-            <div class="prompt-box" id="prompt-box">Extract ALL data from this NEPSE Daily Master Report PDF and return ONLY a valid JSON object. No markdown, no explanation, no backticks — just raw JSON starting with { and ending with }.
+    </div>
+    <div class="be-card">
+      <div class="be-card-title">📋 Claude Prompt — Copy and send with your PDF</div>
+      <p style="font-size:12px;color:#555;margin-bottom:12px;">Upload your NEPSE PDF to Claude and paste this prompt.</p>
+      <div class="prompt-box" id="prompt-box">Extract ALL data from this NEPSE Daily Master Report PDF and return ONLY a valid JSON object. No markdown, no explanation, no backticks — just raw JSON starting with { and ending with }.
 
 Use this EXACT structure (fill every field found in the PDF, use [] or "—" if not found):
 {
@@ -693,63 +361,39 @@ RULES:
 - "type" in actionPlan: urgent / monitor / watch / caution / avoid-row
 - "convWidth" in netAccum: number 10-100 based on conviction bar length shown
 - Return ONLY the JSON object — nothing before { or after }</div>
-            <button class="copy-btn" onclick="copyPrompt()">📋 Copy Prompt</button>
-            <span id="copy-confirm" style="font-size:11px;color:#1e7e34;margin-left:10px;display:none;">✅ Copied!</span>
-          </div>
-        </div>
-
-        <!-- ── GITHUB REPO SECTION ── -->
-        <div class="be-section" id="be-repo">
-          <div class="be-card">
-            <div class="be-card-title">📦 GitHub Repository Status
-              <span class="status-pill pill-loading" id="repo-status-pill">Checking...</span>
-            </div>
-            <p style="font-size:12px;color:#555;margin-bottom:12px;">Repo: <a href="https://github.com/SagunPrajapati/share" target="_blank" style="color:#1a5276;font-weight:700;">github.com/SagunPrajapati/share</a></p>
-            <div id="repo-file-list"><p style="font-size:12px;color:#aaa;">Loading...</p></div>
-            <button class="btn btn-outline" onclick="checkRepo()" style="margin-top:12px;font-size:12px;padding:8px 16px;">🔄 Refresh Repo Status</button>
-          </div>
-        </div>
-
-        <!-- ── GOOGLE SHEETS SETUP ── -->
-        <div class="be-section" id="be-gas-setup">
-          <div class="be-card">
-            <div class="be-card-title">🔗 Google Sheets Analytics Connection</div>
-            <div id="an-status-bar-2" style="font-size:12px;color:#1e7e34;margin-bottom:14px;padding:10px;background:#f0faf4;border-radius:6px;border:1px solid #a8dfc0;"></div>
-            <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-              <input type="text" id="gas-url-input" placeholder="https://script.google.com/macros/s/YOUR_ID/exec" style="flex:1;padding:8px 12px;font-size:11px;border:1px solid #ddd;border-radius:6px;outline:none;">
-              <button class="btn btn-primary" onclick="saveGasUrl()" style="font-size:11px;padding:9px 16px;white-space:nowrap;">💾 Save & Connect</button>
-            </div>
-            <div style="background:#fffbf0;border:1px solid #f0d080;border-radius:8px;padding:14px;margin-top:14px;">
-              <div style="font-size:12px;font-weight:700;color:#7a5a00;margin-bottom:10px;">⚙️ Setup Instructions</div>
-              <div class="steps-grid">
-                <div class="step-card">
-                  <h4>Step 1 — Create Google Sheet</h4>
-                  <ol>
-                    <li>Go to <a href="https://sheets.new" target="_blank" style="color:#1a5276;">sheets.new</a></li>
-                    <li>Name it <code>NEPSE B58 Analytics</code></li>
-                    <li>Click <strong>Extensions → Apps Script</strong></li>
-                  </ol>
-                </div>
-                <div class="step-card" style="border-top-color:#8e44ad;">
-                  <h4>Step 2 — Deploy Web App</h4>
-                  <ol>
-                    <li>Paste the analytics script</li>
-                    <li>Click <strong>Deploy → New deployment</strong></li>
-                    <li>Type: <strong>Web App</strong>, Access: <strong>Anyone</strong></li>
-                    <li>Copy the URL and paste above</li>
-                  </ol>
-                </div>
-              </div>
-              <div style="margin-top:10px;">
-                <button class="btn btn-outline" onclick="downloadGasScript()" style="font-size:11px;padding:8px 14px;">⬇ Download analytics-webhook.gs</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- end be-content -->
-    </div><!-- end be-main -->
-  </div><!-- end be-layout -->
+      <button class="copy-btn" onclick="copyPrompt()">📋 Copy Prompt</button>
+      <span id="copy-confirm" style="font-size:11px;color:#1e7e34;margin-left:10px;display:none;">✅ Copied!</span>
+    </div>
+    <div class="be-card">
+      <div class="be-card-title">📦 GitHub Repository Status
+        <span class="status-pill pill-loading" id="repo-status-pill">Checking...</span>
+      </div>
+      <p style="font-size:12px;color:#555;margin-bottom:12px;">Repo: <a href="https://github.com/SagunPrajapati/share" target="_blank" style="color:#1a5276;font-weight:700;">github.com/SagunPrajapati/share</a></p>
+      <div id="repo-file-list"><p style="font-size:12px;color:#aaa;">Loading...</p></div>
+      <button class="btn btn-outline" onclick="checkRepo()" style="margin-top:12px;font-size:12px;padding:8px 16px;">🔄 Refresh Repo Status</button>
+    </div>
+    <div class="be-card">
+      <div class="be-card-title">📊 Page Analytics</div>
+      <div class="analytics-grid">
+        <div class="analytics-card"><div class="val blue" id="be-total">0</div><div class="lbl">Total Views</div></div>
+        <div class="analytics-card"><div class="val green" id="be-today">0</div><div class="lbl">Views Today</div></div>
+        <div class="analytics-card"><div class="val amber" id="be-count">0</div><div class="lbl">Dates Available</div></div>
+        <div class="analytics-card"><div class="val" style="font-size:13px;" id="be-last">—</div><div class="lbl">Last Viewed</div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:12px;font-weight:700;margin-bottom:8px;">Daily View Chart</div>
+        <div id="be-chart" style="display:flex;align-items:flex-end;gap:5px;height:90px;padding:8px;background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;"></div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:8px;">Recent View Log</div>
+        <div id="be-log" style="max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button class="btn btn-outline" onclick="exportLog()" style="flex:1;font-size:12px;">⬇ Export CSV</button>
+        <button class="btn btn-danger" onclick="resetAnalytics()" style="flex:1;font-size:12px;">🗑 Reset Analytics</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -759,647 +403,31 @@ RULES:
 const GITHUB_USER='SagunPrajapati',GITHUB_REPO='share',GITHUB_BRANCH='main';
 const RAW_BASE=`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
 const API_BASE=`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents`;
-const ADMIN_PASS='sabina#7',CACHE_KEY='nepse_b58_dates';
+const ADMIN_PASS='sabina#7',AN_KEY='nepse_b58_an',CACHE_KEY='nepse_b58_dates';
 
 // ═══════════════════════════════════════════════
 //  ANALYTICS
 // ═══════════════════════════════════════════════
-// ═══════════════════════════════════════════════
-// ═══════════════════════════════════════════════
-//  ANALYTICS ENGINE v3 — Google Sheets Backend
-// ═══════════════════════════════════════════════
-const AN_KEY='nepse_b58_an_v2', VID_KEY='nepse_b58_vid';
-const GAS_URL = localStorage.getItem('nepse_gas_url') || 'https://script.google.com/macros/s/AKfycbyT5uc1x5rIvji3Xfkh46jQJ7KfYNLZZSQEsbwC2SdXa1lvji6MEd7YDupbPTbRT8axlw/exec';
-
 function todayKey(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function fmtTime(ts){const d=new Date(ts);return d.toLocaleDateString('en-NP',{month:'short',day:'numeric'})+' '+d.toLocaleTimeString('en-NP',{hour:'2-digit',minute:'2-digit',hour12:true});}
-function fmtTimeShort(ts){const d=new Date(ts);return d.toLocaleTimeString('en-NP',{hour:'2-digit',minute:'2-digit',hour12:true});}
-
-function getVisitorId(){
-  let vid=localStorage.getItem(VID_KEY);
-  if(!vid){vid='v_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);localStorage.setItem(VID_KEY,vid);}
-  return vid;
-}
-function getAn(){try{return JSON.parse(localStorage.getItem(AN_KEY)||'{"total":0,"visitors":[],"daily":{},"pages":{},"reports":{}}') }catch(e){return{total:0,visitors:[],daily:{},pages:{},reports:{}};}}
-function saveAn(d){if(d.visitors&&d.visitors.length>300)d.visitors=d.visitors.slice(0,300);localStorage.setItem(AN_KEY,JSON.stringify(d));}
-
-async function fetchGeo(){
-  try{
-    const r=await fetch('https://ipapi.co/json/?fields=ip,city,region,country_name,country_code,org,timezone',{signal:AbortSignal.timeout(5000)});
-    if(!r.ok)throw new Error();
-    return await r.json();
-  }catch(e){return{ip:'',city:'Unknown',region:'',country_name:'Unknown',country_code:'XX',org:'',timezone:''};}}
-
-function getDevice(){
-  const ua=navigator.userAgent;
-  if(/iPad|Tablet/i.test(ua))return'Tablet';
-  if(/Mobi|Android|iPhone/i.test(ua))return'Mobile';
-  return'Desktop';
-}
-
-function pingGAS(params){
-  if(!GAS_URL||!GAS_URL.startsWith('https://'))return;
-  try{
-    const url=GAS_URL+'?'+new URLSearchParams(params).toString();
-    const img=new Image();img.src=url;
-    fetch(url,{mode:'no-cors',cache:'no-store'}).catch(()=>{});
-  }catch(e){}
-}
-
-async function recordView(date){
-  const a=getAn(),k=todayKey(),vid=getVisitorId();
-  const hour=new Date().getHours();
-  a.total=(a.total||0)+1;
-  if(!a.daily[k])a.daily[k]={count:0,hours:{}};
-  a.daily[k].count=(a.daily[k].count||0)+1;
-  a.daily[k].hours[hour]=(a.daily[k].hours[hour]||0)+1;
-  const page=date||'home';
-  a.pages[page]=(a.pages[page]||0)+1;
-  if(date&&date.match(/^\d{4}-\d{2}-\d{2}$/))a.reports[date]=(a.reports[date]||0)+1;
-  const isNew=!a.visitors||!a.visitors.find(v=>v.vid===vid);
-  const rec={id:Date.now(),vid,ts:Date.now(),date,page,device:getDevice(),isNew,city:'...',region:'',country:'Unknown',countryCode:'XX',ip:'',org:'',timezone:''};
-  if(!a.visitors)a.visitors=[];
-  a.visitors.unshift(rec);
-  saveAn(a);
-  fetchGeo().then(geo=>{
-    rec.city=geo.city||'Unknown';rec.region=geo.region||'';rec.country=geo.country_name||'Unknown';
-    rec.countryCode=geo.country_code||'XX';rec.ip=geo.ip||'';rec.org=geo.org||'';rec.timezone=geo.timezone||'';
-    const a2=getAn();const r2=a2.visitors.find(v=>v.id===rec.id);
-    if(r2)Object.assign(r2,{city:rec.city,region:rec.region,country:rec.country,countryCode:rec.countryCode,ip:rec.ip,org:rec.org,timezone:rec.timezone});
-    if(!a2.geoCountries)a2.geoCountries={};
-    if(!a2.geoCities)a2.geoCities={};
-    a2.geoCountries[rec.country]=(a2.geoCountries[rec.country]||0)+1;
-    const cityKey=rec.city+(rec.countryCode?', '+rec.countryCode:'');
-    a2.geoCities[cityKey]=(a2.geoCities[cityKey]||0)+1;
-    saveAn(a2);
-    pingGAS({action:'track',vid,isNew:isNew?'1':'0',reportDate:date||'',page,
-      city:rec.city,region:rec.region,country:rec.country,countryCode:rec.countryCode,
-      ip:rec.ip,device:rec.device,org:(rec.org||'').slice(0,40),timezone:rec.timezone});
-  });
-}
-function resetAnalytics(){if(confirm('Reset local analytics data?')){localStorage.removeItem(AN_KEY);localStorage.removeItem(VID_KEY);renderBeAnalytics();}}
-
-function exportEnhancedLog(){
-  const a=getAn();
-  let csv='#,Timestamp,Date Viewed,City,Country,Device,New/Returning,IP,Timezone\n';
-  (a.visitors||[]).slice(0,200).forEach((v,i)=>{csv+=`${i+1},"${fmtTime(v.ts)}","${v.date||'—'}","${v.city}","${v.country}","${v.device}","${v.isNew?'New':'Returning'}","${v.ip||'—'}","${v.timezone||'—'}"\n`;});
-  const el=document.createElement('a');el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);el.download='NEPSE-B58-Traffic.csv';document.body.appendChild(el);el.click();document.body.removeChild(el);
-}
-
-// ── Tab switching ──
-function switchAnTab(name,el){
-  document.querySelectorAll('.an-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.an-tab-content').forEach(t=>t.classList.remove('active'));
-  if(el)el.classList.add('active');
-  const idMap={'overview':'ant-overview','geo':'ant-geo','behaviour':'ant-behaviour','reports':'ant-reports'};
-  const c=document.getElementById(idMap[name]||'ant-'+name);if(c)c.classList.add('active');
-  const a=getAn();const visitors=a.visitors||[];
-  if(name==='geo')renderGeoTab();
-  if(name==='overview')renderVisitorList('','all');
-  if(name==='behaviour'){renderAutoInsights(a,visitors);}
-  if(name==='reports'){renderReportStats(a);}
-}
-
-function filterVisitors(q){const filter=document.getElementById('an-visitor-filter')?.value||'all';renderVisitorList(q,filter);}
-function countryFlag(code){if(!code||code==='XX')return'🌐';try{return code.toUpperCase().replace(/./g,c=>String.fromCodePoint(c.charCodeAt(0)+127397));}catch(e){return'🌐';}}
-
-function setText(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
-
-// ── Main render: try Google Sheets first, fallback to localStorage ──
-async function renderBeAnalytics(){
-  // Step 1 — always render local data instantly (no waiting)
-  renderLocalAnalytics();
-
-  // Step 2 — always fetch from Google Sheets (GAS_URL is hardcoded)
-  setAnStatus('⟳ Loading from Google Sheets...','#c0a060');
-  try{
-    const [sumResp, visResp, geoResp] = await Promise.all([
-      fetch(GAS_URL+'?action=summary').then(r=>r.json()).catch(()=>null),
-      fetch(GAS_URL+'?action=visits&limit=100').then(r=>r.json()).catch(()=>null),
-      fetch(GAS_URL+'?action=geo').then(r=>r.json()).catch(()=>null)
-    ]);
-    if(sumResp&&sumResp.ok) renderCloudSummary(sumResp);
-    if(visResp&&visResp.ok)  renderCloudVisitors(visResp);
-    if(geoResp&&geoResp.ok)  renderCloudGeo(geoResp);
-    // Re-render heatmap and insights with updated data after cloud load
-    const a=getAn(); const visitors=a.visitors||[];
-    renderHeatmap(a);
-    renderAutoInsights(a,visitors);
-    renderReportStats(a);
-    setAnStatus('✅ Live data from Google Sheets','#27ae60');
-  }catch(e){
-    setAnStatus('⚠️ Using local data only','#b8860b');
-  }
-}
-
-function setAnStatus(msg,color){
-  const el=document.getElementById('an-status-bar');
-  if(el){el.textContent=msg;el.style.color=color;}
-  // Also update topbar status indicator color
-  const dot=document.getElementById('an-live-dot');
-  if(dot)dot.style.background=color==='#27ae60'?'#27ae60':color==='#888'||color==='#c0a060'?'#e6b800':'#c0392b';
-}
-
-// ── Render local localStorage data ──
-function renderLocalAnalytics(){
+function getAn(){try{return JSON.parse(localStorage.getItem(AN_KEY)||'{"total":0,"log":[],"daily":{}}')}catch(e){return{total:0,log:[],daily:{}}}}
+function saveAn(d){localStorage.setItem(AN_KEY,JSON.stringify(d));}
+function recordView(date){const a=getAn(),k=todayKey();a.total=(a.total||0)+1;a.daily[k]=(a.daily[k]||0)+1;a.log.unshift({ts:Date.now(),label:'Viewed: '+(date||'report')});if(a.log.length>100)a.log=a.log.slice(0,100);saveAn(a);}
+function resetAnalytics(){if(confirm('Reset all analytics?')){localStorage.removeItem(AN_KEY);renderBeAnalytics();}}
+function exportLog(){const a=getAn();let csv='#,Date & Time,Page\n';[...a.log].reverse().forEach((e,i)=>{csv+=`${i+1},"${fmtTime(e.ts)}","${e.label}"\n`;});const an=document.createElement('a');an.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);an.download='ViewLog.csv';document.body.appendChild(an);an.click();document.body.removeChild(an);}
+function renderBeAnalytics(){
   const a=getAn(),k=todayKey();
-  const visitors=a.visitors||[];
-  const totalViews=a.total||0;
-  const todayViews=(a.daily[k]?.count)||0;
-  const uniqueVids=new Set(visitors.map(v=>v.vid)).size;
-  const newV=visitors.filter(v=>v.isNew).length;
-  const retV=visitors.filter(v=>!v.isNew).length;
-  const countries=Object.keys(a.geoCountries||{}).length;
-  const prevKey=Object.keys(a.daily||{}).sort().slice(-2,-1)[0];
-  const prevCount=prevKey?(a.daily[prevKey]?.count||0):0;
-  const todayVsYest=prevCount>0?Math.round(((todayViews-prevCount)/prevCount)*100):0;
-
-  setText('an-total',totalViews.toLocaleString());
-  setText('an-today',todayViews.toLocaleString());
-  setText('an-unique',uniqueVids.toLocaleString());
-  setText('an-new',newV.toLocaleString());
-  setText('an-return',retV.toLocaleString());
-  setText('an-countries',countries||'—');
-
-  const todayTrend=document.getElementById('an-today-t');
-  if(todayTrend){
-    if(todayVsYest>0){todayTrend.textContent=`↑ ${todayVsYest}% vs yesterday`;todayTrend.className='kt up';}
-    else if(todayVsYest<0){todayTrend.textContent=`↓ ${Math.abs(todayVsYest)}% vs yesterday`;todayTrend.className='kt down';}
-    else{todayTrend.textContent=prevCount>0?'→ Same as yesterday':'First day!';todayTrend.className='kt flat';}
-  }
-  const newTrend=document.getElementById('an-new-t');
-  if(newTrend&&totalViews>0){newTrend.textContent=`${Math.round((newV/totalViews)*100)}% of total`;}
-
-  renderDailyChart(Object.entries(a.daily||{}).sort().slice(-30).map(([date,d])=>({date,count:d.count||0})));
-  renderHourlyChart(a.daily[k]?.hours||{});
-  renderNvRChart(newV,retV);
-  renderPages(a);
-  renderDevices(visitors);
-  renderLocalGeo(a);
-  renderBehaviour(a,visitors);
-  renderVisitorList('','all');
-  renderHeatmap(a);
-  renderAutoInsights(a,visitors);
-  renderReportStats(a);
-  const bc=document.getElementById('be-count');if(bc)bc.textContent=Object.keys(a.reports||{}).length||0;
+  document.getElementById('be-total').textContent=a.total||0;
+  document.getElementById('be-today').textContent=a.daily[k]||0;
+  document.getElementById('be-last').textContent=a.log[0]?fmtTime(a.log[0].ts):'N/A';
+  const ch=document.getElementById('be-chart');ch.innerHTML='';
+  const days=Object.keys(a.daily).sort().slice(-14);
+  if(!days.length){ch.innerHTML='<div style="font-size:11px;color:#aaa;margin:auto;">No data yet</div>';}
+  else{const mx=Math.max(...days.map(d=>a.daily[d]));days.forEach(day=>{const cnt=a.daily[day],pct=mx>0?Math.round((cnt/mx)*75):4,isT=day===k;const col=document.createElement('div');col.style.cssText='display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;';col.innerHTML=`<div style="font-size:9px;font-weight:700;color:${isT?'#1e7e34':'#555'}">${cnt}</div><div style="width:100%;background:${isT?'#27ae60':'#2980b9'};border-radius:3px 3px 0 0;height:${pct}px;min-height:4px;"></div><div style="font-size:8px;color:#888;transform:rotate(-40deg);margin-top:2px;white-space:nowrap;">${day.slice(5)}</div>`;ch.appendChild(col);});}
+  const lg=document.getElementById('be-log');lg.innerHTML='';
+  if(!a.log.length){lg.innerHTML='<div style="font-size:12px;color:#aaa;padding:8px;">No views yet.</div>';}
+  else{a.log.forEach((e,i)=>{const row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;padding:5px 10px;background:'+(i===0?'#f0faf4':'#f8fafc')+';border-radius:5px;border:1px solid '+(i===0?'#a8dfc0':'#e8ecf0')+';font-size:11px;';row.innerHTML=`<span>👁 ${e.label}</span><span style="color:#888;font-size:10px;">${fmtTime(e.ts)}</span>`;lg.appendChild(row);});}
 }
-
-// ── Overlay cloud data from Google Sheets ──
-function renderCloudSummary(d){
-  setText('an-total',(d.total_views||0).toLocaleString());
-  setText('an-today',(d.today_views||0).toLocaleString());
-  setText('an-unique',(d.unique_visitors||0).toLocaleString());
-  setText('an-new',(d.new_visitors||0).toLocaleString());
-  setText('an-return',(d.ret_visitors||0).toLocaleString());
-
-  if(d.daily&&d.daily.length)renderDailyChart(d.daily);
-  if(d.hourly)renderHourlyChart(d.hourly.reduce((o,h)=>{o[h.hour]=h.count;return o;},{}));
-  if(d.devices)renderDevicesCloud(d.devices);
-  if(d.reports&&d.reports.length){
-    const a2=getAn();a2.reports={};
-    d.reports.forEach(r=>{a2.reports[r.date]=r.count;});
-    renderBehaviourReports(d.reports);
-  }
-}
-function renderCloudVisitors(d){
-  if(!d.visits||!d.visits.length)return;
-  setText('an-countries',(d.countries||0).toString());
-  const el=document.getElementById('an-visitor-list');
-  if(!el)return;
-  el.innerHTML=d.visits.slice(0,60).map(v=>{
-    const isNew=v.isnew==='New';
-    const initials=(v.city||'??').slice(0,2).toUpperCase();
-    const statusBadge=isNew?'<span class="badge-new">NEW</span>':'<span class="badge-ret">RETURN</span>';
-    const loc=v.city&&v.city!=='Unknown'?`${countryFlag(v.countrycode)} ${v.city}${v.region?', '+v.region:''} · ${v.country}`:'🌐 Unknown';
-    const ts=v.timestamp?new Date(v.timestamp).getTime():Date.now();
-    return`<div class="visitor-row">
-      <div class="vis-avatar ${isNew?'vis-new':'vis-ret'}">${initials}</div>
-      <div class="vis-info">
-        <div class="vis-loc">${loc} ${statusBadge}</div>
-        <div class="vis-meta">${v.device||'Desktop'} · Report: ${v.reportdate||'—'} · ${(v.org||'').slice(0,30)}</div>
-      </div>
-      <div class="vis-time">${fmtTime(ts)}</div>
-    </div>`;
-  }).join('');
-}
-function renderCloudGeo(d){
-  if(!d.countries||!d.cities)return;
-  const mx=d.countries[0]?.count||1;
-  const mxc=d.cities[0]?.count||1;
-  const cel=document.getElementById('an-countries-list');
-  if(cel)cel.innerHTML=d.countries.map(c=>{
-    const pct=Math.round((c.count/mx)*100);
-    return`<div class="geo-row"><span class="geo-flag">${countryFlag(c.countrycode||c.countryCode)}</span><span style="flex:1;color:#444;">${c.country}</span><div class="geo-bar-wrap"><div class="geo-bar" style="width:${pct}%;"></div></div><span class="geo-count">${c.count}</span></div>`;
-  }).join('');
-  const citEl=document.getElementById('an-cities-list');
-  if(citEl)citEl.innerHTML=d.cities.map(c=>{
-    const pct=Math.round((c.count/mxc)*100);
-    return`<div class="geo-row"><span class="geo-flag">📍</span><span style="flex:1;color:#444;">${c.city||'Unknown'}, ${c.country||''}</span><div class="geo-bar-wrap"><div class="geo-bar" style="width:${pct}%;"></div></div><span class="geo-count">${c.count}</span></div>`;
-  }).join('');
-  setText('an-countries',d.countries.length.toString());
-
-  const tags=document.getElementById('an-location-tags');
-  if(tags)tags.innerHTML=d.cities.slice(0,30).map(c=>`<span style="background:#eaf2fb;color:#1a5276;font-size:10px;padding:3px 8px;border-radius:10px;">${c.city||'Unknown'}, ${c.country||''}</span>`).join('');
-}
-
-// ── Shared chart renderers ──
-function renderDailyChart(daily){
-  const el=document.getElementById('an-daily-chart');
-  const lel=document.getElementById('an-daily-labels');
-  if(!el||!lel)return;
-  const mx=Math.max(...daily.map(d=>d.count),1);
-  const todayStr=todayKey();
-  el.innerHTML=daily.map(d=>{
-    const pct=Math.max(Math.round((d.count/mx)*70),2);
-    const isT=d.date===todayStr;
-    return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:1px;">
-      <div style="font-size:8px;color:${isT?'#1a5276':'#aaa'};font-weight:${isT?'700':'400'}">${d.count||''}</div>
-      <div style="width:100%;height:${pct}px;background:${isT?'#1a5276':'#b0c8e0'};border-radius:2px 2px 0 0;"></div>
-    </div>`;
-  }).join('');
-  lel.innerHTML=daily.map((d,i)=>{
-    const show=i===0||i===daily.length-1||(i+1)%5===0;
-    return`<div style="flex:1;text-align:center;font-size:8px;color:#aaa;">${show?d.date.slice(5):''}</div>`;
-  }).join('');
-}
-
-function renderHourlyChart(hours){
-  const el=document.getElementById('an-hourly');if(!el)return;
-  const mx=Math.max(...Array.from({length:24},(_,i)=>hours[i]||0),1);
-  const curHour=new Date().getHours();
-  el.innerHTML=Array.from({length:24},(_,i)=>{
-    const cnt=hours[i]||0;
-    const pct=Math.max(Math.round((cnt/mx)*52),cnt>0?3:1);
-    const isNow=curHour===i;
-    return`<div class="hr-col"><div class="hr-bar" style="height:${pct}px;background:${isNow?'#c0392b':'#1a5276'};"></div><div class="hr-label">${i%6===0?i+'h':''}</div></div>`;
-  }).join('');
-}
-
-function renderNvRChart(nw,ret){
-  const svg=document.getElementById('donut-svg');
-  const legend=document.getElementById('donut-legend');
-  const centerVal=document.getElementById('donut-center-val');
-  const centerLbl=document.getElementById('donut-center-lbl');
-  if(!svg||!legend)return;
-  const total=nw+ret||1;
-  const nwPct=Math.round((nw/total)*100);
-  const retPct=100-nwPct;
-  const r=35, cx=50, cy=50, circ=2*Math.PI*r;
-  const segments=[
-    {val:nw,pct:nwPct,color:'#1e7e34',label:'New Visitors'},
-    {val:ret,pct:retPct,color:'#1a5276',label:'Returning'}
-  ];
-  let offset=0;
-  svg.innerHTML=segments.map(seg=>{
-    const dash=Math.max((seg.pct/100)*circ,0);
-    const gap=circ-dash;
-    const el=`<circle class="donut-seg" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${seg.color}" stroke-width="22" stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-offset}" data-val="${seg.val}" data-label="${seg.label}" data-pct="${seg.pct}" onmouseenter="donutHover(this)" onmouseleave="donutLeave(${total})"/>`;
-    offset+=dash;
-    return el;
-  }).join('');
-  centerVal.textContent=total.toLocaleString();
-  centerLbl.textContent='visitors';
-  legend.innerHTML=segments.map(seg=>`
-    <div class="donut-leg-item" onmouseenter="donutHoverLeg('${seg.label}',${seg.val},${seg.pct})" onmouseleave="donutLeave(${total})">
-      <div class="donut-leg-dot" style="background:${seg.color};"></div>
-      <div class="donut-leg-label">${seg.label}</div>
-      <div class="donut-leg-val">${seg.val}</div>
-      <div class="donut-leg-pct">${seg.pct}%</div>
-    </div>`).join('');
-}
-function donutHover(el){
-  document.getElementById('donut-center-val').textContent=el.dataset.val;
-  document.getElementById('donut-center-lbl').textContent=el.dataset.label+' ('+el.dataset.pct+'%)';
-}
-function donutHoverLeg(label,val,pct){
-  document.getElementById('donut-center-val').textContent=val;
-  document.getElementById('donut-center-lbl').textContent=label+' ('+pct+'%)';
-}
-function donutLeave(total){
-  document.getElementById('donut-center-val').textContent=total.toLocaleString();
-  document.getElementById('donut-center-lbl').textContent='visitors';
-}
-
-function renderHeatmap(a){
-  const wrap=document.getElementById('an-heatmap-wrap');
-  if(!wrap)return;
-  const daily=a.daily||{};
-  const today=new Date();
-  const cells=[];
-  // Go back 84 days (12 weeks)
-  for(let i=83;i>=0;i--){
-    const d=new Date(today);d.setDate(d.getDate()-i);
-    const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    cells.push({key,count:daily[key]?.count||0,d});
-  }
-  const mx=Math.max(...cells.map(c=>c.count),1);
-  const cols=Math.ceil(cells.length/7);
-  wrap.innerHTML=`<div style="display:grid;grid-template-columns:repeat(${cols},20px);grid-template-rows:repeat(7,20px);gap:3px;">
-  ${cells.map(c=>{
-    const intensity=c.count===0?0:Math.ceil((c.count/mx)*4);
-    const colors=['#eef2f7','#b0c8e0','#6699cc','#2266aa','#1a3a6a'];
-    const day=c.d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
-    return`<div class="heatmap-cell" style="background:${colors[intensity]};" data-tip="${day}: ${c.count} view${c.count!==1?'s':''}"></div>`;
-  }).join('')}
-  </div>`;
-  // Week labels above
-  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  let monthLabels='<div style="display:grid;grid-template-columns:repeat('+cols+',20px);gap:3px;margin-bottom:2px;">';
-  cells.filter((_,i)=>i%7===0).forEach(c=>{
-    const isFirst=c.d.getDate()<=7;
-    monthLabels+=`<div style="font-size:9px;color:#aaa;text-align:left;">${isFirst?months[c.d.getMonth()]:''}</div>`;
-  });
-  monthLabels+='</div>';
-  wrap.insertAdjacentHTML('beforebegin',monthLabels);
-}
-
-function renderAutoInsights(a,visitors){
-  const el=document.getElementById('an-auto-insights');
-  if(!el)return;
-  const insights=[];
-  const total=a.total||0;
-  const k=todayKey();
-  const todayV=a.daily[k]?.count||0;
-  const days=Object.keys(a.daily||{}).sort();
-  const newV=visitors.filter(v=>v.isNew).length;
-  const retV=visitors.filter(v=>!v.isNew).length;
-  // Insight: today vs yesterday
-  const yday=days[days.length-2];
-  const ydayV=yday?(a.daily[yday]?.count||0):0;
-  if(todayV>0&&ydayV>0){
-    const diff=Math.round(((todayV-ydayV)/ydayV)*100);
-    insights.push({cls:diff>=0?'pos':'neg',icon:diff>=0?'📈':'📉',text:`Today has <strong>${todayV}</strong> views — <strong>${Math.abs(diff)}% ${diff>=0?'more':'fewer'}</strong> than yesterday (${ydayV})`,val:diff>=0?'+'+diff+'%':diff+'%'});
-  }
-  // Insight: returning rate
-  if(total>5){
-    const retRate=Math.round((retV/Math.max(visitors.length,1))*100);
-    insights.push({cls:retRate>30?'pos':'neu',icon:'🔄',text:`<strong>${retRate}%</strong> of visitors return — ${retRate>30?'strong loyalty 👍':'consider sharing more often'}`,val:retV+' returning'});
-  }
-  // Insight: top country
-  const countries=a.geoCountries||{};
-  const topCountry=Object.entries(countries).sort((a,b)=>b[1]-a[1])[0];
-  if(topCountry)insights.push({cls:'neu',icon:'🌍',text:`Most visitors from <strong>${topCountry[0]}</strong> — ${topCountry[1]} visit${topCountry[1]!==1?'s':''}`,val:topCountry[1]+' visits'});
-  // Insight: most popular report
-  const reports=a.reports||{};
-  const topReport=Object.entries(reports).sort((a,b)=>b[1]-a[1])[0];
-  if(topReport)insights.push({cls:'pos',icon:'📅',text:`Most viewed report: <strong>${topReport[0]}</strong> with ${topReport[1]} view${topReport[1]!==1?'s':''}`,val:topReport[1]+' views'});
-  // Insight: peak hour
-  const allH={};Object.values(a.daily||{}).forEach(d=>{Object.entries(d.hours||{}).forEach(([h,c])=>{allH[h]=(allH[h]||0)+c;});});
-  const peakH=Object.entries(allH).sort((a,b)=>b[1]-a[1])[0];
-  if(peakH)insights.push({cls:'neu',icon:'⏰',text:`Peak activity at <strong>${peakH[0]}:00–${String(+peakH[0]+1).padStart(2,'0')}:00</strong> with ${peakH[1]} total views`,val:peakH[1]+' views'});
-  // Insight: device split
-  const devs={Desktop:0,Mobile:0,Tablet:0};
-  visitors.forEach(v=>{if(devs[v.device]!==undefined)devs[v.device]++;else devs.Desktop++;});
-  const topDev=Object.entries(devs).sort((a,b)=>b[1]-a[1])[0];
-  if(topDev&&visitors.length>0)insights.push({cls:'neu',icon:'📱',text:`<strong>${topDev[0]}</strong> is the most used device — ${Math.round((topDev[1]/visitors.length)*100)}% of visits`,val:topDev[1]+' sessions'});
-
-  el.innerHTML=insights.length?insights.map(i=>`
-    <div class="insight-strip ${i.cls}">
-      <span class="is-icon">${i.icon}</span>
-      <span class="is-text">${i.text}</span>
-      <span class="is-val ${i.cls==='pos'?'green':i.cls==='neg'?'red':''}">${i.val}</span>
-    </div>`).join(''):'<div style="font-size:11px;color:#aaa;padding:8px;">Visit the site a few more times to generate insights!</div>';
-}
-
-function renderReportStats(a){
-  const reports=Object.entries(a.reports||{}).sort((a,b)=>b[1]-a[1]);
-  // Top reports
-  const topEl=document.getElementById('an-top-reports');
-  if(topEl)topEl.innerHTML=reports.slice(0,8).map(([d,c])=>`<div class="page-row"><span style="font-size:11px;color:#444;">📅 ${d}</span><div style="display:flex;align-items:center;gap:6px;"><div style="width:80px;height:3px;background:#e8ecf0;border-radius:2px;"><div style="height:3px;width:${Math.round((c/Math.max(...reports.map(r=>r[1]),1))*100)}%;background:#1a5276;border-radius:2px;"></div></div><span style="font-weight:700;color:#1a5276;font-size:11px;">${c}</span></div></div>`).join('')||'<div style="font-size:11px;color:#aaa;">No report views yet</div>';
-  // Report trend chart
-  const trendEl=document.getElementById('an-report-trend');
-  if(trendEl&&reports.length){
-    const top8=reports.slice(0,8).reverse();
-    const mx=Math.max(...top8.map(r=>r[1]),1);
-    trendEl.innerHTML=top8.map(([d,c])=>{const pct=Math.max(Math.round((c/mx)*70),3);return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:1px;"><div style="font-size:8px;color:#aaa">${c}</div><div style="width:100%;height:${pct}px;background:#1a5276;border-radius:2px 2px 0 0;"></div><div style="font-size:7px;color:#aaa;transform:rotate(-40deg);white-space:nowrap;margin-top:4px;">${d.slice(5)}</div></div>`;}).join('');
-  }
-  // All reports table
-  const tableEl=document.getElementById('an-reports-table');
-  if(tableEl)tableEl.innerHTML=reports.length?`<table style="width:100%;font-size:11px;border-collapse:collapse;"><thead><tr><th style="text-align:left;padding:6px 8px;background:#f4f6f8;font-size:10px;">Date</th><th style="text-align:left;padding:6px 8px;background:#f4f6f8;font-size:10px;">Views</th><th style="text-align:left;padding:6px 8px;background:#f4f6f8;font-size:10px;">Share</th></tr></thead><tbody>${reports.map(([d,c])=>`<tr><td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;">📅 ${d}</td><td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;font-weight:700;color:#1a5276;">${c}</td><td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;color:#888;">${Math.round((c/Math.max(a.total,1))*100)}% of traffic</td></tr>`).join('')}</tbody></table>`:'<div style="font-size:11px;color:#aaa;padding:8px;">No report views yet</div>';
-}
-
-function renderPages(a){
-  const el=document.getElementById('an-pages');if(!el)return;
-  const sorted=Object.entries(a.pages||{}).sort((a,b)=>b[1]-a[1]).slice(0,7);
-  const mx=sorted[0]?sorted[0][1]:1;
-  el.innerHTML=sorted.length?sorted.map(([p,cnt])=>{
-    const pct=Math.round((cnt/mx)*100);
-    const label=p.match(/^\d{4}-\d{2}-\d{2}$/)?'📅 '+p:p==='init'||p==='home'?'🏠 Homepage':'📄 '+p;
-    return`<div class="page-row"><div style="flex:1;"><div style="font-size:10px;color:#444;margin-bottom:2px;">${label}</div><div style="height:3px;background:#e8ecf0;border-radius:2px;"><div style="height:3px;width:${pct}%;background:#1a5276;border-radius:2px;"></div></div></div><div style="font-weight:700;color:#1a5276;min-width:24px;text-align:right;font-size:11px;">${cnt}</div></div>`;
-  }).join(''):'<div style="font-size:11px;color:#aaa;">No data</div>';
-}
-
-function renderDevices(visitors){
-  const el=document.getElementById('an-devices');if(!el)return;
-  const devs={Desktop:0,Mobile:0,Tablet:0};
-  visitors.forEach(v=>{if(devs[v.device]!==undefined)devs[v.device]++;else devs.Desktop++;});
-  renderDevicesCloud(devs);
-}
-function renderDevicesCloud(devs){
-  const el=document.getElementById('an-devices');if(!el)return;
-  const d={Desktop:devs.desktop||devs.Desktop||0,Mobile:devs.mobile||devs.Mobile||0,Tablet:devs.tablet||devs.Tablet||0};
-  const total=Object.values(d).reduce((s,c)=>s+c,0)||1;
-  const icons={Desktop:'🖥',Mobile:'📱',Tablet:'📟'};
-  el.innerHTML=Object.entries(d).map(([name,cnt])=>{
-    const pct=Math.round((cnt/total)*100);
-    return`<div class="device-item"><div class="device-label"><span style="font-size:14px;">${icons[name]}</span>${name}</div><div style="display:flex;align-items:center;gap:6px;"><div style="width:60px;height:4px;background:#e8ecf0;border-radius:2px;"><div style="height:4px;width:${pct}%;background:#1a5276;border-radius:2px;"></div></div><div class="device-pct">${pct}%</div></div></div>`;
-  }).join('');
-}
-
-function renderLocalGeo(a){
-  const countries=Object.entries(a.geoCountries||{}).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const cities=Object.entries(a.geoCities||{}).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const mx=countries[0]?countries[0][1]:1;
-  const mxc=cities[0]?cities[0][1]:1;
-  const cel=document.getElementById('an-countries-list');
-  if(cel)cel.innerHTML=countries.length?countries.map(([name,cnt])=>{
-    const code=(a.visitors||[]).find(v=>v.country===name)?.countryCode||'XX';
-    const pct=Math.round((cnt/mx)*100);
-    return`<div class="geo-row"><span class="geo-flag">${countryFlag(code)}</span><span style="flex:1;color:#444;">${name}</span><div class="geo-bar-wrap"><div class="geo-bar" style="width:${pct}%;"></div></div><span class="geo-count">${cnt}</span></div>`;
-  }).join(''):'<div style="font-size:11px;color:#aaa;">No geo data yet</div>';
-  const citEl=document.getElementById('an-cities-list');
-  if(citEl)citEl.innerHTML=cities.length?cities.map(([name,cnt])=>{
-    const pct=Math.round((cnt/mxc)*100);
-    return`<div class="geo-row"><span class="geo-flag">📍</span><span style="flex:1;color:#444;">${name}</span><div class="geo-bar-wrap"><div class="geo-bar" style="width:${pct}%;"></div></div><span class="geo-count">${cnt}</span></div>`;
-  }).join(''):'<div style="font-size:11px;color:#aaa;">No city data yet</div>';
-  const tags=document.getElementById('an-location-tags');
-  if(tags){const locs=new Set((a.visitors||[]).filter(v=>v.city&&v.city!=='...'&&v.city!=='Unknown').map(v=>`${v.city}, ${v.country}`));tags.innerHTML=[...locs].slice(0,30).map(loc=>`<span style="background:#eaf2fb;color:#1a5276;font-size:10px;padding:3px 8px;border-radius:10px;">${loc}</span>`).join('')||'<div style="font-size:11px;color:#aaa;">Geo loading...</div>';}
-}
-function renderGeoTab(){const a=getAn();renderLocalGeo(a);}
-
-function renderVisitorList(q='',filter='all'){
-  const a=getAn();
-  const el=document.getElementById('an-visitor-list');if(!el)return;
-  const gasSet=GAS_URL&&GAS_URL.startsWith('https://');
-  if(gasSet)return; // Cloud data already rendered
-  let visitors=(a.visitors||[]).filter(v=>{
-    if(filter==='new'&&!v.isNew)return false;
-    if(filter==='returning'&&v.isNew)return false;
-    if(q&&![v.city,v.country,v.date,v.device].join(' ').toLowerCase().includes(q.toLowerCase()))return false;
-    return true;
-  });
-  if(!visitors.length){el.innerHTML='<div style="font-size:11px;color:#aaa;padding:12px;text-align:center;">No visitors yet.</div>';return;}
-  el.innerHTML=visitors.slice(0,50).map(v=>{
-    const initials=v.city&&v.city!=='...'?v.city.slice(0,2).toUpperCase():'??';
-    const statusBadge=v.isNew?'<span class="badge-new">NEW</span>':'<span class="badge-ret">RETURN</span>';
-    const loc=v.city&&v.city!=='...'&&v.city!=='Unknown'?`${countryFlag(v.countryCode)} ${v.city}${v.region?', '+v.region:''} · ${v.country}`:'🌐 Fetching location...';
-    return`<div class="visitor-row"><div class="vis-avatar ${v.isNew?'vis-new':'vis-ret'}">${initials}</div><div class="vis-info"><div class="vis-loc">${loc} ${statusBadge}</div><div class="vis-meta">${v.device} · Report: ${v.date||'home'}</div></div><div class="vis-time">${fmtTimeShort(v.ts)}</div></div>`;
-  }).join('');
-}
-
-function renderBehaviour(a,visitors){
-  const vids={};
-  visitors.forEach(v=>{if(!vids[v.vid])vids[v.vid]=[];vids[v.vid].push(v.ts);});
-  const sessions=Object.values(vids).filter(ts=>ts.length>1).map(ts=>{const s=ts.sort();return(s[s.length-1]-s[0])/60000;});
-  const avgSess=sessions.length?Math.round(sessions.reduce((a,b)=>a+b,0)/sessions.length):0;
-  const ppv=visitors.length>0?(Object.values(a.pages||{}).reduce((s,c)=>s+c,0)/Math.max(Object.keys(vids).length,1)).toFixed(1):'—';
-  const bounced=Object.values(vids).filter(ts=>ts.length===1).length;
-  const bounceRate=visitors.length>0?Math.round((bounced/Math.max(Object.keys(vids).length,1))*100)+'%':'—';
-  setText('an-avg-session',avgSess>0?avgSess+' min':'< 1 min');
-  setText('an-ppv',ppv);
-  setText('an-bounce',bounceRate);
-  renderBehaviourReports(Object.entries(a.reports||{}).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([date,count])=>({date,count})));
-  const allHours={};
-  Object.values(a.daily||{}).forEach(d=>{Object.entries(d.hours||{}).forEach(([h,c])=>{allHours[h]=(allHours[h]||0)+c;});});
-  const peakEl=document.getElementById('an-peak-times');
-  if(peakEl){const peakHours=Object.entries(allHours).sort((a,b)=>b[1]-a[1]).slice(0,6);peakEl.innerHTML=peakHours.map(([h,c])=>`<span style="background:#1a5276;color:#fff;font-size:10px;padding:4px 10px;border-radius:10px;">${h}:00–${String(+h+1).padStart(2,'0')}:00 (${c})</span>`).join('')||'<div style="font-size:11px;color:#aaa;">No data yet</div>';}
-}
-function renderBehaviourReports(reports){
-  const el=document.getElementById('an-top-reports');if(!el)return;
-  el.innerHTML=reports.length?reports.map(r=>`<div class="page-row"><span style="font-size:11px;color:#444;">📅 ${r.date}</span><span style="font-weight:700;color:#1a5276;font-size:11px;">${r.count} views</span></div>`).join(''):'<div style="font-size:11px;color:#aaa;">No report views yet</div>';
-}
-
-// ── Save GAS URL ──
-function saveGasUrl(){
-  const inp=document.getElementById('gas-url-input');
-  if(!inp)return;
-  const url=inp.value.trim();
-  if(url&&url.startsWith('https://')){
-    localStorage.setItem('nepse_gas_url',url);
-    location.reload();
-  }else{
-    alert('Please enter a valid https:// URL');
-  }
-}
-
-// ── Download the Apps Script file ──
-function downloadGasScript(){
-  const code=`// NEPSE B58 Analytics Webhook — Google Apps Script
-// Deploy: Extensions > Apps Script > Paste this > Deploy > Web App > Anyone
-
-const SHEET_VISITS='Visits',SHEET_SUMMARY='Summary',SHEET_GEO='Geography';
-
-function doPost(e){
-  try{
-    const d=JSON.parse(e.postData.contents);
-    const ss=SpreadsheetApp.getActiveSpreadsheet();
-    if(d.action==='track')trackVisit(ss,d);
-    return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
-  }catch(err){return ContentService.createTextOutput(JSON.stringify({ok:false,error:err.message})).setMimeType(ContentService.MimeType.JSON);}
-}
-
-function doGet(e){
-  try{
-    const ss=SpreadsheetApp.getActiveSpreadsheet();
-    const action=e.parameter.action||'summary';
-    let result;
-    if(action==='summary')result=getSummary(ss);
-    if(action==='visits')result=getVisits(ss,parseInt(e.parameter.limit)||100);
-    if(action==='geo')result=getGeo(ss);
-    return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
-  }catch(err){return ContentService.createTextOutput(JSON.stringify({ok:false,error:err.message})).setMimeType(ContentService.MimeType.JSON);}
-}
-
-function trackVisit(ss,data){
-  const sheet=getOrCreate(ss,SHEET_VISITS,['Timestamp','Date','VisitorID','IsNew','ReportDate','Page','City','Region','Country','CountryCode','IP','Device','Org','Timezone','UserAgent']);
-  const now=new Date();
-  sheet.appendRow([now.toISOString(),Utilities.formatDate(now,'Asia/Kathmandu','yyyy-MM-dd'),data.vid||'',data.isNew?'New':'Returning',data.reportDate||'',data.page||'',data.city||'',data.region||'',data.country||'',data.countryCode||'',data.ip||'',data.device||'',data.org||'',data.timezone||'',(data.ua||'').slice(0,150)]);
-  updateSummary(ss,data,now);
-  updateGeo(ss,data);
-}
-
-function updateSummary(ss,data,now){
-  const sheet=getOrCreate(ss,SHEET_SUMMARY,['Key','Value','UpdatedAt']);
-  const vals=toMap(sheet);
-  const dk=Utilities.formatDate(now,'Asia/Kathmandu','yyyy-MM-dd');
-  bump(sheet,vals,'total_views',now);
-  bump(sheet,vals,'today_'+dk,now);
-  if(data.isNew)bump(sheet,vals,'new_visitors',now);else bump(sheet,vals,'ret_visitors',now);
-  const uvKey='uv_'+data.vid;
-  if(!vals[uvKey]){set(sheet,vals,uvKey,'1',now);bump(sheet,vals,'unique_visitors',now);}
-  bump(sheet,vals,'device_'+(data.device||'Desktop').toLowerCase(),now);
-  if(data.reportDate)bump(sheet,vals,'report_'+data.reportDate,now);
-  bump(sheet,vals,'hour_'+now.getHours(),now);
-}
-
-function updateGeo(ss,data){
-  if(!data.country||data.country==='Unknown')return;
-  const sheet=getOrCreate(ss,SHEET_GEO,['Country','CountryCode','City','Count','LastSeen']);
-  const rows=sheet.getDataRange().getValues();
-  const now=new Date();
-  for(let i=1;i<rows.length;i++){if(rows[i][2]+rows[i][0]===data.city+data.country){sheet.getRange(i+1,4).setValue(+rows[i][3]+1);sheet.getRange(i+1,5).setValue(now.toISOString());return;}}
-  sheet.appendRow([data.country||'',data.countryCode||'',data.city||'',1,now.toISOString()]);
-}
-
-function getSummary(ss){
-  const sheet=getOrCreate(ss,SHEET_SUMMARY,['Key','Value','UpdatedAt']);
-  const vals=toMap(sheet);
-  const today=Utilities.formatDate(new Date(),'Asia/Kathmandu','yyyy-MM-dd');
-  const daily=[],hourly=[];
-  for(let i=29;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=Utilities.formatDate(d,'Asia/Kathmandu','yyyy-MM-dd');daily.push({date:k,count:+vals['today_'+k]||0});}
-  for(let h=0;h<24;h++)hourly.push({hour:h,count:+vals['hour_'+h]||0});
-  const reports=Object.entries(vals).filter(([k])=>k.startsWith('report_')).map(([k,v])=>({date:k.replace('report_',''),count:+v})).sort((a,b)=>b.count-a.count).slice(0,10);
-  return{ok:true,total_views:+vals.total_views||0,today_views:+vals['today_'+today]||0,unique_visitors:+vals.unique_visitors||0,new_visitors:+vals.new_visitors||0,ret_visitors:+vals.ret_visitors||0,devices:{desktop:+vals.device_desktop||0,mobile:+vals.device_mobile||0,tablet:+vals.device_tablet||0},daily,hourly,reports};
-}
-
-function getVisits(ss,limit){
-  const sheet=getOrCreate(ss,SHEET_VISITS,[]);
-  const rows=sheet.getDataRange().getValues();
-  if(rows.length<=1)return{ok:true,visits:[],countries:0};
-  const headers=rows[0];
-  const visits=rows.slice(1).reverse().slice(0,limit).map(row=>{const o={};headers.forEach((h,i)=>o[h.toLowerCase().replace(/ /g,'_')]=row[i]);return o;});
-  const countries=new Set(visits.map(v=>v.country).filter(Boolean)).size;
-  return{ok:true,visits,countries};
-}
-
-function getGeo(ss){
-  const sheet=getOrCreate(ss,SHEET_GEO,[]);
-  const rows=sheet.getDataRange().getValues();
-  if(rows.length<=1)return{ok:true,countries:[],cities:[]};
-  const data=rows.slice(1).map(r=>({country:r[0],countryCode:r[1],city:r[2],count:+r[3]||0}));
-  const cm={};data.forEach(r=>{if(!cm[r.country])cm[r.country]={country:r.country,countryCode:r.countryCode,count:0};cm[r.country].count+=r.count;});
-  return{ok:true,countries:Object.values(cm).sort((a,b)=>b.count-a.count).slice(0,15),cities:data.sort((a,b)=>b.count-a.count).slice(0,15)};
-}
-
-function getOrCreate(ss,name,headers){
-  let s=ss.getSheetByName(name);
-  if(!s){s=ss.insertSheet(name);if(headers.length){s.appendRow(headers);s.getRange(1,1,1,headers.length).setFontWeight('bold').setBackground('#0f1a10').setFontColor('#b0f0b0');s.setFrozenRows(1);}}
-  return s;
-}
-function toMap(sheet){const rows=sheet.getDataRange().getValues();const m={};rows.slice(1).forEach(r=>{if(r[0])m[r[0]]=r[1];});return m;}
-function bump(sheet,vals,key,now){const cur=+vals[key]||0;set(sheet,vals,key,(cur+1).toString(),now);}
-function set(sheet,vals,key,value,now){const rows=sheet.getDataRange().getValues();for(let i=1;i<rows.length;i++){if(rows[i][0]===key){sheet.getRange(i+1,2).setValue(value);sheet.getRange(i+1,3).setValue(now.toISOString());vals[key]=value;return;}}sheet.appendRow([key,value,now.toISOString()]);vals[key]=value;}
-`;
-  const a=document.createElement('a');
-  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(code);
-  a.download='analytics-webhook.gs';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-}
-
-// ── Pre-fill saved GAS URL ──
-function initGasUrlField(){
-  const saved=localStorage.getItem('nepse_gas_url')||'';
-  const inp=document.getElementById('gas-url-input');
-  if(inp&&saved)inp.value=saved;
-  const statusMsg=saved&&saved.startsWith('https://')?
-    '✅ Connected to Google Sheets — tracking all visitors in real-time':
-    '⚠️ Not connected — paste your Google Apps Script URL to track all visitors';
-  const statusColor=saved&&saved.startsWith('https://')?'#1e7e34':'#b8860b';
-  setAnStatus(statusMsg,statusColor);
-  const bar2=document.getElementById('an-status-bar-2');
-  if(bar2){bar2.textContent=statusMsg;bar2.style.color=statusColor;bar2.style.background=saved?'#f0faf4':'#fffbf0';bar2.style.borderColor=saved?'#a8dfc0':'#f0d080';}
-}
-
 
 // ═══════════════════════════════════════════════
 //  GITHUB FETCH
@@ -1543,38 +571,13 @@ function renderCalDays(){
 function goToAdmin(){document.getElementById('login-screen').classList.remove('hidden');document.getElementById('app').style.display='none';document.getElementById('backend').style.display='none';}
 function adminLogin(){
   if(document.getElementById('admin-pass').value===ADMIN_PASS){
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('backend').style.display='block';
-    document.getElementById('app').style.display='none';
-    document.getElementById('admin-pass').value='';
-    document.getElementById('login-error').style.display='none';
-    // Open analytics by default
-    showBeSection('be-analytics', document.querySelector('.be-nav-item'));
-    renderBeAnalytics(); checkRepo();
+    document.getElementById('login-screen').classList.add('hidden');document.getElementById('backend').style.display='block';document.getElementById('app').style.display='none';
+    document.getElementById('admin-pass').value='';document.getElementById('login-error').style.display='none';
+    renderBeAnalytics();checkRepo();
   }else{document.getElementById('login-error').style.display='block';}
 }
 function adminLogout(){document.getElementById('backend').style.display='none';showFrontend();}
 function showFrontend(){document.getElementById('login-screen').classList.add('hidden');document.getElementById('backend').style.display='none';document.getElementById('app').style.display='flex';}
-
-// ── Backend section navigation ──
-function showBeSection(id, el){
-  document.querySelectorAll('.be-section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.be-nav-item').forEach(n=>n.classList.remove('active'));
-  const s=document.getElementById(id); if(s)s.classList.add('active');
-  if(el)el.classList.add('active');
-  const titles={
-    'be-analytics':'📊 Analytics Dashboard',
-    'be-workflow':'🗺️ How to Add a Report',
-    'be-prompt':'📋 Claude Prompt',
-    'be-repo':'📦 GitHub Repository',
-    'be-gas-setup':'🔗 Google Sheets Setup'
-  };
-  const t=document.getElementById('be-section-title');
-  if(t)t.textContent=titles[id]||'Admin Panel';
-  if(id==='be-repo')checkRepo();
-  if(id==='be-analytics')renderBeAnalytics();
-  if(id==='be-gas-setup')initGasUrlField();
-}
 
 // ═══════════════════════════════════════════════
 //  PROMPT
@@ -1766,176 +769,6 @@ function buildHTML(r){
       <div style="font-size:11px;color:#7a5a00;line-height:1.6;">Prepared by <strong>Sagun Prajapati, MBA (Finance)</strong> for personal tracking and educational purposes only. Does not constitute financial advice. Consult a SEBON-registered advisor before investing.</div>
     </div>
   </div>
-  <div class="section" id="b58-analysis">
-    <div class="section-title">📐 B58 Analysis — Historical Buy/Sell Trends</div>
-    <div id="b58a-loading" style="text-align:center;padding:40px;color:#888;"><div class="spinner"></div><p style="margin-top:12px;">Loading analysis across all available dates...</p></div>
-    <div id="b58a-content" style="display:none;">
-
-      <!-- KPI Row -->
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px;" id="b58a-kpis"></div>
-
-      <!-- Tabs -->
-      <div class="b58a-tabs">
-        <div class="b58a-tab active" onclick="switchB58Tab('overview',this)">📊 B58 Trend</div>
-        <div class="b58a-tab" onclick="switchB58Tab('accumulation',this)">▲ Top Accumulation</div>
-        <div class="b58a-tab" onclick="switchB58Tab('distribution',this)">▼ Top Distribution</div>
-        <div class="b58a-tab" onclick="switchB58Tab('script',this)">🔍 Script Deep Dive</div>
-        <div class="b58a-tab" onclick="switchB58Tab('timeline',this)">📅 Activity Timeline</div>
-      </div>
-
-      <!-- Overview Tab -->
-      <div class="b58a-tab-content active" id="b58at-overview">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-          <div class="an-panel">
-            <div class="an-panel-title">📈 Daily Net Position (Rs.M) — B58 Buy vs Sell</div>
-            <div class="b58a-chart-wrap" id="b58a-net-chart"></div>
-            <div style="display:flex;gap:3px;margin-top:2px;" id="b58a-net-labels"></div>
-          </div>
-          <div class="an-panel">
-            <div class="an-panel-title">🏦 Daily Stance History</div>
-            <div id="b58a-stance-list"></div>
-          </div>
-        </div>
-        <div class="an-panel">
-          <div class="an-panel-title">📊 NEPSE Close vs B58 Net Position</div>
-          <div class="b58a-chart-wrap" id="b58a-nepse-chart"></div>
-          <div style="display:flex;gap:3px;margin-top:2px;" id="b58a-nepse-labels"></div>
-        </div>
-      </div>
-
-      <!-- Accumulation Tab -->
-      <div class="b58a-tab-content" id="b58at-accumulation">
-        <div class="an-panel" style="margin-bottom:14px;">
-          <div class="an-panel-title">▲ Top Scripts — Net Accumulated by B58 (All Available Dates)</div>
-          <div id="b58a-accum-bars"></div>
-        </div>
-        <div class="an-panel">
-          <div class="an-panel-title">📋 Accumulation Detail</div>
-          <div style="overflow-x:auto;" id="b58a-accum-table"></div>
-        </div>
-      </div>
-
-      <!-- Distribution Tab -->
-      <div class="b58a-tab-content" id="b58at-distribution">
-        <div class="an-panel" style="margin-bottom:14px;">
-          <div class="an-panel-title">▼ Top Scripts — Net Distributed by B58 (All Available Dates)</div>
-          <div id="b58a-distrib-bars"></div>
-        </div>
-        <div class="an-panel">
-          <div class="an-panel-title">📋 Distribution Detail</div>
-          <div style="overflow-x:auto;" id="b58a-distrib-table"></div>
-        </div>
-      </div>
-
-      <!-- Script Deep Dive Tab -->
-      <div class="b58a-tab-content" id="b58at-script">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-          <label style="font-size:11px;font-weight:700;color:#555;">Select Script:</label>
-          <select class="b58a-stock-select" id="b58a-stock-select" onchange="renderScriptDeepDive(this.value)"></select>
-          <div id="b58a-script-badge" style="margin-left:auto;"></div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-          <div class="an-panel">
-            <div class="an-panel-title">Daily Buy vs Sell Kitta</div>
-            <div class="b58a-chart-wrap" id="b58a-script-chart"></div>
-            <div style="display:flex;gap:3px;margin-top:2px;" id="b58a-script-labels"></div>
-          </div>
-          <div class="an-panel" id="b58a-script-summary"></div>
-        </div>
-        <div class="an-panel">
-          <div class="an-panel-title">Day-by-Day Activity</div>
-          <div id="b58a-script-daily"></div>
-        </div>
-      </div>
-
-      <!-- Timeline Tab -->
-      <div class="b58a-tab-content" id="b58at-timeline">
-        <div style="margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <span style="font-size:11px;font-weight:700;color:#555;">Showing top 20 scripts across all dates</span>
-          <div style="display:flex;gap:8px;font-size:10px;align-items:center;">
-            <span style="background:#e8f8e8;color:#1e7e34;padding:2px 7px;border-radius:4px;font-weight:700;">BUY</span>
-            <span style="background:#fde8e8;color:#c0392b;padding:2px 7px;border-radius:4px;font-weight:700;">SELL</span>
-            <span style="background:#fff3cd;color:#856404;padding:2px 7px;border-radius:4px;font-weight:700;">BOTH</span>
-            <span style="background:#f8f8f8;color:#ccc;padding:2px 7px;border-radius:4px;">—</span>
-          </div>
-        </div>
-        <div class="b58a-timeline-wrap">
-          <div id="b58a-timeline-grid"></div>
-        </div>
-      </div>
-
-    </div><!-- end b58a-content -->
-  </div>
-<div class="section" id="analysis">
-    <div class="section-title">📈 10. Python Analysis Dashboard — Apr 29, 2026
-      <span style="margin-left:auto;font-size:9px;font-weight:400;color:#888;font-family:monospace;">
-        Powered by Python · Pandas · Plotly
-      </span>
-    </div>
-
-    <!-- Analysis sub-tabs -->
-    <div style="display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid #e2e6ea;overflow-x:auto;">
-      <div class="an-tab active" onclick="switchAnalysisTab('signals',this)" style="white-space:nowrap;">📊 Signals</div>
-      <div class="an-tab" onclick="switchAnalysisTab('b58deep',this)" style="white-space:nowrap;">🏦 B58 Deep</div>
-      <div class="an-tab" onclick="switchAnalysisTab('heatmap',this)" style="white-space:nowrap;">🌡️ Heatmap</div>
-      <div class="an-tab" onclick="switchAnalysisTab('volatility',this)" style="white-space:nowrap;">⚡ Volatility</div>
-    </div>
-
-    <!-- Signals Tab -->
-    <div id="atab-signals" class="an-tab-content active">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-        <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;padding:4px;overflow:hidden;">
-          <div>                            <div id="c305347c-e2b3-4d45-9864-a31e72bd227e" class="plotly-graph-div" style="height:300px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("c305347c-e2b3-4d45-9864-a31e72bd227e")) {                    Plotly.newPlot(                        "c305347c-e2b3-4d45-9864-a31e72bd227e",                        [{"hole":0.55,"hovertemplate":"\u003cb\u003e%{label}\u003c\u002fb\u003e\u003cbr\u003e%{value} stocks (%{percent})\u003cextra\u003e\u003c\u002fextra\u003e","labels":["AVOID","HOLD","WATCH"],"marker":{"colors":["#c0392b","#2980b9","#f0c040"]},"textfont":{"color":"white","size":11},"textinfo":"label+percent","values":{"dtype":"i1","bdata":"DwYG"},"type":"pie"}],                        {"annotations":[{"font":{"color":"#8aaa8a","size":11},"showarrow":false,"text":"SIGNALS","x":0.5,"y":0.5}],"font":{"color":"#e8f0e8","family":"monospace"},"height":300,"legend":{"bgcolor":"#0f1a10","font":{"color":"#e8f0e8"}},"margin":{"b":20,"l":20,"r":20,"t":55},"paper_bgcolor":"#0f1a10","template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"font":{"color":"#f0c040","size":13},"text":"\ud83c\udfaf Action Signal Distribution"}},                        {"responsive": true}                    )                };            </script>        </div>
-        </div>
-        <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;padding:4px;overflow:hidden;">
-          <div>                            <div id="024f9971-628d-48e8-ae6b-f73d02a01108" class="plotly-graph-div" style="height:300px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("024f9971-628d-48e8-ae6b-f73d02a01108")) {                    Plotly.newPlot(                        "024f9971-628d-48e8-ae6b-f73d02a01108",                        [{"marker":{"color":"#2980b9"},"name":"HOLD","nbinsx":8,"opacity":0.8,"x":{"dtype":"f8","bdata":"mpmZmZnZQ0DD9Shcj4JJQHsUrkfhekZAH4XrUbj+RkAfhetRuF5HQHE9CtejsE5A"},"type":"histogram"},{"marker":{"color":"#f0c040"},"name":"WATCH","nbinsx":8,"opacity":0.8,"x":{"dtype":"f8","bdata":"FK5H4XrUR0C4HoXrUXhJQHE9CtejMEdAFK5H4Xp0RkAAAAAAAEBFQHE9Ctej0EJA"},"type":"histogram"},{"marker":{"color":"#c0392b"},"name":"AVOID","nbinsx":8,"opacity":0.8,"x":{"dtype":"f8","bdata":"CtejcD2qQ0Bcj8L1KDxEQAAAAAAAgENAcT0K16PwREBcj8L1KDxEQD0K16NwPUNA16NwPQo3REAK16NwPWpAQEjhehSup0NAH4XrUbieRUDhehSuRyE4QK5H4XoUbkZAFK5H4XqUREAzMzMzM7NEQNejcD0Kd0JA"},"type":"histogram"}],                        {"annotations":[{"font":{"color":"#c0392b","size":10},"showarrow":false,"text":"Oversold","x":30,"xanchor":"left","xref":"x","y":1,"yanchor":"top","yref":"y domain"},{"font":{"color":"#27ae60","size":10},"showarrow":false,"text":"Overbought","x":70,"xanchor":"left","xref":"x","y":1,"yanchor":"top","yref":"y domain"}],"barmode":"overlay","font":{"color":"#e8f0e8","family":"monospace"},"height":300,"legend":{"bgcolor":"#1a2d1a","bordercolor":"#2a4a2a","font":{"color":"#e8f0e8"}},"margin":{"b":45,"l":50,"r":30,"t":55},"paper_bgcolor":"#0f1a10","plot_bgcolor":"#1a2d1a","shapes":[{"line":{"color":"#c0392b","dash":"dash"},"type":"line","x0":30,"x1":30,"xref":"x","y0":0,"y1":1,"yref":"y domain"},{"line":{"color":"#27ae60","dash":"dash"},"type":"line","x0":70,"x1":70,"xref":"x","y0":0,"y1":1,"yref":"y domain"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"font":{"color":"#f0c040","size":13},"text":"\ud83d\udcca RSI Distribution by Action Signal"},"xaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","zeroline":false},"yaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","zeroline":false}},                        {"responsive": true}                    )                };            </script>        </div>
-        </div>
-      </div>
-      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;padding:4px;margin-bottom:12px;overflow:hidden;">
-        <div>                            <div id="3a95defe-1faf-49aa-b569-0fb7bae92988" class="plotly-graph-div" style="height:380px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("3a95defe-1faf-49aa-b569-0fb7bae92988")) {                    Plotly.newPlot(                        "3a95defe-1faf-49aa-b569-0fb7bae92988",                        [{"hovertemplate":"\u003cb\u003e%{text}\u003c\u002fb\u003e\u003cbr\u003eRSI: %{x:.1f}\u003cbr\u003eADX: %{y:.1f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#2980b9","opacity":0.9,"size":12},"mode":"markers+text","name":"HOLD","text":["ILI","NABIL","RIDI","JBBL","FMDBL","SOHL"],"textfont":{"color":"#e8f0e8","size":8},"textposition":"top center","x":{"dtype":"f8","bdata":"mpmZmZnZQ0DD9Shcj4JJQHsUrkfhekZAH4XrUbj+RkAfhetRuF5HQHE9CtejsE5A"},"y":{"dtype":"f8","bdata":"rkfhehQuMUC4HoXrUXg1QOxRuB6FazBAPQrXo3C9MUBmZmZmZmYsQJqZmZmZmUxA"},"type":"scatter"},{"hovertemplate":"\u003cb\u003e%{text}\u003c\u002fb\u003e\u003cbr\u003eRSI: %{x:.1f}\u003cbr\u003eADX: %{y:.1f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#f0c040","opacity":0.9,"size":12},"mode":"markers+text","name":"WATCH","text":["NHPC","SONA","NICA","API","ULHC","MPFL"],"textfont":{"color":"#e8f0e8","size":8},"textposition":"top center","x":{"dtype":"f8","bdata":"FK5H4XrUR0C4HoXrUXhJQHE9CtejMEdAFK5H4Xp0RkAAAAAAAEBFQHE9Ctej0EJA"},"y":{"dtype":"f8","bdata":"ZmZmZmamOkCamZmZmZkkQM3MzMzMjDBAH4XrUbheNED2KFyPwrUyQD0K16Nw\u002fTBA"},"type":"scatter"},{"hovertemplate":"\u003cb\u003e%{text}\u003c\u002fb\u003e\u003cbr\u003eRSI: %{x:.1f}\u003cbr\u003eADX: %{y:.1f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#c0392b","opacity":0.9,"size":12},"mode":"markers+text","name":"AVOID","text":["NGPL","NIMB","SKBBL","PCBL","SHEL","PRVU","SMHL","RADHI","HDL","SHIVM","SYPNL","KBL","ALICL","BHL","SAIL"],"textfont":{"color":"#e8f0e8","size":8},"textposition":"top center","x":{"dtype":"f8","bdata":"CtejcD2qQ0Bcj8L1KDxEQAAAAAAAgENAcT0K16PwREBcj8L1KDxEQD0K16NwPUNA16NwPQo3REAK16NwPWpAQEjhehSup0NAH4XrUbieRUDhehSuRyE4QK5H4XoUbkZAFK5H4XqUREAzMzMzM7NEQNejcD0Kd0JA"},"y":{"dtype":"f8","bdata":"ZmZmZmamM0DhehSuR6ExQClcj8L1KD9A7FG4HoUrMkAfhetRuF41QB+F61G4XjFAj8L1KFyPJ0BSuB6F65E5QM3MzMzMjDJA16NwPQoXM0Bcj8L1KNw2QArXo3A9ijJA16NwPQoXMEBxPQrXo3AtQFyPwvUo3ChA"},"type":"scatter"}],                        {"font":{"color":"#e8f0e8","family":"monospace"},"height":380,"legend":{"bgcolor":"#1a2d1a","bordercolor":"#2a4a2a","font":{"color":"#e8f0e8"}},"margin":{"b":45,"l":50,"r":30,"t":55},"paper_bgcolor":"#0f1a10","plot_bgcolor":"#1a2d1a","shapes":[{"line":{"color":"#e8f0e8","dash":"dot"},"opacity":0.3,"type":"line","x0":50,"x1":50,"xref":"x","y0":0,"y1":1,"yref":"y domain"},{"line":{"color":"#e8f0e8","dash":"dot"},"opacity":0.3,"type":"line","x0":0,"x1":1,"xref":"x domain","y0":25,"y1":25,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"font":{"color":"#f0c040","size":13},"text":"\ud83c\udfaf RSI vs ADX \u2014 Momentum \u00d7 Trend Matrix"},"xaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","title":{"text":"RSI"},"zeroline":false},"yaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","title":{"text":"ADX"},"zeroline":false}},                        {"responsive": true}                    )                };            </script>        </div>
-      </div>
-      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;padding:4px;overflow:hidden;">
-        <div>                            <div id="e3184221-9af3-4efb-bbde-d71c1fe99938" class="plotly-graph-div" style="height:300px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("e3184221-9af3-4efb-bbde-d71c1fe99938")) {                    Plotly.newPlot(                        "e3184221-9af3-4efb-bbde-d71c1fe99938",                        [{"hovertemplate":"\u003cb\u003e%{x}\u003c\u002fb\u003e\u003cbr\u003eChange: %{y:.2f}%\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#27ae60","#27ae60","#27ae60","#27ae60","#27ae60"],"opacity":0.88},"text":["-4.9%","-2.9%","-2.5%","-2.4%","-1.5%","-1.4%","-1.3%","-1.3%","-1.3%","-1.2%","-1.2%","-1.1%","-1.1%","-1.0%","-0.9%","-0.9%","-0.9%","-0.5%","-0.5%","-0.4%","-0.1%","-0.0%","+0.0%","+1.0%","+2.1%","+2.1%","+2.6%"],"textfont":{"color":"#e8f0e8","size":8},"textposition":"outside","x":["SYPNL","SAIL","SOHL","NHPC","SMHL","KBL","NIMB","NGPL","SHEL","PRVU","SHIVM","JBBL","PCBL","MPFL","API","RIDI","BHL","SKBBL","HDL","ILI","ALICL","NABIL","NICA","FMDBL","ULHC","SONA","RADHI"],"y":{"dtype":"f8","bdata":"uB6F61G4E8DhehSuR+EGwAAAAAAAAATA4XoUrkfhAsApXI\u002fC9Sj4v2ZmZmZmZva\u002fcT0K16Nw9b\u002f2KFyPwvX0v6RwPQrXo\u002fS\u002f16NwPQrX878zMzMzMzPzv3E9CtejcPG\u002fSOF6FK5H8b9cj8L1KFzvvxSuR+F6FO6\u002fw\u002fUoXI\u002fC7b9xPQrXo3Dtv6RwPQrXo+C\u002fzczMzMzM3L\u002f2KFyPwvXYv6RwPQrXo8C\u002fexSuR+F6lL8AAAAAAAAAAFyPwvUoXO8\u002fexSuR+F6AEDhehSuR+EAQHsUrkfhegRA"},"type":"bar"}],                        {"font":{"color":"#e8f0e8","family":"monospace"},"height":300,"legend":{"bgcolor":"#1a2d1a","bordercolor":"#2a4a2a","font":{"color":"#e8f0e8"}},"margin":{"b":45,"l":50,"r":30,"t":55},"paper_bgcolor":"#0f1a10","plot_bgcolor":"#1a2d1a","shapes":[{"line":{"color":"#e8f0e8","width":1},"opacity":0.5,"type":"line","x0":0,"x1":1,"xref":"x domain","y0":0,"y1":0,"yref":"y"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"font":{"color":"#f0c040","size":13},"text":"\ud83d\udcc9 Daily Price Change % \u2014 All Tracked Stocks (Apr 29)"},"xaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","zeroline":false},"yaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","title":{"text":"Change %"},"zeroline":false}},                        {"responsive": true}                    )                };            </script>        </div>
-      </div>
-    </div>
-
-    <!-- B58 Deep Tab -->
-    <div id="atab-b58deep" class="an-tab-content">
-      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;padding:4px;margin-bottom:12px;overflow:hidden;">
-        <div>                            <div id="8bd66229-79b9-4ed0-8f85-dbc46029d530" class="plotly-graph-div" style="height:400px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("8bd66229-79b9-4ed0-8f85-dbc46029d530")) {                    Plotly.newPlot(                        "8bd66229-79b9-4ed0-8f85-dbc46029d530",                        [{"hovertemplate":"\u003cb\u003e%{y}\u003c\u002fb\u003e\u003cbr\u003eNet: %{x:.1f}K kitta\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#c0392b","#27ae60","#27ae60","#27ae60","#27ae60"],"opacity":0.88},"orientation":"h","text":["-99.2K","-19.1K","-18.9K","-16.3K","-15.4K","-14.2K","-10.4K","-2.6K","-0.6K","+7.2K","+8.5K","+18.7K","+48.8K"],"textfont":{"color":"#e8f0e8","size":9},"textposition":"outside","x":[-99.216,-19.058,-18.881,-16.325,-15.365,-14.233,-10.361,-2.571,-0.555,7.2,8.479,18.682,48.829],"y":["KBL","HFIN","PCIL","SIPD","SHIVM","SOHL","AKJCL","RSML","SYPNL","NRN","BJHL","NHPC","RIDI"],"type":"bar"}],                        {"font":{"color":"#e8f0e8","family":"monospace"},"height":400,"legend":{"bgcolor":"#1a2d1a","bordercolor":"#2a4a2a","font":{"color":"#e8f0e8"}},"margin":{"b":45,"l":50,"r":30,"t":55},"paper_bgcolor":"#0f1a10","plot_bgcolor":"#1a2d1a","shapes":[{"line":{"color":"#e8f0e8","width":1.5},"opacity":0.6,"type":"line","x0":0,"x1":0,"xref":"x","y0":0,"y1":1,"yref":"y domain"}],"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"font":{"color":"#f0c040","size":13},"text":"\ud83c\udfe6 B58 Net Position \u2014 Buy\u2212Sell ('000 kitta)"},"xaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","title":{"text":"Net Kitta ('000)"},"zeroline":false},"yaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","zeroline":false}},                        {"responsive": true}                    )                };            </script>        </div>
-      </div>
-      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;padding:4px;overflow:hidden;">
-        <div>                            <div id="8647cb48-8754-4c16-8dae-8809c3afd8dd" class="plotly-graph-div" style="height:380px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("8647cb48-8754-4c16-8dae-8809c3afd8dd")) {                    Plotly.newPlot(                        "8647cb48-8754-4c16-8dae-8809c3afd8dd",                        [{"hovertemplate":"\u003cb\u003e%{y}\u003c\u002fb\u003e\u003cbr\u003e%{x:.1f}%\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#27ae60"},"name":"Buy","opacity":0.85,"orientation":"h","text":["3.5%","5.5%","6.2%","9.3%","11.8%","12.7%","13.2%","14.8%","21.9%","28.4%"],"textfont":{"color":"#e8f0e8","size":9},"textposition":"outside","x":{"dtype":"f8","bdata":"rkfhehSuC0DhehSuR+EVQK5H4XoUrhhAKVyPwvWoIkAzMzMzM7MnQGZmZmZmZilAXI\u002fC9ShcKkCF61G4HoUtQB+F61G43jVAmpmZmZlZPEA="},"xaxis":"x","y":["RSML","AKJCL","SYPNL","SIPD","PCIL","NHPC","NRN","RIDI","BJHL","KBL"],"yaxis":"y","type":"bar"},{"hovertemplate":"\u003cb\u003e%{y}\u003c\u002fb\u003e\u003cbr\u003e%{x:.1f}%\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#c0392b"},"name":"Sell","opacity":0.85,"orientation":"h","text":["5.9%","6.7%","7.6%","8.1%","8.2%","9.5%","16.0%","21.0%","22.3%","49.0%"],"textfont":{"color":"#e8f0e8","size":9},"textposition":"outside","x":{"dtype":"f8","bdata":"pHA9CtejF0DsUbgehesaQFyPwvUoXB5AMzMzMzMzIEBcj8L1KFwgQBSuR+F6FCNAw\u002fUoXI8CMEA9CtejcP00QArXo3A9SjZAmpmZmZl5SEA="},"xaxis":"x2","y":["SOHL","SYPNL","RSML","AKJCL","SHIVM","NHPC","HFIN","PCIL","SIPD","KBL"],"yaxis":"y2","type":"bar"}],                        {"annotations":[{"font":{"color":"#f0c040","size":16},"showarrow":false,"text":"Buy Side %","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"color":"#f0c040","size":16},"showarrow":false,"text":"Sell Side %","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"font":{"color":"#e8f0e8","family":"monospace"},"height":380,"margin":{"b":40,"l":60,"r":60,"t":65},"paper_bgcolor":"#0f1a10","plot_bgcolor":"#1a2d1a","showlegend":false,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"font":{"color":"#f0c040","size":13},"text":"\ud83d\udcb9 B58 Market Concentration \u2014 Buy vs Sell Side"},"xaxis":{"anchor":"y","color":"#8aaa8a","domain":[0.0,0.45],"gridcolor":"#2a4a2a"},"yaxis":{"anchor":"x","color":"#8aaa8a","domain":[0.0,1.0],"gridcolor":"#2a4a2a"},"xaxis2":{"anchor":"y2","color":"#8aaa8a","domain":[0.55,1.0],"gridcolor":"#2a4a2a"},"yaxis2":{"anchor":"x2","color":"#8aaa8a","domain":[0.0,1.0],"gridcolor":"#2a4a2a"}},                        {"responsive": true}                    )                };            </script>        </div>
-      </div>
-    </div>
-
-    <!-- Heatmap Tab -->
-    <div id="atab-heatmap" class="an-tab-content">
-      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;padding:4px;overflow:hidden;">
-        <div>                            <div id="b4da362e-7ef9-4f25-92ab-0b35ef3f7ab6" class="plotly-graph-div" style="height:520px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("b4da362e-7ef9-4f25-92ab-0b35ef3f7ab6")) {                    Plotly.newPlot(                        "b4da362e-7ef9-4f25-92ab-0b35ef3f7ab6",                        [{"colorbar":{"tickfont":{"color":"#e8f0e8"},"title":{"font":{"color":"#e8f0e8"},"text":"RSI"}},"colorscale":[[0,"#c0392b"],[0.35,"#e67e22"],[0.5,"#f0c040"],[0.65,"#2ecc71"],[1,"#1a7a40"]],"hovertemplate":"\u003cb\u003e%{y}\u003c\u002fb\u003e\u003cbr\u003eDate: %{x}\u003cbr\u003eRSI: %{z:.1f}\u003cextra\u003e\u003c\u002fextra\u003e","text":[["28","24"],["36","33"],["","37"],["39","38"],["42","38"],["41","39"],["42","39"],["41","40"],["39","42"],["42","39"],["42","41"],["43","40"],["43","40"],["44","40"],["43","41"],["45","42"],["46","43"],["44","47"],["48","45"],["48","45"],["46","46"],["48","45"],["43","51"],["48","46"],["51","48"],["51","51"],["64","61"]],"textfont":{"color":"black","size":10},"texttemplate":"%{text}","x":["2026-04-28","2026-04-29"],"y":["SYPNL","RADHI","SAIL","MPFL","PRVU","HDL","SKBBL","ILI","ULHC","NGPL","ALICL","SHEL","NIMB","SMHL","BHL","PCBL","SHIVM","FMDBL","API","KBL","NICA","RIDI","SONA","JBBL","NHPC","NABIL","SOHL"],"z":{"dtype":"f8","bdata":"9ihcj8K1O0DhehSuRyE4QOxRuB6FK0JACtejcD1qQEAAAAAAAAD4f9ejcD0Kd0JAXI\u002fC9SicQ0BxPQrXo9BCQGZmZmZm5kRAPQrXo3A9Q0CamZmZmZlEQEjhehSup0NASOF6FK7HREAAAAAAAIBDQArXo3A9ikRAmpmZmZnZQ0AK16NwPWpDQAAAAAAAQEVAH4XrUbgeRUAK16NwPapDQPYoXI\u002fC1URAFK5H4XqUREBSuB6F63FFQFyPwvUoPERAuB6F61GYRUBcj8L1KDxEQArXo3A9ykVA16NwPQo3REDhehSuR4FFQDMzMzMzs0RA4XoUrkdhRkBxPQrXo\u002fBEQFyPwvUoHEdAH4XrUbieRUAzMzMzMxNGQB+F61G4XkdAhetRuB7FR0AUrkfhenRGQI\u002fC9Shc70dArkfhehRuRkBxPQrXozBHQHE9CtejMEdAexSuR+H6R0B7FK5H4XpGQClcj8L1SEVAuB6F61F4SUCuR+F6FC5IQB+F61G4\u002fkZA4XoUrkdBSUAUrkfhetRHQI\u002fC9Shcj0lAw\u002fUoXI+CSUB7FK5H4RpQQHE9CtejsE5A","shape":"27, 2"},"zmax":75,"zmin":25,"type":"heatmap"}],                        {"font":{"color":"#e8f0e8","family":"monospace"},"height":520,"legend":{"bgcolor":"#1a2d1a","bordercolor":"#2a4a2a","font":{"color":"#e8f0e8"}},"margin":{"b":45,"l":50,"r":30,"t":55},"paper_bgcolor":"#0f1a10","plot_bgcolor":"#1a2d1a","template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"font":{"color":"#f0c040","size":13},"text":"\ud83c\udf21\ufe0f RSI Heatmap \u2014 Stocks \u00d7 Dates"},"xaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","side":"top","zeroline":false},"yaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","zeroline":false}},                        {"responsive": true}                    )                };            </script>        </div>
-      </div>
-      <div style="margin-top:10px;padding:10px 12px;background:#fffbf0;border:1px solid #f0d080;border-radius:8px;font-size:11px;color:#7a5a00;line-height:1.7;">
-        <strong>How to read:</strong> Red = Oversold (RSI &lt; 35), Yellow = Neutral (35–55), Green = Overbought (RSI &gt; 55).
-        Stocks at the top have the lowest average RSI — most bearish. Hover any cell for exact values.
-      </div>
-    </div>
-
-    <!-- Volatility Tab -->
-    <div id="atab-volatility" class="an-tab-content">
-      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;padding:4px;overflow:hidden;">
-        <div>                            <div id="7eec4707-c17e-4935-8942-442547e30dbb" class="plotly-graph-div" style="height:560px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("7eec4707-c17e-4935-8942-442547e30dbb")) {                    Plotly.newPlot(                        "7eec4707-c17e-4935-8942-442547e30dbb",                        [{"customdata":["AVOID","AVOID","HOLD","AVOID","AVOID","AVOID","HOLD","WATCH","AVOID","AVOID","HOLD","WATCH","WATCH","WATCH","AVOID","AVOID","AVOID","AVOID","HOLD","AVOID","WATCH","WATCH","HOLD","AVOID","HOLD","AVOID","AVOID"],"hovertemplate":"\u003cb\u003e%{y}\u003c\u002fb\u003e\u003cbr\u003eATR: %{x:.1f}\u003cbr\u003eAction: %{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#c0392b","#c0392b","#2980b9","#c0392b","#c0392b","#c0392b","#2980b9","#f0c040","#c0392b","#c0392b","#2980b9","#f0c040","#f0c040","#f0c040","#c0392b","#c0392b","#c0392b","#c0392b","#2980b9","#c0392b","#f0c040","#f0c040","#2980b9","#c0392b","#2980b9","#c0392b","#c0392b"],"opacity":0.88},"orientation":"h","text":["7.2","7.8","8.8","8.9","9.9","10.2","10.4","11.0","12.3","12.4","12.8","13.2","13.9","17.1","17.3","18.8","21.2","21.4","22.0","24.2","26.2","29.0","29.4","30.1","54.7","77.3","84.0"],"textfont":{"color":"#e8f0e8","size":8},"textposition":"outside","x":{"dtype":"f8","bdata":"mpmZmZmZHEAUrkfhehQfQKRwPQrXoyFAuB6F61G4IUBcj8L1KNwjQNejcD0KVyRA4XoUrkfhJEB7FK5H4folQK5H4XoUrihAw\u002fUoXI\u002fCKEAAAAAAAIApQOF6FK5HYSpA4XoUrkfhK0AfhetRuB4xQM3MzMzMTDFAAAAAAADAMkBxPQrXozA1QDMzMzMzczVA9ihcj8L1NUA9CtejcD04QDMzMzMzMzpASOF6FK4HPUBxPQrXo3A9QKRwPQrXIz5APQrXo3BdS0BSuB6F61FTQMP1KFyPAlVA"},"y":["PCBL","PRVU","ILI","NIMB","BHL","KBL","NABIL","API","SHEL","ALICL","JBBL","SONA","NICA","NHPC","SMHL","NGPL","SHIVM","SKBBL","RIDI","HDL","MPFL","ULHC","FMDBL","RADHI","SOHL","SAIL","SYPNL"],"type":"bar"}],                        {"font":{"color":"#e8f0e8","family":"monospace"},"height":560,"legend":{"bgcolor":"#1a2d1a","bordercolor":"#2a4a2a","font":{"color":"#e8f0e8"}},"margin":{"b":45,"l":50,"r":30,"t":55},"paper_bgcolor":"#0f1a10","plot_bgcolor":"#1a2d1a","template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"font":{"color":"#f0c040","size":13},"text":"\u26a1 Volatility Ranking \u2014 ATR 14-day"},"xaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","title":{"text":"ATR"},"zeroline":false},"yaxis":{"color":"#8aaa8a","gridcolor":"#2a4a2a","zeroline":false}},                        {"responsive": true}                    )                };            </script>        </div>
-      </div>
-      <div style="margin-top:10px;padding:10px 12px;background:#f0faf4;border:1px solid #a8dfc0;border-radius:8px;font-size:11px;color:#1e5c34;line-height:1.7;">
-        <strong>Color legend:</strong>
-        <span style="color:#27ae60;font-weight:700;">■ ADD</span> &nbsp;
-        <span style="color:#2980b9;font-weight:700;">■ HOLD</span> &nbsp;
-        <span style="color:#f0c040;font-weight:700;">■ WATCH</span> &nbsp;
-        <span style="color:#c0392b;font-weight:700;">■ AVOID</span> &nbsp;
-        High ATR = high risk. AVOID stocks with high ATR are danger zones.
-      </div>
-    </div>
-
-  </div>
   <div class="page-footer">BROKER 58 — NAASA SECURITIES &nbsp;·&nbsp; NEPSE Daily Master Report &nbsp;·&nbsp; ${r.date} &nbsp;·&nbsp; Prepared by Sagun Prajapati, MBA (Finance) &nbsp;·&nbsp; v3.0<br>Data: nepalstock.com / nepsealpha.com &nbsp;·&nbsp; For personal tracking only. Not financial advice.</div>`;
 }
 
@@ -1949,7 +782,6 @@ function showSection(id,el){
   if(el)el.classList.add('active');
   if(window.innerWidth<=768)closeSidebar();
   window.scrollTo({top:0,behavior:'smooth'});
-  if(id==='b58-analysis') loadB58Analysis();
 }
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
@@ -2023,8 +855,7 @@ tr:nth-child(even) td{background:#f8fafc;}
 .about-avatar{width:65px;height:65px;border-radius:50%;background:#0f1a10;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#b0f0b0;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 .page-footer{text-align:center;font-size:10px;color:#aaa;padding:16px 0 24px;border-top:1px solid #e8ecf0;margin-top:8px;}
 @media print{body{background:#fff;}.section{page-break-inside:avoid;}}
-</style><script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-</head><body>
+</style></head><body>
 <div class="pdf-header">
   <h1>${reportTitle}</h1>
   <div class="pdf-badges">${document.getElementById('topbar-badges').innerHTML}</div>
@@ -2039,400 +870,10 @@ tr:nth-child(even) td{background:#f8fafc;}
 }
 
 // ═══════════════════════════════════════════════
-//  B58 ANALYSIS ENGINE
+//  INIT
 // ═══════════════════════════════════════════════
-let _b58AnalysisData = null;
-
-async function loadB58Analysis() {
-  if (_b58AnalysisData) { renderB58Analysis(_b58AnalysisData); return; }
-  document.getElementById('b58a-loading').style.display = 'block';
-  document.getElementById('b58a-content').style.display = 'none';
-  try {
-    const reports = await Promise.all(availableDates.map(d =>
-      fetch(`${RAW_BASE}/${d}.json`).then(r => r.json()).catch(() => null)
-    ));
-    const valid = reports.filter(Boolean).sort((a,b) => a.date.localeCompare(b.date));
-    _b58AnalysisData = buildB58Analysis(valid);
-    renderB58Analysis(_b58AnalysisData);
-  } catch(e) {
-    document.getElementById('b58a-loading').innerHTML = `<p style="color:#c0392b;">Failed to load analysis: ${e.message}</p>`;
-  }
-}
-
-function buildB58Analysis(reports) {
-  const buyMap = {}, sellMap = {};
-  const dailyTrend = reports.map(r => {
-    // parse net amount
-    const netStr = r.b58Net || '0';
-    const netSign = netStr.includes('-') ? -1 : 1;
-    const netAmt = parseFloat(netStr.replace(/[^0-9.]/g,'')) * netSign;
-    const purStr = r.b58Purchase || '0';
-    const salStr = r.b58SalesTotal || '0';
-    const purAmt = parseFloat(purStr.replace(/[^0-9.]/g,''));
-    const salAmt = parseFloat(salStr.replace(/[^0-9.]/g,''));
-    (r.b58Purchases||[]).forEach(p => {
-      const k = parseInt((p.kitta||'0').replace(/,/g,''))||0;
-      const pr = parseFloat((p.avgPrice||'0').replace(/,/g,''))||0;
-      const mp = parseFloat((p.mktPct||'0').replace(/[^0-9.]/g,''))||0;
-      if(!buyMap[p.sym]) buyMap[p.sym]={kitta:0,days:0,prices:[],dates:[],mktPcts:[]};
-      buyMap[p.sym].kitta+=k; buyMap[p.sym].days++;
-      buyMap[p.sym].dates.push(r.date);
-      if(pr) buyMap[p.sym].prices.push(pr);
-      if(mp) buyMap[p.sym].mktPcts.push(mp);
-    });
-    const sales = r.b58SalesList||r.b58Sales||[];
-    sales.forEach(p => {
-      const k = parseInt((p.kitta||'0').replace(/,/g,''))||0;
-      const pr = parseFloat((p.avgPrice||'0').replace(/,/g,''))||0;
-      const mp = parseFloat((p.mktPct||'0').replace(/[^0-9.]/g,''))||0;
-      if(!sellMap[p.sym]) sellMap[p.sym]={kitta:0,days:0,prices:[],dates:[],mktPcts:[]};
-      sellMap[p.sym].kitta+=k; sellMap[p.sym].days++;
-      sellMap[p.sym].dates.push(r.date);
-      if(pr) sellMap[p.sym].prices.push(pr);
-      if(mp) sellMap[p.sym].mktPcts.push(mp);
-    });
-    return {
-      date: r.date, stance: r.b58Stance, netAmt,
-      purAmt, salAmt,
-      nepseClose: parseFloat((r.nepseClose||'0').replace(/,/g,''))||0,
-      nepseChg: r.nepseChg||'',
-      topBuy: (r.b58Purchases||[])[0]?.sym||'',
-      topSell: (sales||[])[0]?.sym||''
-    };
-  });
-
-  const allSyms = new Set([...Object.keys(buyMap),...Object.keys(sellMap)]);
-  const netPos = [];
-  allSyms.forEach(sym => {
-    const b = buyMap[sym]||{kitta:0,days:0,prices:[],dates:[],mktPcts:[]};
-    const s = sellMap[sym]||{kitta:0,days:0,prices:[],dates:[],mktPcts:[]};
-    const net = b.kitta - s.kitta;
-    const avgBuy = b.prices.length ? b.prices.reduce((a,c)=>a+c,0)/b.prices.length : 0;
-    const avgSell = s.prices.length ? s.prices.reduce((a,c)=>a+c,0)/s.prices.length : 0;
-    const avgMktBuy = b.mktPcts.length ? b.mktPcts.reduce((a,c)=>a+c,0)/b.mktPcts.length : 0;
-    const avgMktSell = s.mktPcts.length ? s.mktPcts.reduce((a,c)=>a+c,0)/s.mktPcts.length : 0;
-    netPos.push({sym,net,buyKitta:b.kitta,sellKitta:s.kitta,
-      buyDays:b.days,sellDays:s.days,avgBuy,avgSell,
-      avgMktBuy,avgMktSell,buyDates:b.dates,sellDates:s.dates});
-  });
-  netPos.sort((a,b) => b.net - a.net);
-
-  const stockTimeline = {};
-  allSyms.forEach(sym => {
-    stockTimeline[sym] = reports.map(r => {
-      const buy = (r.b58Purchases||[]).find(p=>p.sym===sym);
-      const sales2 = r.b58SalesList||r.b58Sales||[];
-      const sell = sales2.find(p=>p.sym===sym);
-      return {
-        date:r.date,
-        buyKitta: buy?parseInt((buy.kitta||'0').replace(/,/g,''))||0:0,
-        sellKitta: sell?parseInt((sell.kitta||'0').replace(/,/g,''))||0:0,
-        buyPct: buy?parseFloat((buy.mktPct||'0').replace(/[^0-9.]/g,''))||0:0,
-        sellPct: sell?parseFloat((sell.mktPct||'0').replace(/[^0-9.]/g,''))||0:0,
-        avgBuy: buy?parseFloat((buy.avgPrice||'0').replace(/,/g,''))||0:0,
-        avgSell: sell?parseFloat((sell.avgPrice||'0').replace(/,/g,''))||0:0
-      };
-    });
-  });
-
-  return {dailyTrend, netPos, stockTimeline,
-    dates: reports.map(r=>r.date), buyMap, sellMap};
-}
-
-function renderB58Analysis(data) {
-  document.getElementById('b58a-loading').style.display = 'none';
-  document.getElementById('b58a-content').style.display = 'block';
-  const {dailyTrend, netPos, stockTimeline, dates} = data;
-
-  // ── KPIs
-  const buyDays = dailyTrend.filter(d=>d.stance==='NET BUYER').length;
-  const sellDays = dailyTrend.filter(d=>d.stance==='NET SELLER').length;
-  const totalBuyKitta = netPos.reduce((s,p)=>s+p.buyKitta,0);
-  const totalSellKitta = netPos.reduce((s,p)=>s+p.sellKitta,0);
-  const topAccum = netPos[0];
-  const topDistrib = netPos[netPos.length-1];
-  document.getElementById('b58a-kpis').innerHTML = `
-    <div class="b58a-kpi" style="border-top-color:#1e7e34">
-      <div class="val green">${buyDays}</div><div class="lbl">Net Buy Days</div><div class="sub">of ${dates.length} total</div></div>
-    <div class="b58a-kpi" style="border-top-color:#c0392b">
-      <div class="val red">${sellDays}</div><div class="lbl">Net Sell Days</div><div class="sub">of ${dates.length} total</div></div>
-    <div class="b58a-kpi" style="border-top-color:#1a5276">
-      <div class="val blue">${(totalBuyKitta/1000).toFixed(0)}K</div><div class="lbl">Total Buy Kitta</div><div class="sub">across all scripts</div></div>
-    <div class="b58a-kpi" style="border-top-color:#c0392b">
-      <div class="val red">${(totalSellKitta/1000).toFixed(0)}K</div><div class="lbl">Total Sell Kitta</div><div class="sub">across all scripts</div></div>
-    <div class="b58a-kpi" style="border-top-color:#1e7e34">
-      <div class="val green" style="font-size:14px">${topAccum?.sym||'—'}</div><div class="lbl">Top Accumulation</div>
-      <div class="sub">+${topAccum?(topAccum.net/1000).toFixed(1)+'K':'—'} net</div></div>
-    <div class="b58a-kpi" style="border-top-color:#c0392b">
-      <div class="val red" style="font-size:14px">${topDistrib?.sym||'—'}</div><div class="lbl">Top Distribution</div>
-      <div class="sub">${topDistrib?(topDistrib.net/1000).toFixed(1)+'K':'—'} net</div></div>`;
-
-  // ── Overview charts
-  renderB58NetChart(dailyTrend);
-  renderB58StanceList(dailyTrend);
-  renderB58NepseChart(dailyTrend);
-  // ── Accumulation bars
-  renderB58Bars('accum', netPos.slice(0,15), netPos[0]?.buyKitta||1);
-  renderB58Table('accum', netPos.slice(0,15));
-  // ── Distribution bars
-  const bottom15 = netPos.slice(-15).reverse();
-  renderB58Bars('distrib', bottom15, bottom15[0]?.sellKitta||1);
-  renderB58Table('distrib', bottom15);
-  // ── Script selector
-  const sel = document.getElementById('b58a-stock-select');
-  if(sel) {
-    sel.innerHTML = netPos.map(p=>`<option value="${p.sym}">${p.sym} (net: ${p.net>0?'+':''}${(p.net/1000).toFixed(1)}K)</option>`).join('');
-    renderScriptDeepDive(netPos[0]?.sym);
-  }
-  // ── Timeline
-  renderB58Timeline(data);
-}
-
-function renderB58NetChart(trend) {
-  const el = document.getElementById('b58a-net-chart');
-  const lel = document.getElementById('b58a-net-labels');
-  if(!el) return;
-  const mx = Math.max(...trend.map(d=>Math.abs(d.netAmt)),1);
-  el.innerHTML = trend.map(d => {
-    const pct = Math.max(Math.round((Math.abs(d.netAmt)/mx)*160),3);
-    const isPos = d.netAmt >= 0;
-    const lbl = (Math.abs(d.netAmt)).toFixed(0);
-    return `<div class="b58a-col" title="${d.date}: ${d.stance} Rs.${d.netAmt.toFixed(0)}M">
-      <div style="font-size:8px;color:${isPos?'#1e7e34':'#c0392b'};margin-bottom:1px;">${lbl}</div>
-      <div class="${isPos?'b58a-col-buy':'b58a-col-sell'}" style="width:100%;height:${pct}px;"></div>
-    </div>`;
-  }).join('');
-  lel.innerHTML = trend.map(d=>`<div style="flex:1;text-align:center;font-size:8px;color:#aaa;">${d.date.slice(5)}</div>`).join('');
-}
-
-function renderB58StanceList(trend) {
-  const el = document.getElementById('b58a-stance-list');
-  if(!el) return;
-  el.innerHTML = [...trend].reverse().map(d => {
-    const isPos = d.stance === 'NET BUYER';
-    const amt = Math.abs(d.netAmt).toFixed(1);
-    return `<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f0f2f4;font-size:11px;">
-      <span style="font-size:9px;color:#888;min-width:48px;">${d.date.slice(5)}</span>
-      <span class="stance-badge ${isPos?'stance-buy':'stance-sell'}">${isPos?'▲ BUY':'▼ SELL'}</span>
-      <span style="font-weight:700;color:${isPos?'#1e7e34':'#c0392b'};">${isPos?'+':'-'}Rs.${amt}M</span>
-      <span style="font-size:9px;color:#888;margin-left:auto;">NEPSE ${d.nepseChg}</span>
-    </div>`;
-  }).join('');
-}
-
-function renderB58NepseChart(trend) {
-  const el = document.getElementById('b58a-nepse-chart');
-  const lel = document.getElementById('b58a-nepse-labels');
-  if(!el) return;
-  const closes = trend.map(d=>d.nepseClose).filter(Boolean);
-  const minC = Math.min(...closes); const maxC = Math.max(...closes);
-  const rangeC = maxC - minC || 1;
-  const maxNet = Math.max(...trend.map(d=>Math.abs(d.netAmt)),1);
-  el.innerHTML = trend.map(d => {
-    const closeH = Math.max(Math.round(((d.nepseClose-minC)/rangeC)*140),2);
-    const netH = Math.max(Math.round((Math.abs(d.netAmt)/maxNet)*60),2);
-    const isPos = d.netAmt >= 0;
-    return `<div class="b58a-col" title="${d.date} | NEPSE: ${d.nepseClose} | B58: ${d.stance} Rs.${d.netAmt.toFixed(0)}M" style="position:relative;">
-      <div style="font-size:7px;color:#1a5276;margin-bottom:1px;">${d.nepseClose||''}</div>
-      <div style="display:flex;align-items:flex-end;gap:1px;width:100%;">
-        <div style="flex:1;height:${closeH}px;background:#b0c8e0;border-radius:2px 2px 0 0;min-height:3px;"></div>
-        <div style="flex:1;height:${netH}px;background:${isPos?'#27ae60':'#e74c3c'};border-radius:2px 2px 0 0;min-height:2px;"></div>
-      </div>
-    </div>`;
-  }).join('');
-  lel.innerHTML = trend.map(d=>`<div style="flex:1;text-align:center;font-size:8px;color:#aaa;">${d.date.slice(5)}</div>`).join('');
-}
-
-function renderB58Bars(type, positions, maxVal) {
-  const el = document.getElementById(`b58a-${type}-bars`);
-  if(!el) return;
-  const isAccum = type === 'accum';
-  el.innerHTML = positions.map(p => {
-    const val = isAccum ? p.buyKitta : p.sellKitta;
-    const netVal = isAccum ? p.net : Math.abs(p.net);
-    const pct = Math.max(Math.round((val/maxVal)*100),2);
-    const color = isAccum ? '#27ae60' : '#e74c3c';
-    const netColor = isAccum ? (p.net>0?'#1e7e34':'#c0392b') : '#c0392b';
-    const avgP = isAccum ? p.avgBuy : p.avgSell;
-    const days = isAccum ? p.buyDays : p.sellDays;
-    return `<div class="b58a-bar-row">
-      <div class="b58a-sym">${p.sym}</div>
-      <div class="b58a-bar-wrap"><div class="b58a-bar-${isAccum?'buy':'sell'}" style="width:${pct}%;"></div></div>
-      <div class="b58a-val" style="color:${color};">${(val/1000).toFixed(1)}K</div>
-      <div style="min-width:70px;text-align:right;font-size:10px;color:${netColor};font-weight:700;">net ${(netVal/1000).toFixed(1)}K</div>
-      <div style="min-width:65px;text-align:right;font-size:10px;color:#888;">Rs.${avgP.toFixed(0)}</div>
-      <div class="b58a-days">${days}d</div>
-    </div>`;
-  }).join('');
-}
-
-function renderB58Table(type, positions) {
-  const el = document.getElementById(`b58a-${type}-table`);
-  if(!el) return;
-  const isAccum = type === 'accum';
-  el.innerHTML = `<table style="width:100%;font-size:11px;border-collapse:collapse;">
-    <thead><tr>
-      <th style="text-align:left;padding:6px 8px;background:#f4f6f8;font-size:10px;">Script</th>
-      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Buy Kitta</th>
-      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Sell Kitta</th>
-      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Net Kitta</th>
-      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Avg Buy</th>
-      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Avg Sell</th>
-      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Buy Days</th>
-      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Sell Days</th>
-      <th style="text-align:right;padding:6deg 8px;background:#f4f6f8;font-size:10px;">Avg Mkt%</th>
-    </tr></thead>
-    <tbody>${positions.map(p => {
-      const netColor = p.net>0?'#1e7e34':'#c0392b';
-      return `<tr>
-        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;font-weight:700;">${p.sym}</td>
-        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;color:#1e7e34;">${p.buyKitta.toLocaleString()}</td>
-        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;color:#c0392b;">${p.sellKitta.toLocaleString()}</td>
-        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;font-weight:700;color:${netColor};">${p.net>0?'+':''}${p.net.toLocaleString()}</td>
-        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">Rs.${p.avgBuy.toFixed(2)}</td>
-        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">Rs.${p.avgSell.toFixed(2)}</td>
-        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${p.buyDays}</td>
-        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${p.sellDays}</td>
-        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${isAccum?p.avgMktBuy.toFixed(1):p.avgMktSell.toFixed(1)}%</td>
-      </tr>`;
-    }).join('')}</tbody>
-  </table>`;
-}
-
-function renderScriptDeepDive(sym) {
-  if(!_b58AnalysisData||!sym) return;
-  const {stockTimeline, netPos} = _b58AnalysisData;
-  const tl = stockTimeline[sym] || [];
-  const pos = netPos.find(p=>p.sym===sym);
-
-  // Badge
-  const badge = document.getElementById('b58a-script-badge');
-  if(badge && pos) {
-    const isAccum = pos.net > 0;
-    badge.innerHTML = `<span class="stance-badge ${isAccum?'stance-buy':'stance-sell'}" style="font-size:12px;padding:4px 12px;">${isAccum?'▲ ACCUMULATION':'▼ DISTRIBUTION'} | Net: ${pos.net>0?'+':''}${pos.net.toLocaleString()} kitta</span>`;
-  }
-
-  // Chart
-  const chartEl = document.getElementById('b58a-script-chart');
-  const labEl = document.getElementById('b58a-script-labels');
-  if(chartEl) {
-    const mx = Math.max(...tl.map(d=>Math.max(d.buyKitta,d.sellKitta)),1);
-    chartEl.innerHTML = tl.map(d => {
-      const bH = Math.max(Math.round((d.buyKitta/mx)*160),d.buyKitta>0?3:0);
-      const sH = Math.max(Math.round((d.sellKitta/mx)*160),d.sellKitta>0?3:0);
-      return `<div class="b58a-col" title="${d.date} | Buy:${d.buyKitta.toLocaleString()} Sell:${d.sellKitta.toLocaleString()}">
-        ${bH>0?`<div style="font-size:7px;color:#1e7e34;">${(d.buyKitta/1000).toFixed(0)}K</div>`:''}
-        <div style="display:flex;align-items:flex-end;gap:1px;width:100%;">
-          <div style="flex:1;height:${bH}px;background:#27ae60;border-radius:2px 2px 0 0;min-height:${bH>0?2:0}px;"></div>
-          <div style="flex:1;height:${sH}px;background:#e74c3c;border-radius:2px 2px 0 0;min-height:${sH>0?2:0}px;"></div>
-        </div>
-        ${sH>0?`<div style="font-size:7px;color:#c0392b;">${(d.sellKitta/1000).toFixed(0)}K</div>`:''}
-      </div>`;
-    }).join('');
-    if(labEl) labEl.innerHTML = tl.map(d=>`<div style="flex:1;text-align:center;font-size:8px;color:#aaa;">${d.date.slice(5)}</div>`).join('');
-  }
-
-  // Summary panel
-  const sumEl = document.getElementById('b58a-script-summary');
-  if(sumEl && pos) {
-    const consec = getConsecutiveBuyDays(tl);
-    sumEl.innerHTML = `<div class="an-panel-title">📋 ${sym} — Summary</div>
-      <div style="display:flex;flex-direction:column;gap:8px;padding-top:4px;">
-        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Total Buy Kitta</span><span style="font-weight:700;color:#1e7e34;">${pos.buyKitta.toLocaleString()}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Total Sell Kitta</span><span style="font-weight:700;color:#c0392b;">${pos.sellKitta.toLocaleString()}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;border-top:1px solid #eee;padding-top:6px;"><span style="color:#888;">Net Position</span><span style="font-weight:700;color:${pos.net>0?'#1e7e34':'#c0392b'};">${pos.net>0?'+':''}${pos.net.toLocaleString()}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Avg Buy Price</span><span style="font-weight:700;">Rs.${pos.avgBuy.toFixed(2)}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Avg Sell Price</span><span style="font-weight:700;">Rs.${pos.avgSell.toFixed(2)}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Buy Days / Total</span><span style="font-weight:700;">${pos.buyDays} / ${_b58AnalysisData.dates.length}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Sell Days / Total</span><span style="font-weight:700;">${pos.sellDays} / ${_b58AnalysisData.dates.length}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Avg Buy Mkt%</span><span style="font-weight:700;">${pos.avgMktBuy.toFixed(2)}%</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Max Consec Buy Days</span><span style="font-weight:700;color:#1e7e34;">${consec}</span></div>
-        ${pos.avgBuy>0&&pos.avgSell>0?`<div style="background:${pos.avgSell>pos.avgBuy?'#e8f8e8':'#fde8e8'};border-radius:6px;padding:8px;margin-top:4px;font-size:11px;">
-          ${pos.avgSell>pos.avgBuy?'✅ B58 selling at <strong>higher avg price</strong> than buying — profit taking':'⚠️ B58 selling at <strong>lower avg price</strong> than buying — possible stop-loss exit'}
-        </div>`:''}
-      </div>`;
-  }
-
-  // Day-by-day
-  const dailyEl = document.getElementById('b58a-script-daily');
-  if(dailyEl) {
-    dailyEl.innerHTML = `<table style="width:100%;font-size:11px;border-collapse:collapse;">
-      <thead><tr>
-        <th style="text-align:left;padding:6px 8px;background:#f4f6f8;font-size:10px;">Date</th>
-        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Buy Kitta</th>
-        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Sell Kitta</th>
-        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Net</th>
-        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Avg Buy</th>
-        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Avg Sell</th>
-        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Buy Mkt%</th>
-        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Sell Mkt%</th>
-      </tr></thead>
-      <tbody>${[...tl].reverse().map(d => {
-        const net = d.buyKitta - d.sellKitta;
-        const active = d.buyKitta>0 || d.sellKitta>0;
-        return `<tr style="${active?'':'opacity:.4'}">
-          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;font-weight:${active?'700':'400'};">${d.date}</td>
-          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;color:#1e7e34;font-weight:700;">${d.buyKitta>0?d.buyKitta.toLocaleString():'—'}</td>
-          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;color:#c0392b;font-weight:700;">${d.sellKitta>0?d.sellKitta.toLocaleString():'—'}</td>
-          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;font-weight:700;color:${net>0?'#1e7e34':net<0?'#c0392b':'#888'}">${net!==0?(net>0?'+':'')+net.toLocaleString():'—'}</td>
-          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${d.avgBuy>0?'Rs.'+d.avgBuy.toFixed(2):'—'}</td>
-          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${d.avgSell>0?'Rs.'+d.avgSell.toFixed(2):'—'}</td>
-          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${d.buyPct>0?d.buyPct.toFixed(1)+'%':'—'}</td>
-          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${d.sellPct>0?d.sellPct.toFixed(1)+'%':'—'}</td>
-        </tr>`;
-      }).join('')}</tbody>
-    </table>`;
-  }
-}
-
-function getConsecutiveBuyDays(tl) {
-  let max=0,cur=0;
-  tl.forEach(d=>{if(d.buyKitta>0){cur++;max=Math.max(max,cur);}else cur=0;});
-  return max;
-}
-
-function renderB58Timeline(data) {
-  const el = document.getElementById('b58a-timeline-grid');
-  if(!el) return;
-  const {netPos, stockTimeline, dates} = data;
-  // Top 20 by total activity
-  const top20 = netPos.slice(0,10).concat(netPos.slice(-10).reverse())
-    .filter((p,i,a)=>a.findIndex(x=>x.sym===p.sym)===i).slice(0,20);
-
-  const cols = dates.length + 1;
-  const gridTpl = `60px repeat(${dates.length}, 1fr)`;
-  let html = `<div style="display:grid;grid-template-columns:${gridTpl};gap:2px;min-width:600px;">`;
-  // Header row
-  html += `<div style="font-size:9px;font-weight:700;color:#888;padding:2px 4px;">Script</div>`;
-  dates.forEach(d => { html += `<div style="font-size:8px;color:#aaa;text-align:center;padding:2px 0;transform:rotate(-35deg);white-space:nowrap;">${d.slice(5)}</div>`; });
-
-  top20.forEach(p => {
-    const tl = stockTimeline[p.sym]||[];
-    html += `<div style="font-size:10px;font-weight:700;color:#1a1a1a;padding:3px 4px;display:flex;align-items:center;">${p.sym}</div>`;
-    tl.forEach(d => {
-      const hasBuy = d.buyKitta > 0, hasSell = d.sellKitta > 0;
-      let cls = 'tl-none', label = '—';
-      if(hasBuy && hasSell){ cls='tl-both'; label='B+S'; }
-      else if(hasBuy){ cls='tl-buy'; label='B'; }
-      else if(hasSell){ cls='tl-sell'; label='S'; }
-      const tip = `${d.date}: Buy ${d.buyKitta.toLocaleString()} | Sell ${d.sellKitta.toLocaleString()}`;
-      html += `<div class="b58a-tl-cell ${cls}" title="${tip}" style="cursor:pointer;">${label}</div>`;
-    });
-  });
-  html += '</div>';
-  el.innerHTML = html;
-}
-
-function switchB58Tab(name, el) {
-  document.querySelectorAll('.b58a-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.b58a-tab-content').forEach(t=>t.classList.remove('active'));
-  if(el) el.classList.add('active');
-  const c = document.getElementById(`b58at-${name}`);
-  if(c) c.classList.add('active');
-}
 recordView('init');
 loadLatest();
-initGasUrlField();
 </script>
 </body>
 </html>
