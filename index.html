@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+]<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -826,6 +826,8 @@ function switchAnTab(name,el){
 
 function filterVisitors(q){const filter=document.getElementById('an-visitor-filter')?.value||'all';renderVisitorList(q,filter);}
 function countryFlag(code){if(!code||code==='XX')return'🌐';try{return code.toUpperCase().replace(/./g,c=>String.fromCodePoint(c.charCodeAt(0)+127397));}catch(e){return'🌐';}}
+
+function setText(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
 
 // ── Main render: try Google Sheets first, fallback to localStorage ──
 async function renderBeAnalytics(){
