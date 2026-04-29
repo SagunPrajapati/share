@@ -592,11 +592,10 @@ const ADMIN_PASS='sabina#7',CACHE_KEY='nepse_b58_dates';
 //  ANALYTICS
 // ═══════════════════════════════════════════════
 // ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 //  ANALYTICS ENGINE v3 — Google Sheets Backend
 // ═══════════════════════════════════════════════
 const AN_KEY='nepse_b58_an_v2', VID_KEY='nepse_b58_vid';
-
-// ▶ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
 const GAS_URL = localStorage.getItem('nepse_gas_url') || 'https://script.google.com/macros/s/AKfycbyT5uc1x5rIvji3Xfkh46jQJ7KfYNLZZSQEsbwC2SdXa1lvji6MEd7YDupbPTbRT8axlw/exec';
 
 function todayKey(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
@@ -608,17 +607,31 @@ function getVisitorId(){
   if(!vid){vid='v_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);localStorage.setItem(VID_KEY,vid);}
   return vid;
 }
-function getAn(){try{return JSON.parse(localStorage.getItem(AN_KEY)||'{"total":0,"visitors":[],"daily":{},"pages":{},"reports":{}}')}catch(e){return{total:0,visitors:[],daily:{},pages:{},reports:{}};}}
+function getAn(){try{return JSON.parse(localStorage.getItem(AN_KEY)||'{"total":0,"visitors":[],"daily":{},"pages":{},"reports":{}}') }catch(e){return{total:0,visitors:[],daily:{},pages:{},reports:{}};}}
 function saveAn(d){if(d.visitors&&d.visitors.length>300)d.visitors=d.visitors.slice(0,300);localStorage.setItem(AN_KEY,JSON.stringify(d));}
 
 async function fetchGeo(){
   try{
-    const r=await fetch('https://ipapi.co/json/?fields=ip,city,region,country_name,country_code,org,timezone',{signal:AbortSignal.timeout(4000)});
+    const r=await fetch('https://ipapi.co/json/?fields=ip,city,region,country_name,country_code,org,timezone',{signal:AbortSignal.timeout(5000)});
     if(!r.ok)throw new Error();
     return await r.json();
-  }catch(e){return{ip:'',city:'Unknown',region:'',country_name:'Unknown',country_code:'XX',org:'',timezone:''};}
+  }catch(e){return{ip:'',city:'Unknown',region:'',country_name:'Unknown',country_code:'XX',org:'',timezone:''};}}
+
+function getDevice(){
+  const ua=navigator.userAgent;
+  if(/iPad|Tablet/i.test(ua))return'Tablet';
+  if(/Mobi|Android|iPhone/i.test(ua))return'Mobile';
+  return'Desktop';
 }
-function getDevice(){const ua=navigator.userAgent;if(/iPad|Tablet/i.test(ua))return'Tablet';if(/Mobi|Android|iPhone/i.test(ua))return'Mobile';return'Desktop';}
+
+function pingGAS(params){
+  if(!GAS_URL||!GAS_URL.startsWith('https://'))return;
+  try{
+    const url=GAS_URL+'?'+new URLSearchParams(params).toString();
+    const img=new Image();img.src=url;
+    fetch(url,{mode:'no-cors',cache:'no-store'}).catch(()=>{});
+  }catch(e){}
+}
 
 async function recordView(date){
   const a=getAn(),k=todayKey(),vid=getVisitorId();
@@ -635,30 +648,22 @@ async function recordView(date){
   if(!a.visitors)a.visitors=[];
   a.visitors.unshift(rec);
   saveAn(a);
-
-  // Fetch geo then send to Google Sheets
   fetchGeo().then(geo=>{
     rec.city=geo.city||'Unknown';rec.region=geo.region||'';rec.country=geo.country_name||'Unknown';
     rec.countryCode=geo.country_code||'XX';rec.ip=geo.ip||'';rec.org=geo.org||'';rec.timezone=geo.timezone||'';
     const a2=getAn();const r2=a2.visitors.find(v=>v.id===rec.id);
-    if(r2){Object.assign(r2,{city:rec.city,region:rec.region,country:rec.country,countryCode:rec.countryCode,ip:rec.ip,org:rec.org,timezone:rec.timezone});}
+    if(r2)Object.assign(r2,{city:rec.city,region:rec.region,country:rec.country,countryCode:rec.countryCode,ip:rec.ip,org:rec.org,timezone:rec.timezone});
     if(!a2.geoCountries)a2.geoCountries={};
     if(!a2.geoCities)a2.geoCities={};
     a2.geoCountries[rec.country]=(a2.geoCountries[rec.country]||0)+1;
     const cityKey=rec.city+(rec.countryCode?', '+rec.countryCode:'');
     a2.geoCities[cityKey]=(a2.geoCities[cityKey]||0)+1;
     saveAn(a2);
-    // Send to Google Sheets if URL configured
-    if(GAS_URL&&GAS_URL.startsWith('https://')){
-      fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({action:'track',vid,isNew,reportDate:date,page,
-          city:rec.city,region:rec.region,country:rec.country,countryCode:rec.countryCode,
-          ip:rec.ip,device:rec.device,org:rec.org,timezone:rec.timezone,ua:navigator.userAgent.slice(0,120)})
-      }).catch(()=>{});
-    }
+    pingGAS({action:'track',vid,isNew:isNew?'1':'0',reportDate:date||'',page,
+      city:rec.city,region:rec.region,country:rec.country,countryCode:rec.countryCode,
+      ip:rec.ip,device:rec.device,org:(rec.org||'').slice(0,40),timezone:rec.timezone});
   });
 }
-
 function resetAnalytics(){if(confirm('Reset local analytics data?')){localStorage.removeItem(AN_KEY);localStorage.removeItem(VID_KEY);renderBeAnalytics();}}
 
 function exportEnhancedLog(){
@@ -1078,364 +1083,6 @@ function initGasUrlField(){
   }
 }
 
-function todayKey(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
-function fmtTime(ts){const d=new Date(ts);return d.toLocaleDateString('en-NP',{month:'short',day:'numeric'})+' '+d.toLocaleTimeString('en-NP',{hour:'2-digit',minute:'2-digit',hour12:true});}
-function fmtTimeShort(ts){const d=new Date(ts);return d.toLocaleTimeString('en-NP',{hour:'2-digit',minute:'2-digit',hour12:true});}
-
-// Generate or retrieve visitor ID
-function getVisitorId(){
-  let vid=localStorage.getItem(VID_KEY);
-  if(!vid){vid='v_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);localStorage.setItem(VID_KEY,vid);}
-  return vid;
-}
-
-function getAn(){
-  try{return JSON.parse(localStorage.getItem(AN_KEY)||'{"total":0,"visitors":[],"daily":{},"pages":{},"reports":{}}')}
-  catch(e){return{total:0,visitors:[],daily:{},pages:{},reports:{}};}
-}
-function saveAn(d){
-  if(d.visitors&&d.visitors.length>500)d.visitors=d.visitors.slice(0,500);
-  localStorage.setItem(AN_KEY,JSON.stringify(d));
-}
-
-// Fetch geo data from ipapi.co (free, no key needed, 1000 req/day)
-async function fetchGeo(){
-  try{
-    const r=await fetch('https://ipapi.co/json/?fields=ip,city,region,country_name,country_code,latitude,longitude,org,timezone',{signal:AbortSignal.timeout(3000)});
-    if(!r.ok)throw new Error();
-    return await r.json();
-  }catch(e){
-    return{ip:'unknown',city:'Unknown',region:'',country_name:'Unknown',country_code:'XX',org:'',timezone:''};
-  }
-}
-
-// Detect device type
-function getDevice(){
-  const ua=navigator.userAgent;
-  if(/Mobi|Android|iPhone|iPad/i.test(ua)){
-    if(/iPad|Tablet/i.test(ua))return'Tablet';
-    return'Mobile';
-  }
-  return'Desktop';
-}
-
-// Record a visit with full context
-async function recordView(date){
-  const a=getAn(),k=todayKey(),vid=getVisitorId();
-  const hour=new Date().getHours();
-  a.total=(a.total||0)+1;
-  if(!a.daily[k])a.daily[k]={count:0,hours:{}};
-  a.daily[k].count=(a.daily[k].count||0)+1;
-  a.daily[k].hours[hour]=(a.daily[k].hours[hour]||0)+1;
-  // Track pages viewed
-  const page=date||'home';
-  a.pages[page]=(a.pages[page]||0)+1;
-  if(date&&date.match(/^\d{4}-\d{2}-\d{2}$/))a.reports[date]=(a.reports[date]||0)+1;
-
-  // Check if new or returning
-  const isNew=!a.visitors||!a.visitors.find(v=>v.vid===vid);
-
-  // Build visitor record (geo fetched async)
-  const visitorRecord={
-    id:Date.now(),vid,ts:Date.now(),date,page,
-    device:getDevice(),
-    isNew,
-    city:'...',region:'',country:'Unknown',countryCode:'XX',ip:'',org:'',timezone:''
-  };
-  if(!a.visitors)a.visitors=[];
-  a.visitors.unshift(visitorRecord);
-  saveAn(a);
-
-  // Fetch geo async — update record after
-  fetchGeo().then(geo=>{
-    const a2=getAn();
-    const rec=a2.visitors.find(v=>v.id===visitorRecord.id);
-    if(rec){
-      rec.city=geo.city||'Unknown';
-      rec.region=geo.region||'';
-      rec.country=geo.country_name||'Unknown';
-      rec.countryCode=geo.country_code||'XX';
-      rec.ip=geo.ip||'';
-      rec.org=geo.org||'';
-      rec.timezone=geo.timezone||'';
-      // Update geo aggregates
-      if(!a2.geoCountries)a2.geoCountries={};
-      if(!a2.geoCities)a2.geoCities={};
-      const cKey=geo.country_name||'Unknown';
-      const cityKey=(geo.city||'Unknown')+(geo.country_code?', '+geo.country_code:'');
-      a2.geoCountries[cKey]=(a2.geoCountries[cKey]||0)+1;
-      a2.geoCities[cityKey]=(a2.geoCities[cityKey]||0)+1;
-      saveAn(a2);
-    }
-  });
-}
-
-function resetAnalytics(){if(confirm('Reset all analytics data?')){localStorage.removeItem(AN_KEY);localStorage.removeItem(VID_KEY);renderBeAnalytics();}}
-
-function exportEnhancedLog(){
-  const a=getAn();
-  let csv='#,Timestamp,Date Viewed,City,Country,Device,New/Returning,IP,Timezone\n';
-  (a.visitors||[]).slice(0,200).forEach((v,i)=>{
-    csv+=`${i+1},"${fmtTime(v.ts)}","${v.date||'—'}","${v.city}","${v.country}","${v.device}","${v.isNew?'New':'Returning'}","${v.ip||'—'}","${v.timezone||'—'}"\n`;
-  });
-  const el=document.createElement('a');
-  el.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  el.download='NEPSE-B58-Traffic-Report.csv';
-  document.body.appendChild(el);el.click();document.body.removeChild(el);
-}
-
-// ── Tab switching ──
-function switchAnTab(name,el){
-  document.querySelectorAll('.an-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.an-tab-content').forEach(t=>t.classList.remove('active'));
-  if(el)el.classList.add('active');
-  const c=document.getElementById('ant-'+name);if(c)c.classList.add('active');
-}
-
-// ── Visitor filter ──
-function filterVisitors(q){
-  const filter=document.getElementById('an-visitor-filter')?.value||'all';
-  renderVisitorList(q,filter);
-}
-
-// ── Country flag emoji ──
-function countryFlag(code){
-  if(!code||code==='XX')return'🌐';
-  try{return code.toUpperCase().replace(/./g,c=>String.fromCodePoint(c.charCodeAt(0)+127397));}catch(e){return'🌐';}
-}
-
-// ── Render visitor list ──
-function renderVisitorList(q='',filter='all'){
-  const a=getAn();
-  const el=document.getElementById('an-visitor-list');
-  if(!el)return;
-  let visitors=(a.visitors||[]).filter(v=>{
-    if(filter==='new'&&!v.isNew)return false;
-    if(filter==='returning'&&v.isNew)return false;
-    if(q&&![v.city,v.country,v.date,v.device].join(' ').toLowerCase().includes(q.toLowerCase()))return false;
-    return true;
-  });
-  if(!visitors.length){el.innerHTML='<div style="font-size:11px;color:#aaa;padding:12px;text-align:center;">No visitors yet.</div>';return;}
-  el.innerHTML=visitors.slice(0,50).map(v=>{
-    const initials=v.city&&v.city!=='...'?v.city.slice(0,2).toUpperCase():'??';
-    const statusBadge=v.isNew?'<span class="badge-new">NEW</span>':'<span class="badge-ret">RETURN</span>';
-    const loc=v.city&&v.city!=='...'?`${countryFlag(v.countryCode)} ${v.city}${v.region?', '+v.region:''} · ${v.country}`:'🌐 Fetching location...';
-    return`<div class="visitor-row">
-      <div class="vis-avatar ${v.isNew?'vis-new':'vis-ret'}">${initials}</div>
-      <div class="vis-info">
-        <div class="vis-loc">${loc} ${statusBadge}</div>
-        <div class="vis-meta">${v.device} · Viewed: ${v.date||'home'} · ${v.org?v.org.slice(0,30)+'...':''}</div>
-      </div>
-      <div class="vis-time">${fmtTimeShort(v.ts)}</div>
-    </div>`;
-  }).join('');
-}
-
-// ── Main analytics render ──
-function renderBeAnalytics(){
-  const a=getAn(),k=todayKey();
-  const visitors=a.visitors||[];
-  const totalViews=a.total||0;
-  const todayViews=(a.daily[k]?.count)||0;
-  const uniqueVids=new Set(visitors.map(v=>v.vid)).size;
-  const newVisitors=visitors.filter(v=>v.isNew).length;
-  const returning=visitors.filter(v=>!v.isNew).length;
-  const countries=Object.keys(a.geoCountries||{}).length;
-
-  // KPIs
-  const prevKey=Object.keys(a.daily||{}).sort().slice(-2,-1)[0];
-  const prevCount=prevKey?(a.daily[prevKey]?.count||0):0;
-  const todayVsYest=prevCount>0?Math.round(((todayViews-prevCount)/prevCount)*100):0;
-
-  setText('an-total',totalViews.toLocaleString());
-  setText('an-today',todayViews.toLocaleString());
-  setText('an-unique',uniqueVids.toLocaleString());
-  setText('an-new',newVisitors.toLocaleString());
-  setText('an-return',returning.toLocaleString());
-  setText('an-countries',countries||'—');
-
-  const todayTrend=document.getElementById('an-today-t');
-  if(todayTrend){
-    if(todayVsYest>0){todayTrend.textContent=`↑ ${todayVsYest}% vs yesterday`;todayTrend.className='kt up';}
-    else if(todayVsYest<0){todayTrend.textContent=`↓ ${Math.abs(todayVsYest)}% vs yesterday`;todayTrend.className='kt down';}
-    else{todayTrend.textContent='→ Same as yesterday';todayTrend.className='kt flat';}
-  }
-  const newTrend=document.getElementById('an-new-t');
-  if(newTrend&&totalViews>0){const pct=Math.round((newVisitors/totalViews)*100);newTrend.textContent=`${pct}% of total`;}
-
-  // Daily chart
-  renderDailyChart(a);
-  // Hourly
-  renderHourlyChart(a,k);
-  // New vs Returning donut
-  renderNvRChart(newVisitors,returning);
-  // Pages
-  renderPages(a);
-  // Devices
-  renderDevices(visitors);
-  // Geography
-  renderGeo(a);
-  // Behaviour
-  renderBehaviour(a,visitors);
-  // Visitor list
-  renderVisitorList();
-
-  // Update be-count if available
-  const bc=document.getElementById('be-count');if(bc)bc.textContent=Object.keys(a.reports||{}).length||0;
-}
-
-function setText(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
-
-function renderDailyChart(a){
-  const el=document.getElementById('an-daily-chart');
-  const lel=document.getElementById('an-daily-labels');
-  if(!el||!lel)return;
-  const days=Object.keys(a.daily||{}).sort().slice(-30);
-  if(!days.length){el.innerHTML='<div style="font-size:11px;color:#aaa;margin:auto;">No data yet</div>';return;}
-  const mx=Math.max(...days.map(d=>a.daily[d].count||0),1);
-  el.innerHTML=days.map(d=>{
-    const cnt=a.daily[d].count||0;
-    const pct=Math.max(Math.round((cnt/mx)*70),2);
-    const isT=d===Object.keys(a.daily||{}).sort().slice(-1)[0];
-    return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:1px;">
-      <div style="font-size:8px;color:${isT?'#1a5276':'#aaa'};font-weight:${isT?'700':'400'}">${cnt||''}</div>
-      <div style="width:100%;height:${pct}px;background:${isT?'#1a5276':'#b0c8e0'};border-radius:2px 2px 0 0;"></div>
-    </div>`;
-  }).join('');
-  // Labels — only show every 5th day
-  lel.innerHTML=days.map((d,i)=>{
-    const show=i===0||i===days.length-1||(i+1)%5===0;
-    return`<div style="flex:1;text-align:center;font-size:8px;color:#aaa;">${show?d.slice(5):''}</div>`;
-  }).join('');
-}
-
-function renderHourlyChart(a,k){
-  const el=document.getElementById('an-hourly');
-  if(!el)return;
-  const hours=a.daily[k]?.hours||{};
-  const mx=Math.max(...Array.from({length:24},(_,i)=>hours[i]||0),1);
-  el.innerHTML=Array.from({length:24},(_,i)=>{
-    const cnt=hours[i]||0;
-    const pct=Math.max(Math.round((cnt/mx)*52),cnt>0?3:1);
-    const isNow=new Date().getHours()===i;
-    return`<div class="hr-col"><div class="hr-bar" style="height:${pct}px;background:${isNow?'#c0392b':'#1a5276'};"></div><div class="hr-label">${i%6===0?i+'h':''}</div></div>`;
-  }).join('');
-}
-
-function renderNvRChart(nw,ret){
-  const el=document.getElementById('an-nvr-chart');
-  if(!el)return;
-  const total=nw+ret||1;
-  const nwPct=Math.round((nw/total)*100);
-  const retPct=100-nwPct;
-  el.innerHTML=`
-    <div style="text-align:center;">
-      <div style="width:70px;height:70px;border-radius:50%;background:conic-gradient(#1e7e34 0% ${nwPct}%,#1a5276 ${nwPct}% 100%);margin:0 auto 8px;"></div>
-    </div>
-    <div>
-      <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;font-size:11px;"><span style="width:10px;height:10px;background:#1e7e34;border-radius:2px;display:inline-block;"></span><span>New ${nwPct}%</span></div>
-      <div style="display:flex;align-items:center;gap:5px;font-size:11px;"><span style="width:10px;height:10px;background:#1a5276;border-radius:2px;display:inline-block;"></span><span>Returning ${retPct}%</span></div>
-      <div style="font-size:10px;color:#888;margin-top:6px;">${total} total visitors</div>
-    </div>`;
-}
-
-function renderPages(a){
-  const el=document.getElementById('an-pages');
-  if(!el)return;
-  const pages=a.pages||{};
-  const sorted=Object.entries(pages).sort((a,b)=>b[1]-a[1]).slice(0,7);
-  if(!sorted.length){el.innerHTML='<div style="font-size:11px;color:#aaa;">No data</div>';return;}
-  const mx=sorted[0][1];
-  el.innerHTML=sorted.map(([p,cnt])=>{
-    const pct=Math.round((cnt/mx)*100);
-    const label=p.match(/^\d{4}-\d{2}-\d{2}$/)?'📅 '+p:p==='init'?'🏠 Homepage':p==='home'?'🏠 Homepage':'📄 '+p;
-    return`<div class="page-row">
-      <div style="flex:1;">
-        <div style="font-size:10px;color:#444;margin-bottom:2px;">${label}</div>
-        <div style="height:3px;background:#e8ecf0;border-radius:2px;"><div style="height:3px;width:${pct}%;background:#1a5276;border-radius:2px;"></div></div>
-      </div>
-      <div style="font-weight:700;color:#1a5276;min-width:24px;text-align:right;font-size:11px;">${cnt}</div>
-    </div>`;
-  }).join('');
-}
-
-function renderDevices(visitors){
-  const el=document.getElementById('an-devices');
-  if(!el)return;
-  const devs={Desktop:0,Mobile:0,Tablet:0};
-  visitors.forEach(v=>{if(devs[v.device]!==undefined)devs[v.device]++;else devs.Desktop++;});
-  const total=visitors.length||1;
-  const icons={Desktop:'🖥',Mobile:'📱',Tablet:'📟'};
-  el.innerHTML=Object.entries(devs).map(([d,cnt])=>{
-    const pct=Math.round((cnt/total)*100);
-    return`<div class="device-item">
-      <div class="device-label"><span style="font-size:14px;">${icons[d]}</span>${d}</div>
-      <div style="display:flex;align-items:center;gap:6px;">
-        <div style="width:60px;height:4px;background:#e8ecf0;border-radius:2px;"><div style="height:4px;width:${pct}%;background:#1a5276;border-radius:2px;"></div></div>
-        <div class="device-pct">${pct}%</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function renderGeo(a){
-  const countries=Object.entries(a.geoCountries||{}).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const cities=Object.entries(a.geoCities||{}).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const mx=countries[0]?countries[0][1]:1;
-  const mxc=cities[0]?cities[0][1]:1;
-
-  const cel=document.getElementById('an-countries-list');
-  if(cel)cel.innerHTML=countries.length?countries.map(([name,cnt])=>{
-    const code=(a.visitors||[]).find(v=>v.country===name)?.countryCode||'XX';
-    const pct=Math.round((cnt/mx)*100);
-    return`<div class="geo-row"><span class="geo-flag">${countryFlag(code)}</span><span style="flex:1;color:#444;">${name}</span><div class="geo-bar-wrap"><div class="geo-bar" style="width:${pct}%;"></div></div><span class="geo-count">${cnt}</span></div>`;
-  }).join(''):'<div style="font-size:11px;color:#aaa;">No geo data yet</div>';
-
-  const citEl=document.getElementById('an-cities-list');
-  if(citEl)citEl.innerHTML=cities.length?cities.map(([name,cnt])=>{
-    const pct=Math.round((cnt/mxc)*100);
-    return`<div class="geo-row"><span class="geo-flag">📍</span><span style="flex:1;color:#444;">${name}</span><div class="geo-bar-wrap"><div class="geo-bar" style="width:${pct}%;"></div></div><span class="geo-count">${cnt}</span></div>`;
-  }).join(''):'<div style="font-size:11px;color:#aaa;">No city data yet</div>';
-
-  const tags=document.getElementById('an-location-tags');
-  if(tags){
-    const allLocs=new Set((a.visitors||[]).filter(v=>v.city&&v.city!=='...'&&v.city!=='Unknown').map(v=>`${v.city}, ${v.country}`));
-    tags.innerHTML=[...allLocs].slice(0,30).map(loc=>`<span style="background:#eaf2fb;color:#1a5276;font-size:10px;padding:3px 8px;border-radius:10px;">${loc}</span>`).join('')||'<div style="font-size:11px;color:#aaa;">Geo data loading...</div>';
-  }
-}
-
-function renderBehaviour(a,visitors){
-  // Avg session — estimate: visitors with same VID in short span
-  const vids={};
-  visitors.forEach(v=>{if(!vids[v.vid])vids[v.vid]=[];vids[v.vid].push(v.ts);});
-  const sessions=Object.values(vids).filter(ts=>ts.length>1).map(ts=>{
-    const sorted=ts.sort();return(sorted[sorted.length-1]-sorted[0])/60000;
-  });
-  const avgSess=sessions.length?Math.round(sessions.reduce((a,b)=>a+b,0)/sessions.length):0;
-  const ppv=visitors.length>0?(Object.values(a.pages||{}).reduce((s,c)=>s+c,0)/Math.max(Object.keys(vids).length,1)).toFixed(1):'—';
-  const bounced=Object.values(vids).filter(ts=>ts.length===1).length;
-  const bounceRate=visitors.length>0?Math.round((bounced/Math.max(Object.keys(vids).length,1))*100)+'%':'—';
-
-  setText('an-avg-session',avgSess>0?avgSess+' min':'< 1 min');
-  setText('an-ppv',ppv);
-  setText('an-bounce',bounceRate);
-
-  // Top report dates
-  const repEl=document.getElementById('an-top-reports');
-  if(repEl){
-    const top=Object.entries(a.reports||{}).sort((a,b)=>b[1]-a[1]).slice(0,5);
-    repEl.innerHTML=top.length?top.map(([d,cnt])=>`<div class="page-row"><span style="font-size:11px;color:#444;">📅 ${d}</span><span style="font-weight:700;color:#1a5276;font-size:11px;">${cnt} views</span></div>`).join(''):'<div style="font-size:11px;color:#aaa;">No report views yet</div>';
-  }
-
-  // Peak hours
-  const allHours={};
-  Object.values(a.daily||{}).forEach(d=>{Object.entries(d.hours||{}).forEach(([h,c])=>{allHours[h]=(allHours[h]||0)+c;});});
-  const peakEl=document.getElementById('an-peak-times');
-  if(peakEl){
-    const peakHours=Object.entries(allHours).sort((a,b)=>b[1]-a[1]).slice(0,6);
-    peakEl.innerHTML=peakHours.map(([h,c])=>`<span style="background:#1a5276;color:#fff;font-size:10px;padding:4px 10px;border-radius:10px;">${h}:00–${String(+h+1).padStart(2,'0')}:00 (${c})</span>`).join('')||'<div style="font-size:11px;color:#aaa;">No data yet</div>';
-  }
-}
 
 // ═══════════════════════════════════════════════
 //  GITHUB FETCH
