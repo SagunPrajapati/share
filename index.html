@@ -1,4 +1,4 @@
-]<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -261,8 +261,41 @@ tr:hover td{background:#fafbfc;}
   .an-kpi-grid,.be-three-col{grid-template-columns:repeat(2,1fr);}
   .an-two-col,.an-three-col,.be-two-col,.steps-grid{grid-template-columns:1fr;}
 }
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90;}
-.overlay.show{display:block;}
+/* ── B58 ANALYSIS SECTION ── */
+.b58a-kpi{background:#f8fafc;border-radius:8px;padding:12px;text-align:center;border:1px solid #e8ecf0;border-top:3px solid #1a0f0f;}
+.b58a-kpi .val{font-size:20px;font-weight:700;line-height:1.1;}.b58a-kpi .lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-top:3px;}
+.b58a-kpi .sub{font-size:10px;color:#aaa;margin-top:2px;}
+.b58a-bar-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f0f2f4;font-size:11px;}
+.b58a-bar-row:last-child{border-bottom:none;}
+.b58a-sym{font-weight:700;min-width:52px;color:#1a1a1a;}
+.b58a-bar-wrap{flex:1;height:14px;background:#f0f2f4;border-radius:3px;overflow:hidden;position:relative;}
+.b58a-bar-buy{height:14px;background:linear-gradient(90deg,#1e7e34,#27ae60);border-radius:3px;transition:width .5s ease;}
+.b58a-bar-sell{height:14px;background:linear-gradient(90deg,#c0392b,#e74c3c);border-radius:3px;transition:width .5s ease;}
+.b58a-val{min-width:70px;text-align:right;font-size:10px;font-weight:700;}
+.b58a-days{min-width:24px;text-align:right;font-size:9px;color:#aaa;}
+.b58a-chart-wrap{height:180px;display:flex;align-items:flex-end;gap:2px;padding:4px 0;}
+.b58a-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;transition:opacity .15s;}
+.b58a-col:hover{opacity:.8;}
+.b58a-col-buy{border-radius:2px 2px 0 0;background:#27ae60;min-height:2px;}
+.b58a-col-sell{border-radius:0 0 2px 2px;background:#e74c3c;min-height:2px;}
+.b58a-col-net-pos{border-radius:2px 2px 0 0;background:#1a5276;min-height:2px;}
+.b58a-col-net-neg{border-radius:2px 2px 0 0;background:#c0392b;min-height:2px;}
+.b58a-date-label{font-size:8px;color:#aaa;transform:rotate(-35deg);margin-top:3px;white-space:nowrap;}
+.b58a-timeline-wrap{overflow-x:auto;}
+.b58a-tl-row{display:grid;align-items:center;padding:4px 0;border-bottom:1px solid #f8f8f8;font-size:10px;gap:3px;}
+.b58a-tl-row:hover{background:#fafbfc;}
+.b58a-tl-cell{text-align:center;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}
+.tl-buy{background:#e8f8e8;color:#1e7e34;}
+.tl-sell{background:#fde8e8;color:#c0392b;}
+.tl-both{background:#fff3cd;color:#856404;}
+.tl-none{background:#f8f8f8;color:#ccc;}
+.b58a-tabs{display:flex;gap:0;border-bottom:2px solid #e2e6ea;margin-bottom:14px;}
+.b58a-tab{padding:7px 16px;font-size:11px;font-weight:700;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;}
+.b58a-tab.active{color:#1a0f0f;border-bottom-color:#1a0f0f;}
+.b58a-tab-content{display:none;}.b58a-tab-content.active{display:block;}
+.stance-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;}
+.stance-buy{background:#e8f8e8;color:#1e7e34;}.stance-sell{background:#fde8e8;color:#c0392b;}
+.b58a-stock-select{padding:6px 10px;font-size:11px;border:1px solid #ddd;border-radius:6px;outline:none;background:#fff;cursor:pointer;}
 
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%);}
@@ -329,6 +362,7 @@ tr:hover td{background:#fafbfc;}
     <div class="nav-item" onclick="showSection('b58-overview',this)"><span class="icon">🏦</span> B58 Overview <span class="nav-badge nb-gold" id="nav-b58">—</span></div>
     <div class="nav-item" onclick="showSection('net-accum',this)"><span class="icon">📋</span> Net Accumulation</div>
     <div class="nav-item" onclick="showSection('heatmap',this)"><span class="icon">🟩</span> Heatmap</div>
+    <div class="nav-item" onclick="showSection('b58-analysis',this)"><span class="icon">📐</span> B58 Analysis</div>
     <div class="nav-label">Technical &amp; Trade</div>
     <div class="nav-item" onclick="showSection('technical',this)"><span class="icon">📉</span> Technical Analysis</div>
     <div class="nav-item" onclick="showSection('trade-plan',this)"><span class="icon">🎯</span> Trade Plan</div>
@@ -831,30 +865,37 @@ function setText(id,val){const el=document.getElementById(id);if(el)el.textConte
 
 // ── Main render: try Google Sheets first, fallback to localStorage ──
 async function renderBeAnalytics(){
-  // Always render local data instantly
+  // Step 1 — always render local data instantly (no waiting)
   renderLocalAnalytics();
-  // If GAS URL set, fetch live cloud data and overlay
-  if(GAS_URL&&GAS_URL.startsWith('https://')){
-    try{
-      setAnStatus('⟳ Loading from Google Sheets...','#888');
-      const [sumResp, visResp, geoResp]=await Promise.all([
-        fetch(GAS_URL+'?action=summary').then(r=>r.json()).catch(()=>null),
-        fetch(GAS_URL+'?action=visits&limit=100').then(r=>r.json()).catch(()=>null),
-        fetch(GAS_URL+'?action=geo').then(r=>r.json()).catch(()=>null)
-      ]);
-      if(sumResp&&sumResp.ok)renderCloudSummary(sumResp);
-      if(visResp&&visResp.ok)renderCloudVisitors(visResp);
-      if(geoResp&&geoResp.ok)renderCloudGeo(geoResp);
-      setAnStatus('✅ Live data from Google Sheets','#1e7e34');
-    }catch(e){setAnStatus('⚠️ Cloud fetch failed — showing local data','#b8860b');}
-  }else{
-    setAnStatus('💾 Local data only — configure Google Sheets URL below to see all visitors','#b8860b');
+
+  // Step 2 — always fetch from Google Sheets (GAS_URL is hardcoded)
+  setAnStatus('⟳ Loading from Google Sheets...','#c0a060');
+  try{
+    const [sumResp, visResp, geoResp] = await Promise.all([
+      fetch(GAS_URL+'?action=summary').then(r=>r.json()).catch(()=>null),
+      fetch(GAS_URL+'?action=visits&limit=100').then(r=>r.json()).catch(()=>null),
+      fetch(GAS_URL+'?action=geo').then(r=>r.json()).catch(()=>null)
+    ]);
+    if(sumResp&&sumResp.ok) renderCloudSummary(sumResp);
+    if(visResp&&visResp.ok)  renderCloudVisitors(visResp);
+    if(geoResp&&geoResp.ok)  renderCloudGeo(geoResp);
+    // Re-render heatmap and insights with updated data after cloud load
+    const a=getAn(); const visitors=a.visitors||[];
+    renderHeatmap(a);
+    renderAutoInsights(a,visitors);
+    renderReportStats(a);
+    setAnStatus('✅ Live data from Google Sheets','#27ae60');
+  }catch(e){
+    setAnStatus('⚠️ Using local data only','#b8860b');
   }
 }
 
 function setAnStatus(msg,color){
   const el=document.getElementById('an-status-bar');
   if(el){el.textContent=msg;el.style.color=color;}
+  // Also update topbar status indicator color
+  const dot=document.getElementById('an-live-dot');
+  if(dot)dot.style.background=color==='#27ae60'?'#27ae60':color==='#888'||color==='#c0a060'?'#e6b800':'#c0392b';
 }
 
 // ── Render local localStorage data ──
@@ -1723,6 +1764,106 @@ function buildHTML(r){
       <div style="font-size:11px;color:#7a5a00;line-height:1.6;">Prepared by <strong>Sagun Prajapati, MBA (Finance)</strong> for personal tracking and educational purposes only. Does not constitute financial advice. Consult a SEBON-registered advisor before investing.</div>
     </div>
   </div>
+  <div class="section" id="b58-analysis">
+    <div class="section-title">📐 B58 Analysis — Historical Buy/Sell Trends</div>
+    <div id="b58a-loading" style="text-align:center;padding:40px;color:#888;"><div class="spinner"></div><p style="margin-top:12px;">Loading analysis across all available dates...</p></div>
+    <div id="b58a-content" style="display:none;">
+
+      <!-- KPI Row -->
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px;" id="b58a-kpis"></div>
+
+      <!-- Tabs -->
+      <div class="b58a-tabs">
+        <div class="b58a-tab active" onclick="switchB58Tab('overview',this)">📊 B58 Trend</div>
+        <div class="b58a-tab" onclick="switchB58Tab('accumulation',this)">▲ Top Accumulation</div>
+        <div class="b58a-tab" onclick="switchB58Tab('distribution',this)">▼ Top Distribution</div>
+        <div class="b58a-tab" onclick="switchB58Tab('script',this)">🔍 Script Deep Dive</div>
+        <div class="b58a-tab" onclick="switchB58Tab('timeline',this)">📅 Activity Timeline</div>
+      </div>
+
+      <!-- Overview Tab -->
+      <div class="b58a-tab-content active" id="b58at-overview">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div class="an-panel">
+            <div class="an-panel-title">📈 Daily Net Position (Rs.M) — B58 Buy vs Sell</div>
+            <div class="b58a-chart-wrap" id="b58a-net-chart"></div>
+            <div style="display:flex;gap:3px;margin-top:2px;" id="b58a-net-labels"></div>
+          </div>
+          <div class="an-panel">
+            <div class="an-panel-title">🏦 Daily Stance History</div>
+            <div id="b58a-stance-list"></div>
+          </div>
+        </div>
+        <div class="an-panel">
+          <div class="an-panel-title">📊 NEPSE Close vs B58 Net Position</div>
+          <div class="b58a-chart-wrap" id="b58a-nepse-chart"></div>
+          <div style="display:flex;gap:3px;margin-top:2px;" id="b58a-nepse-labels"></div>
+        </div>
+      </div>
+
+      <!-- Accumulation Tab -->
+      <div class="b58a-tab-content" id="b58at-accumulation">
+        <div class="an-panel" style="margin-bottom:14px;">
+          <div class="an-panel-title">▲ Top Scripts — Net Accumulated by B58 (All Available Dates)</div>
+          <div id="b58a-accum-bars"></div>
+        </div>
+        <div class="an-panel">
+          <div class="an-panel-title">📋 Accumulation Detail</div>
+          <div style="overflow-x:auto;" id="b58a-accum-table"></div>
+        </div>
+      </div>
+
+      <!-- Distribution Tab -->
+      <div class="b58a-tab-content" id="b58at-distribution">
+        <div class="an-panel" style="margin-bottom:14px;">
+          <div class="an-panel-title">▼ Top Scripts — Net Distributed by B58 (All Available Dates)</div>
+          <div id="b58a-distrib-bars"></div>
+        </div>
+        <div class="an-panel">
+          <div class="an-panel-title">📋 Distribution Detail</div>
+          <div style="overflow-x:auto;" id="b58a-distrib-table"></div>
+        </div>
+      </div>
+
+      <!-- Script Deep Dive Tab -->
+      <div class="b58a-tab-content" id="b58at-script">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+          <label style="font-size:11px;font-weight:700;color:#555;">Select Script:</label>
+          <select class="b58a-stock-select" id="b58a-stock-select" onchange="renderScriptDeepDive(this.value)"></select>
+          <div id="b58a-script-badge" style="margin-left:auto;"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div class="an-panel">
+            <div class="an-panel-title">Daily Buy vs Sell Kitta</div>
+            <div class="b58a-chart-wrap" id="b58a-script-chart"></div>
+            <div style="display:flex;gap:3px;margin-top:2px;" id="b58a-script-labels"></div>
+          </div>
+          <div class="an-panel" id="b58a-script-summary"></div>
+        </div>
+        <div class="an-panel">
+          <div class="an-panel-title">Day-by-Day Activity</div>
+          <div id="b58a-script-daily"></div>
+        </div>
+      </div>
+
+      <!-- Timeline Tab -->
+      <div class="b58a-tab-content" id="b58at-timeline">
+        <div style="margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:11px;font-weight:700;color:#555;">Showing top 20 scripts across all dates</span>
+          <div style="display:flex;gap:8px;font-size:10px;align-items:center;">
+            <span style="background:#e8f8e8;color:#1e7e34;padding:2px 7px;border-radius:4px;font-weight:700;">BUY</span>
+            <span style="background:#fde8e8;color:#c0392b;padding:2px 7px;border-radius:4px;font-weight:700;">SELL</span>
+            <span style="background:#fff3cd;color:#856404;padding:2px 7px;border-radius:4px;font-weight:700;">BOTH</span>
+            <span style="background:#f8f8f8;color:#ccc;padding:2px 7px;border-radius:4px;">—</span>
+          </div>
+        </div>
+        <div class="b58a-timeline-wrap">
+          <div id="b58a-timeline-grid"></div>
+        </div>
+      </div>
+
+    </div><!-- end b58a-content -->
+  </div>
   <div class="page-footer">BROKER 58 — NAASA SECURITIES &nbsp;·&nbsp; NEPSE Daily Master Report &nbsp;·&nbsp; ${r.date} &nbsp;·&nbsp; Prepared by Sagun Prajapati, MBA (Finance) &nbsp;·&nbsp; v3.0<br>Data: nepalstock.com / nepsealpha.com &nbsp;·&nbsp; For personal tracking only. Not financial advice.</div>`;
 }
 
@@ -1736,6 +1877,7 @@ function showSection(id,el){
   if(el)el.classList.add('active');
   if(window.innerWidth<=768)closeSidebar();
   window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='b58-analysis') loadB58Analysis();
 }
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
@@ -1824,8 +1966,397 @@ tr:nth-child(even) td{background:#f8fafc;}
 }
 
 // ═══════════════════════════════════════════════
-//  INIT
+//  B58 ANALYSIS ENGINE
 // ═══════════════════════════════════════════════
+let _b58AnalysisData = null;
+
+async function loadB58Analysis() {
+  if (_b58AnalysisData) { renderB58Analysis(_b58AnalysisData); return; }
+  document.getElementById('b58a-loading').style.display = 'block';
+  document.getElementById('b58a-content').style.display = 'none';
+  try {
+    const reports = await Promise.all(availableDates.map(d =>
+      fetch(`${RAW_BASE}/${d}.json`).then(r => r.json()).catch(() => null)
+    ));
+    const valid = reports.filter(Boolean).sort((a,b) => a.date.localeCompare(b.date));
+    _b58AnalysisData = buildB58Analysis(valid);
+    renderB58Analysis(_b58AnalysisData);
+  } catch(e) {
+    document.getElementById('b58a-loading').innerHTML = `<p style="color:#c0392b;">Failed to load analysis: ${e.message}</p>`;
+  }
+}
+
+function buildB58Analysis(reports) {
+  const buyMap = {}, sellMap = {};
+  const dailyTrend = reports.map(r => {
+    // parse net amount
+    const netStr = r.b58Net || '0';
+    const netSign = netStr.includes('-') ? -1 : 1;
+    const netAmt = parseFloat(netStr.replace(/[^0-9.]/g,'')) * netSign;
+    const purStr = r.b58Purchase || '0';
+    const salStr = r.b58SalesTotal || '0';
+    const purAmt = parseFloat(purStr.replace(/[^0-9.]/g,''));
+    const salAmt = parseFloat(salStr.replace(/[^0-9.]/g,''));
+    (r.b58Purchases||[]).forEach(p => {
+      const k = parseInt((p.kitta||'0').replace(/,/g,''))||0;
+      const pr = parseFloat((p.avgPrice||'0').replace(/,/g,''))||0;
+      const mp = parseFloat((p.mktPct||'0').replace(/[^0-9.]/g,''))||0;
+      if(!buyMap[p.sym]) buyMap[p.sym]={kitta:0,days:0,prices:[],dates:[],mktPcts:[]};
+      buyMap[p.sym].kitta+=k; buyMap[p.sym].days++;
+      buyMap[p.sym].dates.push(r.date);
+      if(pr) buyMap[p.sym].prices.push(pr);
+      if(mp) buyMap[p.sym].mktPcts.push(mp);
+    });
+    const sales = r.b58SalesList||r.b58Sales||[];
+    sales.forEach(p => {
+      const k = parseInt((p.kitta||'0').replace(/,/g,''))||0;
+      const pr = parseFloat((p.avgPrice||'0').replace(/,/g,''))||0;
+      const mp = parseFloat((p.mktPct||'0').replace(/[^0-9.]/g,''))||0;
+      if(!sellMap[p.sym]) sellMap[p.sym]={kitta:0,days:0,prices:[],dates:[],mktPcts:[]};
+      sellMap[p.sym].kitta+=k; sellMap[p.sym].days++;
+      sellMap[p.sym].dates.push(r.date);
+      if(pr) sellMap[p.sym].prices.push(pr);
+      if(mp) sellMap[p.sym].mktPcts.push(mp);
+    });
+    return {
+      date: r.date, stance: r.b58Stance, netAmt,
+      purAmt, salAmt,
+      nepseClose: parseFloat((r.nepseClose||'0').replace(/,/g,''))||0,
+      nepseChg: r.nepseChg||'',
+      topBuy: (r.b58Purchases||[])[0]?.sym||'',
+      topSell: (sales||[])[0]?.sym||''
+    };
+  });
+
+  const allSyms = new Set([...Object.keys(buyMap),...Object.keys(sellMap)]);
+  const netPos = [];
+  allSyms.forEach(sym => {
+    const b = buyMap[sym]||{kitta:0,days:0,prices:[],dates:[],mktPcts:[]};
+    const s = sellMap[sym]||{kitta:0,days:0,prices:[],dates:[],mktPcts:[]};
+    const net = b.kitta - s.kitta;
+    const avgBuy = b.prices.length ? b.prices.reduce((a,c)=>a+c,0)/b.prices.length : 0;
+    const avgSell = s.prices.length ? s.prices.reduce((a,c)=>a+c,0)/s.prices.length : 0;
+    const avgMktBuy = b.mktPcts.length ? b.mktPcts.reduce((a,c)=>a+c,0)/b.mktPcts.length : 0;
+    const avgMktSell = s.mktPcts.length ? s.mktPcts.reduce((a,c)=>a+c,0)/s.mktPcts.length : 0;
+    netPos.push({sym,net,buyKitta:b.kitta,sellKitta:s.kitta,
+      buyDays:b.days,sellDays:s.days,avgBuy,avgSell,
+      avgMktBuy,avgMktSell,buyDates:b.dates,sellDates:s.dates});
+  });
+  netPos.sort((a,b) => b.net - a.net);
+
+  const stockTimeline = {};
+  allSyms.forEach(sym => {
+    stockTimeline[sym] = reports.map(r => {
+      const buy = (r.b58Purchases||[]).find(p=>p.sym===sym);
+      const sales2 = r.b58SalesList||r.b58Sales||[];
+      const sell = sales2.find(p=>p.sym===sym);
+      return {
+        date:r.date,
+        buyKitta: buy?parseInt((buy.kitta||'0').replace(/,/g,''))||0:0,
+        sellKitta: sell?parseInt((sell.kitta||'0').replace(/,/g,''))||0:0,
+        buyPct: buy?parseFloat((buy.mktPct||'0').replace(/[^0-9.]/g,''))||0:0,
+        sellPct: sell?parseFloat((sell.mktPct||'0').replace(/[^0-9.]/g,''))||0:0,
+        avgBuy: buy?parseFloat((buy.avgPrice||'0').replace(/,/g,''))||0:0,
+        avgSell: sell?parseFloat((sell.avgPrice||'0').replace(/,/g,''))||0:0
+      };
+    });
+  });
+
+  return {dailyTrend, netPos, stockTimeline,
+    dates: reports.map(r=>r.date), buyMap, sellMap};
+}
+
+function renderB58Analysis(data) {
+  document.getElementById('b58a-loading').style.display = 'none';
+  document.getElementById('b58a-content').style.display = 'block';
+  const {dailyTrend, netPos, stockTimeline, dates} = data;
+
+  // ── KPIs
+  const buyDays = dailyTrend.filter(d=>d.stance==='NET BUYER').length;
+  const sellDays = dailyTrend.filter(d=>d.stance==='NET SELLER').length;
+  const totalBuyKitta = netPos.reduce((s,p)=>s+p.buyKitta,0);
+  const totalSellKitta = netPos.reduce((s,p)=>s+p.sellKitta,0);
+  const topAccum = netPos[0];
+  const topDistrib = netPos[netPos.length-1];
+  document.getElementById('b58a-kpis').innerHTML = `
+    <div class="b58a-kpi" style="border-top-color:#1e7e34">
+      <div class="val green">${buyDays}</div><div class="lbl">Net Buy Days</div><div class="sub">of ${dates.length} total</div></div>
+    <div class="b58a-kpi" style="border-top-color:#c0392b">
+      <div class="val red">${sellDays}</div><div class="lbl">Net Sell Days</div><div class="sub">of ${dates.length} total</div></div>
+    <div class="b58a-kpi" style="border-top-color:#1a5276">
+      <div class="val blue">${(totalBuyKitta/1000).toFixed(0)}K</div><div class="lbl">Total Buy Kitta</div><div class="sub">across all scripts</div></div>
+    <div class="b58a-kpi" style="border-top-color:#c0392b">
+      <div class="val red">${(totalSellKitta/1000).toFixed(0)}K</div><div class="lbl">Total Sell Kitta</div><div class="sub">across all scripts</div></div>
+    <div class="b58a-kpi" style="border-top-color:#1e7e34">
+      <div class="val green" style="font-size:14px">${topAccum?.sym||'—'}</div><div class="lbl">Top Accumulation</div>
+      <div class="sub">+${topAccum?(topAccum.net/1000).toFixed(1)+'K':'—'} net</div></div>
+    <div class="b58a-kpi" style="border-top-color:#c0392b">
+      <div class="val red" style="font-size:14px">${topDistrib?.sym||'—'}</div><div class="lbl">Top Distribution</div>
+      <div class="sub">${topDistrib?(topDistrib.net/1000).toFixed(1)+'K':'—'} net</div></div>`;
+
+  // ── Overview charts
+  renderB58NetChart(dailyTrend);
+  renderB58StanceList(dailyTrend);
+  renderB58NepseChart(dailyTrend);
+  // ── Accumulation bars
+  renderB58Bars('accum', netPos.slice(0,15), netPos[0]?.buyKitta||1);
+  renderB58Table('accum', netPos.slice(0,15));
+  // ── Distribution bars
+  const bottom15 = netPos.slice(-15).reverse();
+  renderB58Bars('distrib', bottom15, bottom15[0]?.sellKitta||1);
+  renderB58Table('distrib', bottom15);
+  // ── Script selector
+  const sel = document.getElementById('b58a-stock-select');
+  if(sel) {
+    sel.innerHTML = netPos.map(p=>`<option value="${p.sym}">${p.sym} (net: ${p.net>0?'+':''}${(p.net/1000).toFixed(1)}K)</option>`).join('');
+    renderScriptDeepDive(netPos[0]?.sym);
+  }
+  // ── Timeline
+  renderB58Timeline(data);
+}
+
+function renderB58NetChart(trend) {
+  const el = document.getElementById('b58a-net-chart');
+  const lel = document.getElementById('b58a-net-labels');
+  if(!el) return;
+  const mx = Math.max(...trend.map(d=>Math.abs(d.netAmt)),1);
+  el.innerHTML = trend.map(d => {
+    const pct = Math.max(Math.round((Math.abs(d.netAmt)/mx)*160),3);
+    const isPos = d.netAmt >= 0;
+    const lbl = (Math.abs(d.netAmt)).toFixed(0);
+    return `<div class="b58a-col" title="${d.date}: ${d.stance} Rs.${d.netAmt.toFixed(0)}M">
+      <div style="font-size:8px;color:${isPos?'#1e7e34':'#c0392b'};margin-bottom:1px;">${lbl}</div>
+      <div class="${isPos?'b58a-col-buy':'b58a-col-sell'}" style="width:100%;height:${pct}px;"></div>
+    </div>`;
+  }).join('');
+  lel.innerHTML = trend.map(d=>`<div style="flex:1;text-align:center;font-size:8px;color:#aaa;">${d.date.slice(5)}</div>`).join('');
+}
+
+function renderB58StanceList(trend) {
+  const el = document.getElementById('b58a-stance-list');
+  if(!el) return;
+  el.innerHTML = [...trend].reverse().map(d => {
+    const isPos = d.stance === 'NET BUYER';
+    const amt = Math.abs(d.netAmt).toFixed(1);
+    return `<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f0f2f4;font-size:11px;">
+      <span style="font-size:9px;color:#888;min-width:48px;">${d.date.slice(5)}</span>
+      <span class="stance-badge ${isPos?'stance-buy':'stance-sell'}">${isPos?'▲ BUY':'▼ SELL'}</span>
+      <span style="font-weight:700;color:${isPos?'#1e7e34':'#c0392b'};">${isPos?'+':'-'}Rs.${amt}M</span>
+      <span style="font-size:9px;color:#888;margin-left:auto;">NEPSE ${d.nepseChg}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderB58NepseChart(trend) {
+  const el = document.getElementById('b58a-nepse-chart');
+  const lel = document.getElementById('b58a-nepse-labels');
+  if(!el) return;
+  const closes = trend.map(d=>d.nepseClose).filter(Boolean);
+  const minC = Math.min(...closes); const maxC = Math.max(...closes);
+  const rangeC = maxC - minC || 1;
+  const maxNet = Math.max(...trend.map(d=>Math.abs(d.netAmt)),1);
+  el.innerHTML = trend.map(d => {
+    const closeH = Math.max(Math.round(((d.nepseClose-minC)/rangeC)*140),2);
+    const netH = Math.max(Math.round((Math.abs(d.netAmt)/maxNet)*60),2);
+    const isPos = d.netAmt >= 0;
+    return `<div class="b58a-col" title="${d.date} | NEPSE: ${d.nepseClose} | B58: ${d.stance} Rs.${d.netAmt.toFixed(0)}M" style="position:relative;">
+      <div style="font-size:7px;color:#1a5276;margin-bottom:1px;">${d.nepseClose||''}</div>
+      <div style="display:flex;align-items:flex-end;gap:1px;width:100%;">
+        <div style="flex:1;height:${closeH}px;background:#b0c8e0;border-radius:2px 2px 0 0;min-height:3px;"></div>
+        <div style="flex:1;height:${netH}px;background:${isPos?'#27ae60':'#e74c3c'};border-radius:2px 2px 0 0;min-height:2px;"></div>
+      </div>
+    </div>`;
+  }).join('');
+  lel.innerHTML = trend.map(d=>`<div style="flex:1;text-align:center;font-size:8px;color:#aaa;">${d.date.slice(5)}</div>`).join('');
+}
+
+function renderB58Bars(type, positions, maxVal) {
+  const el = document.getElementById(`b58a-${type}-bars`);
+  if(!el) return;
+  const isAccum = type === 'accum';
+  el.innerHTML = positions.map(p => {
+    const val = isAccum ? p.buyKitta : p.sellKitta;
+    const netVal = isAccum ? p.net : Math.abs(p.net);
+    const pct = Math.max(Math.round((val/maxVal)*100),2);
+    const color = isAccum ? '#27ae60' : '#e74c3c';
+    const netColor = isAccum ? (p.net>0?'#1e7e34':'#c0392b') : '#c0392b';
+    const avgP = isAccum ? p.avgBuy : p.avgSell;
+    const days = isAccum ? p.buyDays : p.sellDays;
+    return `<div class="b58a-bar-row">
+      <div class="b58a-sym">${p.sym}</div>
+      <div class="b58a-bar-wrap"><div class="b58a-bar-${isAccum?'buy':'sell'}" style="width:${pct}%;"></div></div>
+      <div class="b58a-val" style="color:${color};">${(val/1000).toFixed(1)}K</div>
+      <div style="min-width:70px;text-align:right;font-size:10px;color:${netColor};font-weight:700;">net ${(netVal/1000).toFixed(1)}K</div>
+      <div style="min-width:65px;text-align:right;font-size:10px;color:#888;">Rs.${avgP.toFixed(0)}</div>
+      <div class="b58a-days">${days}d</div>
+    </div>`;
+  }).join('');
+}
+
+function renderB58Table(type, positions) {
+  const el = document.getElementById(`b58a-${type}-table`);
+  if(!el) return;
+  const isAccum = type === 'accum';
+  el.innerHTML = `<table style="width:100%;font-size:11px;border-collapse:collapse;">
+    <thead><tr>
+      <th style="text-align:left;padding:6px 8px;background:#f4f6f8;font-size:10px;">Script</th>
+      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Buy Kitta</th>
+      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Sell Kitta</th>
+      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Net Kitta</th>
+      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Avg Buy</th>
+      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Avg Sell</th>
+      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Buy Days</th>
+      <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Sell Days</th>
+      <th style="text-align:right;padding:6deg 8px;background:#f4f6f8;font-size:10px;">Avg Mkt%</th>
+    </tr></thead>
+    <tbody>${positions.map(p => {
+      const netColor = p.net>0?'#1e7e34':'#c0392b';
+      return `<tr>
+        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;font-weight:700;">${p.sym}</td>
+        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;color:#1e7e34;">${p.buyKitta.toLocaleString()}</td>
+        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;color:#c0392b;">${p.sellKitta.toLocaleString()}</td>
+        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;font-weight:700;color:${netColor};">${p.net>0?'+':''}${p.net.toLocaleString()}</td>
+        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">Rs.${p.avgBuy.toFixed(2)}</td>
+        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">Rs.${p.avgSell.toFixed(2)}</td>
+        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${p.buyDays}</td>
+        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${p.sellDays}</td>
+        <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${isAccum?p.avgMktBuy.toFixed(1):p.avgMktSell.toFixed(1)}%</td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+}
+
+function renderScriptDeepDive(sym) {
+  if(!_b58AnalysisData||!sym) return;
+  const {stockTimeline, netPos} = _b58AnalysisData;
+  const tl = stockTimeline[sym] || [];
+  const pos = netPos.find(p=>p.sym===sym);
+
+  // Badge
+  const badge = document.getElementById('b58a-script-badge');
+  if(badge && pos) {
+    const isAccum = pos.net > 0;
+    badge.innerHTML = `<span class="stance-badge ${isAccum?'stance-buy':'stance-sell'}" style="font-size:12px;padding:4px 12px;">${isAccum?'▲ ACCUMULATION':'▼ DISTRIBUTION'} | Net: ${pos.net>0?'+':''}${pos.net.toLocaleString()} kitta</span>`;
+  }
+
+  // Chart
+  const chartEl = document.getElementById('b58a-script-chart');
+  const labEl = document.getElementById('b58a-script-labels');
+  if(chartEl) {
+    const mx = Math.max(...tl.map(d=>Math.max(d.buyKitta,d.sellKitta)),1);
+    chartEl.innerHTML = tl.map(d => {
+      const bH = Math.max(Math.round((d.buyKitta/mx)*160),d.buyKitta>0?3:0);
+      const sH = Math.max(Math.round((d.sellKitta/mx)*160),d.sellKitta>0?3:0);
+      return `<div class="b58a-col" title="${d.date} | Buy:${d.buyKitta.toLocaleString()} Sell:${d.sellKitta.toLocaleString()}">
+        ${bH>0?`<div style="font-size:7px;color:#1e7e34;">${(d.buyKitta/1000).toFixed(0)}K</div>`:''}
+        <div style="display:flex;align-items:flex-end;gap:1px;width:100%;">
+          <div style="flex:1;height:${bH}px;background:#27ae60;border-radius:2px 2px 0 0;min-height:${bH>0?2:0}px;"></div>
+          <div style="flex:1;height:${sH}px;background:#e74c3c;border-radius:2px 2px 0 0;min-height:${sH>0?2:0}px;"></div>
+        </div>
+        ${sH>0?`<div style="font-size:7px;color:#c0392b;">${(d.sellKitta/1000).toFixed(0)}K</div>`:''}
+      </div>`;
+    }).join('');
+    if(labEl) labEl.innerHTML = tl.map(d=>`<div style="flex:1;text-align:center;font-size:8px;color:#aaa;">${d.date.slice(5)}</div>`).join('');
+  }
+
+  // Summary panel
+  const sumEl = document.getElementById('b58a-script-summary');
+  if(sumEl && pos) {
+    const consec = getConsecutiveBuyDays(tl);
+    sumEl.innerHTML = `<div class="an-panel-title">📋 ${sym} — Summary</div>
+      <div style="display:flex;flex-direction:column;gap:8px;padding-top:4px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Total Buy Kitta</span><span style="font-weight:700;color:#1e7e34;">${pos.buyKitta.toLocaleString()}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Total Sell Kitta</span><span style="font-weight:700;color:#c0392b;">${pos.sellKitta.toLocaleString()}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;border-top:1px solid #eee;padding-top:6px;"><span style="color:#888;">Net Position</span><span style="font-weight:700;color:${pos.net>0?'#1e7e34':'#c0392b'};">${pos.net>0?'+':''}${pos.net.toLocaleString()}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Avg Buy Price</span><span style="font-weight:700;">Rs.${pos.avgBuy.toFixed(2)}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Avg Sell Price</span><span style="font-weight:700;">Rs.${pos.avgSell.toFixed(2)}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Buy Days / Total</span><span style="font-weight:700;">${pos.buyDays} / ${_b58AnalysisData.dates.length}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Sell Days / Total</span><span style="font-weight:700;">${pos.sellDays} / ${_b58AnalysisData.dates.length}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Avg Buy Mkt%</span><span style="font-weight:700;">${pos.avgMktBuy.toFixed(2)}%</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#888;">Max Consec Buy Days</span><span style="font-weight:700;color:#1e7e34;">${consec}</span></div>
+        ${pos.avgBuy>0&&pos.avgSell>0?`<div style="background:${pos.avgSell>pos.avgBuy?'#e8f8e8':'#fde8e8'};border-radius:6px;padding:8px;margin-top:4px;font-size:11px;">
+          ${pos.avgSell>pos.avgBuy?'✅ B58 selling at <strong>higher avg price</strong> than buying — profit taking':'⚠️ B58 selling at <strong>lower avg price</strong> than buying — possible stop-loss exit'}
+        </div>`:''}
+      </div>`;
+  }
+
+  // Day-by-day
+  const dailyEl = document.getElementById('b58a-script-daily');
+  if(dailyEl) {
+    dailyEl.innerHTML = `<table style="width:100%;font-size:11px;border-collapse:collapse;">
+      <thead><tr>
+        <th style="text-align:left;padding:6px 8px;background:#f4f6f8;font-size:10px;">Date</th>
+        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Buy Kitta</th>
+        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Sell Kitta</th>
+        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Net</th>
+        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Avg Buy</th>
+        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Avg Sell</th>
+        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Buy Mkt%</th>
+        <th style="text-align:right;padding:6px 8px;background:#f4f6f8;font-size:10px;">Sell Mkt%</th>
+      </tr></thead>
+      <tbody>${[...tl].reverse().map(d => {
+        const net = d.buyKitta - d.sellKitta;
+        const active = d.buyKitta>0 || d.sellKitta>0;
+        return `<tr style="${active?'':'opacity:.4'}">
+          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;font-weight:${active?'700':'400'};">${d.date}</td>
+          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;color:#1e7e34;font-weight:700;">${d.buyKitta>0?d.buyKitta.toLocaleString():'—'}</td>
+          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;color:#c0392b;font-weight:700;">${d.sellKitta>0?d.sellKitta.toLocaleString():'—'}</td>
+          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;font-weight:700;color:${net>0?'#1e7e34':net<0?'#c0392b':'#888'}">${net!==0?(net>0?'+':'')+net.toLocaleString():'—'}</td>
+          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${d.avgBuy>0?'Rs.'+d.avgBuy.toFixed(2):'—'}</td>
+          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${d.avgSell>0?'Rs.'+d.avgSell.toFixed(2):'—'}</td>
+          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${d.buyPct>0?d.buyPct.toFixed(1)+'%':'—'}</td>
+          <td style="padding:5px 8px;border-bottom:1px solid #f0f2f4;text-align:right;">${d.sellPct>0?d.sellPct.toFixed(1)+'%':'—'}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>`;
+  }
+}
+
+function getConsecutiveBuyDays(tl) {
+  let max=0,cur=0;
+  tl.forEach(d=>{if(d.buyKitta>0){cur++;max=Math.max(max,cur);}else cur=0;});
+  return max;
+}
+
+function renderB58Timeline(data) {
+  const el = document.getElementById('b58a-timeline-grid');
+  if(!el) return;
+  const {netPos, stockTimeline, dates} = data;
+  // Top 20 by total activity
+  const top20 = netPos.slice(0,10).concat(netPos.slice(-10).reverse())
+    .filter((p,i,a)=>a.findIndex(x=>x.sym===p.sym)===i).slice(0,20);
+
+  const cols = dates.length + 1;
+  const gridTpl = `60px repeat(${dates.length}, 1fr)`;
+  let html = `<div style="display:grid;grid-template-columns:${gridTpl};gap:2px;min-width:600px;">`;
+  // Header row
+  html += `<div style="font-size:9px;font-weight:700;color:#888;padding:2px 4px;">Script</div>`;
+  dates.forEach(d => { html += `<div style="font-size:8px;color:#aaa;text-align:center;padding:2px 0;transform:rotate(-35deg);white-space:nowrap;">${d.slice(5)}</div>`; });
+
+  top20.forEach(p => {
+    const tl = stockTimeline[p.sym]||[];
+    html += `<div style="font-size:10px;font-weight:700;color:#1a1a1a;padding:3px 4px;display:flex;align-items:center;">${p.sym}</div>`;
+    tl.forEach(d => {
+      const hasBuy = d.buyKitta > 0, hasSell = d.sellKitta > 0;
+      let cls = 'tl-none', label = '—';
+      if(hasBuy && hasSell){ cls='tl-both'; label='B+S'; }
+      else if(hasBuy){ cls='tl-buy'; label='B'; }
+      else if(hasSell){ cls='tl-sell'; label='S'; }
+      const tip = `${d.date}: Buy ${d.buyKitta.toLocaleString()} | Sell ${d.sellKitta.toLocaleString()}`;
+      html += `<div class="b58a-tl-cell ${cls}" title="${tip}" style="cursor:pointer;">${label}</div>`;
+    });
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function switchB58Tab(name, el) {
+  document.querySelectorAll('.b58a-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.b58a-tab-content').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const c = document.getElementById(`b58at-${name}`);
+  if(c) c.classList.add('active');
+}
 recordView('init');
 loadLatest();
 initGasUrlField();
