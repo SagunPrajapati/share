@@ -366,6 +366,7 @@ tr:hover td{background:#fafbfc;}
     <div class="nav-label">Technical &amp; Trade</div>
     <div class="nav-item" onclick="showSection('technical',this)"><span class="icon">📉</span> Technical Analysis</div>
     <div class="nav-item" onclick="showSection('trade-plan',this)"><span class="icon">🎯</span> Trade Plan</div>
+    <div class="nav-item" onclick="showSection('analysis',this)"><span class="icon">📈</span> Python Analysis</div>
     <div class="nav-label">Insights &amp; Actions</div>
     <div class="nav-item" onclick="showSection('key-insights',this)"><span class="icon">💡</span> Key Insights</div>
     <div class="nav-item" onclick="showSection('action-plan',this)"><span class="icon">✅</span> Action Plan</div>
@@ -1864,13 +1865,132 @@ function buildHTML(r){
 
     </div><!-- end b58a-content -->
   </div>
+
+  <div class="section" id="analysis">
+    <div class="section-title">📈 10. Python Analysis Dashboard
+      <span style="margin-left:auto;font-size:9px;font-weight:400;color:#888;font-family:monospace;">Python · Pandas · Plotly</span>
+    </div>
+    <div style="display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid #e2e6ea;overflow-x:auto;">
+      <div class="an-tab active" onclick="switchAnalysisTab('signals',this)" style="white-space:nowrap;">📊 Signals</div>
+      <div class="an-tab" onclick="switchAnalysisTab('b58deep',this)" style="white-space:nowrap;">🏦 B58 Deep</div>
+      <div class="an-tab" onclick="switchAnalysisTab('heatmap',this)" style="white-space:nowrap;">🌡️ Heatmap</div>
+      <div class="an-tab" onclick="switchAnalysisTab('volatility',this)" style="white-space:nowrap;">⚡ Volatility</div>
+    </div>
+    <div id="analysis-loading" style="text-align:center;padding:50px 20px;display:flex;flex-direction:column;align-items:center;">
+      <div class="spinner"></div>
+      <p style="font-size:12px;color:#888;margin-top:12px;">Loading charts...</p>
+    </div>
+    <div id="atab-signals" class="an-tab-content active" style="display:none;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;overflow:hidden;" id="ch-donut"></div>
+        <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;overflow:hidden;" id="ch-rsi-dist"></div>
+      </div>
+      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;margin-bottom:12px;overflow:hidden;" id="ch-rsi-adx"></div>
+      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;overflow:hidden;" id="ch-price"></div>
+    </div>
+    <div id="atab-b58deep" class="an-tab-content" style="display:none;">
+      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;margin-bottom:12px;overflow:hidden;" id="ch-b58-net"></div>
+      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;overflow:hidden;" id="ch-b58-mkt"></div>
+    </div>
+    <div id="atab-heatmap" class="an-tab-content" style="display:none;">
+      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;overflow:hidden;" id="ch-heatmap"></div>
+      <div style="margin-top:10px;padding:10px 12px;background:#fffbf0;border:1px solid #f0d080;border-radius:8px;font-size:11px;color:#7a5a00;line-height:1.7;">
+        <strong>How to read:</strong> 🔴 Red = Oversold (RSI &lt;35) &nbsp;|&nbsp; 🟡 Yellow = Neutral &nbsp;|&nbsp; 🟢 Green = Overbought (RSI &gt;55). Hover any cell for exact values.
+      </div>
+    </div>
+    <div id="atab-volatility" class="an-tab-content" style="display:none;">
+      <div style="background:#f8fafc;border-radius:8px;border:1px solid #e8ecf0;overflow:hidden;" id="ch-atr"></div>
+      <div style="margin-top:10px;padding:10px 12px;background:#f0faf4;border:1px solid #a8dfc0;border-radius:8px;font-size:11px;color:#1e5c34;line-height:1.7;">
+        <strong>Color:</strong>
+        <span style="color:#27ae60;font-weight:700;">■ ADD</span> &nbsp;
+        <span style="color:#2980b9;font-weight:700;">■ HOLD</span> &nbsp;
+        <span style="color:#f0c040;font-weight:700;">■ WATCH</span> &nbsp;
+        <span style="color:#c0392b;font-weight:700;">■ AVOID</span> &nbsp;— High ATR = high volatility/risk.
+      </div>
+    </div>
+  </div>
   <div class="page-footer">BROKER 58 — NAASA SECURITIES &nbsp;·&nbsp; NEPSE Daily Master Report &nbsp;·&nbsp; ${r.date} &nbsp;·&nbsp; Prepared by Sagun Prajapati, MBA (Finance) &nbsp;·&nbsp; v3.0<br>Data: nepalstock.com / nepsealpha.com &nbsp;·&nbsp; For personal tracking only. Not financial advice.</div>`;
 }
 
 // ═══════════════════════════════════════════════
 //  FRONTEND NAV
 // ═══════════════════════════════════════════════
+// ── Analysis chart lazy loader ──
+let _chartsLoaded = false;
+
+function loadAnalysisCharts() {
+  if (_chartsLoaded) return;
+  _chartsLoaded = true;
+
+  // Step 1: load Plotly.js
+  const s = document.createElement('script');
+  s.src = 'https://cdn.plot.ly/plotly-2.27.0.min.js';
+  document.head.appendChild(s);
+
+  // Step 2: fetch chart HTML from separate file
+  fetch('./analysis-charts.html?v=1')
+    .then(r => { if(!r.ok) throw new Error('not found'); return r.text(); })
+    .then(chartsHtml => {
+      // Wait for Plotly to finish loading
+      const poll = setInterval(() => {
+        if (!window.Plotly) return;
+        clearInterval(poll);
+
+        // Parse fetched HTML
+        const wrap = document.createElement('div');
+        wrap.innerHTML = chartsHtml;
+
+        // Map source IDs to container IDs
+        const map = {
+          'ch-donut':    's-donut',
+          'ch-rsi-dist': 's-rsi-dist',
+          'ch-rsi-adx':  's-rsi-adx',
+          'ch-price':    's-price',
+          'ch-b58-net':  's-b58-net',
+          'ch-b58-mkt':  's-b58-mkt',
+          'ch-heatmap':  's-heatmap',
+          'ch-atr':      's-atr',
+        };
+
+        Object.entries(map).forEach(([targetId, srcId]) => {
+          const target = document.getElementById(targetId);
+          const src    = wrap.querySelector('#' + srcId);
+          if (!target || !src) return;
+          target.innerHTML = src.innerHTML;
+          // Re-execute any <script> tags inside
+          target.querySelectorAll('script').forEach(oldScript => {
+            const newScript = document.createElement('script');
+            newScript.textContent = oldScript.textContent;
+            document.head.appendChild(newScript);
+          });
+        });
+
+        // Show tab content, hide spinner
+        document.getElementById('analysis-loading').style.display = 'none';
+        const active = document.querySelector('[id^="atab-"].active') ||
+                       document.getElementById('atab-signals');
+        if (active) active.style.display = 'block';
+      }, 150);
+    })
+    .catch(() => {
+      const el = document.getElementById('analysis-loading');
+      if (el) el.innerHTML = '<p style="color:#c0392b;padding:20px;font-size:12px;text-align:center;">⚠️ Charts not available. Upload analysis-charts.html to GitHub repo.</p>';
+    });
+}
+
+function switchAnalysisTab(name, el) {
+  document.querySelectorAll('[id^="atab-"]').forEach(t => {
+    t.classList.remove('active');
+    t.style.display = 'none';
+  });
+  document.querySelectorAll('#analysis .an-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const c = document.getElementById('atab-' + name);
+  if (c) { c.classList.add('active'); if (_chartsLoaded) c.style.display = 'block'; }
+}
+
 function showSection(id,el){
+  if(id==='analysis')loadAnalysisCharts();
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const s=document.getElementById(id);if(s)s.classList.add('active-section');
