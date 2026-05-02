@@ -1,0 +1,67 @@
+{
+  "date": "2026-04-05",
+  "headline": "MARKET CRASH",
+  "nepseClose": "2676.68",
+  "nepseChg": "-105.50 (-3.79%)",
+  "turnover": "Rs.12.38B",
+  "sharesTraded": "31,206,162",
+  "transactions": "141,036",
+  "advDecUnch": "7 / 261 / 0",
+  "marketCap": "Rs.4,550,000,000,000",
+  "floatCap": "Rs.1,520,000,000,000",
+  "b58Stance": "Slight NET SELLER",
+  "b58Net": "-Rs.20.8M",
+  "b58Purchase": "Rs.774.1M",
+  "b58SalesTotal": "Rs.794.9M",
+  "b58TopBuy": "NHPC",
+  "b58PeakMkt": "90.13% (ULHC)",
+  "marketPulseNote": "NEPSE crashed -105.50 pts (-3.79%) to 2,676.68 on April 5, 2026 — one of the worst single-day drops. Extreme negative breadth: only 7 advancers vs 261 decliners (97% stocks down). All 13 sub-indices closed red. Turnover Rs.12.38B (panic volume). B58 was slight net seller (-Rs.20.8M) but aggressively bought dips: NHPC 160K (zero sell), RIDI 136K (zero sell). Likely triggered by global market fears (US tariffs).",
+  "subIndices": [
+    {"name": "Banking SubIndex", "value": "1,406.40", "chg": "-48.36", "chgPct": "-3.32%", "direction": "down"},
+    {"name": "Development Bank Index", "value": "5,738.12", "chg": "-259.55", "chgPct": "-4.32%", "direction": "down"},
+    {"name": "Finance Index", "value": "2,345.35", "chg": "-96.21", "chgPct": "-3.94%", "direction": "down"},
+    {"name": "HydroPower Index", "value": "3,634.74", "chg": "-184.99", "chgPct": "-4.84%", "direction": "down"},
+    {"name": "Manufacturing And Processing", "value": "10,596.49", "chg": "-143.72", "chgPct": "-1.33%", "direction": "down"},
+    {"name": "Others Index", "value": "2,038.83", "chg": "-132.22", "chgPct": "-6.09%", "direction": "down"}
+  ],
+  "topGainers": [
+    {"sym": "RSML", "close": "3,566", "chg": "+", "chgPct": "+10%"},
+    {"sym": "BJHL", "close": "770", "chg": "+", "chgPct": "+10%"},
+    {"sym": "RLEL", "close": "531", "chg": "+", "chgPct": "+10%"},
+    {"sym": "HFIN", "close": "465", "chg": "+", "chgPct": "+10%"}
+  ],
+  "topLosers": [
+    {"sym": "NABBC", "close": "1,184", "chg": "-", "chgPct": "-10%"},
+    {"sym": "HRL", "close": "705", "chg": "-", "chgPct": "-10%"},
+    {"sym": "BEDC", "close": "430", "chg": "-", "chgPct": "-10%"}
+  ],
+  "topTurnover": [
+    {"sym": "HRL", "turnover": "Rs.583M", "ltp": "705"},
+    {"sym": "SHIVM", "turnover": "Rs.453M", "ltp": "646"},
+    {"sym": "NGPL", "turnover": "Rs.421M", "ltp": "437"},
+    {"sym": "NHPC", "turnover": "Rs.368M", "ltp": "251"}
+  ],
+  "b58Purchases": [
+    {"sym": "NHPC", "mktPct": "11.09%", "amount": "Rs.40,771,589", "kitta": "160,664", "avgPrice": "253.77", "txns": "350"},
+    {"sym": "RIDI", "mktPct": "14.20%", "amount": "Rs.43,928,784", "kitta": "136,398", "avgPrice": "322.06", "txns": "261"},
+    {"sym": "ULHC", "mktPct": "90.13%", "amount": "Rs.61,241,594", "kitta": "125,495", "avgPrice": "488.00", "txns": "16"}
+  ],
+  "b58SalesList": [
+    {"sym": "ULHC", "mktPct": "89.18%", "amount": "Rs.60,599,568", "kitta": "124,182", "avgPrice": "487.99", "txns": "7"},
+    {"sym": "KBL", "mktPct": "9.85%", "amount": "Rs.32,438,765", "kitta": "151,876", "avgPrice": "213.59", "txns": "257"}
+  ],
+  "netAccum": [
+    {"sym": "NHPC", "netKitta": "+160,664", "buyMktPct": "11.09%", "sellMktPct": "0%", "rating": "★★★★★", "note": "Strongest conviction dip buy"},
+    {"sym": "RIDI", "netKitta": "+136,398", "buyMktPct": "14.20%", "sellMktPct": "0%", "rating": "★★★★★", "note": "Aggressive accumulation on crash"}
+  ],
+  "technical": [],
+  "tradePlan": [],
+  "keyInsights": [],
+  "actionPlan": [],
+  "disclaimer": [
+    "This report is for personal tracking and educational purposes only.",
+    "Not financial advice. Do not make investment decisions based solely on this report.",
+    "Data sourced from nepalstock.com and nepsealpha.com.",
+    "Prepared by Sagun Prajapati, MBA (Finance) — Broker 58 (Naasa Securities) daily tracking."
+  ]
+}
