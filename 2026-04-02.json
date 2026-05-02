@@ -1,0 +1,70 @@
+{
+  "date": "2026-04-02",
+  "headline": "Slim Green / Negative Breadth",
+  "nepseClose": "2782.18",
+  "nepseChg": "+5.82 (+0.20%)",
+  "turnover": "Rs.8.82B",
+  "sharesTraded": "21,318,929",
+  "transactions": "103,225",
+  "advDecUnch": "98 / 158 / 12",
+  "marketCap": "Rs.4,730,000,000,000",
+  "floatCap": "Rs.1,600,000,000,000",
+  "b58Stance": "NET BUYER",
+  "b58Net": "+Rs.93M",
+  "b58Purchase": "Rs.552.7M",
+  "b58SalesTotal": "Rs.459.7M",
+  "b58TopBuy": "NHPC",
+  "b58PeakMkt": "51.05% (SGHC)",
+  "marketPulseNote": "NEPSE closed slim green on April 2, 2026 at 2,782.18 — up 5.82 points (+0.20%). Deceptive green day with negative breadth (only 98 advancers vs 158 decliners). Turnover Rs.8.82B (weakest in recent sessions). B58 returned to NET BUYER (+Rs.93M) after two sell days — recovery signal. SGHC saw extraordinary 51.05% market concentration buy by B58.",
+  "subIndices": [
+    {"name": "Banking SubIndex", "value": "1495", "chg": "+", "chgPct": "~+0.3%", "direction": "up"},
+    {"name": "Development Bank Index", "value": "6180", "chg": "+", "chgPct": "~+0.2%", "direction": "up"},
+    {"name": "Finance Index", "value": "2548", "chg": "+", "chgPct": "~+0.3%", "direction": "up"},
+    {"name": "HydroPower Index", "value": "3935", "chg": "+", "chgPct": "~+0.2%", "direction": "up"},
+    {"name": "Manufacturing And Processing", "value": "10615", "chg": "+", "chgPct": "~+0.2%", "direction": "up"}
+  ],
+  "topGainers": [
+    {"sym": "RSML", "close": "3242", "chg": "+", "chgPct": "+10%"},
+    {"sym": "RLEL", "close": "483", "chg": "+", "chgPct": "+10%"},
+    {"sym": "SKHEL", "close": "458", "chg": "+", "chgPct": "+10%"},
+    {"sym": "BJHL", "close": "700", "chg": "+", "chgPct": "+9.99%"},
+    {"sym": "SKHL", "close": "585", "chg": "+", "chgPct": "+9.99%"}
+  ],
+  "topLosers": [
+    {"sym": "BEDC", "close": "478", "chg": "-", "chgPct": "-3.06%"},
+    {"sym": "NMBHF2", "close": "9.63", "chg": "-", "chgPct": "-2.73%"},
+    {"sym": "CREST", "close": "1315", "chg": "-", "chgPct": "-2.65%"}
+  ],
+  "topTurnover": [
+    {"sym": "SYPNL", "turnover": "Rs.357M", "ltp": "1845"},
+    {"sym": "NGPL", "turnover": "Rs.309M", "ltp": "462"},
+    {"sym": "HRL", "turnover": "Rs.297M", "ltp": "783"},
+    {"sym": "NRN", "turnover": "Rs.293M", "ltp": "1575"}
+  ],
+  "b58Purchases": [
+    {"sym": "NHPC", "mktPct": "17.93%", "amount": "Rs.43,366,303", "kitta": "158,549", "avgPrice": "273.52", "txns": "356"},
+    {"sym": "RIDI", "mktPct": "14.46%", "amount": "Rs.35,253,412", "kitta": "102,620", "avgPrice": "343.53", "txns": "184"},
+    {"sym": "NRN", "mktPct": "11.49%", "amount": "Rs.33,678,930", "kitta": "21,736", "avgPrice": "1549.45", "txns": "157"},
+    {"sym": "SGHC", "mktPct": "51.05%", "amount": "Rs.15,805,027", "kitta": "37,723", "avgPrice": "418.98", "txns": "138"}
+  ],
+  "b58SalesList": [
+    {"sym": "NRN", "mktPct": "13.79%", "amount": "Rs.40,427,847", "kitta": "25,848", "avgPrice": "1564.06", "txns": "119"},
+    {"sym": "NHPC", "mktPct": "11.80%", "amount": "Rs.28,548,320", "kitta": "102,149", "avgPrice": "279.48", "txns": "287"},
+    {"sym": "AKJCL", "mktPct": "9.08%", "amount": "Rs.22,945,642", "kitta": "59,693", "avgPrice": "384.39", "txns": "85"}
+  ],
+  "netAccum": [
+    {"sym": "NHPC", "netKitta": "+56,400", "buyMktPct": "17.93%", "sellMktPct": "11.80%", "rating": "★★★★★", "note": "Accumulation resumed"},
+    {"sym": "RIDI", "netKitta": "+55,604", "buyMktPct": "14.46%", "sellMktPct": "6.71%", "rating": "★★★★★", "note": "Strong net buy"},
+    {"sym": "SGHC", "netKitta": "+16,081", "buyMktPct": "51.05%", "sellMktPct": "29.18%", "rating": "★★★★★", "note": "Extraordinary 51% concentration"}
+  ],
+  "technical": [],
+  "tradePlan": [],
+  "keyInsights": [],
+  "actionPlan": [],
+  "disclaimer": [
+    "This report is for personal tracking and educational purposes only.",
+    "Not financial advice. Do not make investment decisions based solely on this report.",
+    "Data sourced from nepalstock.com and nepsealpha.com.",
+    "Prepared by Sagun Prajapati, MBA (Finance) — Broker 58 (Naasa Securities) daily tracking."
+  ]
+}
