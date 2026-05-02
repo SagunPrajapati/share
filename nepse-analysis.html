@@ -3,903 +3,299 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEPSE Python Analysis — Broker 58</title>
+<title>NEPSE Intelligence Dashboard — Broker 58</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" defer></script>
 <style>
 :root {
-  --bg: #0d1117;
-  --bg2: #161b22;
-  --bg3: #1c2128;
-  --border: #30363d;
-  --text: #e6edf3;
-  --muted: #8b949e;
-  --green: #3fb950;
-  --red: #f85149;
-  --amber: #d29922;
-  --blue: #58a6ff;
-  --purple: #bc8cff;
-  --teal: #39d353;
-  --accent: #f0b429;
-  --font: 'JetBrains Mono', 'Fira Code', monospace;
+  --bg:#080c10;--bg2:#0d1219;--bg3:#111922;--bg4:#161f2a;
+  --border:#1e2d3d;--border2:#243344;--text:#cdd9e5;--muted:#576f86;--dim:#3d5166;
+  --green:#3fb950;--red:#f85149;--amber:#e3b341;--blue:#58a6ff;--purple:#bc8cff;
+  --accent:#f0b429;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 13px; min-height: 100vh; }
-
-/* HEADER */
-.header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; }
-.header-title { font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: 0.5px; }
-.header-sub { color: var(--muted); font-size: 11px; }
-.badge { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; font-size: 11px; }
-.badge.green { border-color: var(--green); color: var(--green); }
-.badge.red { border-color: var(--red); color: var(--red); }
-.badge.amber { border-color: var(--amber); color: var(--amber); }
-.ml-auto { margin-left: auto; }
-
-/* TABS */
-.tabs { display: flex; gap: 2px; background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0 20px; overflow-x: auto; }
-.tab { padding: 10px 16px; cursor: pointer; color: var(--muted); font-size: 12px; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; }
-.tab:hover { color: var(--text); }
-.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-/* LAYOUT */
-.content { padding: 16px 20px; }
-.panel { display: none; }
-.panel.active { display: block; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
-@media (max-width: 900px) { .grid2, .grid3, .grid4 { grid-template-columns: 1fr; } }
-
-/* CARDS */
-.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
-.card-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-.card-title .icon { font-size: 14px; }
-.chart-box { min-height: 280px; }
-.chart-box.tall { min-height: 360px; }
-.chart-box.short { min-height: 200px; }
-
-/* KPI GRID */
-.kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 12px; }
-@media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
-.kpi { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
-.kpi-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
-.kpi-val { font-size: 20px; font-weight: 700; color: var(--text); line-height: 1; }
-.kpi-sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
-.kpi.green { border-color: var(--green); }
-.kpi.red { border-color: var(--red); }
-.kpi.amber { border-color: var(--amber); }
-.kpi.blue { border-color: var(--blue); }
-.kpi.purple { border-color: var(--purple); }
-.kpi.green .kpi-val { color: var(--green); }
-.kpi.red .kpi-val { color: var(--red); }
-.kpi.amber .kpi-val { color: var(--amber); }
-.kpi.blue .kpi-val { color: var(--blue); }
-.kpi.purple .kpi-val { color: var(--purple); }
-
-/* TABLE */
-.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.data-table th { text-align: left; padding: 6px 10px; color: var(--muted); font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid var(--border); }
-.data-table td { padding: 7px 10px; border-bottom: 1px solid #1e2530; }
-.data-table tr:hover td { background: var(--bg3); }
-.data-table .pos { color: var(--green); }
-.data-table .neg { color: var(--red); }
-.data-table .neu { color: var(--amber); }
-
-/* SIGNAL PILLS */
-.sig { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
-.sig-buy { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
-.sig-hold { background: rgba(88,166,255,0.15); color: var(--blue); border: 1px solid rgba(88,166,255,0.3); }
-.sig-watch { background: rgba(210,153,34,0.15); color: var(--amber); border: 1px solid rgba(210,153,34,0.3); }
-.sig-avoid { background: rgba(248,81,73,0.15); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
-
-/* DECISION BOX */
-.decision { background: linear-gradient(135deg, #1a2332, #0d1a2a); border: 1px solid var(--blue); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
-.decision-title { color: var(--blue); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-.decision-items { display: flex; flex-direction: column; gap: 8px; }
-.decision-item { display: flex; align-items: flex-start; gap: 10px; }
-.decision-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
-.decision-text { font-size: 12px; color: var(--text); line-height: 1.5; }
-
-/* HEATMAP LEGEND */
-.legend-row { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); margin-top: 8px; }
-.leg-box { width: 14px; height: 14px; border-radius: 3px; }
-
-/* LOADING */
-.loading { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--muted); gap: 10px; }
-.spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* STREAK INDICATOR */
-.streak { display: inline-flex; align-items: center; gap: 4px; }
-.streak-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
-
-/* SCROLLABLE TABLE WRAPPER */
-.table-wrap { overflow-x: auto; max-height: 340px; overflow-y: auto; }
-.table-wrap::-webkit-scrollbar { width: 4px; height: 4px; }
-.table-wrap::-webkit-scrollbar-track { background: var(--bg); }
-.table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-/* INSIGHT CARDS */
-.insight-list { display: flex; flex-direction: column; gap: 8px; }
-.insight-item { background: var(--bg3); border-left: 3px solid var(--border); padding: 10px 12px; border-radius: 0 6px 6px 0; font-size: 12px; line-height: 1.5; }
-.insight-item.bull { border-left-color: var(--green); }
-.insight-item.bear { border-left-color: var(--red); }
-.insight-item.watch { border-left-color: var(--amber); }
-.insight-item strong { color: var(--text); }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);pointer-events:none;z-index:9999}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100}
+.logo{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--accent);letter-spacing:2px}
+.logo span{color:var(--muted);font-weight:300}
+.tk{font-family:var(--mono);font-size:11px;display:flex;align-items:center;gap:5px}
+.tk-l{color:var(--muted)}.tk-v{color:var(--text);font-weight:600}
+.up{color:var(--green)!important}.dn{color:var(--red)!important}.neu{color:var(--amber)!important}.bl{color:var(--blue)!important}
+.divider{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.ml{margin-left:auto}.mr8{margin-right:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.status{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.back{font-family:var(--mono);font-size:10px;color:var(--muted);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:4px;transition:.15s all}
+.back:hover{color:var(--text);border-color:var(--dim)}
+.tabs{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;padding:0 24px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-family:var(--mono);font-size:10px;padding:13px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;transition:.15s all;letter-spacing:.8px;display:flex;align-items:center;gap:5px}
+.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab .n{color:var(--border2);font-size:9px}
+.content{padding:20px 24px}
+.panel{display:none}.panel.active{display:block}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:14px}
+@media(max-width:1100px){.g3{grid-template-columns:1fr 1fr}.g5{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.g2,.g3,.g4,.g5{grid-template-columns:1fr}}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--border)}
+.kpi.g::before{background:var(--green)}.kpi.r::before{background:var(--red)}.kpi.a::before{background:var(--amber)}.kpi.b::before{background:var(--blue)}.kpi.p::before{background:var(--purple)}
+.kpi-l{font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.kpi-v{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1;color:var(--text)}
+.kpi-s{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:5px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:14px}
+.card.nm{margin-bottom:0}
+.ch{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ch .t{background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:3px;font-size:9px;color:var(--dim)}
+.h260{min-height:260px}.h300{min-height:300px}.h360{min-height:360px}.h420{min-height:420px}.h200{min-height:200px}
+.tw{overflow-x:auto;overflow-y:auto;max-height:360px}
+.tw::-webkit-scrollbar{width:3px;height:3px}
+.tw::-webkit-scrollbar-thumb{background:var(--border)}
+table.dt{width:100%;border-collapse:collapse;font-size:11px}
+table.dt th{font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;padding:6px 10px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;position:sticky;top:0;background:var(--bg2)}
+table.dt td{padding:6px 10px;border-bottom:1px solid var(--bg3);white-space:nowrap;font-family:var(--mono)}
+table.dt tr:hover td{background:var(--bg3)}
+table.dt strong{font-weight:600;color:var(--text)}
+.sig{display:inline-block;padding:2px 7px;border-radius:3px;font-family:var(--mono);font-size:9px;font-weight:700}
+.sb{background:rgba(63,185,80,.12);color:var(--green);border:1px solid rgba(63,185,80,.25)}
+.sh{background:rgba(88,166,255,.12);color:var(--blue);border:1px solid rgba(88,166,255,.25)}
+.sw{background:rgba(227,179,65,.12);color:var(--amber);border:1px solid rgba(227,179,65,.25)}
+.sa{background:rgba(248,81,73,.12);color:var(--red);border:1px solid rgba(248,81,73,.25)}
+.db{background:linear-gradient(135deg,#0d1a2a,#081018);border:1px solid var(--blue);border-radius:6px;padding:18px 20px;margin-bottom:14px}
+.dh{font-family:var(--mono);font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px}
+.dh::before{content:'▶ ';font-size:8px}
+.drs{display:flex;flex-direction:column;gap:10px}
+.dr{display:flex;align-items:flex-start;gap:12px}
+.dd{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dt2{font-size:12px;line-height:1.6;color:var(--text)}
+.dt2 strong{color:var(--accent);font-family:var(--mono)}
+.il{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto}
+.il::-webkit-scrollbar{width:3px}.il::-webkit-scrollbar-thumb{background:var(--border)}
+.ins{border-left:3px solid var(--border);padding:10px 14px;background:var(--bg3);border-radius:0 5px 5px 0;font-size:12px;line-height:1.6}
+.ins.bull{border-left-color:var(--green)}.ins.bear{border-left-color:var(--red)}.ins.watch{border-left-color:var(--amber)}.ins.info{border-left-color:var(--blue)}
+.ins strong{color:var(--text);font-family:var(--mono);font-size:11px}
+.loading{display:flex;align-items:center;justify-content:center;min-height:260px;gap:12px;color:var(--muted);font-family:var(--mono);font-size:11px}
+.spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.legend{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+.lb{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.sp{display:flex;gap:3px;align-items:center}
+.sp-p{width:8px;height:8px;border-radius:1px;background:var(--border)}
+.sp-p.on{background:var(--green)}.sp-p.on.hot{background:var(--amber)}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div>
-    <div class="header-title">📈 NEPSE B58 Python Analysis</div>
-    <div class="header-sub">Broker 58 · Naasa Securities · Multi-Day Intelligence Dashboard</div>
+<div class="topbar">
+  <div class="logo">B58<span>/</span>INTEL</div>
+  <div class="divider"></div>
+  <div class="tk"><span class="tk-l">NEPSE</span><span class="tk-v" id="hc">—</span><span id="hg">—</span></div>
+  <div class="tk"><span class="tk-l">B58</span><span class="tk-v" id="hn">—</span></div>
+  <div class="tk"><span class="tk-l">DATA</span><span class="tk-v" id="hd">—</span></div>
+  <div class="ml" style="display:flex;align-items:center;gap:10px">
+    <div class="dot"></div><div class="status" id="hs">LOADING</div>
+    <div class="divider"></div>
+    <a class="back" href="https://sagunprajapati.github.io/share/" target="_blank">← MAIN REPORT</a>
   </div>
-  <div id="hdr-dates" class="badge" style="color:var(--muted)">Loading…</div>
-  <div id="hdr-stance" class="badge ml-auto">—</div>
-  <div id="hdr-nepse" class="badge">—</div>
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="showTab('overview',this)">📊 Overview</div>
-  <div class="tab" onclick="showTab('signals',this)">🎯 Signals</div>
-  <div class="tab" onclick="showTab('b58flow',this)">🏦 B58 Flow</div>
-  <div class="tab" onclick="showTab('heatmap',this)">🌡️ RSI Heatmap</div>
-  <div class="tab" onclick="showTab('momentum',this)">⚡ Momentum</div>
-  <div class="tab" onclick="showTab('conviction',this)">💎 Conviction</div>
-  <div class="tab" onclick="showTab('decision',this)">✅ Decision Engine</div>
+  <div class="tab active" onclick="ST('overview',this)"><span class="n">01</span> OVERVIEW</div>
+  <div class="tab" onclick="ST('signals',this)"><span class="n">02</span> SIGNALS</div>
+  <div class="tab" onclick="ST('b58flow',this)"><span class="n">03</span> B58 FLOW</div>
+  <div class="tab" onclick="ST('heatmap',this)"><span class="n">04</span> RSI MAP</div>
+  <div class="tab" onclick="ST('momentum',this)"><span class="n">05</span> MOMENTUM</div>
+  <div class="tab" onclick="ST('conviction',this)"><span class="n">06</span> CONVICTION</div>
+  <div class="tab" onclick="ST('decision',this)"><span class="n">07</span> DECISION ENGINE</div>
 </div>
 
 <div class="content">
 
-  <!-- OVERVIEW TAB -->
-  <div class="panel active" id="tab-overview">
-    <div class="kpi-grid" id="kpi-grid">
-      <div class="loading"><div class="spinner"></div> Loading data…</div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-title"><span class="icon">📉</span>NEPSE Close — 13-Day Trend</div><div class="chart-box" id="ch-nepse-trend"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">💰</span>Daily Turnover Trend (Rs.B)</div><div class="chart-box" id="ch-turnover"></div></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-title"><span class="icon">🔄</span>B58 Net Flow vs NEPSE</div><div class="chart-box" id="ch-b58-nepse"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">📊</span>Advance / Decline Ratio</div><div class="chart-box" id="ch-adv-dec"></div></div>
-    </div>
+<div class="panel active" id="tab-overview">
+  <div id="kr" class="g5" style="margin-bottom:14px"><div class="loading"><div class="spin"></div> Loading…</div></div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">NEPSE 13-Day Trend <span class="t">CLOSE</span></div><div class="h260" id="c-nepse"></div></div>
+    <div class="card nm"><div class="ch">Daily Turnover <span class="t">Rs.B</span></div><div class="h260" id="c-tov"></div></div>
   </div>
-
-  <!-- SIGNALS TAB -->
-  <div class="panel" id="tab-signals">
-    <div class="grid3">
-      <div class="card"><div class="card-title"><span class="icon">🎯</span>Action Distribution — Latest Day</div><div class="chart-box short" id="ch-donut"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">📈</span>RSI Distribution by Signal</div><div class="chart-box short" id="ch-rsi-dist"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">🔀</span>ADX Strength by Signal</div><div class="chart-box short" id="ch-adx-dist"></div></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-title"><span class="icon">🌐</span>RSI × ADX Momentum Matrix (Latest)</div><div class="chart-box" id="ch-rsi-adx"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">📋</span>Signal Summary Table — All Symbols</div>
-        <div class="table-wrap"><table class="data-table" id="tbl-signals"></table></div>
-      </div>
-    </div>
+  <div style="height:14px"></div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">B58 Net Flow vs NEPSE <span class="t">DUAL AXIS</span></div><div class="h260" id="c-b58n"></div></div>
+    <div class="card nm"><div class="ch">Advance / Decline Balance</div><div class="h260" id="c-ad"></div></div>
   </div>
+</div>
 
-  <!-- B58 FLOW TAB -->
-  <div class="panel" id="tab-b58flow">
-    <div class="grid4" id="b58-kpis" style="margin-bottom:12px"></div>
-    <div class="grid2">
-      <div class="card"><div class="card-title"><span class="icon">📊</span>B58 Net Buy/Sell — Daily (Rs.M)</div><div class="chart-box" id="ch-b58-net"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">🎯</span>B58 Market Share % — Top Bought Symbols</div><div class="chart-box" id="ch-b58-mktshare"></div></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-title"><span class="icon">📈</span>Cumulative B58 Net Kitta — Top Symbols</div><div class="chart-box" id="ch-b58-cumnet"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">🔥</span>B58 Buy vs Sell Kitta — Symbol Comparison</div><div class="chart-box" id="ch-b58-buysell"></div></div>
-    </div>
+<div class="panel" id="tab-signals">
+  <div class="g3" style="margin-bottom:14px">
+    <div class="card nm"><div class="ch">Action Distribution <span class="t">LATEST</span></div><div class="h200" id="c-donut"></div></div>
+    <div class="card nm"><div class="ch">RSI by Action</div><div class="h200" id="c-rdist"></div></div>
+    <div class="card nm"><div class="ch">Avg ADX by Signal</div><div class="h200" id="c-adist"></div></div>
   </div>
-
-  <!-- RSI HEATMAP TAB -->
-  <div class="panel" id="tab-heatmap">
-    <div class="card" style="margin-bottom:12px">
-      <div class="card-title"><span class="icon">🌡️</span>RSI Heatmap — All Symbols × All Dates</div>
-      <div class="legend-row">
-        <div class="leg-box" style="background:#c0392b"></div><span>Oversold (RSI&lt;35)</span>
-        <div class="leg-box" style="background:#d4ac0d"></div><span>Neutral (35-55)</span>
-        <div class="leg-box" style="background:#27ae60"></div><span>Overbought (RSI&gt;55)</span>
-        <div class="leg-box" style="background:#2c3e50"></div><span>No data</span>
-      </div>
-      <div class="chart-box tall" id="ch-rsi-heatmap"></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-title"><span class="icon">📉</span>RSI Trend — Selected Symbols Over Time</div><div class="chart-box" id="ch-rsi-trend"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">⚡</span>ATR Volatility Heatmap — Risk Map</div><div class="chart-box" id="ch-atr-heat"></div></div>
-    </div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">RSI × ADX Momentum Matrix <span class="t">BUBBLE=ATR</span></div><div class="h260" id="c-mat"></div></div>
+    <div class="card nm"><div class="ch">Signal Table — All Symbols</div><div class="tw"><table class="dt" id="t-sig"></table></div></div>
   </div>
+</div>
 
-  <!-- MOMENTUM TAB -->
-  <div class="panel" id="tab-momentum">
-    <div class="grid2">
-      <div class="card"><div class="card-title"><span class="icon">📊</span>Price % Change — All Tracked Symbols</div><div class="chart-box" id="ch-price-chg"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">🔄</span>RSI Velocity (Rate of Change)</div><div class="chart-box" id="ch-rsi-velocity"></div></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-title"><span class="icon">💥</span>Volatility (ATR) vs Price — Risk/Reward Map</div><div class="chart-box" id="ch-atr-price"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">🏆</span>Top Movers — Multi-Day Gainers & Losers</div><div class="chart-box" id="ch-movers"></div></div>
-    </div>
+<div class="panel" id="tab-b58flow">
+  <div class="g4" id="b-kpi" style="margin-bottom:14px"></div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">B58 Net Daily <span class="t">Rs.M</span></div><div class="h260" id="c-bnet"></div></div>
+    <div class="card nm"><div class="ch">Avg Market Share % — Top Symbols</div><div class="h260" id="c-mkt"></div></div>
   </div>
-
-  <!-- CONVICTION TAB -->
-  <div class="panel" id="tab-conviction">
-    <div class="card" style="margin-bottom:12px">
-      <div class="card-title"><span class="icon">💎</span>B58 Conviction Score — Symbol Ranking</div>
-      <div class="table-wrap"><table class="data-table" id="tbl-conviction"></table></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-title"><span class="icon">🔥</span>Consecutive Buy Streak — Active Accumulation</div><div class="chart-box" id="ch-streak"></div></div>
-      <div class="card"><div class="card-title"><span class="icon">📊</span>B58 Avg Entry Price vs Current LTP</div><div class="chart-box" id="ch-entry-vs-ltp"></div></div>
-    </div>
+  <div style="height:14px"></div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">Cumulative Net Kitta — Top 5</div><div class="h260" id="c-cum"></div></div>
+    <div class="card nm"><div class="ch">Total Buy vs Sell per Symbol</div><div class="h260" id="c-bs"></div></div>
   </div>
+</div>
 
-  <!-- DECISION ENGINE TAB -->
-  <div class="panel" id="tab-decision">
-    <div class="decision" id="decision-summary">
-      <div class="decision-title">🤖 AI Decision Engine — Loading…</div>
+<div class="panel" id="tab-heatmap">
+  <div class="card" style="margin-bottom:14px">
+    <div class="ch">RSI Heatmap — Symbol × Date <span class="t">ALL SESSIONS</span></div>
+    <div class="legend">
+      <div style="display:flex;align-items:center;gap:5px"><div class="lb" style="background:#7b1a1a"></div>Oversold &lt;35</div>
+      <div style="display:flex;align-items:center;gap:5px"><div class="lb" style="background:#5a4a00"></div>Neutral 35–55</div>
+      <div style="display:flex;align-items:center;gap:5px"><div class="lb" style="background:#0d4a1e"></div>Overbought &gt;55</div>
     </div>
-    <div class="grid2">
-      <div class="card">
-        <div class="card-title"><span class="icon">✅</span>BUY Candidates — Multi-Factor Score</div>
-        <div class="table-wrap"><table class="data-table" id="tbl-buy"></table></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><span class="icon">⚠️</span>AVOID / SELL Alerts</div>
-        <div class="table-wrap"><table class="data-table" id="tbl-avoid"></table></div>
-      </div>
-    </div>
-    <div class="grid2">
-      <div class="card">
-        <div class="card-title"><span class="icon">📊</span>Multi-Factor Score Chart</div>
-        <div class="chart-box" id="ch-score"></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><span class="icon">💡</span>Key Insights &amp; Observations</div>
-        <div class="insight-list" id="insight-list" style="max-height:340px;overflow-y:auto"></div>
-      </div>
-    </div>
+    <div class="h420" id="c-heat"></div>
   </div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">RSI Trend — Top Symbols Over Time</div><div class="h260" id="c-rt"></div></div>
+    <div class="card nm"><div class="ch">ATR Volatility Map <span class="t">RISK</span></div><div class="h300" id="c-atr"></div></div>
+  </div>
+</div>
 
-</div><!-- end content -->
+<div class="panel" id="tab-momentum">
+  <div class="g2">
+    <div class="card nm"><div class="ch">Price % Change — All Tracked Symbols</div><div class="h260" id="c-pc"></div></div>
+    <div class="card nm"><div class="ch">RSI Velocity — Day-over-Day Δ</div><div class="h260" id="c-rv"></div></div>
+  </div>
+  <div style="height:14px"></div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">ATR vs LTP — Risk/Reward Map</div><div class="h260" id="c-ap"></div></div>
+    <div class="card nm"><div class="ch">Multi-Session Movers <span class="t">FREQUENCY</span></div><div class="h260" id="c-mv"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="tab-conviction">
+  <div class="card" style="margin-bottom:14px">
+    <div class="ch">B58 Conviction Ranking <span class="t">COMPOSITE SCORE</span></div>
+    <div class="tw"><table class="dt" id="t-conv"></table></div>
+  </div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">Consecutive Buy Streak <span class="t">DAYS</span></div><div class="h260" id="c-str"></div></div>
+    <div class="card nm"><div class="ch">B58 Avg Entry vs Current LTP</div><div class="h260" id="c-ent"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="tab-decision">
+  <div class="db" id="dec"><div class="dh">MARKET INTELLIGENCE ENGINE</div><div class="loading"><div class="spin"></div> Calculating…</div></div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">BUY Candidates — Multi-Factor Score</div><div class="tw"><table class="dt" id="t-buy"></table></div></div>
+    <div class="card nm"><div class="ch">AVOID / High Risk Alerts</div><div class="tw"><table class="dt" id="t-av"></table></div></div>
+  </div>
+  <div style="height:14px"></div>
+  <div class="g2">
+    <div class="card nm"><div class="ch">Multi-Factor Score — All Symbols</div><div class="h260" id="c-sc"></div></div>
+    <div class="card nm"><div class="ch">AI Insights &amp; Observations</div><div class="il" id="ins"></div></div>
+  </div>
+</div>
+
+</div>
 
 <script>
-// ─── CONFIG ──────────────────────────────────────────────────────────
-const BASE = 'https://raw.githubusercontent.com/SagunPrajapati/share/main/';
-const DATES = ["2026-04-13","2026-04-15","2026-04-16","2026-04-17","2026-04-20",
-               "2026-04-21","2026-04-22","2026-04-23","2026-04-24","2026-04-27",
-               "2026-04-28","2026-04-29","2026-04-30"];
-const PLOTLY_CFG = { responsive: true, displayModeBar: false };
-const DARK_LAYOUT = {
-  paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
-  font: { color: '#8b949e', family: 'JetBrains Mono, monospace', size: 11 },
-  margin: { t: 20, r: 10, b: 40, l: 50 },
-  xaxis: { gridcolor: '#21262d', linecolor: '#30363d', tickfont: { size: 10 } },
-  yaxis: { gridcolor: '#21262d', linecolor: '#30363d', tickfont: { size: 10 } },
-  legend: { bgcolor: 'transparent', font: { size: 10 } },
-  colorway: ['#f0b429','#3fb950','#58a6ff','#f85149','#bc8cff','#39d353','#79c0ff','#ffb347']
-};
-
-// ─── STATE ───────────────────────────────────────────────────────────
-let ALL = [], activeTab = 'overview';
-
-// ─── TAB SWITCH ──────────────────────────────────────────────────────
-function showTab(id, el) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  el.classList.add('active');
-  activeTab = id;
-  // Lazy render
-  if (ALL.length && !el.dataset.rendered) {
-    el.dataset.rendered = '1';
-    renderTab(id);
-  }
-}
-
-// ─── LOAD DATA ───────────────────────────────────────────────────────
-async function loadAll() {
-  const fetches = DATES.map(d => fetch(BASE + d + '.json').then(r => r.json()).catch(() => null));
-  const results = await Promise.all(fetches);
-  ALL = results.filter(Boolean).map((d, i) => ({ ...d, _date: DATES[i] }));
-
-  // Update header
-  const last = ALL[ALL.length - 1];
-  document.getElementById('hdr-dates').textContent = ALL.length + ' days loaded';
-  const stance = last.b58Stance || '';
-  const sh = document.getElementById('hdr-stance');
-  sh.textContent = stance; sh.className = 'badge ' + (stance.includes('BUYER') ? 'green' : 'red');
-  const nh = document.getElementById('hdr-nepse');
-  const chg = last.nepseChg || '';
-  nh.textContent = last.nepseClose + ' ' + chg;
-  nh.className = 'badge ' + (chg.includes('+') ? 'green' : 'red');
-
-  // Render overview immediately (active tab)
-  renderTab('overview');
-}
-
-// ─── RENDER ROUTER ───────────────────────────────────────────────────
-function renderTab(id) {
-  if (id === 'overview')   renderOverview();
-  if (id === 'signals')    renderSignals();
-  if (id === 'b58flow')    renderB58Flow();
-  if (id === 'heatmap')    renderHeatmapTab();
-  if (id === 'momentum')   renderMomentum();
-  if (id === 'conviction') renderConviction();
-  if (id === 'decision')   renderDecision();
-}
-
-// ─── HELPERS ─────────────────────────────────────────────────────────
-const parseNum = s => parseFloat((s || '0').toString().replace(/[^0-9.\-]/g, ''));
-const parseB58Net = raw => { const n = raw || ''; const v = parseFloat(n.replace(/[^0-9.]/g,'')); return n.includes('-') ? -v : v; };
-const shortDate = d => d.slice(5); // "04-30"
-const colorAction = a => a==='BUY'||a==='ADD'||a==='BUY/ADD' ? '#3fb950' : a==='HOLD'?'#58a6ff': a==='WATCH'?'#d29922':'#f85149';
-const sigClass = a => a==='BUY'||a==='ADD'||a==='BUY/ADD'?'sig-buy':a==='HOLD'?'sig-hold':a==='WATCH'?'sig-watch':'sig-avoid';
-
-function plot(id, traces, layout = {}, cfg = {}) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const L = Object.assign({}, DARK_LAYOUT, layout);
-  Plotly.newPlot(el, traces, L, Object.assign({}, PLOTLY_CFG, cfg));
-}
-
-// Build cumulative B58 per symbol across all dates
-function buildB58Map() {
-  const map = {};
-  ALL.forEach(d => {
-    const buyMap = {};
-    (d.b58Purchases || []).forEach(p => { buyMap[p.sym] = p; });
-    const sellMap = {};
-    (d.b58SalesList || []).forEach(p => { sellMap[p.sym] = p; });
-
-    const allSyms = new Set([...Object.keys(buyMap), ...Object.keys(sellMap)]);
-    allSyms.forEach(sym => {
-      if (!map[sym]) map[sym] = { buyKitta: 0, sellKitta: 0, buyDays: 0, sellDays: 0, mktPcts: [], avgPrices: [], dates: [] };
-      const b = buyMap[sym]; const s = sellMap[sym];
-      const bk = b ? parseInt((b.kitta||'0').replace(/,/g,'')) : 0;
-      const sk = s ? parseInt((s.kitta||'0').replace(/,/g,'')) : 0;
-      map[sym].buyKitta += bk;
-      map[sym].sellKitta += sk;
-      if (bk > 0) { map[sym].buyDays++; map[sym].mktPcts.push(parseFloat(b.mktPct)); map[sym].avgPrices.push(parseFloat(b.avgPrice)); }
-      if (sk > 0) map[sym].sellDays++;
-      map[sym].dates.push(d._date);
-    });
-  });
-  return map;
-}
-
-function buildRSIMap() {
-  const map = {};
-  ALL.forEach(d => {
-    (d.technical || []).forEach(t => {
-      if (!map[t.sym]) map[t.sym] = [];
-      map[t.sym].push({ date: d._date, rsi: parseFloat(t.rsi)||0, adx: parseFloat(t.adx)||0, atr: parseFloat(t.atr)||0, action: t.action, ltp: parseFloat(t.ltp)||0, adOsc: t.adOsc });
-    });
-  });
-  return map;
-}
-
-// ─── OVERVIEW ────────────────────────────────────────────────────────
-function renderOverview() {
-  // KPIs
-  const last = ALL[ALL.length - 1];
-  const first = ALL[0];
-  const netFlows = ALL.map(d => parseB58Net(d.b58Net));
-  const totalNetBuyDays = ALL.filter(d => d.b58Stance && d.b58Stance.includes('BUYER')).length;
-  const nepseDelta = parseNum(last.nepseClose) - parseNum(first.nepseClose);
-  const turnovers = ALL.map(d => parseFloat((d.turnover||'0').replace(/[^0-9.]/g,'')));
-  const avgTurnover = (turnovers.reduce((a,b)=>a+b,0)/turnovers.length).toFixed(2);
-
-  document.getElementById('kpi-grid').innerHTML = `
-    <div class="kpi ${nepseDelta>=0?'green':'red'}">
-      <div class="kpi-label">NEPSE Change</div>
-      <div class="kpi-val">${nepseDelta>=0?'+':''}${nepseDelta.toFixed(0)}</div>
-      <div class="kpi-sub">${first._date} → ${last._date}</div>
-    </div>
-    <div class="kpi amber">
-      <div class="kpi-label">Latest Close</div>
-      <div class="kpi-val">${last.nepseClose}</div>
-      <div class="kpi-sub">${last.nepseChg}</div>
-    </div>
-    <div class="kpi ${totalNetBuyDays > ALL.length/2 ? 'green':'red'}">
-      <div class="kpi-label">B58 Buy Days</div>
-      <div class="kpi-val">${totalNetBuyDays}/${ALL.length}</div>
-      <div class="kpi-sub">Net buyer sessions</div>
-    </div>
-    <div class="kpi blue">
-      <div class="kpi-label">Avg Turnover</div>
-      <div class="kpi-val">${avgTurnover}B</div>
-      <div class="kpi-sub">Rs. avg daily</div>
-    </div>
-    <div class="kpi purple">
-      <div class="kpi-label">Latest B58 Net</div>
-      <div class="kpi-val ${last.b58Net&&last.b58Net.includes('+')?'pos':'neg'}">${last.b58Net}</div>
-      <div class="kpi-sub">${last.b58Stance}</div>
-    </div>
-  `;
-
-  // NEPSE Trend
-  const dates = ALL.map(d => shortDate(d._date));
-  const closes = ALL.map(d => parseNum(d.nepseClose));
-  plot('ch-nepse-trend', [{
-    x: dates, y: closes, type: 'scatter', mode: 'lines+markers',
-    line: { color: '#f0b429', width: 2 }, marker: { size: 5, color: closes.map(c => c >= closes[0] ? '#3fb950' : '#f85149') },
-    fill: 'tozeroy', fillcolor: 'rgba(240,180,41,0.05)', name: 'NEPSE'
-  }], { yaxis: { tickformat: ',.0f', range: [Math.min(...closes)-50, Math.max(...closes)+50] } });
-
-  // Turnover
-  const tovs = ALL.map(d => parseFloat((d.turnover||'0').replace(/[^0-9.]/g,'')));
-  plot('ch-turnover', [{
-    x: dates, y: tovs, type: 'bar', marker: { color: tovs.map(t => t >= 7 ? '#3fb950' : t >= 5 ? '#d29922' : '#f85149') }, name: 'Turnover'
-  }], { yaxis: { ticksuffix: 'B' } });
-
-  // B58 Net vs NEPSE dual axis
-  const b58nets = ALL.map(d => parseB58Net(d.b58Net));
-  plot('ch-b58-nepse', [
-    { x: dates, y: closes, type: 'scatter', mode: 'lines', name: 'NEPSE', line: { color: '#58a6ff', width: 2 }, yaxis: 'y2' },
-    { x: dates, y: b58nets, type: 'bar', name: 'B58 Net (Rs.M)', marker: { color: b58nets.map(v => v >= 0 ? 'rgba(63,185,80,0.7)' : 'rgba(248,81,73,0.7)') } }
-  ], {
-    yaxis: { title: 'Rs.M', gridcolor: '#21262d' },
-    yaxis2: { title: 'NEPSE', overlaying: 'y', side: 'right', gridcolor: 'transparent' },
-    legend: { orientation: 'h', y: 1.1 }
-  });
-
-  // Advance/Decline
-  const advs = ALL.map(d => parseInt(((d.advDecUnch||'').split('/')[0])||0));
-  const decs = ALL.map(d => parseInt(((d.advDecUnch||'').split('/')[1])||0));
-  plot('ch-adv-dec', [
-    { x: dates, y: advs, type: 'bar', name: 'Advance', marker: { color: 'rgba(63,185,80,0.7)' } },
-    { x: dates, y: decs.map(v => -v), type: 'bar', name: 'Decline', marker: { color: 'rgba(248,81,73,0.7)' } }
-  ], { barmode: 'overlay', yaxis: { title: 'Stocks' }, shapes: [{ type: 'line', x0: 0, x1: 1, y0: 0, y1: 0, xref: 'paper', line: { color: '#30363d' } }] });
-}
-
-// ─── SIGNALS ─────────────────────────────────────────────────────────
-function renderSignals() {
-  const last = ALL[ALL.length - 1];
-  const tech = last.technical || [];
-
-  // Action counts
-  const counts = { BUY: 0, ADD: 0, HOLD: 0, WATCH: 0, AVOID: 0 };
-  tech.forEach(t => { const k = t.action; counts[k] = (counts[k]||0) + 1; });
-  const mergedCounts = { 'BUY/ADD': (counts.BUY||0)+(counts.ADD||0), 'HOLD': counts.HOLD||0, 'WATCH': counts.WATCH||0, 'AVOID': counts.AVOID||0 };
-
-  plot('ch-donut', [{
-    values: Object.values(mergedCounts), labels: Object.keys(mergedCounts), type: 'pie', hole: 0.5,
-    marker: { colors: ['#3fb950','#58a6ff','#d29922','#f85149'] },
-    textfont: { color: '#e6edf3', size: 11 }, textinfo: 'label+percent'
-  }], { margin: { t: 10, r: 10, b: 10, l: 10 }, showlegend: false });
-
-  // RSI by action
-  const rsiGroups = { 'BUY/ADD': [], 'HOLD': [], 'WATCH': [], 'AVOID': [] };
-  tech.forEach(t => { const k = t.action==='ADD'||t.action==='BUY'||t.action==='BUY/ADD' ? 'BUY/ADD' : t.action; if (rsiGroups[k]) rsiGroups[k].push(parseFloat(t.rsi)||0); });
-  const colors = { 'BUY/ADD': '#3fb950', 'HOLD': '#58a6ff', 'WATCH': '#d29922', 'AVOID': '#f85149' };
-  plot('ch-rsi-dist', Object.entries(rsiGroups).map(([k,v]) => ({
-    x: v, type: 'histogram', name: k, opacity: 0.8, marker: { color: colors[k] }
-  })), { barmode: 'overlay', xaxis: { title: 'RSI' }, yaxis: { title: 'Count' } });
-
-  // ADX by action
-  const adxGroups = { 'BUY/ADD': [], 'HOLD': [], 'WATCH': [], 'AVOID': [] };
-  tech.forEach(t => { const k = t.action==='ADD'||t.action==='BUY'||t.action==='BUY/ADD' ? 'BUY/ADD' : t.action; if (adxGroups[k]) adxGroups[k].push(parseFloat(t.adx)||0); });
-  plot('ch-adx-dist', Object.entries(adxGroups).map(([k,v]) => ({
-    x: [k], y: [v.length ? v.reduce((a,b)=>a+b,0)/v.length : 0], type: 'bar', name: k, marker: { color: colors[k] }
-  })), { yaxis: { title: 'Avg ADX' }, showlegend: false });
-
-  // RSI × ADX scatter
-  plot('ch-rsi-adx', [{
-    x: tech.map(t => parseFloat(t.rsi)||0), y: tech.map(t => parseFloat(t.adx)||0),
-    mode: 'markers+text', type: 'scatter',
-    text: tech.map(t => t.sym), textposition: 'top center', textfont: { size: 9 },
-    marker: { color: tech.map(t => colorAction(t.action)), size: tech.map(t => Math.max(8, parseFloat(t.atr)||8)), opacity: 0.85 },
-    name: 'Symbol'
-  }], {
-    xaxis: { title: 'RSI (Momentum)', range: [25, 65] },
-    yaxis: { title: 'ADX (Trend Strength)' },
-    shapes: [
-      { type: 'line', x0: 35, x1: 35, y0: 0, y1: 35, line: { color: '#f85149', dash: 'dash', width: 1 } },
-      { type: 'line', x0: 55, x1: 55, y0: 0, y1: 35, line: { color: '#3fb950', dash: 'dash', width: 1 } },
-      { type: 'line', x0: 25, x1: 65, y0: 20, y1: 20, line: { color: '#d29922', dash: 'dot', width: 1 } }
-    ]
-  });
-
-  // Signal table
-  const tbl = document.getElementById('tbl-signals');
-  tbl.innerHTML = `<tr><th>Symbol</th><th>LTP</th><th>RSI</th><th>ADX</th><th>ATR</th><th>AD Osc</th><th>Action</th></tr>` +
-    [...tech].sort((a,b) => parseFloat(b.rsi)-parseFloat(a.rsi)).map(t => `
-      <tr>
-        <td><strong>${t.sym}</strong></td>
-        <td>${t.ltp}</td>
-        <td class="${parseFloat(t.rsi)>=55?'pos':parseFloat(t.rsi)<=35?'neg':'neu'}">${parseFloat(t.rsi).toFixed(1)}</td>
-        <td>${parseFloat(t.adx).toFixed(1)}</td>
-        <td class="${parseFloat(t.atr)>=30?'neg':''}">${parseFloat(t.atr).toFixed(1)}</td>
-        <td class="${t.adOsc==='Bullish'?'pos':'neg'}">${t.adOsc||'—'}</td>
-        <td><span class="sig ${sigClass(t.action)}">${t.action}</span></td>
-      </tr>`).join('');
-}
-
-// ─── B58 FLOW ─────────────────────────────────────────────────────────
-function renderB58Flow() {
-  const b58map = buildB58Map();
-  const dates = ALL.map(d => shortDate(d._date));
-  const nets = ALL.map(d => parseB58Net(d.b58Net));
-
-  // KPIs
-  const totalBuy = ALL.reduce((s,d) => s + (d.b58Purchases||[]).reduce((a,p) => a + parseNum(p.amount.replace(/Rs\./,'')), 0), 0);
-  const totalSell = ALL.reduce((s,d) => s + (d.b58SalesList||[]).reduce((a,p) => a + parseNum(p.amount.replace(/Rs\./,'')), 0), 0);
-  const buyDays = ALL.filter(d => (d.b58Stance||'').includes('BUYER')).length;
-  document.getElementById('b58-kpis').innerHTML = `
-    <div class="kpi green"><div class="kpi-label">Total B58 Purchases</div><div class="kpi-val">Rs.${(totalBuy/1e6).toFixed(0)}M</div><div class="kpi-sub">Over ${ALL.length} days</div></div>
-    <div class="kpi red"><div class="kpi-label">Total B58 Sales</div><div class="kpi-val">Rs.${(totalSell/1e6).toFixed(0)}M</div><div class="kpi-sub">Over ${ALL.length} days</div></div>
-    <div class="kpi amber"><div class="kpi-label">Net Flow</div><div class="kpi-val ${totalBuy>totalSell?'pos':'neg'}">Rs.${((totalBuy-totalSell)/1e6).toFixed(0)}M</div><div class="kpi-sub">Net ${totalBuy>totalSell?'BUY':'SELL'}</div></div>
-    <div class="kpi blue"><div class="kpi-label">Buy Days / Total</div><div class="kpi-val">${buyDays}/${ALL.length}</div><div class="kpi-sub">${(buyDays/ALL.length*100).toFixed(0)}% bullish</div></div>
-  `;
-
-  // B58 Net bar
-  plot('ch-b58-net', [{
-    x: dates, y: nets, type: 'bar',
-    marker: { color: nets.map(v => v>=0 ? 'rgba(63,185,80,0.8)' : 'rgba(248,81,73,0.8)') },
-    text: nets.map(v => (v>=0?'+':'')+v.toFixed(1)+'M'), textposition: 'outside', textfont: { size: 9 }
-  }], { yaxis: { title: 'Rs.M' }, shapes: [{ type: 'line', x0: -0.5, x1: dates.length-0.5, y0: 0, y1: 0, line: { color: '#30363d' } }] });
-
-  // Market share top symbols
-  const topSyms = Object.entries(b58map).sort((a,b) => b[1].buyKitta - a[1].buyKitta).slice(0, 10);
-  const avgMktPcts = topSyms.map(([sym, v]) => v.mktPcts.length ? v.mktPcts.reduce((a,b)=>a+b,0)/v.mktPcts.length : 0);
-  plot('ch-b58-mktshare', [{
-    x: topSyms.map(([s]) => s), y: avgMktPcts, type: 'bar',
-    marker: { color: avgMktPcts.map(v => v>=30?'#f0b429':v>=15?'#3fb950':'#58a6ff') },
-    text: avgMktPcts.map(v => v.toFixed(1)+'%'), textposition: 'outside', textfont: { size: 9 }
-  }], { yaxis: { title: 'Avg Mkt Share %' } });
-
-  // Cumulative net kitta over time for top 5 symbols
-  const top5 = Object.entries(b58map).sort((a,b) => (b[1].buyKitta-b[1].sellKitta) - (a[1].buyKitta-a[1].sellKitta)).slice(0, 5);
-  const cumTraces = top5.map(([sym]) => {
-    let cum = 0; const vals = [];
-    ALL.forEach(d => {
-      const bp = (d.b58Purchases||[]).find(p => p.sym===sym);
-      const sp = (d.b58SalesList||[]).find(p => p.sym===sym);
-      const bk = bp ? parseInt((bp.kitta||'0').replace(/,/g,'')) : 0;
-      const sk = sp ? parseInt((sp.kitta||'0').replace(/,/g,'')) : 0;
-      cum += bk - sk; vals.push(cum);
-    });
-    return { x: dates, y: vals, type: 'scatter', mode: 'lines+markers', name: sym, line: { width: 2 }, marker: { size: 4 } };
-  });
-  plot('ch-b58-cumnet', cumTraces, { yaxis: { title: 'Net Kitta (cumulative)' } });
-
-  // Buy vs Sell comparison per symbol
-  const top8 = Object.entries(b58map).sort((a,b) => b[1].buyKitta - a[1].buyKitta).slice(0, 8);
-  plot('ch-b58-buysell', [
-    { x: top8.map(([s]) => s), y: top8.map(([,v]) => v.buyKitta), type: 'bar', name: 'Buy', marker: { color: 'rgba(63,185,80,0.8)' } },
-    { x: top8.map(([s]) => s), y: top8.map(([,v]) => -v.sellKitta), type: 'bar', name: 'Sell', marker: { color: 'rgba(248,81,73,0.8)' } }
-  ], { barmode: 'group', yaxis: { title: 'Kitta' } });
-}
-
-// ─── HEATMAP ─────────────────────────────────────────────────────────
-function renderHeatmapTab() {
-  const rsiMap = buildRSIMap();
-  const syms = Object.keys(rsiMap).sort();
-  const dates = ALL.map(d => shortDate(d._date));
-
-  // Build matrix
-  const z = syms.map(sym => ALL.map(d => {
-    const entry = (rsiMap[sym]||[]).find(e => e.date === d._date);
-    return entry ? entry.rsi : null;
-  }));
-
-  plot('ch-rsi-heatmap', [{
-    x: dates, y: syms, z: z, type: 'heatmap',
-    colorscale: [[0,'#c0392b'],[0.35,'#c0392b'],[0.35,'#d4ac0d'],[0.55,'#d4ac0d'],[0.55,'#27ae60'],[1,'#27ae60']],
-    zmin: 20, zmax: 80,
-    colorbar: { title: 'RSI', tickfont: { size: 9 } },
-    hovertemplate: '<b>%{y}</b> on %{x}<br>RSI: %{z:.1f}<extra></extra>'
-  }], { margin: { t: 10, r: 80, b: 40, l: 70 }, height: 400, xaxis: { side: 'bottom' } });
-
-  // RSI trend for top 6 most tracked symbols
-  const tracked = syms.slice(0, 6);
-  const trendTraces = tracked.map(sym => ({
-    x: (rsiMap[sym]||[]).map(e => shortDate(e.date)),
-    y: (rsiMap[sym]||[]).map(e => e.rsi),
-    type: 'scatter', mode: 'lines+markers', name: sym,
-    line: { width: 2 }, marker: { size: 4 }
-  }));
-  plot('ch-rsi-trend', trendTraces, {
-    shapes: [
-      { type: 'rect', x0: 0, x1: 1, y0: 55, y1: 80, xref: 'paper', fillcolor: 'rgba(63,185,80,0.05)', line: { width: 0 } },
-      { type: 'rect', x0: 0, x1: 1, y0: 20, y1: 35, xref: 'paper', fillcolor: 'rgba(248,81,73,0.05)', line: { width: 0 } }
-    ],
-    yaxis: { title: 'RSI', range: [20, 75] }
-  });
-
-  // ATR heatmap
-  const zAtr = syms.map(sym => ALL.map(d => {
-    const entry = (rsiMap[sym]||[]).find(e => e.date === d._date);
-    return entry ? entry.atr : null;
-  }));
-  plot('ch-atr-heat', [{
-    x: dates, y: syms, z: zAtr, type: 'heatmap',
-    colorscale: 'RdYlGn', reversescale: true,
-    colorbar: { title: 'ATR', tickfont: { size: 9 } },
-    hovertemplate: '<b>%{y}</b><br>ATR: %{z:.1f}<extra></extra>'
-  }], { margin: { t: 10, r: 80, b: 40, l: 70 }, height: 320 });
-}
-
-// ─── MOMENTUM ────────────────────────────────────────────────────────
-function renderMomentum() {
-  const rsiMap = buildRSIMap();
-  const last = ALL[ALL.length - 1];
-  const tech = last.technical || [];
-
-  // Price change for all symbols (first to last available data)
-  const priceChanges = [];
-  Object.entries(rsiMap).forEach(([sym, entries]) => {
-    if (entries.length >= 2) {
-      const first = entries[0]; const last = entries[entries.length-1];
-      const pct = ((last.ltp - first.ltp) / first.ltp * 100);
-      priceChanges.push({ sym, pct, ltp: last.ltp, action: last.action });
-    }
-  });
-  priceChanges.sort((a,b) => b.pct - a.pct);
-  plot('ch-price-chg', [{
-    x: priceChanges.map(p => p.sym),
-    y: priceChanges.map(p => p.pct),
-    type: 'bar',
-    marker: { color: priceChanges.map(p => p.pct >= 0 ? '#3fb950' : '#f85149') },
-    text: priceChanges.map(p => p.pct.toFixed(1)+'%'), textposition: 'outside', textfont: { size: 9 }
-  }], { yaxis: { title: '% Change', ticksuffix: '%' } });
-
-  // RSI Velocity (change in RSI from prev day to last day)
-  const rsiVelocity = [];
-  Object.entries(rsiMap).forEach(([sym, entries]) => {
-    if (entries.length >= 2) {
-      const prev = entries[entries.length-2]; const cur = entries[entries.length-1];
-      rsiVelocity.push({ sym, delta: cur.rsi - prev.rsi, curRsi: cur.rsi });
-    }
-  });
-  rsiVelocity.sort((a,b) => b.delta - a.delta);
-  plot('ch-rsi-velocity', [{
-    x: rsiVelocity.map(v => v.sym), y: rsiVelocity.map(v => v.delta), type: 'bar',
-    marker: { color: rsiVelocity.map(v => v.delta >= 0 ? '#3fb950' : '#f85149') },
-    text: rsiVelocity.map(v => (v.delta>=0?'+':'')+v.delta.toFixed(1)), textposition: 'outside', textfont: { size: 9 }
-  }], { yaxis: { title: 'RSI Δ (1-day change)' }, shapes: [{ type: 'line', x0: -0.5, x1: rsiVelocity.length-0.5, y0: 0, y1: 0, line: { color: '#30363d' } }] });
-
-  // ATR vs Price scatter
-  plot('ch-atr-price', [{
-    x: tech.map(t => parseFloat(t.ltp)||0),
-    y: tech.map(t => parseFloat(t.atr)||0),
-    mode: 'markers+text', type: 'scatter',
-    text: tech.map(t => t.sym), textposition: 'top center', textfont: { size: 9 },
-    marker: { color: tech.map(t => colorAction(t.action)), size: 8, opacity: 0.85 }
-  }], { xaxis: { title: 'LTP (Rs.)' }, yaxis: { title: 'ATR (Volatility)' } });
-
-  // Multi-day gainers/losers from topGainers / topLosers
-  const gainCounts = {}, lossCounts = {};
-  ALL.forEach(d => {
-    (d.topGainers||[]).forEach(g => { gainCounts[g.sym] = (gainCounts[g.sym]||0)+1; });
-    (d.topLosers||[]).forEach(g => { lossCounts[g.sym] = (lossCounts[g.sym]||0)+1; });
-  });
-  const topGain = Object.entries(gainCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const topLoss = Object.entries(lossCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  plot('ch-movers', [
-    { x: topGain.map(([s])=>s), y: topGain.map(([,v])=>v), type: 'bar', name: 'Times in Top Gainers', marker: { color: 'rgba(63,185,80,0.8)' } },
-    { x: topLoss.map(([s])=>s), y: topLoss.map(([,v])=>-v), type: 'bar', name: 'Times in Top Losers', marker: { color: 'rgba(248,81,73,0.8)' } }
-  ], { barmode: 'group', yaxis: { title: 'Occurrences' } });
-}
-
-// ─── CONVICTION ───────────────────────────────────────────────────────
-function renderConviction() {
-  const b58map = buildB58Map();
-  const rsiMap = buildRSIMap();
-
-  // Conviction score: buyKitta, buyDays, avg mktPct, net kitta
-  const rows = Object.entries(b58map).map(([sym, v]) => {
-    const net = v.buyKitta - v.sellKitta;
-    const avgMkt = v.mktPcts.length ? v.mktPcts.reduce((a,b)=>a+b,0)/v.mktPcts.length : 0;
-    const score = (net / 1000) * 0.4 + (v.buyDays * 5) * 0.3 + (avgMkt * 2) * 0.3;
-    const latestRsi = rsiMap[sym] ? rsiMap[sym][rsiMap[sym].length-1]?.rsi : null;
-    const latestAction = rsiMap[sym] ? rsiMap[sym][rsiMap[sym].length-1]?.action : '—';
-    return { sym, buyKitta: v.buyKitta, sellKitta: v.sellKitta, net, buyDays: v.buyDays, avgMkt: avgMkt.toFixed(1), score: score.toFixed(0), latestRsi, latestAction };
-  }).sort((a,b) => b.score - a.score);
-
-  const tbl = document.getElementById('tbl-conviction');
-  tbl.innerHTML = `<tr><th>#</th><th>Symbol</th><th>Buy Kitta</th><th>Sell Kitta</th><th>Net Kitta</th><th>Buy Days</th><th>Avg Mkt%</th><th>RSI</th><th>Signal</th><th>Score</th></tr>` +
-    rows.slice(0, 15).map((r, i) => `
-      <tr>
-        <td class="muted">${i+1}</td>
-        <td><strong>${r.sym}</strong></td>
-        <td class="pos">${r.buyKitta.toLocaleString()}</td>
-        <td class="neg">${r.sellKitta.toLocaleString()}</td>
-        <td class="${r.net>=0?'pos':'neg'}">${r.net>=0?'+':''}${r.net.toLocaleString()}</td>
-        <td>${r.buyDays}</td>
-        <td>${r.avgMkt}%</td>
-        <td class="${r.latestRsi>=55?'pos':r.latestRsi<=35?'neg':'neu'}">${r.latestRsi?r.latestRsi.toFixed(1):'—'}</td>
-        <td><span class="sig ${sigClass(r.latestAction)}">${r.latestAction}</span></td>
-        <td class="amber"><strong>${r.score}</strong></td>
-      </tr>`).join('');
-
-  // Streak chart (consecutive buy days per symbol)
-  const streaks = rows.slice(0, 10).map(r => {
-    let streak = 0;
-    for (let i = ALL.length - 1; i >= 0; i--) {
-      const bought = (ALL[i].b58Purchases||[]).some(p => p.sym === r.sym);
-      if (bought) streak++; else break;
-    }
-    return { sym: r.sym, streak };
-  }).sort((a,b) => b.streak - a.streak);
-
-  plot('ch-streak', [{
-    x: streaks.map(s => s.sym), y: streaks.map(s => s.streak), type: 'bar',
-    marker: { color: streaks.map(s => s.streak >= 5 ? '#f0b429' : s.streak >= 3 ? '#3fb950' : '#58a6ff') },
-    text: streaks.map(s => s.streak + 'd'), textposition: 'outside', textfont: { size: 10, color: '#e6edf3' }
-  }], { yaxis: { title: 'Consecutive Buy Days', dtick: 1 } });
-
-  // Avg Entry Price vs Current LTP
-  const entryData = rows.filter(r => {
-    const v = b58map[r.sym];
-    return v.avgPrices.length > 0 && rsiMap[r.sym];
-  }).slice(0, 10).map(r => {
-    const v = b58map[r.sym];
-    const avgEntry = v.avgPrices.reduce((a,b)=>a+b,0) / v.avgPrices.length;
-    const ltp = rsiMap[r.sym][rsiMap[r.sym].length-1]?.ltp || 0;
-    const pnl = ((ltp - avgEntry) / avgEntry * 100);
-    return { sym: r.sym, avgEntry: avgEntry.toFixed(0), ltp, pnl: pnl.toFixed(1) };
-  }).filter(r => r.ltp > 0);
-
-  plot('ch-entry-vs-ltp', [
-    { x: entryData.map(e => e.sym), y: entryData.map(e => parseFloat(e.avgEntry)), type: 'bar', name: 'B58 Avg Entry', marker: { color: 'rgba(88,166,255,0.7)' } },
-    { x: entryData.map(e => e.sym), y: entryData.map(e => e.ltp), type: 'bar', name: 'Current LTP', marker: { color: 'rgba(240,180,41,0.7)' } }
-  ], { barmode: 'group', yaxis: { title: 'Price (Rs.)' } });
-}
-
-// ─── DECISION ENGINE ─────────────────────────────────────────────────
-function renderDecision() {
-  const b58map = buildB58Map();
-  const rsiMap = buildRSIMap();
-  const last = ALL[ALL.length - 1];
-
-  // Multi-factor scoring
-  const candidates = [];
-  Object.entries(rsiMap).forEach(([sym, entries]) => {
-    const latest = entries[entries.length - 1];
-    if (!latest) return;
-    const b58 = b58map[sym] || {};
-    const net = (b58.buyKitta||0) - (b58.sellKitta||0);
-    const avgMkt = b58.mktPcts && b58.mktPcts.length ? b58.mktPcts.reduce((a,b)=>a+b,0)/b58.mktPcts.length : 0;
-
-    // Consecutive buy streak
-    let streak = 0;
-    for (let i = ALL.length-1; i >= 0; i--) {
-      if ((ALL[i].b58Purchases||[]).some(p => p.sym === sym)) streak++; else break;
-    }
-
-    // Score components (0-100 scale)
-    const rsiScore = latest.rsi >= 40 && latest.rsi <= 60 ? 25 : latest.rsi > 60 ? 15 : latest.rsi < 35 ? 5 : 20;
-    const adxScore = latest.adx >= 20 ? 20 : latest.adx >= 15 ? 15 : 5;
-    const b58Score = Math.min(25, (net / 5000) * 10 + streak * 3 + avgMkt * 0.5);
-    const adOscScore = latest.adOsc === 'Bullish' ? 20 : 5;
-    const rsiVelScore = entries.length >= 2 ? Math.min(10, Math.max(0, (latest.rsi - entries[entries.length-2].rsi) * 2)) : 5;
-
-    const total = rsiScore + adxScore + Math.max(0, b58Score) + adOscScore + rsiVelScore;
-    const recommendation = total >= 70 ? 'STRONG BUY' : total >= 55 ? 'BUY/ADD' : total >= 40 ? 'HOLD/WATCH' : 'AVOID';
-
-    candidates.push({ sym, rsi: latest.rsi.toFixed(1), adx: latest.adx.toFixed(1), atr: latest.atr.toFixed(1), adOsc: latest.adOsc, streak, net, avgMkt: avgMkt.toFixed(1), score: Math.round(total), recommendation, ltp: latest.ltp });
-  });
-
-  candidates.sort((a,b) => b.score - a.score);
-
-  // Decision summary
-  const top3 = candidates.filter(c => c.score >= 55).slice(0, 3);
-  const avoid3 = [...candidates].sort((a,b) => a.score - b.score).slice(0, 3);
-  const b58Net = parseB58Net(last.b58Net);
-  const marketBias = b58Net >= 100 ? 'BULLISH' : b58Net >= 0 ? 'NEUTRAL-BULLISH' : b58Net >= -100 ? 'NEUTRAL-BEARISH' : 'BEARISH';
-
-  const decisionEl = document.getElementById('decision-summary');
-  decisionEl.innerHTML = `
-    <div class="decision-title">🤖 Market Decision Engine — ${last._date}</div>
-    <div class="decision-items">
-      <div class="decision-item">
-        <div class="decision-dot" style="background:${b58Net>=0?'#3fb950':'#f85149'}"></div>
-        <div class="decision-text"><strong>Market Bias: ${marketBias}</strong> — B58 net ${last.b58Net} (${last.b58Stance}). NEPSE at ${last.nepseClose} ${last.nepseChg}.</div>
-      </div>
-      ${top3.map(c => `
-      <div class="decision-item">
-        <div class="decision-dot" style="background:#3fb950"></div>
-        <div class="decision-text"><strong>BUY: ${c.sym}</strong> — Score ${c.score}/100 | RSI ${c.rsi} | ADX ${c.adx} | B58 streak ${c.streak}d | Net ${c.net>=0?'+':''}${c.net.toLocaleString()} kitta | AD Osc: ${c.adOsc}</div>
-      </div>`).join('')}
-      ${avoid3.map(c => `
-      <div class="decision-item">
-        <div class="decision-dot" style="background:#f85149"></div>
-        <div class="decision-text"><strong>AVOID: ${c.sym}</strong> — Score ${c.score}/100 | RSI ${c.rsi} | ATR ${c.atr} (volatility) | ${c.adOsc} momentum</div>
-      </div>`).join('')}
-    </div>
-  `;
-
-  // BUY table
-  const tblBuy = document.getElementById('tbl-buy');
-  tblBuy.innerHTML = `<tr><th>#</th><th>Symbol</th><th>LTP</th><th>RSI</th><th>ADX</th><th>B58 Streak</th><th>AD Osc</th><th>Score</th><th>Signal</th></tr>` +
-    candidates.slice(0, 10).map((c,i) => `
-      <tr>
-        <td class="muted">${i+1}</td>
-        <td><strong>${c.sym}</strong></td>
-        <td>${c.ltp}</td>
-        <td class="${parseFloat(c.rsi)>=55?'pos':parseFloat(c.rsi)<=35?'neg':'neu'}">${c.rsi}</td>
-        <td>${c.adx}</td>
-        <td class="${c.streak>=3?'pos':''}">${c.streak}d 🔥</td>
-        <td class="${c.adOsc==='Bullish'?'pos':'neg'}">${c.adOsc||'—'}</td>
-        <td><strong class="amber">${c.score}</strong></td>
-        <td><span class="sig ${c.score>=70?'sig-buy':c.score>=55?'sig-buy':c.score>=40?'sig-watch':'sig-avoid'}">${c.recommendation}</span></td>
-      </tr>`).join('');
-
-  // AVOID table
-  const tblAvoid = document.getElementById('tbl-avoid');
-  tblAvoid.innerHTML = `<tr><th>Symbol</th><th>LTP</th><th>RSI</th><th>ATR</th><th>AD Osc</th><th>Score</th><th>Reason</th></tr>` +
-    [...candidates].sort((a,b) => a.score - b.score).slice(0, 8).map(c => `
-      <tr>
-        <td><strong>${c.sym}</strong></td>
-        <td>${c.ltp}</td>
-        <td class="neg">${c.rsi}</td>
-        <td class="${parseFloat(c.atr)>=30?'neg':''}">${c.atr}</td>
-        <td class="neg">${c.adOsc||'—'}</td>
-        <td class="neg"><strong>${c.score}</strong></td>
-        <td style="color:var(--muted);font-size:11px">${parseFloat(c.rsi)<35?'Oversold+bearish':parseFloat(c.atr)>40?'High volatility':c.adOsc==='Bearish'?'Bearish momentum':'Weak trend'}</td>
-      </tr>`).join('');
-
-  // Score bar chart
-  plot('ch-score', [{
-    x: candidates.slice(0, 15).map(c => c.sym),
-    y: candidates.slice(0, 15).map(c => c.score),
-    type: 'bar',
-    marker: { color: candidates.slice(0,15).map(c => c.score>=70?'#f0b429':c.score>=55?'#3fb950':c.score>=40?'#58a6ff':'#f85149') },
-    text: candidates.slice(0,15).map(c => c.score), textposition: 'outside', textfont: { size: 9, color: '#e6edf3' }
-  }], {
-    yaxis: { title: 'Score', range: [0, 105] },
-    shapes: [
-      { type: 'line', x0: -0.5, x1: 14.5, y0: 70, y1: 70, line: { color: '#f0b429', dash: 'dash', width: 1 } },
-      { type: 'line', x0: -0.5, x1: 14.5, y0: 55, y1: 55, line: { color: '#3fb950', dash: 'dot', width: 1 } }
-    ]
-  });
-
-  // Key insights
-  const insights = [];
-  const nepseTrend = ALL.slice(-5).map(d => parseNum(d.nepseClose));
-  const nepseDir = nepseTrend[nepseTrend.length-1] > nepseTrend[0] ? 'up' : 'down';
-  insights.push({ cls: nepseDir==='up'?'bull':'bear', text: `<strong>NEPSE 5-day trend: ${nepseDir.toUpperCase()}</strong> — Index moved from ${nepseTrend[0]} to ${nepseTrend[nepseTrend.length-1]} over last 5 sessions.` });
-
-  const b58BuyRun = ALL.slice(-5).filter(d => (d.b58Stance||'').includes('BUYER')).length;
-  insights.push({ cls: b58BuyRun>=3?'bull':'bear', text: `<strong>B58 bought ${b58BuyRun}/5 recent sessions</strong> — ${b58BuyRun>=3?'Accumulation bias detected.':'Distribution phase ongoing.'}` });
-
-  const highConv = candidates.filter(c => c.streak >= 3 && c.score >= 55);
-  if (highConv.length) insights.push({ cls: 'bull', text: `<strong>High-conviction accumulation:</strong> ${highConv.map(c=>c.sym).join(', ')} — B58 buying ${highConv.map(c=>c.streak+'d streak').join(', ')}. Multi-day institutional accumulation signal.` });
-
-  const oversold = Object.entries(rsiMap).filter(([, v]) => v.length && v[v.length-1].rsi < 35);
-  if (oversold.length) insights.push({ cls: 'watch', text: `<strong>Oversold symbols (RSI&lt;35):</strong> ${oversold.map(([s])=>s).join(', ')} — Potential technical bounce candidates. Confirm with volume and B58 activity before entry.` });
-
-  const highVol = (last.technical||[]).filter(t => parseFloat(t.atr) >= 40);
-  if (highVol.length) insights.push({ cls: 'bear', text: `<strong>High volatility alert (ATR≥40):</strong> ${highVol.map(t=>t.sym).join(', ')} — Position sizing should be reduced. Use tighter stop losses.` });
-
-  const bullishAD = (last.technical||[]).filter(t => t.adOsc==='Bullish' && parseFloat(t.rsi)>=45);
-  if (bullishAD.length) insights.push({ cls: 'bull', text: `<strong>Bullish AD Oscillator momentum:</strong> ${bullishAD.map(t=>t.sym).join(', ')} — Accumulation exceeding distribution at current prices. Monitor for breakout.` });
-
-  const sectorGreen = (last.subIndices||[]).filter(s => s.direction==='up');
-  if (sectorGreen.length) insights.push({ cls: 'bull', text: `<strong>Green sectors today:</strong> ${sectorGreen.map(s=>s.name.split(' ')[0]).join(', ')} — Sector rotation into defensive names observed.` });
-
-  document.getElementById('insight-list').innerHTML = insights.map(ins =>
-    `<div class="insight-item ${ins.cls}">${ins.text}</div>`
-  ).join('');
-}
-
-// ─── BOOT ─────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  // Wait for Plotly to load, then fetch data
-  function tryLoad() {
-    if (typeof Plotly !== 'undefined') {
-      loadAll();
-    } else {
-      setTimeout(tryLoad, 200);
-    }
-  }
-  tryLoad();
-});
+const BASE='https://raw.githubusercontent.com/SagunPrajapati/share/main/';
+const DATES=['2026-04-13','2026-04-15','2026-04-16','2026-04-17','2026-04-20','2026-04-21','2026-04-22','2026-04-23','2026-04-24','2026-04-27','2026-04-28','2026-04-29','2026-04-30'];
+const DK={paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{color:'#576f86',family:"'IBM Plex Mono',monospace",size:10},margin:{t:10,r:10,b:36,l:50},xaxis:{gridcolor:'#111922',linecolor:'#1e2d3d',tickfont:{size:9}},yaxis:{gridcolor:'#111922',linecolor:'#1e2d3d',tickfont:{size:9}},legend:{bgcolor:'transparent',font:{size:9}},colorway:['#f0b429','#3fb950','#58a6ff','#f85149','#bc8cff','#39d353','#e3b341','#79c0ff']};
+const PC={responsive:true,displayModeBar:false};
+let ALL=[],TR={};
+function ST(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');el.classList.add('active');if(ALL.length&&!TR[id]){TR[id]=1;R(id);}}
+const pn=s=>parseFloat((s||'0').toString().replace(/[^0-9.\-]/g,''))||0;
+const pni=s=>parseInt((s||'0').toString().replace(/,/g,''))||0;
+const b8n=r=>{const n=r||'';const v=parseFloat(n.replace(/[^0-9.]/g,''));return n.includes('-')?-v:v;};
+const sd=d=>d.slice(5);
+const ca=a=>a==='BUY'||a==='ADD'||a==='BUY/ADD'?'#3fb950':a==='HOLD'?'#58a6ff':a==='WATCH'?'#e3b341':'#f85149';
+const sc=a=>{const k=a==='ADD'||a==='BUY'||a==='BUY/ADD'?'BUY':a;return k==='BUY'?'sb':k==='HOLD'?'sh':k==='WATCH'?'sw':'sa';};
+function pl(id,tr,ly={}){const el=document.getElementById(id);if(!el)return;Plotly.newPlot(el,tr,Object.assign({},DK,ly),PC);}
+function bMap(){const m={};ALL.forEach(d=>{const bm={},sm={};(d.b58Purchases||[]).forEach(p=>bm[p.sym]=p);(d.b58SalesList||[]).forEach(p=>sm[p.sym]=p);[...new Set([...Object.keys(bm),...Object.keys(sm)])].forEach(sym=>{if(!m[sym])m[sym]={bk:0,sk:0,bd:0,sd:0,mp:[],ap:[],dates:[]};const b=bm[sym],s=sm[sym];const bk=b?pni(b.kitta):0,sk=s?pni(s.kitta):0;m[sym].bk+=bk;m[sym].sk+=sk;if(bk>0){m[sym].bd++;m[sym].mp.push(parseFloat(b.mktPct)||0);m[sym].ap.push(parseFloat(b.avgPrice)||0);}if(sk>0)m[sym].sd++;m[sym].dates.push(d._date);});});return m;}
+function rMap(){const m={};ALL.forEach(d=>{(d.technical||[]).forEach(t=>{if(!m[t.sym])m[t.sym]=[];m[t.sym].push({date:d._date,rsi:parseFloat(t.rsi)||0,adx:parseFloat(t.adx)||0,atr:parseFloat(t.atr)||0,action:t.action,ltp:parseFloat(t.ltp)||0,adOsc:t.adOsc});});});return m;}
+async function loadAll(){document.getElementById('hs').textContent='LOADING '+DATES.length+' FILES…';const res=await Promise.all(DATES.map(d=>fetch(BASE+d+'.json').then(r=>r.json()).catch(()=>null)));ALL=res.filter(Boolean).map((d,i)=>({...d,_date:DATES[i]}));const last=ALL[ALL.length-1];document.getElementById('hc').textContent=last.nepseClose;const chg=last.nepseChg||'';const ge=document.getElementById('hg');ge.textContent=' '+chg;ge.className=chg.includes('+')?'up':'dn';document.getElementById('hn').textContent=last.b58Net||'—';document.getElementById('hd').textContent=ALL.length+'D';document.getElementById('hs').textContent='LIVE';TR['overview']=1;R('overview');}
+function R(id){if(id==='overview')rO();if(id==='signals')rS();if(id==='b58flow')rB();if(id==='heatmap')rH();if(id==='momentum')rM();if(id==='conviction')rC();if(id==='decision')rD();}
+
+function rO(){const last=ALL[ALL.length-1],first=ALL[0];const cl=ALL.map(d=>pn(d.nepseClose));const nets=ALL.map(d=>b8n(d.b58Net));const bd=ALL.filter(d=>(d.b58Stance||'').includes('BUYER')).length;const tv=ALL.map(d=>parseFloat((d.turnover||'0').replace(/[^0-9.]/g,''))||0);const nd=cl[cl.length-1]-cl[0];const aT=(tv.reduce((a,b)=>a+b,0)/tv.length).toFixed(2);
+document.getElementById('kr').innerHTML=`<div class="kpi ${nd>=0?'g':'r'}"><div class="kpi-l">NEPSE Δ</div><div class="kpi-v ${nd>=0?'up':'dn'}">${nd>=0?'+':''}${nd.toFixed(0)}</div><div class="kpi-s">${sd(first._date)}→${sd(last._date)}</div></div><div class="kpi a"><div class="kpi-l">Latest Close</div><div class="kpi-v neu">${last.nepseClose}</div><div class="kpi-s">${last.nepseChg}</div></div><div class="kpi ${bd>ALL.length/2?'g':'r'}"><div class="kpi-l">B58 Buy Days</div><div class="kpi-v ${bd>ALL.length/2?'up':'dn'}">${bd}/${ALL.length}</div><div class="kpi-s">${(bd/ALL.length*100).toFixed(0)}% bullish</div></div><div class="kpi b"><div class="kpi-l">Avg Turnover</div><div class="kpi-v bl">₨${aT}B</div><div class="kpi-s">Daily average</div></div><div class="kpi ${(last.b58Net||'').includes('+')?'g':'r'}"><div class="kpi-l">Latest B58 Net</div><div class="kpi-v ${(last.b58Net||'').includes('+')?'up':'dn'}">${last.b58Net||'—'}</div><div class="kpi-s">${last.b58Stance||'—'}</div></div>`;
+const dt=ALL.map(d=>sd(d._date));
+pl('c-nepse',[{x:dt,y:cl,type:'scatter',mode:'lines+markers',line:{color:'#f0b429',width:2},marker:{size:4,color:cl.map(c=>c>=cl[0]?'#3fb950':'#f85149')},fill:'tozeroy',fillcolor:'rgba(240,180,41,0.04)',name:'NEPSE'}],{yaxis:{tickformat:',.0f',range:[Math.min(...cl)-30,Math.max(...cl)+30]}});
+pl('c-tov',[{x:dt,y:tv,type:'bar',marker:{color:tv.map(t=>t>=7?'#3fb950':t>=5?'#e3b341':'#f85149')}}],{yaxis:{ticksuffix:'B'}});
+pl('c-b58n',[{x:dt,y:nets,type:'bar',name:'B58 Net (Rs.M)',marker:{color:nets.map(v=>v>=0?'rgba(63,185,80,.75)':'rgba(248,81,73,.75)')},yaxis:'y'},{x:dt,y:cl,type:'scatter',mode:'lines',name:'NEPSE',line:{color:'#58a6ff',width:2},yaxis:'y2'}],{yaxis:{title:'Rs.M'},yaxis2:{title:'NEPSE',overlaying:'y',side:'right',gridcolor:'transparent'},legend:{orientation:'h',y:1.1}});
+const av=ALL.map(d=>parseInt(((d.advDecUnch||'').split('/')[0]))||0);const dv=ALL.map(d=>parseInt(((d.advDecUnch||'').split('/')[1]))||0);
+pl('c-ad',[{x:dt,y:av,type:'bar',name:'Advance',marker:{color:'rgba(63,185,80,.7)'}},{x:dt,y:dv.map(v=>-v),type:'bar',name:'Decline',marker:{color:'rgba(248,81,73,.7)'}}],{barmode:'overlay',yaxis:{title:'Stocks'},shapes:[{type:'line',x0:-.5,x1:dt.length-.5,y0:0,y1:0,line:{color:'#1e2d3d'}}]});}
+
+function rS(){const last=ALL[ALL.length-1],tech=last.technical||[];const cnt={'BUY/ADD':0,HOLD:0,WATCH:0,AVOID:0};tech.forEach(t=>{const k=t.action==='ADD'||t.action==='BUY'||t.action==='BUY/ADD'?'BUY/ADD':t.action;cnt[k]=(cnt[k]||0)+1;});
+pl('c-donut',[{values:Object.values(cnt),labels:Object.keys(cnt),type:'pie',hole:.55,marker:{colors:['#3fb950','#58a6ff','#e3b341','#f85149']},textfont:{color:'#cdd9e5',size:10},textinfo:'label+percent'}],{margin:{t:5,r:5,b:5,l:5},showlegend:false});
+const grp={'BUY/ADD':[],'HOLD':[],'WATCH':[],'AVOID':[]};tech.forEach(t=>{const k=t.action==='ADD'||t.action==='BUY'||t.action==='BUY/ADD'?'BUY/ADD':t.action;if(grp[k])grp[k].push(parseFloat(t.rsi)||0);});const cl={'BUY/ADD':'#3fb950','HOLD':'#58a6ff','WATCH':'#e3b341','AVOID':'#f85149'};
+pl('c-rdist',Object.entries(grp).map(([k,v])=>({x:v,type:'histogram',name:k,opacity:.8,marker:{color:cl[k]}})),{barmode:'overlay',xaxis:{title:'RSI'},yaxis:{title:'Count'}});
+const ag={'BUY/ADD':[],'HOLD':[],'WATCH':[],'AVOID':[]};tech.forEach(t=>{const k=t.action==='ADD'||t.action==='BUY'||t.action==='BUY/ADD'?'BUY/ADD':t.action;if(ag[k])ag[k].push(parseFloat(t.adx)||0);});
+pl('c-adist',Object.entries(ag).map(([k,v])=>({x:[k],y:[v.length?v.reduce((a,b)=>a+b,0)/v.length:0],type:'bar',name:k,marker:{color:cl[k]}})),{showlegend:false,yaxis:{title:'Avg ADX'}});
+pl('c-mat',[{x:tech.map(t=>parseFloat(t.rsi)||0),y:tech.map(t=>parseFloat(t.adx)||0),mode:'markers+text',type:'scatter',text:tech.map(t=>t.sym),textposition:'top center',textfont:{size:9,color:'#576f86'},marker:{color:tech.map(t=>ca(t.action)),size:tech.map(t=>Math.max(8,parseFloat(t.atr)||8)),opacity:.85}}],{xaxis:{title:'RSI',range:[25,68]},yaxis:{title:'ADX'},shapes:[{type:'line',x0:35,x1:35,y0:0,y1:40,line:{color:'rgba(248,81,73,.4)',dash:'dash',width:1}},{type:'line',x0:55,x1:55,y0:0,y1:40,line:{color:'rgba(63,185,80,.4)',dash:'dash',width:1}},{type:'line',x0:25,x1:68,y0:20,y1:20,line:{color:'rgba(227,179,65,.3)',dash:'dot',width:1}}]});
+document.getElementById('t-sig').innerHTML='<tr><th>SYM</th><th>LTP</th><th>RSI</th><th>ADX</th><th>ATR</th><th>AD OSC</th><th>ACTION</th></tr>'+[...tech].sort((a,b)=>parseFloat(b.rsi)-parseFloat(a.rsi)).map(t=>`<tr><td><strong>${t.sym}</strong></td><td>${t.ltp}</td><td class="${parseFloat(t.rsi)>=55?'up':parseFloat(t.rsi)<=35?'dn':'neu'}">${parseFloat(t.rsi).toFixed(1)}</td><td>${parseFloat(t.adx).toFixed(1)}</td><td class="${parseFloat(t.atr)>=30?'dn':''}">${parseFloat(t.atr).toFixed(1)}</td><td class="${t.adOsc==='Bullish'?'up':'dn'}">${t.adOsc||'—'}</td><td><span class="sig ${sc(t.action)}">${t.action}</span></td></tr>`).join('');}
+
+function rB(){const bm=bMap();const dt=ALL.map(d=>sd(d._date));const nets=ALL.map(d=>b8n(d.b58Net));const tB=ALL.reduce((s,d)=>(d.b58Purchases||[]).reduce((a,p)=>a+pn(p.amount.replace(/Rs\./,'')),s),0);const tS=ALL.reduce((s,d)=>(d.b58SalesList||[]).reduce((a,p)=>a+pn(p.amount.replace(/Rs\./,'')),s),0);const bd=ALL.filter(d=>(d.b58Stance||'').includes('BUYER')).length;
+document.getElementById('b-kpi').innerHTML=`<div class="kpi g"><div class="kpi-l">Total Purchases</div><div class="kpi-v up">₨${(tB/1e6).toFixed(0)}M</div><div class="kpi-s">${ALL.length} sessions</div></div><div class="kpi r"><div class="kpi-l">Total Sales</div><div class="kpi-v dn">₨${(tS/1e6).toFixed(0)}M</div><div class="kpi-s">${ALL.length} sessions</div></div><div class="kpi ${tB>tS?'g':'r'}"><div class="kpi-l">Net Flow</div><div class="kpi-v ${tB>tS?'up':'dn'}">₨${((tB-tS)/1e6).toFixed(0)}M</div><div class="kpi-s">Net ${tB>tS?'BUY':'SELL'}</div></div><div class="kpi b"><div class="kpi-l">Buy Sessions</div><div class="kpi-v bl">${bd}/${ALL.length}</div><div class="kpi-s">${(bd/ALL.length*100).toFixed(0)}% bullish</div></div>`;
+pl('c-bnet',[{x:dt,y:nets,type:'bar',marker:{color:nets.map(v=>v>=0?'rgba(63,185,80,.8)':'rgba(248,81,73,.8)')},text:nets.map(v=>(v>=0?'+':'')+v.toFixed(0)+'M'),textposition:'outside',textfont:{size:8,color:'#576f86'}}],{yaxis:{title:'Rs.M'},shapes:[{type:'line',x0:-.5,x1:dt.length-.5,y0:0,y1:0,line:{color:'#1e2d3d'}}]});
+const t10=Object.entries(bm).sort((a,b)=>b[1].bk-a[1].bk).slice(0,10);const am=t10.map(([,v])=>v.mp.length?v.mp.reduce((a,b)=>a+b,0)/v.mp.length:0);
+pl('c-mkt',[{x:t10.map(([s])=>s),y:am,type:'bar',marker:{color:am.map(v=>v>=30?'#f0b429':v>=15?'#3fb950':'#58a6ff')},text:am.map(v=>v.toFixed(1)+'%'),textposition:'outside',textfont:{size:8}}],{yaxis:{title:'Avg Mkt %'}});
+const t5=Object.entries(bm).sort((a,b)=>(b[1].bk-b[1].sk)-(a[1].bk-a[1].sk)).slice(0,5);const ct=t5.map(([sym])=>{let c=0;const vals=[];ALL.forEach(d=>{const bp=(d.b58Purchases||[]).find(p=>p.sym===sym);const sp=(d.b58SalesList||[]).find(p=>p.sym===sym);c+=((bp?pni(bp.kitta):0)-(sp?pni(sp.kitta):0));vals.push(c);});return{x:dt,y:vals,type:'scatter',mode:'lines+markers',name:sym,line:{width:2},marker:{size:4}};});
+pl('c-cum',ct,{yaxis:{title:'Cumulative Kitta'}});
+const t8=Object.entries(bm).sort((a,b)=>b[1].bk-a[1].bk).slice(0,8);
+pl('c-bs',[{x:t8.map(([s])=>s),y:t8.map(([,v])=>v.bk),type:'bar',name:'Buy',marker:{color:'rgba(63,185,80,.8)'}},{x:t8.map(([s])=>s),y:t8.map(([,v])=>-v.sk),type:'bar',name:'Sell',marker:{color:'rgba(248,81,73,.8)'}}],{barmode:'group',yaxis:{title:'Kitta'}});}
+
+function rH(){const rm=rMap();const sy=Object.keys(rm).sort();const dt=ALL.map(d=>sd(d._date));const z=sy.map(s=>ALL.map(d=>{const e=(rm[s]||[]).find(x=>x.date===d._date);return e?e.rsi:null;}));
+pl('c-heat',[{x:dt,y:sy,z,type:'heatmap',colorscale:[[0,'#7b1a1a'],[.35,'#7b1a1a'],[.35,'#5a4a00'],[.55,'#5a4a00'],[.55,'#0d4a1e'],[1,'#0d4a1e']],zmin:20,zmax:80,colorbar:{title:'RSI',tickfont:{size:9}},hovertemplate:'<b>%{y}</b> — %{x}<br>RSI: %{z:.1f}<extra></extra>'}],{height:440,margin:{t:10,r:80,b:40,l:70}});
+pl('c-rt',sy.slice(0,7).map(s=>({x:(rm[s]||[]).map(e=>sd(e.date)),y:(rm[s]||[]).map(e=>e.rsi),type:'scatter',mode:'lines+markers',name:s,line:{width:2},marker:{size:4}})),{shapes:[{type:'rect',x0:0,x1:1,y0:55,y1:80,xref:'paper',fillcolor:'rgba(63,185,80,.04)',line:{width:0}},{type:'rect',x0:0,x1:1,y0:20,y1:35,xref:'paper',fillcolor:'rgba(248,81,73,.04)',line:{width:0}}],yaxis:{title:'RSI',range:[20,75]}});
+const za=sy.map(s=>ALL.map(d=>{const e=(rm[s]||[]).find(x=>x.date===d._date);return e?e.atr:null;}));
+pl('c-atr',[{x:dt,y:sy,z:za,type:'heatmap',colorscale:'RdYlGn',reversescale:true,colorbar:{title:'ATR',tickfont:{size:9}},hovertemplate:'<b>%{y}</b><br>ATR: %{z:.1f}<extra></extra>'}],{margin:{t:10,r:80,b:40,l:70}});}
+
+function rM(){const rm=rMap();const last=ALL[ALL.length-1],tech=last.technical||[];const pc=Object.entries(rm).filter(([,v])=>v.length>=2).map(([sym,e])=>({sym,pct:((e[e.length-1].ltp-e[0].ltp)/e[0].ltp*100),action:e[e.length-1].action})).sort((a,b)=>b.pct-a.pct);
+pl('c-pc',[{x:pc.map(p=>p.sym),y:pc.map(p=>p.pct),type:'bar',marker:{color:pc.map(p=>p.pct>=0?'#3fb950':'#f85149')},text:pc.map(p=>p.pct.toFixed(1)+'%'),textposition:'outside',textfont:{size:8}}],{yaxis:{title:'% Chg',ticksuffix:'%'}});
+const rv=Object.entries(rm).filter(([,v])=>v.length>=2).map(([sym,e])=>({sym,delta:e[e.length-1].rsi-e[e.length-2].rsi})).sort((a,b)=>b.delta-a.delta);
+pl('c-rv',[{x:rv.map(v=>v.sym),y:rv.map(v=>v.delta),type:'bar',marker:{color:rv.map(v=>v.delta>=0?'#3fb950':'#f85149')},text:rv.map(v=>(v.delta>=0?'+':'')+v.delta.toFixed(1)),textposition:'outside',textfont:{size:8}}],{yaxis:{title:'RSI Δ'},shapes:[{type:'line',x0:-.5,x1:rv.length-.5,y0:0,y1:0,line:{color:'#1e2d3d'}}]});
+pl('c-ap',[{x:tech.map(t=>pn(t.ltp)),y:tech.map(t=>pn(t.atr)),mode:'markers+text',type:'scatter',text:tech.map(t=>t.sym),textposition:'top center',textfont:{size:8,color:'#576f86'},marker:{color:tech.map(t=>ca(t.action)),size:8,opacity:.85}}],{xaxis:{title:'LTP (Rs.)'},yaxis:{title:'ATR (Volatility)'}});
+const gc={},lc={};ALL.forEach(d=>{(d.topGainers||[]).forEach(g=>{gc[g.sym]=(gc[g.sym]||0)+1;});(d.topLosers||[]).forEach(g=>{lc[g.sym]=(lc[g.sym]||0)+1;});});
+const tg=Object.entries(gc).sort((a,b)=>b[1]-a[1]).slice(0,8);const tl=Object.entries(lc).sort((a,b)=>b[1]-a[1]).slice(0,8);
+pl('c-mv',[{x:tg.map(([s])=>s),y:tg.map(([,v])=>v),type:'bar',name:'Top Gainer',marker:{color:'rgba(63,185,80,.8)'}},{x:tl.map(([s])=>s),y:tl.map(([,v])=>-v),type:'bar',name:'Top Loser',marker:{color:'rgba(248,81,73,.8)'}}],{barmode:'group',yaxis:{title:'Sessions'}});}
+
+function rC(){const bm=bMap(),rm=rMap();const rows=Object.entries(bm).map(([sym,v])=>{const net=v.bk-v.sk;const am=v.mp.length?v.mp.reduce((a,b)=>a+b,0)/v.mp.length:0;const score=(net/1000)*.4+(v.bd*5)*.3+(am*2)*.3;let str=0;for(let i=ALL.length-1;i>=0;i--){if((ALL[i].b58Purchases||[]).some(p=>p.sym===sym))str++;else break;}const lat=rm[sym]?rm[sym][rm[sym].length-1]:null;return{sym,bk:v.bk,sk:v.sk,net,bd:v.bd,am:am.toFixed(1),score:Math.round(score),str,rsi:lat?lat.rsi.toFixed(1):null,action:lat?lat.action:'—'};}).sort((a,b)=>b.score-a.score);
+document.getElementById('t-conv').innerHTML='<tr><th>#</th><th>SYM</th><th>BUY KIT</th><th>SELL KIT</th><th>NET</th><th>DAYS</th><th>MKT%</th><th>STREAK</th><th>RSI</th><th>SIG</th><th>SCORE</th></tr>'+rows.slice(0,15).map((r,i)=>{const pp=Array(Math.min(r.str,7)).fill(0).map((_,j)=>`<div class="sp-p on ${j>=4?'hot':''}"></div>`).join('')+Array(Math.max(0,7-r.str)).fill(0).map(()=>`<div class="sp-p"></div>`).join('');return`<tr><td class="neu">${i+1}</td><td><strong>${r.sym}</strong></td><td class="up">${r.bk.toLocaleString()}</td><td class="dn">${r.sk.toLocaleString()}</td><td class="${r.net>=0?'up':'dn'}">${r.net>=0?'+':''}${r.net.toLocaleString()}</td><td>${r.bd}</td><td>${r.am}%</td><td><div class="sp">${pp}</div></td><td class="${r.rsi&&parseFloat(r.rsi)>=55?'up':r.rsi&&parseFloat(r.rsi)<=35?'dn':'neu'}">${r.rsi||'—'}</td><td><span class="sig ${sc(r.action)}">${r.action}</span></td><td class="neu"><strong>${r.score}</strong></td></tr>`;}).join('');
+const t10=rows.slice(0,10);pl('c-str',[{x:t10.map(r=>r.sym),y:t10.map(r=>r.str),type:'bar',marker:{color:t10.map(r=>r.str>=5?'#f0b429':r.str>=3?'#3fb950':'#58a6ff')},text:t10.map(r=>r.str+'d'),textposition:'outside',textfont:{size:9,color:'#cdd9e5'}}],{yaxis:{title:'Consecutive Days',dtick:1}});
+const ed=rows.filter(r=>bm[r.sym].ap.length>0&&rm[r.sym]).slice(0,10).map(r=>{const v=bm[r.sym];const ae=v.ap.reduce((a,b)=>a+b,0)/v.ap.length;const ltp=rm[r.sym][rm[r.sym].length-1]?.ltp||0;return{sym:r.sym,ae:ae.toFixed(0),ltp};}).filter(r=>r.ltp>0);
+pl('c-ent',[{x:ed.map(e=>e.sym),y:ed.map(e=>parseFloat(e.ae)),type:'bar',name:'Avg Entry',marker:{color:'rgba(88,166,255,.7)'}},{x:ed.map(e=>e.sym),y:ed.map(e=>e.ltp),type:'bar',name:'Current LTP',marker:{color:'rgba(240,180,41,.7)'}}],{barmode:'group',yaxis:{title:'Price (Rs.)'}});}
+
+function rD(){const bm=bMap(),rm=rMap(),last=ALL[ALL.length-1];const cands=[];Object.entries(rm).forEach(([sym,entries])=>{const l=entries[entries.length-1];if(!l)return;const v=bm[sym]||{};const net=(v.bk||0)-(v.sk||0);const am=v.mp&&v.mp.length?v.mp.reduce((a,b)=>a+b,0)/v.mp.length:0;let str=0;for(let i=ALL.length-1;i>=0;i--){if((ALL[i].b58Purchases||[]).some(p=>p.sym===sym))str++;else break;}const rS=l.rsi>=40&&l.rsi<=62?25:l.rsi>62?15:l.rsi<35?5:18;const aS=l.adx>=20?20:l.adx>=15?14:5;const bS=Math.min(30,(net/5000)*10+str*4+am*.5);const dS=l.adOsc==='Bullish'?20:5;const vS=entries.length>=2?Math.min(10,Math.max(0,(l.rsi-entries[entries.length-2].rsi)*2)):5;const tot=rS+aS+Math.max(0,bS)+dS+vS;const rec=tot>=70?'STRONG BUY':tot>=55?'BUY/ADD':tot>=40?'HOLD/WATCH':'AVOID';cands.push({sym,rsi:l.rsi.toFixed(1),adx:l.adx.toFixed(1),atr:l.atr.toFixed(1),adOsc:l.adOsc,str,net,am:am.toFixed(1),score:Math.round(tot),rec,ltp:l.ltp});});cands.sort((a,b)=>b.score-a.score);
+const t3=cands.filter(c=>c.score>=55).slice(0,3);const b3=[...cands].sort((a,b)=>a.score-b.score).slice(0,3);const nv=b8n(last.b58Net);const bias=nv>=150?'STRONGLY BULLISH':nv>=0?'NEUTRAL-BULLISH':nv>=-100?'NEUTRAL-BEARISH':'BEARISH';const bc=nv>=0?'#3fb950':'#f85149';
+document.getElementById('dec').innerHTML=`<div class="dh">MARKET INTELLIGENCE ENGINE — ${last._date}</div><div class="drs"><div class="dr"><div class="dd" style="background:${bc}"></div><div class="dt2"><strong>MARKET BIAS: ${bias}</strong> — B58 net ${last.b58Net} (${last.b58Stance}). NEPSE ${last.nepseClose} ${last.nepseChg}. ${ALL.filter(d=>(d.b58Stance||'').includes('BUYER')).length}/${ALL.length} sessions net buy.</div></div>${t3.map(c=>`<div class="dr"><div class="dd" style="background:#3fb950"></div><div class="dt2"><strong>BUY: ${c.sym}</strong> — Score ${c.score}/100 | RSI ${c.rsi} | ADX ${c.adx} | B58 ${c.str}d streak | Net ${c.net>=0?'+':''}${c.net.toLocaleString()} kitta | AD: ${c.adOsc}</div></div>`).join('')}${b3.map(c=>`<div class="dr"><div class="dd" style="background:#f85149"></div><div class="dt2"><strong>AVOID: ${c.sym}</strong> — Score ${c.score}/100 | RSI ${c.rsi} | ATR ${c.atr} | ${c.adOsc||'—'} momentum</div></div>`).join('')}</div>`;
+document.getElementById('t-buy').innerHTML='<tr><th>#</th><th>SYM</th><th>LTP</th><th>RSI</th><th>ADX</th><th>STREAK</th><th>AD OSC</th><th>SCORE</th><th>SIGNAL</th></tr>'+cands.slice(0,10).map((c,i)=>`<tr><td class="neu">${i+1}</td><td><strong>${c.sym}</strong></td><td>${c.ltp}</td><td class="${parseFloat(c.rsi)>=55?'up':parseFloat(c.rsi)<=35?'dn':'neu'}">${c.rsi}</td><td>${c.adx}</td><td class="${c.str>=3?'up':''}">${c.str}d${c.str>=5?'🔥':c.str>=3?'🔥':''}</td><td class="${c.adOsc==='Bullish'?'up':'dn'}">${c.adOsc||'—'}</td><td class="neu"><strong>${c.score}</strong></td><td><span class="sig ${c.score>=55?'sb':c.score>=40?'sw':'sa'}">${c.rec}</span></td></tr>`).join('');
+document.getElementById('t-av').innerHTML='<tr><th>SYM</th><th>LTP</th><th>RSI</th><th>ATR</th><th>AD OSC</th><th>SCORE</th><th>REASON</th></tr>'+ [...cands].sort((a,b)=>a.score-b.score).slice(0,8).map(c=>`<tr><td><strong>${c.sym}</strong></td><td>${c.ltp}</td><td class="dn">${c.rsi}</td><td class="${parseFloat(c.atr)>=30?'dn':''}">${c.atr}</td><td class="dn">${c.adOsc||'—'}</td><td class="dn"><strong>${c.score}</strong></td><td style="color:var(--dim);font-size:10px">${parseFloat(c.rsi)<35?'Oversold+bearish':parseFloat(c.atr)>40?'High volatility':c.adOsc==='Bearish'?'Bearish momentum':'Weak trend'}</td></tr>`).join('');
+pl('c-sc',[{x:cands.slice(0,16).map(c=>c.sym),y:cands.slice(0,16).map(c=>c.score),type:'bar',marker:{color:cands.slice(0,16).map(c=>c.score>=70?'#f0b429':c.score>=55?'#3fb950':c.score>=40?'#58a6ff':'#f85149')},text:cands.slice(0,16).map(c=>c.score),textposition:'outside',textfont:{size:9,color:'#cdd9e5'}}],{yaxis:{title:'Score',range:[0,110]},shapes:[{type:'line',x0:-.5,x1:15.5,y0:70,y1:70,line:{color:'rgba(240,180,41,.5)',dash:'dash',width:1}},{type:'line',x0:-.5,x1:15.5,y0:55,y1:55,line:{color:'rgba(63,185,80,.4)',dash:'dot',width:1}}]});
+const ins=[];const nc=ALL.slice(-5).map(d=>pn(d.nepseClose));const nd=nc[nc.length-1]>nc[0];
+ins.push({c:'bull',t:`<strong>NEPSE 5-DAY: ${nd?'BULLISH ↑':'BEARISH ↓'}</strong> — ${nc[0].toFixed(0)} → ${nc[nc.length-1].toFixed(0)} (${((nc[nc.length-1]-nc[0])/nc[0]*100).toFixed(2)}%)`});
+const bb=ALL.slice(-5).filter(d=>(d.b58Stance||'').includes('BUYER')).length;
+ins.push({c:bb>=3?'bull':'bear',t:`<strong>B58 STANCE:</strong> Net buyer in ${bb}/5 recent sessions. ${bb>=3?'Accumulation bias — institutional buying detected.':'Distribution phase — reducing exposure.'}`});
+const hc=cands.filter(c=>c.str>=3&&c.score>=55);if(hc.length)ins.push({c:'bull',t:`<strong>HIGH CONVICTION:</strong> ${hc.map(c=>c.sym+' ('+c.str+'d)').join(', ')} — Multi-day accumulation streak. Strong institutional interest.`});
+const os=Object.entries(rm).filter(([,v])=>v.length&&v[v.length-1].rsi<35);if(os.length)ins.push({c:'watch',t:`<strong>OVERSOLD WATCH (RSI&lt;35):</strong> ${os.map(([s])=>s).join(', ')} — Potential bounce. Confirm with B58 activity.`});
+const hv=(last.technical||[]).filter(t=>pn(t.atr)>=40);if(hv.length)ins.push({c:'bear',t:`<strong>HIGH VOLATILITY (ATR≥40):</strong> ${hv.map(t=>t.sym).join(', ')} — Reduce sizing, tighter stops.`});
+const bl=(last.technical||[]).filter(t=>t.adOsc==='Bullish'&&pn(t.rsi)>=45);if(bl.length)ins.push({c:'bull',t:`<strong>BULLISH AD OSC:</strong> ${bl.map(t=>t.sym).join(', ')} — Accumulation exceeding distribution. Watch for breakout.`});
+const sg=(last.subIndices||[]).filter(s=>s.direction==='up');if(sg.length)ins.push({c:'info',t:`<strong>GREEN SECTORS:</strong> ${sg.map(s=>s.name.split(' ')[0]).join(', ')} — Sector rotation signals. Focus here for momentum.`});
+document.getElementById('ins').innerHTML=ins.map(i=>`<div class="ins ${i.c}">${i.t}</div>`).join('');}
+
+function tryLoad(){if(typeof Plotly!=='undefined')loadAll();else setTimeout(tryLoad,150);}
+document.addEventListener('DOMContentLoaded',tryLoad);
 </script>
 </body>
 </html>
