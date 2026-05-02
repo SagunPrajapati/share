@@ -1,0 +1,66 @@
+{
+  "date": "2026-03-30",
+  "headline": "3rd Consecutive Red Day",
+  "nepseClose": "2831.39",
+  "nepseChg": "-47.71 (-1.65%)",
+  "turnover": "Rs.12.97B",
+  "sharesTraded": "31,606,717",
+  "transactions": "159,328",
+  "advDecUnch": "26 / 237 / 5",
+  "marketCap": "Rs.4,810,000,000,000",
+  "floatCap": "Rs.1,620,000,000,000",
+  "b58Stance": "NET SELLER",
+  "b58Net": "-Rs.48.7M",
+  "b58Purchase": "Rs.887.3M",
+  "b58SalesTotal": "Rs.936.0M",
+  "b58TopBuy": "KBL",
+  "b58PeakMkt": "73.28% (FOWAD)",
+  "marketPulseNote": "NEPSE fell for the 3rd consecutive day, closing at 2,831.39 (-47.71 pts / -1.65%). RIDI (+0.80%) and NGPL (+0.64%) were green for the 2nd straight day. Turnover Rs.12.97B (selling pressure easing). Broker 58 switched to NET SELLER (-Rs.48.7M) after two buy days. FOWAD appeared as a new stock with extraordinary 73.28% market concentration buy.",
+  "subIndices": [
+    {"name": "Banking SubIndex", "value": "1479.52", "chg": "-28.04", "chgPct": "-1.86%", "direction": "down"},
+    {"name": "HydroPower Index", "value": "3898.93", "chg": "-76.88", "chgPct": "-1.93%", "direction": "down"},
+    {"name": "Manufacturing And Processing", "value": "10392.34", "chg": "-22.46", "chgPct": "-0.21%", "direction": "down"},
+    {"name": "Trading Index", "value": "3948.10", "chg": "-103.86", "chgPct": "-2.56%", "direction": "down"}
+  ],
+  "topGainers": [
+    {"sym": "RSML", "close": "2436", "chg": "+", "chgPct": "+10%"},
+    {"sym": "BJHL", "close": "526", "chg": "+", "chgPct": "+10%"},
+    {"sym": "RLEL", "close": "363", "chg": "+", "chgPct": "+10%"},
+    {"sym": "HFIN", "close": "318", "chg": "+", "chgPct": "+10%"},
+    {"sym": "SKHL", "close": "439", "chg": "+", "chgPct": "+9.99%"}
+  ],
+  "topLosers": [
+    {"sym": "SOHL", "close": "675", "chg": "-", "chgPct": "-7.79%"},
+    {"sym": "UNLB", "close": "1680", "chg": "-", "chgPct": "-7.23%"},
+    {"sym": "CYCL", "close": "1630", "chg": "-", "chgPct": "-6.86%"}
+  ],
+  "topTurnover": [
+    {"sym": "RIDI", "turnover": "Rs.684M", "ltp": "380"},
+    {"sym": "NGPL", "turnover": "Rs.438M", "ltp": "470"},
+    {"sym": "SHIVM", "turnover": "Rs.438M", "ltp": "676"}
+  ],
+  "b58Purchases": [
+    {"sym": "KBL", "mktPct": "22.26%", "amount": "Rs.66,930,058", "kitta": "286903", "avgPrice": "233", "txns": "293"},
+    {"sym": "RIDI", "mktPct": "9.80%", "amount": "Rs.67,066,145", "kitta": "174710", "avgPrice": "384", "txns": "338"},
+    {"sym": "FOWAD", "mktPct": "73.28%", "amount": "Rs.31,785,168", "kitta": "27931", "avgPrice": "1138", "txns": "154"}
+  ],
+  "b58SalesList": [
+    {"sym": "RIDI", "mktPct": "19.75%", "amount": "Rs.135,142,489", "kitta": "352874", "avgPrice": "383", "txns": "383"},
+    {"sym": "NHPC", "mktPct": "26.33%", "amount": "Rs.99,707,763", "kitta": "328740", "avgPrice": "303", "txns": "479"},
+    {"sym": "SOHL", "mktPct": "25.89%", "amount": "Rs.72,094,196", "kitta": "104670", "avgPrice": "689", "txns": "8549"}
+  ],
+  "netAccum": [
+    {"sym": "KBL", "netKitta": "+286903", "buyMktPct": "22.26%", "sellMktPct": "0%", "rating": "★★★★★", "note": "Clean buy — zero sell"},
+    {"sym": "FOWAD", "netKitta": "+27931", "buyMktPct": "73.28%", "sellMktPct": "0%", "rating": "★★★★★", "note": "Extraordinary new buy"}
+  ],
+  "technical": [],
+  "tradePlan": [],
+  "keyInsights": [],
+  "actionPlan": [],
+  "disclaimer": [
+    "This report is for personal tracking and educational purposes only.",
+    "Not financial advice. Do not make investment decisions based solely on this report.",
+    "Data sourced from nepalstock.com and nepsealpha.com.",
+    "Prepared by Sagun Prajapati, MBA (Finance) — Broker 58 (Naasa Securities) daily tracking."
+  ]
+}
