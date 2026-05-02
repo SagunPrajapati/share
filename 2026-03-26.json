@@ -1,0 +1,62 @@
+{
+  "date": "2026-03-26",
+  "headline": "Bullish Consolidation",
+  "nepseClose": "2950.16",
+  "nepseChg": "+14.21 (+0.48%)",
+  "turnover": "Rs.13.16B",
+  "sharesTraded": "30,438,305",
+  "transactions": "142,733",
+  "advDecUnch": "178 / 80",
+  "marketCap": "Rs.5,009,383,410,601",
+  "floatCap": "Rs.1,696,448,360,139",
+  "b58Stance": "NET BUYER",
+  "b58Net": "+Rs.48.5M",
+  "b58Purchase": "Rs.1,257B",
+  "b58SalesTotal": "Rs.1,209B",
+  "b58TopBuy": "NRN",
+  "b58PeakMkt": "56.92% (SGHC)",
+  "marketPulseNote": "NEPSE closed at 2,950.16 (+0.48%) on March 26, 2026 — healthy consolidation after the 8-month high of 2,960.40. Strong breadth with 178 advancers vs 80 decliners. Turnover Rs.13.16B (recovering). Broker 58 was NET BUYER (+Rs.48.5M). HydroPower (+1.56%) and Manufacturing (+1.50%) led. Trading Index lagged (-2.84%).",
+  "subIndices": [
+    {"name": "Banking SubIndex", "value": "1,550.82", "chg": "+5.75", "chgPct": "+0.37%", "direction": "up"},
+    {"name": "HydroPower Index", "value": "4,065.76", "chg": "+62.78", "chgPct": "+1.56%", "direction": "up"},
+    {"name": "Manufacturing And Processing", "value": "10,527.90", "chg": "+156.53", "chgPct": "+1.50%", "direction": "up"},
+    {"name": "Trading Index", "value": "4,155.10", "chg": "-121.57", "chgPct": "-2.84%", "direction": "down"}
+  ],
+  "topGainers": [
+    {"sym": "RSML", "close": "2013.10", "chg": "+183.00", "chgPct": "+10.00%"},
+    {"sym": "SKHL", "close": "363.00", "chg": "+33.00", "chgPct": "+10.00%"},
+    {"sym": "HFIN", "close": "262.90", "chg": "+23.90", "chgPct": "+10.00%"},
+    {"sym": "SOHL", "close": "707.10", "chg": "+64.20", "chgPct": "+9.99%"},
+    {"sym": "BJHL", "close": "434.80", "chg": "+39.50", "chgPct": "+9.99%"}
+  ],
+  "topLosers": [
+    {"sym": "PMHPL", "close": "396.00", "chg": "-32.00", "chgPct": "-7.48%"},
+    {"sym": "SINDU", "close": "833.00", "chg": "-30.90", "chgPct": "-3.58%"},
+    {"sym": "CORBL", "close": "2003.00", "chg": "-67.10", "chgPct": "-3.24%"}
+  ],
+  "topTurnover": [
+    {"sym": "NRN", "turnover": "Rs.942.98M", "ltp": "1670"},
+    {"sym": "SYPNL", "turnover": "Rs.719.25M", "ltp": "2020"},
+    {"sym": "NHPC", "turnover": "Rs.463.28M", "ltp": "320"}
+  ],
+  "b58Purchases": [
+    {"sym": "NRN", "mktPct": "40.17%", "amount": "Rs.378,834,680", "kitta": "230,000", "avgPrice": "1647.11", "txns": "510"},
+    {"sym": "RIDI", "mktPct": "22.40%", "amount": "Rs.100,972,739", "kitta": "272,441", "avgPrice": "370.62", "txns": "361"},
+    {"sym": "NHPC", "mktPct": "17.22%", "amount": "Rs.79,790,016", "kitta": "254,711", "avgPrice": "313.26", "txns": "401"}
+  ],
+  "b58SalesList": [
+    {"sym": "NRN", "mktPct": "45.87%", "amount": "Rs.432,521,454", "kitta": "262,068", "avgPrice": "1650.42", "txns": "333"},
+    {"sym": "RADHI", "mktPct": "31.91%", "amount": "Rs.73,866,684", "kitta": "82,450", "avgPrice": "895.90", "txns": "141"}
+  ],
+  "netAccum": [],
+  "technical": [],
+  "tradePlan": [],
+  "keyInsights": [],
+  "actionPlan": [],
+  "disclaimer": [
+    "This report is for personal tracking and educational purposes only.",
+    "Not financial advice. Do not make investment decisions based solely on this report.",
+    "Data sourced from nepalstock.com and nepsealpha.com.",
+    "Prepared by Sagun Prajapati, MBA (Finance) — Broker 58 (Naasa Securities) daily tracking."
+  ]
+}
