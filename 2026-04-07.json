@@ -1,0 +1,42 @@
+{
+  "date": "2026-04-07",
+  "headline": "Mild Decline / Near Flat Stabilization",
+  "nepseClose": "2757.40",
+  "nepseChg": "-2.61 (-0.09%)",
+  "turnover": "Rs.6.74B",
+  "sharesTraded": "17,406,616",
+  "transactions": "81,582",
+  "advDecUnch": "82 / 175 / 12",
+  "marketCap": "Rs.4,687,900,000,000",
+  "floatCap": "Rs.1,581,700,000,000",
+  "b58Stance": "SLIGHT BUY",
+  "b58Net": "+Rs.6.7M",
+  "b58Purchase": "Rs.411.6M",
+  "b58SalesTotal": "Rs.404.9M",
+  "b58TopBuy": "NHPC",
+  "b58PeakMkt": "N/A",
+  "marketPulseNote": "MILD DECLINE: NEPSE fell 2.61 pts (-0.09%) to 2,757.40 — near flat stabilization after the earlier crash. 82 advanced vs 175 declined. Turnover Rs.6.74B (dramatically lower than crash day Rs.12.38B). B58 slight net buyer (+Rs.6.7M). 3 sub-indices positive (Hotels +1.08%, Hydro +0.15%, Others +0.71%). B58 net buyer in FMDBL, SSHL, HDHPC. Taking profits on crash-day buys NHPC/RIDI/SGHC.",
+  "subIndices": [
+    {"name": "Banking SubIndex", "value": "1451.87", "chg": "+", "chgPct": "+0.04%", "direction": "up"},
+    {"name": "Development Bank", "value": "5909.18", "chg": "-", "chgPct": "-0.62%", "direction": "down"},
+    {"name": "Finance Index", "value": "2429.78", "chg": "-", "chgPct": "-0.41%", "direction": "down"},
+    {"name": "Hotels & Tourism", "value": "7529.75", "chg": "+", "chgPct": "+1.08%", "direction": "up"},
+    {"name": "Manufacturing & Processing", "value": "10753.83", "chg": "-", "chgPct": "-0.05%", "direction": "down"}
+  ],
+  "topGainers": [],
+  "topLosers": [],
+  "topTurnover": [],
+  "b58Purchases": [],
+  "b58SalesList": [],
+  "netAccum": [],
+  "technical": [],
+  "tradePlan": [],
+  "keyInsights": [],
+  "actionPlan": [],
+  "disclaimer": [
+    "This report is for personal tracking and educational purposes only.",
+    "Not financial advice. Do not make investment decisions based solely on this report.",
+    "Data sourced from nepalstock.com and nepsealpha.com.",
+    "Prepared by Sagun Prajapati, MBA (Finance) — Broker 58 (Naasa Securities) daily tracking."
+  ]
+}
