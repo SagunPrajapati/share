@@ -1,0 +1,80 @@
+{
+  "date": "2026-04-10",
+  "headline": "RED DAY / Negative Breadth Reversal",
+  "nepseClose": "2837.78",
+  "nepseChg": "-13.45 (-0.47%)",
+  "turnover": "Rs.8.99B",
+  "sharesTraded": "21,087,628",
+  "transactions": "97,480",
+  "advDecUnch": "56 / 209 / 3",
+  "marketCap": "Rs.4,820,000,000,000",
+  "floatCap": "Rs.1,620,000,000,000",
+  "b58Stance": "NET BUYER (Modest)",
+  "b58Net": "+Rs.31.1M",
+  "b58Purchase": "Rs.628.5M",
+  "b58SalesTotal": "Rs.597.3M",
+  "b58TopBuy": "RIDI",
+  "b58PeakMkt": "33.48% (SAGAR BUY)",
+  "marketPulseNote": "NEPSE closed red on April 10, 2026 at 2,837.78 — down 13.45 points (-0.47%). Recovery from yesterday failed to hold with negative breadth (only 56 advancers vs 209 decliners). Turnover Rs.8.99B (lower than yesterday). B58 remained net buyer but modestly at +Rs.31.1M (much weaker than yesterday's +Rs.287.5M). Only HydroPower and Manufacturing & Processing closed green.",
+  "subIndices": [
+    {"name": "Banking SubIndex", "value": "1,475.94", "chg": "-11.05", "chgPct": "-0.74%", "direction": "down"},
+    {"name": "Development Bank Index", "value": "6,033.17", "chg": "-40.85", "chgPct": "-0.67%", "direction": "down"},
+    {"name": "Finance Index", "value": "2,486.22", "chg": "-15.19", "chgPct": "-0.60%", "direction": "down"},
+    {"name": "Hotels And Tourism Index", "value": "7,872.88", "chg": "-34.98", "chgPct": "-0.44%", "direction": "down"},
+    {"name": "HydroPower Index", "value": "4,016.17", "chg": "+3.49", "chgPct": "+0.08%", "direction": "up"},
+    {"name": "Investment Index", "value": "106.63", "chg": "-1.21", "chgPct": "-1.12%", "direction": "down"},
+    {"name": "Life Insurance", "value": "12,899.98", "chg": "-93.37", "chgPct": "-0.71%", "direction": "down"},
+    {"name": "Manufacturing And Processing", "value": "11,642.37", "chg": "+182.38", "chgPct": "+1.59%", "direction": "up"},
+    {"name": "Microfinance Index", "value": "4,966.96", "chg": "-36.99", "chgPct": "-0.73%", "direction": "down"},
+    {"name": "Mutual Fund", "value": "21.87", "chg": "-0.10", "chgPct": "-0.49%", "direction": "down"},
+    {"name": "Non Life Insurance", "value": "11,194.27", "chg": "-53.42", "chgPct": "-0.47%", "direction": "down"},
+    {"name": "Others Index", "value": "2,147.24", "chg": "-30.37", "chgPct": "-1.39%", "direction": "down"},
+    {"name": "Trading Index", "value": "3,800.37", "chg": "-40.93", "chgPct": "-1.06%", "direction": "down"}
+  ],
+  "topGainers": [
+    {"sym": "BJHL", "close": "1,191.80", "chg": "+", "chgPct": "+10%"},
+    {"sym": "SKHL", "close": "1,035.10", "chg": "+", "chgPct": "+10%"},
+    {"sym": "HFIN", "close": "749.30", "chg": "+", "chgPct": "+10%"},
+    {"sym": "PCIL", "close": "330.00", "chg": "+", "chgPct": "+10%"}
+  ],
+  "topLosers": [
+    {"sym": "NICBF", "close": "9.42", "chg": "-", "chgPct": "-4.17%"},
+    {"sym": "NIBLGF", "close": "9.45", "chg": "-", "chgPct": "-4.06%"},
+    {"sym": "MKHL", "close": "760.00", "chg": "-", "chgPct": "-4.04%"}
+  ],
+  "topTurnover": [
+    {"sym": "NHPC", "turnover": "Rs.513.3M", "ltp": "310.50"},
+    {"sym": "RSML", "turnover": "Rs.436.0M", "ltp": "4,691"},
+    {"sym": "RIDI", "turnover": "Rs.381.5M", "ltp": "371"},
+    {"sym": "SOHL", "turnover": "Rs.368.2M", "ltp": "769"}
+  ],
+  "b58Purchases": [
+    {"sym": "RIDI", "mktPct": "20.86%", "amount": "Rs.79,599,511", "kitta": "211,299", "avgPrice": "376.72", "txns": "347"},
+    {"sym": "RSML", "mktPct": "10.02%", "amount": "Rs.43,675,722", "kitta": "9,346", "avgPrice": "4,673.20", "txns": "301"},
+    {"sym": "NHPC", "mktPct": "7.01%", "amount": "Rs.35,993,637", "kitta": "115,315", "avgPrice": "312.13", "txns": "287"},
+    {"sym": "SAGAR", "mktPct": "33.48%", "amount": "Rs.17,641,507", "kitta": "9,106", "avgPrice": "1,937.35", "txns": "53"},
+    {"sym": "SHEL", "mktPct": "9.33%", "amount": "Rs.14,109,358", "kitta": "42,471", "avgPrice": "332.21", "txns": "117"}
+  ],
+  "b58SalesList": [
+    {"sym": "SAIL", "mktPct": "30.38%", "amount": "Rs.58,431,463", "kitta": "43,335", "avgPrice": "1,348.37", "txns": "375"},
+    {"sym": "NHPC", "mktPct": "10.12%", "amount": "Rs.51,924,741", "kitta": "165,974", "avgPrice": "312.85", "txns": "329"},
+    {"sym": "SSHL", "mktPct": "16.91%", "amount": "Rs.21,463,014", "kitta": "97,023", "avgPrice": "221.22", "txns": "191"}
+  ],
+  "netAccum": [
+    {"sym": "RIDI", "netKitta": "+129,219", "buyMktPct": "20.86%", "sellMktPct": "8.11%", "rating": "★★★★★", "note": "Strong accumulation continues"},
+    {"sym": "SHEL", "netKitta": "+42,471", "buyMktPct": "9.33%", "sellMktPct": "0%", "rating": "★★★★", "note": "New clean buy"},
+    {"sym": "SAGAR", "netKitta": "+9,106", "buyMktPct": "33.48%", "sellMktPct": "0%", "rating": "★★★", "note": "New high conviction pick"},
+    {"sym": "NHPC", "netKitta": "-50,659", "buyMktPct": "7.01%", "sellMktPct": "10.12%", "rating": "★", "note": "Profit taking after yesterday's mega buy"},
+    {"sym": "SAIL", "netKitta": "-25,905", "buyMktPct": "12.08%", "sellMktPct": "30.38%", "rating": "★", "note": "Reversal to net seller"}
+  ],
+  "technical": [],
+  "tradePlan": [],
+  "keyInsights": [],
+  "actionPlan": [],
+  "disclaimer": [
+    "This report is for personal tracking and educational purposes only.",
+    "Not financial advice. Do not make investment decisions based solely on this report.",
+    "Data sourced from nepalstock.com and nepsealpha.com.",
+    "Prepared by Sagun Prajapati, MBA (Finance) — Broker 58 (Naasa Securities) daily tracking."
+  ]
+}
