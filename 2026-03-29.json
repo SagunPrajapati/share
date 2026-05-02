@@ -1,0 +1,67 @@
+{
+  "date": "2026-03-29",
+  "headline": "Market Crash Day — All Sectors Red",
+  "nepseClose": "2879.11",
+  "nepseChg": "-71.05 (-2.40%)",
+  "turnover": "Rs.15.03B",
+  "sharesTraded": "35,248,397",
+  "transactions": "196,158",
+  "advDecUnch": "10 / 255 / 1",
+  "marketCap": "Rs.4,894,806,650,798",
+  "floatCap": "Rs.1,653,197,003,080",
+  "b58Stance": "NET BUYER",
+  "b58Net": "+Rs.78.6M",
+  "b58Purchase": "Rs.995.3M",
+  "b58SalesTotal": "Rs.916.7M",
+  "b58TopBuy": "RIDI",
+  "b58PeakMkt": "49.69% (JBBL)",
+  "marketPulseNote": "NEPSE crashed -71.05 pts (-2.40%) to 2,879.11 on March 29, 2026. Extreme negative breadth: only 10 advancers vs 255 decliners. All 13 sub-indices closed red. Turnover Rs.15.03B (panic volume). Despite the crash, Broker 58 was NET BUYER (+Rs.78.6M) with strong conviction buying in RIDI, KBL, JBBL. RIDI was the only notable gainer among tracked stocks.",
+  "subIndices": [
+    {"name": "Banking SubIndex", "value": "1507.57", "chg": "-43.24", "chgPct": "-2.78%", "direction": "down"},
+    {"name": "HydroPower Index", "value": "3975.81", "chg": "-89.95", "chgPct": "-2.21%", "direction": "down"},
+    {"name": "Life Insurance", "value": "13299.80", "chg": "-300.50", "chgPct": "-2.20%", "direction": "down"},
+    {"name": "Non Life Insurance", "value": "11594.31", "chg": "-264.65", "chgPct": "-2.23%", "direction": "down"}
+  ],
+  "topGainers": [
+    {"sym": "RSML", "close": "2214.40", "chg": "+201.30", "chgPct": "+10.00%"},
+    {"sym": "SKHL", "close": "399.30", "chg": "+36.30", "chgPct": "+10.00%"},
+    {"sym": "RLEL", "close": "330.00", "chg": "+30.00", "chgPct": "+10.00%"},
+    {"sym": "SKHEL", "close": "312.70", "chg": "+28.40", "chgPct": "+9.99%"},
+    {"sym": "BJHL", "close": "478.20", "chg": "+43.40", "chgPct": "+9.98%"}
+  ],
+  "topLosers": [
+    {"sym": "UNLB", "close": "1811.00", "chg": "-119.00", "chgPct": "-6.17%"},
+    {"sym": "HBLD86", "close": "1124.80", "chg": "-67.00", "chgPct": "-5.62%"},
+    {"sym": "HDHPC", "close": "239.20", "chg": "-13.80", "chgPct": "-5.45%"}
+  ],
+  "topTurnover": [
+    {"sym": "RIDI", "turnover": "Rs.711.17M", "ltp": "377"},
+    {"sym": "NGPL", "turnover": "Rs.522.86M", "ltp": "467"},
+    {"sym": "SOHL", "turnover": "Rs.486.94M", "ltp": "732"}
+  ],
+  "b58Purchases": [
+    {"sym": "RIDI", "mktPct": "16.81%", "amount": "Rs.119,514,257", "kitta": "314209", "avgPrice": "380.37", "txns": "392"},
+    {"sym": "NRN", "mktPct": "20.42%", "amount": "Rs.68,726,479", "kitta": "41686", "avgPrice": "1648.67", "txns": "250"},
+    {"sym": "NHPC", "mktPct": "12.66%", "amount": "Rs.58,361,047", "kitta": "183910", "avgPrice": "317.33", "txns": "327"},
+    {"sym": "JBBL", "mktPct": "49.69%", "amount": "Rs.50,450,102", "kitta": "135558", "avgPrice": "372.17", "txns": "126"}
+  ],
+  "b58SalesList": [
+    {"sym": "SOHL", "mktPct": "19.55%", "amount": "Rs.95,185,275", "kitta": "129644", "avgPrice": "734.21", "txns": "11594"},
+    {"sym": "RIDI", "mktPct": "11.47%", "amount": "Rs.81,603,975", "kitta": "215665", "avgPrice": "378.38", "txns": "284"}
+  ],
+  "netAccum": [
+    {"sym": "KBL", "netKitta": "+162241", "buyMktPct": "10.92%", "sellMktPct": "0%", "rating": "★★★★★", "note": "Clean buy — zero sell"},
+    {"sym": "JBBL", "netKitta": "+135558", "buyMktPct": "49.69%", "sellMktPct": "0%", "rating": "★★★★★", "note": "Massive 49.69% market share"},
+    {"sym": "RIDI", "netKitta": "+98544", "buyMktPct": "16.81%", "sellMktPct": "11.47%", "rating": "★★★★", "note": "Net accumulation"}
+  ],
+  "technical": [],
+  "tradePlan": [],
+  "keyInsights": [],
+  "actionPlan": [],
+  "disclaimer": [
+    "This report is for personal tracking and educational purposes only.",
+    "Not financial advice. Do not make investment decisions based solely on this report.",
+    "Data sourced from nepalstock.com and nepsealpha.com.",
+    "Prepared by Sagun Prajapati, MBA (Finance) — Broker 58 (Naasa Securities) daily tracking."
+  ]
+}
