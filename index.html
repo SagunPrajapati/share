@@ -1,9 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>NEPSE Daily Master Report — Broker 58</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>NEPSE Daily Master Report — Broker 58 | Sagun Prajapati</title>
+
+<!-- ═══ SEO META TAGS ═══ -->
+<meta name="description" content="Daily NEPSE stock market analysis by Sagun Prajapati, MBA Finance. Covers Broker 58 (Naasa Securities) floorsheet data, technical analysis (RSI, ADX, ATR), trade plans, and key market insights for Nepal Stock Exchange investors.">
+<meta name="keywords" content="NEPSE, Nepal Stock Exchange, Broker 58, Naasa Securities, NEPSE analysis, stock market Nepal, floorsheet analysis, RSI, ADX, ATR, technical analysis, B58, daily report, Sagun Prajapati">
+<meta name="author" content="Sagun Prajapati, MBA (Finance)">
+<meta name="robots" content="index, follow">
+<meta name="language" content="English">
+<meta name="revisit-after" content="1 day">
+<meta name="category" content="Finance, Stock Market, Investment Research">
+<link rel="canonical" href="https://sagunprajapati.github.io/share/">
+
+<!-- ═══ OPEN GRAPH (Facebook, LinkedIn, WhatsApp) ═══ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sagunprajapati.github.io/share/">
+<meta property="og:title" content="NEPSE Daily Master Report — Broker 58 | Sagun Prajapati">
+<meta property="og:description" content="Daily NEPSE market analysis covering Broker 58 floorsheet data, technical indicators, trade plans, and key insights. For personal tracking only.">
+<meta property="og:image" content="https://sagunprajapati.github.io/share/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="NEPSE B58 Intelligence">
+<meta property="og:locale" content="en_NP">
+
+<!-- ═══ TWITTER / X CARD ═══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://sagunprajapati.github.io/share/">
+<meta name="twitter:title" content="NEPSE Daily Master Report — Broker 58">
+<meta name="twitter:description" content="Daily NEPSE market analysis. Broker 58 floorsheet, technicals, trade plans. By Sagun Prajapati, MBA Finance.">
+<meta name="twitter:image" content="https://sagunprajapati.github.io/share/og-image.png">
+<meta name="twitter:creator" content="@sagunprajapati">
+
+<!-- ═══ STRUCTURED DATA (Google Rich Results) ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "NEPSE Daily Master Report — Broker 58",
+  "description": "Daily NEPSE stock market analysis covering Broker 58 floorsheet data, RSI, ADX, ATR technical indicators, trade plans, and key market insights.",
+  "url": "https://sagunprajapati.github.io/share/",
+  "author": {
+    "@type": "Person",
+    "name": "Sagun Prajapati",
+    "jobTitle": "Investment Researcher, MBA Finance",
+    "url": "https://sagunprajapati.github.io/share/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Sagun Prajapati"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Nepal Stock Exchange (NEPSE)",
+    "description": "Nepal Stock Exchange daily market analysis and Broker 58 activity tracking"
+  },
+  "inLanguage": "en",
+  "keywords": "NEPSE, Nepal Stock Exchange, Broker 58, Naasa Securities, floorsheet analysis, stock market Nepal"
+}
+</script>
+
+<!-- ═══ FAVICON ═══ -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f1a10'/><text y='72' x='8' font-size='72' font-family='monospace' fill='%2327ae60'>B</text></svg>">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14px;min-height:100vh;}
@@ -794,7 +854,18 @@ RULES:
 const GITHUB_USER='SagunPrajapati',GITHUB_REPO='share',GITHUB_BRANCH='main';
 const RAW_BASE=`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
 const API_BASE=`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents`;
-const ADMIN_PASS='sabina#7',CACHE_KEY='nepse_b58_dates';
+// ── SECURE PASSWORD: SHA-256 hash stored, never plaintext ──
+// Your real password is NOT stored here — only its SHA-256 hash
+// Even if someone reads this code, they cannot reverse the hash back to your password
+const ADMIN_PASS_HASH='ea0426d617ff1b252dc5e0fc5a621308211c6000fdeff49d174c6e59a008cd0e';
+const CACHE_KEY='nepse_b58_dates';
+async function checkPassword(input){
+  const msgBuf=new TextEncoder().encode(input);
+  const hashBuf=await crypto.subtle.digest('SHA-256',msgBuf);
+  const hashArr=Array.from(new Uint8Array(hashBuf));
+  const hashHex=hashArr.map(b=>b.toString(16).padStart(2,'0')).join('');
+  return hashHex===ADMIN_PASS_HASH;
+}
 const PROFILE_KEY='nepse_b58_profile';
 
 // ═══════════════════════════════════════════════
@@ -1011,7 +1082,7 @@ function renderCalDays(){const months=['January','February','March','April','May
 //  AUTH
 // ═══════════════════════════════════════════════
 function goToAdmin(){document.getElementById('login-screen').classList.remove('hidden');document.getElementById('app').style.display='none';document.getElementById('backend').style.display='none';}
-function adminLogin(){if(document.getElementById('admin-pass').value===ADMIN_PASS){document.getElementById('login-screen').classList.add('hidden');document.getElementById('backend').style.display='block';document.getElementById('app').style.display='none';document.getElementById('admin-pass').value='';document.getElementById('login-error').style.display='none';showBeSection('be-analytics',document.querySelector('.be-nav-item'));renderBeAnalytics();checkRepo();prefillProfileForm();}else{document.getElementById('login-error').style.display='block';}}
+async function adminLogin(){const inputPwd=document.getElementById('admin-pass').value;const isValid=await checkPassword(inputPwd);if(isValid){document.getElementById('login-screen').classList.add('hidden');document.getElementById('backend').style.display='block';document.getElementById('app').style.display='none';document.getElementById('admin-pass').value='';document.getElementById('login-error').style.display='none';showBeSection('be-analytics',document.querySelector('.be-nav-item'));renderBeAnalytics();checkRepo();prefillProfileForm();}else{document.getElementById('login-error').style.display='block';}}
 function adminLogout(){document.getElementById('backend').style.display='none';showFrontend();}
 function showFrontend(){document.getElementById('login-screen').classList.add('hidden');document.getElementById('backend').style.display='none';document.getElementById('app').style.display='flex';}
 function showBeSection(id,el){document.querySelectorAll('.be-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.be-nav-item').forEach(n=>n.classList.remove('active'));const s=document.getElementById(id);if(s)s.classList.add('active');if(el)el.classList.add('active');const titles={'be-analytics':'📊 Analytics Dashboard','be-profile':'👤 Edit Profile','be-workflow':'🗺️ How to Add a Report','be-prompt':'📋 Claude Prompt','be-repo':'📦 GitHub Repository','be-gas-setup':'🔗 Google Sheets Setup'};const t=document.getElementById('be-section-title');if(t)t.textContent=titles[id]||'Admin Panel';if(id==='be-repo')checkRepo();if(id==='be-analytics')renderBeAnalytics();if(id==='be-gas-setup')initGasUrlField();if(id==='be-profile')prefillProfileForm();}
