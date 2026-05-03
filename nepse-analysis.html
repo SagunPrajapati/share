@@ -211,7 +211,26 @@ table.dt strong{font-weight:600;color:var(--text)}
 
 <script>
 const BASE='https://raw.githubusercontent.com/SagunPrajapati/share/main/';
-const DATES=['2026-04-13','2026-04-15','2026-04-16','2026-04-17','2026-04-20','2026-04-21','2026-04-22','2026-04-23','2026-04-24','2026-04-27','2026-04-28','2026-04-29','2026-04-30'];
+const REPO_API='https://api.github.com/repos/SagunPrajapati/share/contents/';
+
+// Auto-discover all JSON date files from GitHub repo
+async function discoverDates() {
+  try {
+    const r = await fetch(REPO_API);
+    const files = await r.json();
+    const dates = files
+      .filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f.name))
+      .map(f => f.name.replace('.json',''))
+      .sort();
+    if (dates.length) return dates;
+  } catch(e) {}
+  // Fallback to hardcoded if API fails
+  return ['2026-04-13','2026-04-15','2026-04-16','2026-04-17','2026-04-20',
+          '2026-04-21','2026-04-22','2026-04-23','2026-04-24','2026-04-27',
+          '2026-04-28','2026-04-29','2026-04-30'];
+}
+
+let DATES = [];
 const DK={paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{color:'#576f86',family:"'IBM Plex Mono',monospace",size:10},margin:{t:10,r:10,b:36,l:50},xaxis:{gridcolor:'#111922',linecolor:'#1e2d3d',tickfont:{size:9}},yaxis:{gridcolor:'#111922',linecolor:'#1e2d3d',tickfont:{size:9}},legend:{bgcolor:'transparent',font:{size:9}},colorway:['#f0b429','#3fb950','#58a6ff','#f85149','#bc8cff','#39d353','#e3b341','#79c0ff']};
 const PC={responsive:true,displayModeBar:false};
 let ALL=[],TR={};
@@ -225,7 +244,7 @@ const sc=a=>{const k=a==='ADD'||a==='BUY'||a==='BUY/ADD'?'BUY':a;return k==='BUY
 function pl(id,tr,ly={}){const el=document.getElementById(id);if(!el)return;Plotly.newPlot(el,tr,Object.assign({},DK,ly),PC);}
 function bMap(){const m={};ALL.forEach(d=>{const bm={},sm={};(d.b58Purchases||[]).forEach(p=>bm[p.sym]=p);(d.b58SalesList||[]).forEach(p=>sm[p.sym]=p);[...new Set([...Object.keys(bm),...Object.keys(sm)])].forEach(sym=>{if(!m[sym])m[sym]={bk:0,sk:0,bd:0,sd:0,mp:[],ap:[],dates:[]};const b=bm[sym],s=sm[sym];const bk=b?pni(b.kitta):0,sk=s?pni(s.kitta):0;m[sym].bk+=bk;m[sym].sk+=sk;if(bk>0){m[sym].bd++;m[sym].mp.push(parseFloat(b.mktPct)||0);m[sym].ap.push(parseFloat(b.avgPrice)||0);}if(sk>0)m[sym].sd++;m[sym].dates.push(d._date);});});return m;}
 function rMap(){const m={};ALL.forEach(d=>{(d.technical||[]).forEach(t=>{if(!m[t.sym])m[t.sym]=[];m[t.sym].push({date:d._date,rsi:parseFloat(t.rsi)||0,adx:parseFloat(t.adx)||0,atr:parseFloat(t.atr)||0,action:t.action,ltp:parseFloat(t.ltp)||0,adOsc:t.adOsc});});});return m;}
-async function loadAll(){document.getElementById('hs').textContent='LOADING '+DATES.length+' FILES…';const res=await Promise.all(DATES.map(d=>fetch(BASE+d+'.json').then(r=>r.json()).catch(()=>null)));ALL=res.filter(Boolean).map((d,i)=>({...d,_date:DATES[i]}));const last=ALL[ALL.length-1];document.getElementById('hc').textContent=last.nepseClose;const chg=last.nepseChg||'';const ge=document.getElementById('hg');ge.textContent=' '+chg;ge.className=chg.includes('+')?'up':'dn';document.getElementById('hn').textContent=last.b58Net||'—';document.getElementById('hd').textContent=ALL.length+'D';document.getElementById('hs').textContent='LIVE';TR['overview']=1;R('overview');}
+async function loadAll(){document.getElementById('hs').textContent='DISCOVERING FILES…';DATES=await discoverDates();document.getElementById('hs').textContent='LOADING '+DATES.length+' FILES…';const res=await Promise.all(DATES.map(d=>fetch(BASE+d+'.json').then(r=>r.json()).catch(()=>null)));ALL=res.filter(Boolean).map((d,i)=>({...d,_date:DATES[i]}));const last=ALL[ALL.length-1];document.getElementById('hc').textContent=last.nepseClose;const chg=last.nepseChg||'';const ge=document.getElementById('hg');ge.textContent=' '+chg;ge.className=chg.includes('+')?'up':'dn';document.getElementById('hn').textContent=last.b58Net||'—';document.getElementById('hd').textContent=ALL.length+'D';document.getElementById('hs').textContent='LIVE';TR['overview']=1;R('overview');}
 function R(id){if(id==='overview')rO();if(id==='signals')rS();if(id==='b58flow')rB();if(id==='heatmap')rH();if(id==='momentum')rM();if(id==='conviction')rC();if(id==='decision')rD();}
 
 function rO(){const last=ALL[ALL.length-1],first=ALL[0];const cl=ALL.map(d=>pn(d.nepseClose));const nets=ALL.map(d=>b8n(d.b58Net));const bd=ALL.filter(d=>(d.b58Stance||'').includes('BUYER')).length;const tv=ALL.map(d=>parseFloat((d.turnover||'0').replace(/[^0-9.]/g,''))||0);const nd=cl[cl.length-1]-cl[0];const aT=(tv.reduce((a,b)=>a+b,0)/tv.length).toFixed(2);
