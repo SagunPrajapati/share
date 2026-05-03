@@ -224,21 +224,25 @@ async function discoverDates() {
       .sort();
     if (dates.length) return dates;
   } catch(e) {}
-  // Fallback to hardcoded if API fails
-  return ['2026-04-13','2026-04-15','2026-04-16','2026-04-17','2026-04-20',
-          '2026-04-21','2026-04-22','2026-04-23','2026-04-24','2026-04-27',
-          '2026-04-28','2026-04-29','2026-04-30'];
+  // Fallback to hardcoded if API fails (update this list periodically)
+  return ['2026-03-26','2026-03-27','2026-03-28','2026-03-29','2026-03-30',
+          '2026-04-01','2026-04-02','2026-04-03','2026-04-06','2026-04-07',
+          '2026-04-08','2026-04-09','2026-04-10','2026-04-13','2026-04-15',
+          '2026-04-16','2026-04-17','2026-04-20','2026-04-21','2026-04-22',
+          '2026-04-23','2026-04-24','2026-04-27','2026-04-28','2026-04-29',
+          '2026-04-30'];
 }
 
 let DATES = [];
-const DK={paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{color:'#576f86',family:"'IBM Plex Mono',monospace",size:10},margin:{t:10,r:10,b:36,l:50},xaxis:{gridcolor:'#111922',linecolor:'#1e2d3d',tickfont:{size:9}},yaxis:{gridcolor:'#111922',linecolor:'#1e2d3d',tickfont:{size:9}},legend:{bgcolor:'transparent',font:{size:9}},colorway:['#f0b429','#3fb950','#58a6ff','#f85149','#bc8cff','#39d353','#e3b341','#79c0ff']};
+const DK={paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{color:'#576f86',family:"'IBM Plex Mono',monospace",size:10},margin:{t:10,r:10,b:36,l:50},xaxis:{gridcolor:'#111922',linecolor:'#1e2d3d',tickfont:{size:9},type:'category'},yaxis:{gridcolor:'#111922',linecolor:'#1e2d3d',tickfont:{size:9}},legend:{bgcolor:'transparent',font:{size:9}},colorway:['#f0b429','#3fb950','#58a6ff','#f85149','#bc8cff','#39d353','#e3b341','#79c0ff']};
 const PC={responsive:true,displayModeBar:false};
 let ALL=[],TR={};
 function ST(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');el.classList.add('active');if(ALL.length&&!TR[id]){TR[id]=1;R(id);}}
 const pn=s=>parseFloat((s||'0').toString().replace(/[^0-9.\-]/g,''))||0;
 const pni=s=>parseInt((s||'0').toString().replace(/,/g,''))||0;
 const b8n=r=>{const n=r||'';const v=parseFloat(n.replace(/[^0-9.]/g,''));return n.includes('-')?-v:v;};
-const sd=d=>d.slice(5);
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const sd=d=>{const p=d.split('-');return MONTHS[parseInt(p[1])-1]+' '+parseInt(p[2]);};
 const ca=a=>a==='BUY'||a==='ADD'||a==='BUY/ADD'?'#3fb950':a==='HOLD'?'#58a6ff':a==='WATCH'?'#e3b341':'#f85149';
 const sc=a=>{const k=a==='ADD'||a==='BUY'||a==='BUY/ADD'?'BUY':a;return k==='BUY'?'sb':k==='HOLD'?'sh':k==='WATCH'?'sw':'sa';};
 function pl(id,tr,ly={}){const el=document.getElementById(id);if(!el)return;Plotly.newPlot(el,tr,Object.assign({},DK,ly),PC);}
