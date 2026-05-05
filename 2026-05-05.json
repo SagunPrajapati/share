@@ -1,0 +1,542 @@
+{
+  "metadata": {
+    "date": "2026-05-05",
+    "market_status": "CLOSED",
+    "close_time": "3:00 PM",
+    "source": "nepalstock.com / nepsealpha.com"
+  },
+  "nepse_index": {
+    "value": 2712.86,
+    "change": 8.78,
+    "change_pct": 0.32,
+    "total_turnover_rs": 3439068392.77,
+    "total_traded_shares": 7734012,
+    "advanced": 162,
+    "declined": 90,
+    "unchanged": 16
+  },
+  "indices": {
+    "main": [
+      { "symbol": "NEPSE Index", "current": 2712.86, "change": 8.78, "change_pct": 0.32 },
+      { "symbol": "Sensitive Index", "current": 462.32, "change": 1.26, "change_pct": 0.27 },
+      { "symbol": "Float Index", "current": 183.95, "change": 0.60, "change_pct": 0.33 },
+      { "symbol": "Sensitive Float Index", "current": 155.89, "change": 0.47, "change_pct": 0.30 }
+    ],
+    "sub_indices": [
+      { "symbol": "Banking SubIndex", "current": 1428.17, "change": 6.21, "change_pct": 0.43 },
+      { "symbol": "Development Bank Index", "current": 5823.02, "change": -2.89, "change_pct": -0.04 },
+      { "symbol": "Finance Index", "current": 2331.92, "change": -2.89, "change_pct": -0.12 },
+      { "symbol": "Hotels And Tourism Index", "current": 7788.08, "change": -4.20, "change_pct": -0.05 },
+      { "symbol": "HydroPower Index", "current": 3802.29, "change": 38.71, "change_pct": 1.02 },
+      { "symbol": "Investment Index", "current": 101.11, "change": 0.18, "change_pct": 0.18 },
+      { "symbol": "Life Insurance", "current": 12353.08, "change": 13.20, "change_pct": 0.10 },
+      { "symbol": "Manufacturing And Processing", "current": 11203.55, "change": 70.39, "change_pct": 0.63 },
+      { "symbol": "Microfinance Index", "current": 4765.08, "change": -10.37, "change_pct": -0.21 },
+      { "symbol": "Mutual Fund", "current": 21.57, "change": 0.09, "change_pct": 0.44 },
+      { "symbol": "Non Life Insurance", "current": 10616.58, "change": -13.79, "change_pct": -0.12 },
+      { "symbol": "Others Index", "current": 1971.86, "change": 1.76, "change_pct": 0.08 },
+      { "symbol": "Trading Index", "current": 3707.66, "change": -11.14, "change_pct": -0.29 }
+    ]
+  },
+  "market_summary": {
+    "total_turnover_rs": 3439068392.77,
+    "total_traded_shares": 7734012,
+    "total_transactions": 62025,
+    "total_scrips_traded": 335,
+    "total_market_capitalization_rs": 4626923180812.5,
+    "total_float_market_capitalization_rs": 1543702857147.5
+  },
+  "top_gainers": [
+    { "symbol": "ULHC", "ltp": 538.00, "pt_change": 54.00, "pct_change": 11.16 },
+    { "symbol": "SOHL", "ltp": 718.50, "pt_change": 50.50, "pct_change": 7.56 },
+    { "symbol": "DLBS", "ltp": 1354.00, "pt_change": 89.00, "pct_change": 7.04 },
+    { "symbol": "RBBD2088", "ltp": 1123.50, "pt_change": 53.50, "pct_change": 5.00 },
+    { "symbol": "JHAPA", "ltp": 1770.00, "pt_change": 81.00, "pct_change": 4.80 },
+    { "symbol": "NICBF", "ltp": 9.74, "pt_change": 0.43, "pct_change": 4.62 },
+    { "symbol": "KKHC", "ltp": 265.00, "pt_change": 8.90, "pct_change": 3.48 },
+    { "symbol": "SBCF", "ltp": 9.75, "pt_change": 0.31, "pct_change": 3.28 },
+    { "symbol": "IHL", "ltp": 409.90, "pt_change": 12.90, "pct_change": 3.25 },
+    { "symbol": "USHL", "ltp": 650.00, "pt_change": 20.00, "pct_change": 3.17 }
+  ],
+  "top_losers": [
+    { "symbol": "FOWAD", "ltp": 1143.00, "pt_change": -117.40, "pct_change": -9.31 },
+    { "symbol": "CORBL", "ltp": 1986.00, "pt_change": -112.00, "pct_change": -5.34 },
+    { "symbol": "SKHL", "ltp": 930.00, "pt_change": -30.00, "pct_change": -3.13 },
+    { "symbol": "RAWA", "ltp": 582.00, "pt_change": -18.00, "pct_change": -3.00 },
+    { "symbol": "NICGF2", "ltp": 9.30, "pt_change": -0.27, "pct_change": -2.82 },
+    { "symbol": "RMF1", "ltp": 9.73, "pt_change": -0.27, "pct_change": -2.70 },
+    { "symbol": "ULBSL", "ltp": 2899.00, "pt_change": -79.90, "pct_change": -2.68 },
+    { "symbol": "TSHL", "ltp": 600.00, "pt_change": -16.50, "pct_change": -2.68 },
+    { "symbol": "H8020", "ltp": 11.34, "pt_change": -0.29, "pct_change": -2.49 },
+    { "symbol": "LVF2", "ltp": 9.95, "pt_change": -0.24, "pct_change": -2.36 }
+  ],
+  "top_turnover": [
+    { "symbol": "SOHL", "turnover": 235716552.30, "ltp": 718.50 },
+    { "symbol": "RSML", "turnover": 127813125.30, "ltp": 3750.00 },
+    { "symbol": "NHPC", "turnover": 115218642.90, "ltp": 282.30 },
+    { "symbol": "AKJCL", "turnover": 81540219.60, "ltp": 352.90 },
+    { "symbol": "PCIL", "turnover": 77374062.70, "ltp": 897.00 },
+    { "symbol": "HDHPC", "turnover": 63769820.80, "ltp": 219.60 },
+    { "symbol": "RIDI", "turnover": 61041403.70, "ltp": 338.00 },
+    { "symbol": "JHAPA", "turnover": 59428778.10, "ltp": 1770.00 },
+    { "symbol": "HFIN", "turnover": 58737483.40, "ltp": 994.00 },
+    { "symbol": "NRN", "turnover": 57168188.20, "ltp": 1387.00 }
+  ],
+  "top_volume": [
+    { "symbol": "NHPC", "shares_traded": 404132, "ltp": 282.30 },
+    { "symbol": "SOHL", "shares_traded": 336179, "ltp": 718.50 },
+    { "symbol": "HDHPC", "shares_traded": 291143, "ltp": 219.60 },
+    { "symbol": "AKJCL", "shares_traded": 229903, "ltp": 352.90 },
+    { "symbol": "SSHL", "shares_traded": 224126, "ltp": 211.30 },
+    { "symbol": "KBL", "shares_traded": 209533, "ltp": 216.00 },
+    { "symbol": "HIDCLP", "shares_traded": 207086, "ltp": 200.00 },
+    { "symbol": "RIDI", "shares_traded": 180120, "ltp": 338.00 },
+    { "symbol": "API", "shares_traded": 137642, "ltp": 333.50 },
+    { "symbol": "UPPER", "shares_traded": 132582, "ltp": 202.00 }
+  ],
+  "top_transactions": [
+    { "symbol": "PCIL", "no_of_transactions": 4834, "ltp": 897.00 },
+    { "symbol": "SOHL", "no_of_transactions": 4004, "ltp": 718.50 },
+    { "symbol": "SIPD", "no_of_transactions": 2411, "ltp": 900.00 },
+    { "symbol": "HFIN", "no_of_transactions": 2282, "ltp": 994.00 },
+    { "symbol": "NHPC", "no_of_transactions": 1178, "ltp": 282.30 },
+    { "symbol": "RLEL", "no_of_transactions": 1123, "ltp": 1145.00 },
+    { "symbol": "HRL", "no_of_transactions": 1045, "ltp": 655.40 },
+    { "symbol": "SYPNL", "no_of_transactions": 921, "ltp": 1411.10 },
+    { "symbol": "HBL", "no_of_transactions": 921, "ltp": 202.50 },
+    { "symbol": "JHAPA", "no_of_transactions": 841, "ltp": 1770.00 }
+  ],
+  "broker_floorsheet": {
+    "broker_name": "Naasa Securities Co. Ltd.",
+    "broker_number": 58,
+    "date": "2026-05-05",
+    "total_purchase_npr": 281225159.00,
+    "total_sales_npr": 258082467.00,
+    "top_10_purchase": [
+      { "symbol": "SOHL", "pct_of_total_turnover": 20.82, "total_amount_npr": 49073916.00, "total_kitta": 70534, "avg_price": 695.75, "total_transactions": 840, "kitta_per_transaction": 83.97 },
+      { "symbol": "ULHC", "pct_of_total_turnover": 89.27, "total_amount_npr": 19182083.00, "total_kitta": 38878, "avg_price": 493.39, "total_transactions": 97, "kitta_per_transaction": 400.80 },
+      { "symbol": "NHPC", "pct_of_total_turnover": 16.26, "total_amount_npr": 18732410.00, "total_kitta": 65685, "avg_price": 285.19, "total_transactions": 160, "kitta_per_transaction": 410.53 },
+      { "symbol": "PCIL", "pct_of_total_turnover": 10.85, "total_amount_npr": 8395530.00, "total_kitta": 9497, "avg_price": 884.02, "total_transactions": 686, "kitta_per_transaction": 13.84 },
+      { "symbol": "NRN", "pct_of_total_turnover": 11.14, "total_amount_npr": 6365935.00, "total_kitta": 4571, "avg_price": 1392.68, "total_transactions": 48, "kitta_per_transaction": 95.23 },
+      { "symbol": "AKJCL", "pct_of_total_turnover": 7.43, "total_amount_npr": 6058298.00, "total_kitta": 17080, "avg_price": 354.70, "total_transactions": 36, "kitta_per_transaction": 474.44 },
+      { "symbol": "FOWAD", "pct_of_total_turnover": 12.83, "total_amount_npr": 5370136.00, "total_kitta": 4820, "avg_price": 1114.14, "total_transactions": 47, "kitta_per_transaction": 102.55 },
+      { "symbol": "HRL", "pct_of_total_turnover": 10.25, "total_amount_npr": 5187918.00, "total_kitta": 7918, "avg_price": 655.21, "total_transactions": 134, "kitta_per_transaction": 59.09 },
+      { "symbol": "RIDI", "pct_of_total_turnover": 8.19, "total_amount_npr": 4998488.00, "total_kitta": 14731, "avg_price": 339.32, "total_transactions": 51, "kitta_per_transaction": 288.84 },
+      { "symbol": "SSHL", "pct_of_total_turnover": 10.16, "total_amount_npr": 4807684.00, "total_kitta": 22805, "avg_price": 210.82, "total_transactions": 95, "kitta_per_transaction": 240.05 }
+    ],
+    "top_10_sales": [
+      { "symbol": "SOHL", "pct_of_total_turnover": 9.81, "total_amount_npr": 23127972.00, "total_kitta": 32976, "avg_price": 701.36, "total_transactions": 775, "kitta_per_transaction": 42.55 },
+      { "symbol": "FOWAD", "pct_of_total_turnover": 54.23, "total_amount_npr": 22690692.00, "total_kitta": 20343, "avg_price": 1115.41, "total_transactions": 95, "kitta_per_transaction": 214.14 },
+      { "symbol": "AKJCL", "pct_of_total_turnover": 20.98, "total_amount_npr": 17110340.00, "total_kitta": 48213, "avg_price": 354.89, "total_transactions": 66, "kitta_per_transaction": 730.50 },
+      { "symbol": "PCIL", "pct_of_total_turnover": 16.91, "total_amount_npr": 13082190.00, "total_kitta": 14916, "avg_price": 877.06, "total_transactions": 1116, "kitta_per_transaction": 13.37 },
+      { "symbol": "NHPC", "pct_of_total_turnover": 8.52, "total_amount_npr": 9811942.00, "total_kitta": 34440, "avg_price": 284.90, "total_transactions": 110, "kitta_per_transaction": 313.09 },
+      { "symbol": "NRN", "pct_of_total_turnover": 15.64, "total_amount_npr": 8940215.00, "total_kitta": 6398, "avg_price": 1397.35, "total_transactions": 49, "kitta_per_transaction": 130.57 },
+      { "symbol": "HFIN", "pct_of_total_turnover": 12.35, "total_amount_npr": 7251405.00, "total_kitta": 7277, "avg_price": 996.48, "total_transactions": 497, "kitta_per_transaction": 14.64 },
+      { "symbol": "NICA", "pct_of_total_turnover": 13.10, "total_amount_npr": 6081695.00, "total_kitta": 16726, "avg_price": 363.61, "total_transactions": 63, "kitta_per_transaction": 265.49 },
+      { "symbol": "SIPD", "pct_of_total_turnover": 15.63, "total_amount_npr": 6041651.00, "total_kitta": 6810, "avg_price": 887.17, "total_transactions": 498, "kitta_per_transaction": 13.67 },
+      { "symbol": "RIDI", "pct_of_total_turnover": 9.04, "total_amount_npr": 5516660.00, "total_kitta": 16354, "avg_price": 337.33, "total_transactions": 57, "kitta_per_transaction": 286.91 }
+    ]
+  },
+  "stock_charts": [
+    {
+      "symbol": "API",
+      "name": "API Power Company Limited",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 330.00, "high": 335.00, "low": 326.00, "close": 333.50 },
+      "change": 3.50,
+      "change_pct": 1.06,
+      "volume": 137642,
+      "indicators": {
+        "accum_dist": -8648000,
+        "aroon": { "up": 100.00, "down": 7.14 },
+        "adx": 17.90,
+        "atr": 11.88,
+        "rsi": 44.00
+      }
+    },
+    {
+      "symbol": "ILI",
+      "name": "IME Life Insurance Company Limited",
+      "sector": "Life Insurance",
+      "ohlc": { "open": 436.00, "high": 439.90, "low": 426.10, "close": 432.00 },
+      "change": 1.00,
+      "change_pct": 0.23,
+      "volume": 5517,
+      "indicators": {
+        "accum_dist": -661998,
+        "aroon": { "up": 100.00, "down": 0.00 },
+        "adx": 20.66,
+        "atr": 9.26,
+        "rsi": 38.59
+      }
+    },
+    {
+      "symbol": "NIMB",
+      "name": "Nepal Investment Mega Bank Limited",
+      "sector": "Commercial Banks",
+      "ohlc": { "open": 193.90, "high": 198.80, "low": 193.90, "close": 196.70 },
+      "change": 0.70,
+      "change_pct": 0.36,
+      "volume": 65244,
+      "indicators": {
+        "accum_dist": -8439000,
+        "aroon": { "up": 100.00, "down": 14.29 },
+        "adx": 16.64,
+        "atr": 8.09,
+        "rsi": 38.57
+      }
+    },
+    {
+      "symbol": "NABIL",
+      "name": "Nabil Bank Limited",
+      "sector": "Commercial Banks",
+      "ohlc": { "open": 520.00, "high": 526.00, "low": 516.00, "close": 521.60 },
+      "change": 0.60,
+      "change_pct": 0.12,
+      "volume": 38727,
+      "indicators": {
+        "accum_dist": -3834000,
+        "aroon": { "up": 57.14, "down": 35.71 },
+        "adx": 23.82,
+        "atr": 10.83,
+        "rsi": 47.52
+      }
+    },
+    {
+      "symbol": "PCBL",
+      "name": "Prime Commercial Bank Ltd.",
+      "sector": "Commercial Banks",
+      "ohlc": { "open": 235.50, "high": 238.90, "low": 234.20, "close": 235.90 },
+      "change": -0.70,
+      "change_pct": -0.30,
+      "volume": 47137,
+      "indicators": {
+        "accum_dist": -1910000,
+        "aroon": { "up": 92.86, "down": 14.29 },
+        "adx": 20.24,
+        "atr": 6.95,
+        "rsi": 38.57
+      }
+    },
+    {
+      "symbol": "RIDI",
+      "name": "Ridi Power Company Ltd.",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 352.00, "high": 352.00, "low": 333.00, "close": 338.00 },
+      "change": 2.10,
+      "change_pct": 0.63,
+      "volume": 180120,
+      "indicators": {
+        "accum_dist": -6182000,
+        "aroon": { "up": 85.71, "down": 7.14 },
+        "adx": 15.76,
+        "atr": 22.10,
+        "rsi": 44.54
+      }
+    },
+    {
+      "symbol": "FMDBL",
+      "name": "First Micro Finance Development Bank Ltd.",
+      "sector": "Microfinance",
+      "ohlc": { "open": 781.00, "high": 800.00, "low": 775.30, "close": 788.00 },
+      "change": -1.90,
+      "change_pct": -0.24,
+      "volume": 10350,
+      "indicators": {
+        "accum_dist": -982498,
+        "aroon": { "up": 85.71, "down": 35.71 },
+        "adx": 14.04,
+        "atr": 30.05,
+        "rsi": 40.87
+      }
+    },
+    {
+      "symbol": "SHEL",
+      "name": "Singati Hydro Energy Limited",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 303.00, "high": 308.00, "low": 298.60, "close": 305.00 },
+      "change": 2.90,
+      "change_pct": 0.96,
+      "volume": 80147,
+      "indicators": {
+        "accum_dist": -11161000,
+        "aroon": { "up": 100.00, "down": 7.14 },
+        "adx": 24.54,
+        "atr": 11.43,
+        "rsi": 40.29
+      }
+    },
+    {
+      "symbol": "PRVU",
+      "name": "Prabhu Bank Limited",
+      "sector": "Commercial Banks",
+      "ohlc": { "open": 194.00, "high": 196.00, "low": 191.20, "close": 194.00 },
+      "change": 1.40,
+      "change_pct": 0.73,
+      "volume": 131119,
+      "indicators": {
+        "accum_dist": -9905000,
+        "aroon": { "up": 100.00, "down": 21.43 },
+        "adx": 14.34,
+        "atr": 7.32,
+        "rsi": 37.25
+      }
+    },
+    {
+      "symbol": "NGPL",
+      "name": "Ngadi Group Power Ltd.",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 427.00, "high": 434.90, "low": 423.00, "close": 431.00 },
+      "change": 4.10,
+      "change_pct": 0.96,
+      "volume": 124262,
+      "indicators": {
+        "accum_dist": -17725000,
+        "aroon": { "up": 100.00, "down": 14.29 },
+        "adx": 17.01,
+        "atr": 17.47,
+        "rsi": 37.98
+      }
+    },
+    {
+      "symbol": "NICA",
+      "name": "NIC Asia Bank Ltd.",
+      "sector": "Commercial Banks",
+      "ohlc": { "open": 365.00, "high": 371.50, "low": 360.00, "close": 365.00 },
+      "change": 5.60,
+      "change_pct": 1.56,
+      "volume": 127364,
+      "indicators": {
+        "accum_dist": -2220000,
+        "aroon": { "up": 78.57, "down": 64.29 },
+        "adx": 15.29,
+        "atr": 13.70,
+        "rsi": 50.50
+      }
+    },
+    {
+      "symbol": "SMHL",
+      "name": "Super Madi Hydropower Limited",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 480.00, "high": 498.00, "low": 480.00, "close": 496.00 },
+      "change": 9.00,
+      "change_pct": 1.85,
+      "volume": 30971,
+      "indicators": {
+        "accum_dist": 679561,
+        "aroon": { "up": 100.00, "down": 28.57 },
+        "adx": 13.11,
+        "atr": 16.69,
+        "rsi": 44.88
+      }
+    },
+    {
+      "symbol": "RADHI",
+      "name": "Radhi Bidyut Company Ltd.",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 729.00, "high": 745.00, "low": 719.00, "close": 740.00 },
+      "change": 10.00,
+      "change_pct": 1.37,
+      "volume": 49201,
+      "indicators": {
+        "accum_dist": -9310000,
+        "aroon": { "up": 100.00, "down": 0.00 },
+        "adx": 29.42,
+        "atr": 30.75,
+        "rsi": 30.65
+      }
+    },
+    {
+      "symbol": "ULHC",
+      "name": "Upper Lohore Hydropower Company Limited",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 480.00, "high": 550.00, "low": 476.00, "close": 538.00 },
+      "change": 54.00,
+      "change_pct": 11.16,
+      "volume": 43589,
+      "indicators": {
+        "accum_dist": -523263,
+        "aroon": { "up": 92.86, "down": 71.43 },
+        "adx": 22.92,
+        "atr": 30.80,
+        "rsi": 56.04
+      }
+    },
+    {
+      "symbol": "HDL",
+      "name": "Himalayan Distillery Limited",
+      "sector": "Manufacturing And Processing",
+      "ohlc": { "open": 1147.00, "high": 1155.00, "low": 1142.00, "close": 1150.00 },
+      "change": 3.90,
+      "change_pct": 0.34,
+      "volume": 24143,
+      "indicators": {
+        "accum_dist": -5461000,
+        "aroon": { "up": 57.14, "down": 71.43 },
+        "adx": 19.99,
+        "atr": 22.71,
+        "rsi": 43.41
+      }
+    },
+    {
+      "symbol": "SHIVM",
+      "name": "SHIVAM CEMENTS LTD",
+      "sector": "Manufacturing And Processing",
+      "ohlc": { "open": 660.00, "high": 665.00, "low": 651.30, "close": 660.00 },
+      "change": 4.00,
+      "change_pct": 0.61,
+      "volume": 77677,
+      "indicators": {
+        "accum_dist": -8436000,
+        "aroon": { "up": 85.71, "down": 7.14 },
+        "adx": 17.47,
+        "atr": 20.04,
+        "rsi": 44.97
+      }
+    },
+    {
+      "symbol": "NHPC",
+      "name": "National Hydro Power Company Limited",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 283.00, "high": 290.20, "low": 276.20, "close": 282.30 },
+      "change": -0.70,
+      "change_pct": -0.25,
+      "volume": 404132,
+      "indicators": {
+        "accum_dist": -6727000,
+        "aroon": { "up": 100.00, "down": 7.14 },
+        "adx": 22.84,
+        "atr": 17.42,
+        "rsi": 44.79
+      }
+    },
+    {
+      "symbol": "SONA",
+      "name": "Sonapur Minerals and Oil Limited",
+      "sector": "Manufacturing And Processing",
+      "ohlc": { "open": 422.00, "high": 435.00, "low": 421.00, "close": 431.50 },
+      "change": 4.50,
+      "change_pct": 1.05,
+      "volume": 17810,
+      "indicators": {
+        "accum_dist": -2371000,
+        "aroon": { "up": 100.00, "down": 28.57 },
+        "adx": 14.54,
+        "atr": 15.04,
+        "rsi": 41.25
+      }
+    },
+    {
+      "symbol": "JBBL",
+      "name": "Jyoti Bikas Bank Limited",
+      "sector": "Development Banks",
+      "ohlc": { "open": 332.00, "high": 335.80, "low": 328.50, "close": 329.50 },
+      "change": -2.90,
+      "change_pct": -0.87,
+      "volume": 49961,
+      "indicators": {
+        "accum_dist": -1501000,
+        "aroon": { "up": 100.00, "down": 14.29 },
+        "adx": 24.71,
+        "atr": 12.66,
+        "rsi": 33.11
+      }
+    },
+    {
+      "symbol": "MPFL",
+      "name": "Multipurpose Finance Company Limited",
+      "sector": "Finance",
+      "ohlc": { "open": 603.90, "high": 610.00, "low": 595.70, "close": 604.00 },
+      "change": 0.00,
+      "change_pct": 0.00,
+      "volume": 14600,
+      "indicators": {
+        "accum_dist": -343641,
+        "aroon": { "up": 85.71, "down": 7.14 },
+        "adx": 17.17,
+        "atr": 25.02,
+        "rsi": 36.37
+      }
+    },
+    {
+      "symbol": "SYPNL",
+      "name": "SY Panel Nepal Limited",
+      "sector": "Manufacturing And Processing",
+      "ohlc": { "open": 1478.40, "high": 1478.40, "low": 1381.10, "close": 1411.10 },
+      "change": 3.10,
+      "change_pct": 0.22,
+      "volume": 34777,
+      "indicators": {
+        "accum_dist": -276560,
+        "aroon": { "up": 85.71, "down": 7.14 },
+        "adx": 27.89,
+        "atr": 94.35,
+        "rsi": 26.89
+      }
+    },
+    {
+      "symbol": "SOHL",
+      "name": "Solu Hydropower Limited",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 668.00, "high": 726.00, "low": 660.00, "close": 718.50 },
+      "change": 50.50,
+      "change_pct": 7.56,
+      "volume": 336179,
+      "indicators": {
+        "accum_dist": 542482,
+        "aroon": { "up": 100.00, "down": 28.57 },
+        "adx": 47.40,
+        "atr": 55.52,
+        "rsi": 56.63
+      }
+    },
+    {
+      "symbol": "ALICL",
+      "name": "Asian Life Insurance Co. Limited",
+      "sector": "Life Insurance",
+      "ohlc": { "open": 445.10, "high": 451.00, "low": 445.10, "close": 450.00 },
+      "change": 2.80,
+      "change_pct": 0.63,
+      "volume": 10836,
+      "indicators": {
+        "accum_dist": -1369000,
+        "aroon": { "up": 92.86, "down": 28.57 },
+        "adx": 14.13,
+        "atr": 11.52,
+        "rsi": 39.45
+      }
+    },
+    {
+      "symbol": "BHL",
+      "name": "Balephi Hydropower Limited",
+      "sector": "Hydro Power",
+      "ohlc": { "open": 211.00, "high": 218.50, "low": 211.00, "close": 214.10 },
+      "change": 0.00,
+      "change_pct": 0.00,
+      "volume": 105601,
+      "indicators": {
+        "accum_dist": -23428000,
+        "aroon": { "up": 92.86, "down": 7.14 },
+        "adx": 13.57,
+        "atr": 9.96,
+        "rsi": 40.27
+      }
+    },
+    {
+      "symbol": "SAIL",
+      "name": "Shreenagar Agritech Industries Ltd",
+      "sector": "Manufacturing And Processing",
+      "ohlc": { "open": 1165.90, "high": 1175.00, "low": 1120.00, "close": 1160.00 },
+      "change": -6.00,
+      "change_pct": -0.51,
+      "volume": 20369,
+      "indicators": {
+        "accum_dist": 29850,
+        "aroon": { "up": 85.71, "down": 92.86 },
+        "adx": 14.04,
+        "atr": 94.61,
+        "rsi": 43.52
+      }
+    }
+  ]
+}
