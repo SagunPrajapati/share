@@ -604,10 +604,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-mono);
       <div class="mkt-dot closed" id="mkt-dot"></div>
       <span id="mkt-status-text">Market Closed</span>
     </div>
-    <button class="sync-btn" id="sync-btn" onclick="syncLatestPrices()">
-      <span class="spin" id="spin-icon">⟳</span> Sync Prices
-    </button>
-    <span class="last-sync" id="last-sync">Not synced</span>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
+      <button class="sync-btn" id="sync-btn" onclick="syncLatestPrices()">
+        <span id="spin-icon">⟳</span> Sync Live Prices
+      </button>
+      <span class="last-sync" id="last-sync">Not synced · click to fetch</span>
+    </div>
   </div>
 </div>
 
@@ -870,40 +872,159 @@ function uid() { return 'p_' + Date.now() + '_' + Math.random().toString(36).sli
 // SYNC PRICES FROM GITHUB JSON
 // ═══════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════
+// LIVE PRICE SYNC — 3-tier fallback
+// 1. nepalstock.com API direct (works if CORS opens)
+// 2. allorigins CORS proxy → nepalstock.com API
+// 3. GitHub JSON fallback
+// ═══════════════════════════════════════════════════════
+
+const NEPSE_API = 'https://nepalstock.com/api/nots/security/securities';
+const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
 async function syncLatestPrices() {
   const btn = document.getElementById('sync-btn');
   btn.classList.add('loading');
   btn.disabled = true;
-  showToast('⟳ Fetching latest market data...', false, 8000);
+  updateSyncStatus('⟳ Connecting to nepalstock.com...', false);
 
+  let success = false;
+
+  // ── TIER 1: Direct NEPSE API ──
   try {
-    // Try recent dates backwards
+    const url = `${NEPSE_API}?page=0&size=2000&businessDate=&sort=symbol,asc`;
+    const res = await fetch(url, {
+      headers: { 'Accept': 'application/json' },
+      signal: AbortSignal.timeout(6000)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (extractPricesFromNepseAPI(data)) {
+        success = true;
+        updateSyncStatus('✓ Live from nepalstock.com', false);
+        showToast('✓ Live prices loaded from nepalstock.com');
+      }
+    }
+  } catch(e) { /* CORS blocked — try proxy */ }
+
+  // ── TIER 2: CORS Proxy → NEPSE API ──
+  if (!success) {
+    try {
+      updateSyncStatus('⟳ Trying CORS proxy...', false);
+      const targetUrl = `${NEPSE_API}?page=0&size=2000&sort=symbol,asc`;
+      const proxyUrl = `${CORS_PROXY}${encodeURIComponent(targetUrl)}`;
+      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
+      if (res.ok) {
+        const text = await res.text();
+        const data = JSON.parse(text);
+        if (extractPricesFromNepseAPI(data)) {
+          success = true;
+          updateSyncStatus('✓ Live via proxy · nepalstock.com', false);
+          showToast('✓ Live prices loaded via proxy');
+        }
+      }
+    } catch(e) { /* proxy failed — fall back to GitHub */ }
+  }
+
+  // ── TIER 3: GitHub JSON fallback ──
+  if (!success) {
+    updateSyncStatus('⟳ Falling back to GitHub data...', false);
     const today = new Date();
-    let found = false;
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 14; i++) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
       const dateStr = d.toISOString().slice(0, 10);
-      const url = `${GITHUB_RAW}/${dateStr}.json`;
       try {
-        const res = await fetch(url);
+        const res = await fetch(`${GITHUB_RAW}/${dateStr}.json`, { signal: AbortSignal.timeout(6000) });
         if (!res.ok) continue;
         const data = await res.json();
         extractPricesFromJSON(data, dateStr);
-        found = true;
+        success = true;
+        updateSyncStatus(`✓ GitHub data · ${dateStr}`, false);
+        showToast(`✓ Prices from GitHub (${dateStr}) — live data unavailable`);
         break;
       } catch(e) { continue; }
     }
-    if (!found) {
-      showToast('⚠ Could not fetch data. Using cached prices.', true);
-    }
-  } catch(e) {
-    showToast('⚠ Sync failed: ' + e.message, true);
+  }
+
+  if (!success) {
+    updateSyncStatus('⚠ All sources failed', true);
+    showToast('⚠ Could not fetch prices. Check your internet connection.', true);
   }
 
   btn.classList.remove('loading');
   btn.disabled = false;
   renderAll();
+}
+
+function updateSyncStatus(msg, isError) {
+  const el = document.getElementById('last-sync');
+  if (el) {
+    el.textContent = msg;
+    el.style.color = isError ? 'var(--red)' : 'var(--text2)';
+  }
+}
+
+function extractPricesFromNepseAPI(data) {
+  // NEPSE API returns: { content: [ { symbol, lastTradedPrice, percentageChange, ... } ] }
+  // or { securityDailyTradeStat: [...] } depending on endpoint
+  let items = null;
+  if (data && Array.isArray(data.content)) items = data.content;
+  else if (data && Array.isArray(data.securityDailyTradeStat)) items = data.securityDailyTradeStat;
+  else if (data && Array.isArray(data)) items = data;
+  if (!items || items.length === 0) return false;
+
+  let count = 0;
+  items.forEach(item => {
+    const sym = item.symbol || item.securityName;
+    if (!sym) return;
+    // NEPSE API field names
+    const ltp = parseFloat(item.lastTradedPrice || item.closingPrice || item.lastTradedPricePerUnit || 0);
+    const prevClose = parseFloat(item.previousClosingPrice || item.previousDayClosePrice || ltp);
+    const chgPt = ltp - prevClose;
+    const chgPct = prevClose > 0 ? ((chgPt / prevClose) * 100).toFixed(2) : '0.00';
+    const chgStr = chgPt >= 0 ? `+${chgPct}%` : `${chgPct}%`;
+    if (ltp > 0) {
+      state.prices[sym] = { ltp, chg: chgStr, chgPt: chgPt.toFixed(2), source: 'live' };
+      count++;
+    }
+  });
+
+  if (count === 0) return false;
+  state.lastSync = new Date().toLocaleTimeString();
+  state.lastDate = 'live';
+  savePrices();
+  document.getElementById('data-date')?.setAttribute('textContent', 'Live · nepalstock.com');
+  return true;
+}
+
+function extractPricesFromJSON(data, dateStr) {
+  if (data.technical && Array.isArray(data.technical)) {
+    data.technical.forEach(t => {
+      if (t.sym && t.ltp) {
+        state.prices[t.sym] = { ltp: parseFloat(t.ltp), chg: t.chg || '—', signal: t.signal || '—', action: t.action || '—', source: 'github' };
+      }
+    });
+  }
+  ['topGainers','topLosers'].forEach(section => {
+    if (data[section]) data[section].forEach(s => {
+      if (s.sym && s.close && !state.prices[s.sym]) {
+        state.prices[s.sym] = { ltp: parseFloat(s.close), chg: s.chgPct || '—', source: 'github' };
+      }
+    });
+  });
+  ['topTurnover','topVolume'].forEach(section => {
+    if (data[section]) data[section].forEach(s => {
+      if (s.sym && s.ltp && !state.prices[s.sym]) {
+        state.prices[s.sym] = { ltp: parseFloat(s.ltp), chg: '—', source: 'github' };
+      }
+    });
+  });
+  state.lastSync = new Date().toLocaleTimeString();
+  state.lastDate = dateStr;
+  savePrices();
+  const dd = document.getElementById('data-date');
+  if (dd) dd.textContent = 'GitHub · ' + dateStr;
 }
 
 function extractPricesFromJSON(data, dateStr) {
@@ -1245,9 +1366,11 @@ function renderHoldingsRows(holdings) {
     const plSign = !h.pl ? '' : h.pl >= 0 ? '+' : '';
     const plPctStr = h.plPct !== null ? `${plSign}${h.plPct.toFixed(2)}%` : '—';
     const ltpInfo = state.prices[h.sym];
+    const isLive = ltpInfo?.source === 'live';
     const ltpBadge = h.ltp
       ? `<span class="ltp-badge ${ltpInfo?.chg && ltpInfo.chg.includes('-') ? 'ltp-down' : ltpInfo?.chg && ltpInfo.chg.includes('+') ? 'ltp-up' : 'ltp-flat'}">
           ${h.ltp} <small style="font-size:9px;">${ltpInfo?.chg || ''}</small>
+          ${isLive ? '<span style="font-size:8px;background:rgba(46,204,113,.2);color:var(--green);padding:1px 4px;border-radius:2px;margin-left:2px;">LIVE</span>' : ''}
         </span>`
       : `<span style="color:var(--text3);font-size:10px;">No data</span>`;
     const signal = ltpInfo?.signal || '—';
