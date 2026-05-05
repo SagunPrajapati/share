@@ -622,7 +622,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-mono);
     <div style="flex:1;"></div>
     <div id="sidebar-combined" style="padding:12px 14px;border-top:1px solid var(--border);"></div>
     <div style="padding:8px 14px 14px;font-size:10px;color:var(--text3);line-height:1.7;">
-      Data: github.com/SagunPrajapati/share<br>
+      Prices: merolagani.com<br>
       <span id="data-date" style="color:var(--text2);">Not synced yet</span>
     </div>
   </div>
@@ -775,7 +775,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-mono);
 // ═══════════════════════════════════════════════════════
 const STORE_KEY = 'nepse_portfolio_v2';
 const PRICES_KEY = 'nepse_prices_cache';
-const GITHUB_RAW = 'https://raw.githubusercontent.com/SagunPrajapati/share/main';
 
 let state = {
   portfolios: [],
@@ -793,11 +792,19 @@ function loadState() {
   try {
     const s = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
     if (s) state = { ...state, ...s };
-    // load prices
+    // load prices — only restore if they came from merolagani
     const p = JSON.parse(localStorage.getItem(PRICES_KEY) || 'null');
-    if (p) { state.prices = p.prices || {}; state.lastSync = p.lastSync; state.lastDate = p.date; }
+    if (p && p.prices) {
+      // Filter out any stale github-sourced prices
+      const cleanPrices = {};
+      Object.entries(p.prices).forEach(([sym, data]) => {
+        if (data.source === 'merolagani') cleanPrices[sym] = data;
+      });
+      state.prices = cleanPrices;
+      state.lastSync = p.lastSync;
+      state.lastDate = p.date;
+    }
   } catch(e) {}
-  // Seed with sample portfolio if empty
   if (state.portfolios.length === 0) seedSamplePortfolio();
 }
 
@@ -870,10 +877,8 @@ function uid() { return 'p_' + Date.now() + '_' + Math.random().toString(36).sli
 
 // ═══════════════════════════════════════════════════════
 // LIVE PRICE SYNC
-// Same source as =ImportHTML("https://www.merolagani.com/LatestMarket.aspx","table",1)
-// Tier 1 → allorigins.win proxy → merolagani HTML table parse
-// Tier 2 → corsproxy.io proxy → merolagani HTML table parse
-// Tier 3 → GitHub JSON fallback
+// Source: merolagani.com/LatestMarket.aspx
+// Same as =ImportHTML("https://www.merolagani.com/LatestMarket.aspx","table",1)
 // ═══════════════════════════════════════════════════════
 
 const MEROLAGANI_URL = 'https://www.merolagani.com/LatestMarket.aspx';
@@ -884,29 +889,26 @@ async function syncLatestPrices() {
   const btn = document.getElementById('sync-btn');
   btn.classList.add('loading');
   btn.disabled = true;
-  updateSyncStatus('⟳ Fetching merolagani.com...', false);
+  updateSyncStatus('⟳ Connecting to merolagani.com...', false);
 
   let success = false;
 
-  // ── TIER 1: allorigins proxy → merolagani HTML ──
-  if (!success) {
-    try {
-      updateSyncStatus('⟳ Connecting to merolagani.com...', false);
-      const url = PROXY1 + encodeURIComponent(MEROLAGANI_URL);
-      const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
-      if (res.ok) {
-        const html = await res.text();
-        const count = parseMerolaganiHTML(html);
-        if (count > 0) {
-          success = true;
-          updateSyncStatus(`✓ Live · merolagani.com · ${count} stocks · ${new Date().toLocaleTimeString()}`, false);
-          showToast(`✓ ${count} stock prices loaded from merolagani.com`);
-        }
+  // ── PROXY 1: allorigins.win ──
+  try {
+    const url = PROXY1 + encodeURIComponent(MEROLAGANI_URL);
+    const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    if (res.ok) {
+      const html = await res.text();
+      const count = parseMerolaganiHTML(html);
+      if (count > 0) {
+        success = true;
+        updateSyncStatus(`✓ merolagani.com · ${count} stocks · ${new Date().toLocaleTimeString()}`, false);
+        showToast(`✓ ${count} live prices loaded from merolagani.com`);
       }
-    } catch(e) { /* try next proxy */ }
-  }
+    }
+  } catch(e) { /* try next */ }
 
-  // ── TIER 2: corsproxy.io → merolagani HTML ──
+  // ── PROXY 2: corsproxy.io ──
   if (!success) {
     try {
       updateSyncStatus('⟳ Trying alternate proxy...', false);
@@ -917,37 +919,16 @@ async function syncLatestPrices() {
         const count = parseMerolaganiHTML(html);
         if (count > 0) {
           success = true;
-          updateSyncStatus(`✓ Live · merolagani.com · ${count} stocks · ${new Date().toLocaleTimeString()}`, false);
-          showToast(`✓ ${count} stock prices loaded from merolagani.com`);
+          updateSyncStatus(`✓ merolagani.com · ${count} stocks · ${new Date().toLocaleTimeString()}`, false);
+          showToast(`✓ ${count} live prices loaded from merolagani.com`);
         }
       }
-    } catch(e) { /* fall back to GitHub */ }
-  }
-
-  // ── TIER 3: GitHub JSON fallback ──
-  if (!success) {
-    updateSyncStatus('⟳ Live fetch failed — trying GitHub...', true);
-    const today = new Date();
-    for (let i = 0; i < 14; i++) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      const dateStr = d.toISOString().slice(0, 10);
-      try {
-        const res = await fetch(`${GITHUB_RAW}/${dateStr}.json`, { signal: AbortSignal.timeout(8000) });
-        if (!res.ok) continue;
-        const data = await res.json();
-        extractPricesFromJSON(data, dateStr);
-        success = true;
-        updateSyncStatus(`⚠ GitHub fallback · ${dateStr} (merolagani unreachable)`, false);
-        showToast(`Prices from GitHub ${dateStr} — merolagani.com was unreachable`);
-        break;
-      } catch(e) { continue; }
-    }
+    } catch(e) { /* failed */ }
   }
 
   if (!success) {
-    updateSyncStatus('⚠ All sources failed — check internet', true);
-    showToast('⚠ Could not fetch prices from any source.', true);
+    updateSyncStatus('⚠ Could not reach merolagani.com — try again', true);
+    showToast('⚠ merolagani.com unreachable. Check your internet connection.', true);
   }
 
   btn.classList.remove('loading');
@@ -1060,77 +1041,6 @@ function updateSyncStatus(msg, isError) {
     el.textContent = msg;
     el.style.color = isError ? 'var(--red)' : 'var(--text3)';
   }
-}
-
-function extractPricesFromJSON(data, dateStr) {
-  if (data.technical && Array.isArray(data.technical)) {
-    data.technical.forEach(t => {
-      if (t.sym && t.ltp) {
-        state.prices[t.sym] = { ltp: parseFloat(t.ltp), chg: t.chg || '—', signal: t.signal || '—', action: t.action || '—', source: 'github' };
-      }
-    });
-  }
-  ['topGainers','topLosers'].forEach(section => {
-    if (data[section]) data[section].forEach(s => {
-      if (s.sym && s.close && !state.prices[s.sym]) {
-        state.prices[s.sym] = { ltp: parseFloat(s.close), chg: s.chgPct || '—', source: 'github' };
-      }
-    });
-  });
-  ['topTurnover','topVolume'].forEach(section => {
-    if (data[section]) data[section].forEach(s => {
-      if (s.sym && s.ltp && !state.prices[s.sym]) {
-        state.prices[s.sym] = { ltp: parseFloat(s.ltp), chg: '—', source: 'github' };
-      }
-    });
-  });
-  state.lastSync = new Date().toLocaleTimeString();
-  state.lastDate = dateStr;
-  savePrices();
-  const dd = document.getElementById('data-date');
-  if (dd) dd.textContent = 'GitHub · ' + dateStr;
-}
-
-function extractPricesFromJSON(data, dateStr) {
-  // Extract from technical array (has ltp per sym)
-  if (data.technical && Array.isArray(data.technical)) {
-    data.technical.forEach(t => {
-      if (t.sym && t.ltp) {
-        state.prices[t.sym] = {
-          ltp: parseFloat(t.ltp),
-          chg: t.chg || '—',
-          signal: t.signal || '—',
-          action: t.action || '—'
-        };
-      }
-    });
-  }
-  // Also extract from topGainers/topLosers/topTurnover
-  ['topGainers','topLosers'].forEach(section => {
-    if (data[section]) data[section].forEach(s => {
-      if (s.sym && s.close) {
-        if (!state.prices[s.sym]) {
-          state.prices[s.sym] = { ltp: parseFloat(s.close), chg: s.chgPct || '—' };
-        }
-      }
-    });
-  });
-  ['topTurnover','topVolume'].forEach(section => {
-    if (data[section]) data[section].forEach(s => {
-      if (s.sym && s.ltp) {
-        if (!state.prices[s.sym]) {
-          state.prices[s.sym] = { ltp: parseFloat(s.ltp), chg: '—' };
-        }
-      }
-    });
-  });
-
-  state.lastSync = new Date().toLocaleTimeString();
-  state.lastDate = dateStr;
-  savePrices();
-  document.getElementById('last-sync').textContent = 'Synced ' + state.lastDate;
-  document.getElementById('data-date').textContent = 'Data: ' + state.lastDate;
-  showToast('✓ Prices updated from ' + dateStr);
 }
 
 function getPrice(sym) {
