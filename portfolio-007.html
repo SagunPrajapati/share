@@ -876,59 +876,95 @@ function seedSamplePortfolio() {
 function uid() { return 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2,6); }
 
 // ═══════════════════════════════════════════════════════
-// LIVE PRICE SYNC
-// Source: merolagani.com/LatestMarket.aspx
-// Same as =ImportHTML("https://www.merolagani.com/LatestMarket.aspx","table",1)
+// LIVE PRICE SYNC — merolagani.com via multiple proxies
 // ═══════════════════════════════════════════════════════
 
 const MEROLAGANI_URL = 'https://www.merolagani.com/LatestMarket.aspx';
-const PROXY1 = 'https://api.allorigins.win/raw?url=';
-const PROXY2 = 'https://corsproxy.io/?url=';
+
+// Multiple public CORS proxies — tried in order
+const PROXIES = [
+  html => `https://api.allorigins.win/raw?url=${encodeURIComponent(html)}`,
+  html => `https://corsproxy.io/?${encodeURIComponent(html)}`,
+  html => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(html)}`,
+  html => `https://thingproxy.freeboard.io/fetch/${html}`,
+  html => `https://yacdn.org/proxy/${html}`,
+];
+
+// Optional: paste your Google Apps Script URL here for 100% reliable fetching
+// See instructions in the app's debug panel
+let GAS_URL = localStorage.getItem('gas_url') || '';
 
 async function syncLatestPrices() {
   const btn = document.getElementById('sync-btn');
   btn.classList.add('loading');
   btn.disabled = true;
+
+  const debugLines = [];
+  const log = (msg) => { debugLines.push(msg); console.log('[SYNC]', msg); };
+
+  log('Starting sync from merolagani.com...');
   updateSyncStatus('⟳ Connecting to merolagani.com...', false);
 
   let success = false;
 
-  // ── PROXY 1: allorigins.win ──
-  try {
-    const url = PROXY1 + encodeURIComponent(MEROLAGANI_URL);
-    const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
-    if (res.ok) {
-      const html = await res.text();
-      const count = parseMerolaganiHTML(html);
-      if (count > 0) {
-        success = true;
-        updateSyncStatus(`✓ merolagani.com · ${count} stocks · ${new Date().toLocaleTimeString()}`, false);
-        showToast(`✓ ${count} live prices loaded from merolagani.com`);
-      }
-    }
-  } catch(e) { /* try next */ }
-
-  // ── PROXY 2: corsproxy.io ──
-  if (!success) {
+  // ── 0. Google Apps Script (if configured — most reliable) ──
+  if (GAS_URL) {
     try {
-      updateSyncStatus('⟳ Trying alternate proxy...', false);
-      const url = PROXY2 + encodeURIComponent(MEROLAGANI_URL);
-      const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+      log(`Trying GAS URL...`);
+      updateSyncStatus('⟳ Fetching via Google Apps Script...', false);
+      const res = await fetch(GAS_URL, { signal: AbortSignal.timeout(10000) });
       if (res.ok) {
-        const html = await res.text();
-        const count = parseMerolaganiHTML(html);
-        if (count > 0) {
-          success = true;
-          updateSyncStatus(`✓ merolagani.com · ${count} stocks · ${new Date().toLocaleTimeString()}`, false);
-          showToast(`✓ ${count} live prices loaded from merolagani.com`);
+        const data = await res.json();
+        if (data && typeof data === 'object') {
+          let count = 0;
+          Object.entries(data).forEach(([sym, info]) => {
+            if (sym && info.ltp) {
+              state.prices[sym] = { ltp: parseFloat(info.ltp), chg: info.chg || '—', chgPt: info.chgPt || '—', prevClose: info.prevClose || null, source: 'merolagani' };
+              count++;
+            }
+          });
+          if (count > 0) {
+            success = true;
+            finalizePrices(count, 'Google Apps Script', debugLines);
+          }
         }
       }
-    } catch(e) { /* failed */ }
+    } catch(e) { log(`GAS failed: ${e.message}`); }
+  }
+
+  // ── 1–5. Public CORS Proxies ──
+  for (let i = 0; i < PROXIES.length && !success; i++) {
+    const proxyUrl = PROXIES[i](MEROLAGANI_URL);
+    const proxyName = proxyUrl.split('/')[2];
+    try {
+      log(`Proxy ${i+1}: ${proxyName}`);
+      updateSyncStatus(`⟳ Trying proxy ${i+1}/5 — ${proxyName}...`, false);
+      const res = await fetch(proxyUrl, {
+        signal: AbortSignal.timeout(12000),
+        headers: { 'Accept': 'text/html,application/xhtml+xml' }
+      });
+      log(`Proxy ${i+1} responded: HTTP ${res.status}`);
+      if (res.ok) {
+        const html = await res.text();
+        log(`Proxy ${i+1} returned ${html.length} bytes`);
+        if (html.length < 500) { log(`Too short — likely blocked`); continue; }
+        const count = parseMerolaganiHTML(html, log);
+        if (count > 0) {
+          success = true;
+          finalizePrices(count, proxyName, debugLines);
+          break;
+        } else {
+          log(`Proxy ${i+1}: HTML received but 0 stocks parsed`);
+        }
+      }
+    } catch(e) { log(`Proxy ${i+1} error: ${e.message}`); }
   }
 
   if (!success) {
-    updateSyncStatus('⚠ Could not reach merolagani.com — try again', true);
-    showToast('⚠ merolagani.com unreachable. Check your internet connection.', true);
+    updateSyncStatus('⚠ All proxies failed — see Debug panel below', true);
+    showToast('⚠ Could not fetch prices. Open Debug panel for details.', true);
+    // Show debug info in the UI
+    showDebugPanel(debugLines);
   }
 
   btn.classList.remove('loading');
@@ -936,40 +972,130 @@ async function syncLatestPrices() {
   renderAll();
 }
 
+function finalizePrices(count, source, debugLines) {
+  state.lastSync = new Date().toLocaleTimeString();
+  state.lastDate = 'live';
+  savePrices();
+  updateSyncStatus(`✓ merolagani.com · ${count} stocks · ${state.lastSync}`, false);
+  showToast(`✓ ${count} live prices loaded from merolagani.com`);
+  const dd = document.getElementById('data-date');
+  if (dd) dd.textContent = `Live · merolagani.com · ${new Date().toLocaleDateString()}`;
+  if (debugLines) console.log('[SYNC] Success via', source);
+  hideDebugPanel();
+}
+
+function showDebugPanel(lines) {
+  let panel = document.getElementById('debug-panel');
+  if (!panel) {
+    panel = document.createElement('div');
+    panel.id = 'debug-panel';
+    panel.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#0a0f0b;border-top:2px solid #e74c3c;padding:16px 20px;z-index:9999;max-height:280px;overflow-y:auto;font-family:DM Mono,monospace;font-size:11px;';
+    document.body.appendChild(panel);
+  }
+  panel.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <span style="color:#e74c3c;font-weight:700;font-size:13px;">⚠ Sync Failed — Debug Log</span>
+      <div style="display:flex;gap:8px;">
+        <button onclick="document.getElementById('gas-setup-panel').style.display='block'" style="background:#2ecc71;color:#0b0f0c;border:none;border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:700;">🔧 https://script.google.com/u/0/home/projects/1i0HpTZIO6Ofs1NoVO7HyA469dErfYu7paJtYJdlb9kX4LPKt-SqV2Vxw/edit</button>
+        <button onclick="hideDebugPanel()" style="background:#333;color:#aaa;border:none;border-radius:5px;padding:5px 10px;font-size:11px;cursor:pointer;">✕ Close</button>
+      </div>
+    </div>
+    <div style="color:#7aaa80;line-height:1.8;">${lines.map(l => `<div>→ ${l}</div>`).join('')}</div>
+  `;
+
+  // Also show GAS setup panel if not configured
+  let gasPanel = document.getElementById('gas-setup-panel');
+  if (!gasPanel) {
+    gasPanel = document.createElement('div');
+    gasPanel.id = 'gas-setup-panel';
+    gasPanel.style.cssText = 'display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111813;border:1px solid #2ecc71;border-radius:12px;padding:24px;z-index:10000;width:500px;max-width:95vw;font-family:DM Mono,monospace;';
+    gasPanel.innerHTML = `
+      <h3 style="color:#2ecc71;font-size:15px;margin-bottom:12px;font-family:Syne,sans-serif;">🔧 Fix: Use Google Apps Script for Reliable Prices</h3>
+      <p style="color:#7aaa80;font-size:11px;line-height:1.7;margin-bottom:14px;">
+        Since you already use Google Sheets for merolagani data, the easiest fix is a simple Google Apps Script that serves the data as JSON to this app — no CORS issues, 100% reliable.
+      </p>
+      <div style="background:#0b0f0c;border-radius:6px;padding:12px;margin-bottom:14px;font-size:10px;color:#b0f0b0;line-height:1.9;">
+        <strong style="color:#2ecc71;">Step 1:</strong> Open Google Sheets → Extensions → Apps Script<br>
+        <strong style="color:#2ecc71;">Step 2:</strong> Paste this code and click Deploy → New Deployment → Web App (Anyone):<br><br>
+        <code style="color:#f39c12;display:block;background:#0a100a;padding:8px;border-radius:4px;font-size:10px;white-space:pre-wrap;">function doGet() {
+  var html = UrlFetchApp.fetch(
+    "https://www.merolagani.com/LatestMarket.aspx"
+  ).getContentText();
+  var result = parsePrices(html);
+  return ContentService
+    .createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function parsePrices(html) {
+  var prices = {};
+  var regex = /&gt;([A-Z0-9]+)&lt;.*?&gt;([\d,\.]+)&lt;.*?&gt;([+-]?[\d\.]+)%/g;
+  var m;
+  while ((m = regex.exec(html)) !== null) {
+    prices[m[1]] = { ltp: m[2].replace(/,/g,''), chg: m[3]+'%' };
+  }
+  return prices;
+}</code>
+        <strong style="color:#2ecc71;">Step 3:</strong> Copy the deployment URL and paste below:
+      </div>
+      <input id="gas-url-input" type="text" placeholder="https://script.google.com/macros/s/YOUR_ID/exec"
+        style="width:100%;background:#0b0f0c;border:1px solid #243027;border-radius:6px;padding:9px 12px;font-family:inherit;font-size:11px;color:#e8f5ea;outline:none;margin-bottom:10px;">
+      <div style="display:flex;gap:8px;">
+        <button onclick="saveGasUrl()" style="background:#2ecc71;color:#0b0f0c;border:none;border-radius:6px;padding:9px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">Save & Sync</button>
+        <button onclick="document.getElementById('gas-setup-panel').style.display='none'" style="background:none;border:1px solid #243027;border-radius:6px;padding:9px 14px;font-size:12px;color:#7aaa80;cursor:pointer;font-family:inherit;">Cancel</button>
+      </div>
+    `;
+    document.body.appendChild(gasPanel);
+  }
+}
+
+function hideDebugPanel() {
+  const p = document.getElementById('debug-panel');
+  if (p) p.style.display = 'none';
+}
+
+function saveGasUrl() {
+  const url = document.getElementById('gas-url-input')?.value?.trim();
+  if (!url) { showToast('Paste your Apps Script URL first', true); return; }
+  GAS_URL = url;
+  localStorage.setItem('gas_url', url);
+  document.getElementById('gas-setup-panel').style.display = 'none';
+  showToast('✓ Apps Script URL saved — syncing now...');
+  syncLatestPrices();
+}
+
 // ── Parse merolagani LatestMarket.aspx HTML table ──
 // Replicates exactly what =ImportHTML(...,"table",1) does in Google Sheets
 // Table columns: Symbol | LTP | % Change | High | Low | Vol | Prev. Close | Turnover
-function parseMerolaganiHTML(html) {
-  // Parse using DOMParser (available in all browsers)
+function parseMerolaganiHTML(html, log) {
+  if (!log) log = () => {};
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
-
-  // merolagani uses a table with id="ctl00_ContentPlaceHolder1_GridView1" or similar
-  // We scan all tables and pick the one that has stock symbols
   const tables = doc.querySelectorAll('table');
+  log(`Found ${tables.length} tables in HTML`);
   let priceTable = null;
 
   for (const tbl of tables) {
     const firstRow = tbl.querySelector('tr');
     if (!firstRow) continue;
     const text = firstRow.textContent.toLowerCase();
-    // Look for table header that has "symbol" or "ltp"
     if (text.includes('symbol') || text.includes('ltp') || text.includes('% change')) {
       priceTable = tbl;
+      log(`Found price table by header keywords`);
       break;
     }
   }
 
-  // If specific table not found, try the largest table
   if (!priceTable) {
     let maxRows = 0;
     for (const tbl of tables) {
       const rows = tbl.querySelectorAll('tr');
       if (rows.length > maxRows) { maxRows = rows.length; priceTable = tbl; }
     }
+    if (priceTable) log(`Using largest table (${priceTable.querySelectorAll('tr').length} rows)`);
   }
 
-  if (!priceTable) return 0;
+  if (!priceTable) { log(`No table found in HTML`); return 0; }
 
   const rows = priceTable.querySelectorAll('tr');
   let count = 0;
@@ -979,59 +1105,36 @@ function parseMerolaganiHTML(html) {
   const headerRow = rows[0];
   if (headerRow) {
     const headers = Array.from(headerRow.querySelectorAll('th,td')).map(td => td.textContent.trim().toLowerCase());
+    log(`Headers: ${headers.join(' | ')}`);
     headers.forEach((h, i) => {
       if (h.includes('symbol') || h === 's.n.' || h === 'company') symCol = i;
       else if (h.includes('ltp') || h.includes('last traded')) ltpCol = i;
       else if (h.includes('% change') || h.includes('%change') || h.includes('change%')) chgCol = i;
       else if (h.includes('prev') || h.includes('previous')) prevCloseCol = i;
     });
+    log(`Cols → sym:${symCol} ltp:${ltpCol} chg:${chgCol} prev:${prevCloseCol}`);
   }
 
   for (let i = 1; i < rows.length; i++) {
     const cells = rows[i].querySelectorAll('td');
     if (cells.length < 3) continue;
-
-    // Symbol — strip links, whitespace
     let sym = (cells[symCol]?.textContent || '').trim().toUpperCase().replace(/\s+/g, '');
     if (!sym || sym.length < 2 || sym.length > 12) continue;
-    // Skip rows that look like totals or headers
     if (/^[0-9]+$/.test(sym)) continue;
-
-    // LTP — strip commas
     const ltpRaw = (cells[ltpCol]?.textContent || '').trim().replace(/,/g, '');
     const ltp = parseFloat(ltpRaw);
     if (isNaN(ltp) || ltp <= 0) continue;
-
-    // % Change
     const chgRaw = (cells[chgCol]?.textContent || '').trim().replace(/,/g, '');
     const chgNum = parseFloat(chgRaw);
-    const chgStr = !isNaN(chgNum)
-      ? (chgNum >= 0 ? `+${chgNum.toFixed(2)}%` : `${chgNum.toFixed(2)}%`)
-      : '—';
-
-    // Prev close (for point change calc)
+    const chgStr = !isNaN(chgNum) ? (chgNum >= 0 ? `+${chgNum.toFixed(2)}%` : `${chgNum.toFixed(2)}%`) : '—';
     const prevRaw = (cells[prevCloseCol]?.textContent || '').trim().replace(/,/g, '');
     const prevClose = parseFloat(prevRaw);
     const chgPt = !isNaN(prevClose) && prevClose > 0 ? (ltp - prevClose).toFixed(2) : '—';
-
-    state.prices[sym] = {
-      ltp,
-      chg: chgStr,
-      chgPt,
-      prevClose: isNaN(prevClose) ? null : prevClose,
-      source: 'merolagani'
-    };
+    state.prices[sym] = { ltp, chg: chgStr, chgPt, prevClose: isNaN(prevClose) ? null : prevClose, source: 'merolagani' };
     count++;
   }
 
-  if (count > 0) {
-    state.lastSync = new Date().toLocaleTimeString();
-    state.lastDate = 'live';
-    savePrices();
-    const dd = document.getElementById('data-date');
-    if (dd) dd.textContent = `Live · merolagani.com · ${new Date().toLocaleDateString()}`;
-  }
-
+  log(`Parsed ${count} stocks from table`);
   return count;
 }
 
