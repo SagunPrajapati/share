@@ -1,0 +1,912 @@
+{
+  "date": "2026-05-06",
+  "headline": "MIXED / Market Flat — Hydro Led by ULHC & SOHL, Broad Weakness Persists",
+  "nepseClose": "2711.22",
+  "nepseChg": "-1.64 (-0.06%)",
+  "turnover": "Rs.3.20B",
+  "sharesTraded": "7,131,557",
+  "transactions": "47,841",
+  "advDecUnch": "104 / 149 / 15",
+  "marketCap": "Rs.4,624,123,567,530.70",
+  "floatCap": "Rs.1,543,825,136,000.40",
+  "b58Stance": "NET SELLER",
+  "b58Net": "-Rs.246.7M",
+  "b58Purchase": "Rs.337,519,018.00",
+  "b58SalesTotal": "Rs.584,247,421.00",
+  "b58TopBuy": "ULHC",
+  "b58PeakMkt": "86.08% (ULHC SELL)",
+  "marketPulseNote": "NEPSE slipped marginally by 1.64 points (-0.06%) to close at 2711.22 on May 6, 2026. Breadth remained negative with 149 stocks declining vs 104 advancing. Broker 58 was a NET SELLER with total purchases of Rs.337.5M against sales of Rs.584.2M, a net outflow of Rs.246.7M. Turnover was Rs.3.20B with 47,841 transactions. ULHC topped both buying and selling activity with B58 dominating 79.14% of buy-side and 86.08% of sell-side turnover. SOHL remained active. Manufacturing, Dev Bank and Life Insurance sub-indices declined. Hydro sector mixed.",
+  "subIndices": [
+    {
+      "name": "Banking SubIndex",
+      "value": "1430.58",
+      "chg": "+2.40",
+      "chgPct": "+0.16%",
+      "direction": "up"
+    },
+    {
+      "name": "Development Bank Index",
+      "value": "5792.80",
+      "chg": "-30.22",
+      "chgPct": "-0.51%",
+      "direction": "down"
+    },
+    {
+      "name": "Finance Index",
+      "value": "2336.41",
+      "chg": "+4.49",
+      "chgPct": "+0.19%",
+      "direction": "up"
+    },
+    {
+      "name": "Hotels And Tourism Index",
+      "value": "7805.45",
+      "chg": "+17.36",
+      "chgPct": "+0.22%",
+      "direction": "up"
+    },
+    {
+      "name": "HydroPower Index",
+      "value": "3785.68",
+      "chg": "-16.61",
+      "chgPct": "-0.43%",
+      "direction": "down"
+    },
+    {
+      "name": "Investment Index",
+      "value": "101.52",
+      "chg": "+0.40",
+      "chgPct": "+0.40%",
+      "direction": "up"
+    },
+    {
+      "name": "Life Insurance",
+      "value": "12313.32",
+      "chg": "-39.75",
+      "chgPct": "-0.32%",
+      "direction": "down"
+    },
+    {
+      "name": "Manufacturing And Processing",
+      "value": "11140.12",
+      "chg": "-63.43",
+      "chgPct": "-0.56%",
+      "direction": "down"
+    },
+    {
+      "name": "Microfinance Index",
+      "value": "4787.98",
+      "chg": "+22.89",
+      "chgPct": "+0.48%",
+      "direction": "up"
+    },
+    {
+      "name": "Mutual Fund",
+      "value": "21.74",
+      "chg": "+0.17",
+      "chgPct": "+0.80%",
+      "direction": "up"
+    },
+    {
+      "name": "Non Life Insurance",
+      "value": "10636.97",
+      "chg": "+20.39",
+      "chgPct": "+0.19%",
+      "direction": "up"
+    },
+    {
+      "name": "Others Index",
+      "value": "1972.58",
+      "chg": "+0.71",
+      "chgPct": "+0.03%",
+      "direction": "up"
+    },
+    {
+      "name": "Trading Index",
+      "value": "3698.38",
+      "chg": "-9.27",
+      "chgPct": "-0.25%",
+      "direction": "down"
+    },
+    {
+      "name": "Sensitive Index",
+      "value": "463.12",
+      "chg": "+0.80",
+      "chgPct": "+0.17%",
+      "direction": "up"
+    },
+    {
+      "name": "Float Index",
+      "value": "183.96",
+      "chg": "+0.01",
+      "chgPct": "0.00%",
+      "direction": "up"
+    },
+    {
+      "name": "Sensitive Float Index",
+      "value": "156.14",
+      "chg": "+0.24",
+      "chgPct": "+0.15%",
+      "direction": "up"
+    }
+  ],
+  "topGainers": [
+    { "sym": "FOWAD",   "close": "1300.00", "chgPct": "+13.74%" },
+    { "sym": "ULHC",    "close": "570.00",  "chgPct": "+5.95%" },
+    { "sym": "NICGF2",  "close": "9.78",    "chgPct": "+5.16%" },
+    { "sym": "NSIF2",   "close": "10.99",   "chgPct": "+4.67%" },
+    { "sym": "SIGS3",   "close": "10.90",   "chgPct": "+4.61%" },
+    { "sym": "KBLD90",  "close": "1236.00", "chgPct": "+3.87%" },
+    { "sym": "TRH",     "close": "762.00",  "chgPct": "+3.38%" },
+    { "sym": "NIBLSTF", "close": "9.37",    "chgPct": "+3.31%" },
+    { "sym": "MLBS",    "close": "1238.00", "chgPct": "+3.17%" },
+    { "sym": "SCBD",    "close": "1133.00", "chgPct": "+3.00%" }
+  ],
+  "topLosers": [
+    { "sym": "BGWT",  "close": "628.60",  "chgPct": "-8.90%" },
+    { "sym": "NABBC", "close": "1020.00", "chgPct": "-7.27%" },
+    { "sym": "NICBF", "close": "9.33",    "chgPct": "-4.21%" },
+    { "sym": "MEL",   "close": "229.00",  "chgPct": "-4.18%" },
+    { "sym": "SIPD",  "close": "865.00",  "chgPct": "-3.89%" },
+    { "sym": "GMLI",  "close": "1280.00", "chgPct": "-3.76%" },
+    { "sym": "LLBS",  "close": "925.10",  "chgPct": "-3.74%" },
+    { "sym": "SAIL",  "close": "1119.00", "chgPct": "-3.53%" },
+    { "sym": "DLBS",  "close": "1308.00", "chgPct": "-3.40%" },
+    { "sym": "SKHEL", "close": "1299.00", "chgPct": "-3.28%" }
+  ],
+  "topTurnover": [
+    { "sym": "SOHL",  "turnover": "Rs.221,153,609.30", "ltp": "711.00" },
+    { "sym": "RSML",  "turnover": "Rs.160,785,695.50", "ltp": "3689.00" },
+    { "sym": "NHPC",  "turnover": "Rs.148,822,242.80", "ltp": "276.10" },
+    { "sym": "NGPL",  "turnover": "Rs.124,117,596.00", "ltp": "429.40" },
+    { "sym": "ULHC",  "turnover": "Rs.102,195,683.80", "ltp": "570.00" },
+    { "sym": "JHAPA", "turnover": "Rs.72,676,424.90",  "ltp": "1792.00" },
+    { "sym": "RIDI",  "turnover": "Rs.63,578,966.00",  "ltp": "336.90" },
+    { "sym": "AKJCL", "turnover": "Rs.63,524,373.60",  "ltp": "349.90" },
+    { "sym": "LBBL",  "turnover": "Rs.62,809,465.20",  "ltp": "484.00" },
+    { "sym": "SYPNL", "turnover": "Rs.59,380,925.30",  "ltp": "1404.00" }
+  ],
+  "topVolume": [
+    { "sym": "NHPC",   "shares": "530,163", "ltp": "276.10" },
+    { "sym": "SOHL",   "shares": "305,806", "ltp": "711.00" },
+    { "sym": "NGPL",   "shares": "287,810", "ltp": "429.40" },
+    { "sym": "ULHC",   "shares": "203,859", "ltp": "570.00" },
+    { "sym": "RIDI",   "shares": "187,186", "ltp": "336.90" },
+    { "sym": "AKJCL",  "shares": "182,309", "ltp": "349.90" },
+    { "sym": "HIDCLP", "shares": "166,632", "ltp": "199.70" },
+    { "sym": "KBL",    "shares": "160,215", "ltp": "216.50" },
+    { "sym": "SHEL",   "shares": "155,234", "ltp": "304.50" },
+    { "sym": "API",    "shares": "148,569", "ltp": "331.00" }
+  ],
+  "b58Purchases": [
+    { "sym": "ULHC",  "mktPct": "79.14%", "amount": "Rs.80,875,438.00", "kitta": "161,222", "avgPrice": "501.64", "txns": "121" },
+    { "sym": "SOHL",  "mktPct": "18.30%", "amount": "Rs.40,467,325.00", "kitta": "55,786",  "avgPrice": "725.40", "txns": "561" },
+    { "sym": "NHPC",  "mktPct": "10.56%", "amount": "Rs.15,718,011.00", "kitta": "56,088",  "avgPrice": "280.24", "txns": "144" },
+    { "sym": "FMDBL", "mktPct": "54.57%", "amount": "Rs.15,492,076.00", "kitta": "19,207",  "avgPrice": "806.58", "txns": "64" },
+    { "sym": "SYPNL", "mktPct": "25.31%", "amount": "Rs.15,031,041.00", "kitta": "10,625",  "avgPrice": "1414.69","txns": "171" },
+    { "sym": "FOWAD", "mktPct": "58.63%", "amount": "Rs.14,119,024.00", "kitta": "12,271",  "avgPrice": "1150.60","txns": "86" },
+    { "sym": "AKJCL", "mktPct": "16.41%", "amount": "Rs.10,423,402.00", "kitta": "29,963",  "avgPrice": "347.88", "txns": "37" },
+    { "sym": "SHIVM", "mktPct": "13.66%", "amount": "Rs.7,985,732.00",  "kitta": "12,080",  "avgPrice": "661.07", "txns": "66" },
+    { "sym": "RIDI",  "mktPct": "10.85%", "amount": "Rs.6,898,673.00",  "kitta": "20,474",  "avgPrice": "336.95", "txns": "63" },
+    { "sym": "SKHL",  "mktPct": "17.34%", "amount": "Rs.4,207,668.00",  "kitta": "4,639",   "avgPrice": "907.02", "txns": "80" }
+  ],
+  "b58SalesList": [
+    { "sym": "ULHC",  "mktPct": "86.08%", "amount": "Rs.87,970,303.00", "kitta": "175,770", "avgPrice": "500.49", "txns": "191" },
+    { "sym": "NHPC",  "mktPct": "53.86%", "amount": "Rs.80,155,080.00", "kitta": "285,127", "avgPrice": "281.12", "txns": "340" },
+    { "sym": "SHEL",  "mktPct": "68.42%", "amount": "Rs.32,239,624.00", "kitta": "106,399", "avgPrice": "303.01", "txns": "147" },
+    { "sym": "API",   "mktPct": "53.79%", "amount": "Rs.26,455,712.00", "kitta": "79,929",  "avgPrice": "330.99", "txns": "181" },
+    { "sym": "LBBL",  "mktPct": "35.96%", "amount": "Rs.22,585,024.00", "kitta": "46,831",  "avgPrice": "482.27", "txns": "74" },
+    { "sym": "SOHL",  "mktPct": "10.02%", "amount": "Rs.22,164,557.00", "kitta": "30,850",  "avgPrice": "718.46", "txns": "507" },
+    { "sym": "NRN",   "mktPct": "33.84%", "amount": "Rs.19,420,959.00", "kitta": "14,016",  "avgPrice": "1385.63","txns": "54" },
+    { "sym": "JBBL",  "mktPct": "73.69%", "amount": "Rs.17,764,234.00", "kitta": "50,443",  "avgPrice": "352.16", "txns": "39" },
+    { "sym": "BPCL",  "mktPct": "50.52%", "amount": "Rs.15,448,103.00", "kitta": "23,500",  "avgPrice": "657.37", "txns": "65" },
+    { "sym": "RIDI",  "mktPct": "21.55%", "amount": "Rs.13,702,517.00", "kitta": "40,282",  "avgPrice": "340.16", "txns": "47" }
+  ],
+  "netAccum": [
+    {
+      "sym": "ULHC",
+      "netKitta": "-14,548",
+      "sellMktPct": "86.08%",
+      "convWidth": "86",
+      "rating": "★★★",
+      "note": "Heavy two-way. Net seller 14,548 kitta. Dominant on both sides. Institutional churning at high volumes."
+    },
+    {
+      "sym": "NHPC",
+      "netKitta": "-229,039",
+      "sellMktPct": "53.86%",
+      "convWidth": "85",
+      "rating": "★★★",
+      "note": "Massive net sell 229,039 kitta. 53.86% sell mkt share. Strong institutional distribution."
+    },
+    {
+      "sym": "SHEL",
+      "netKitta": "-106,399",
+      "sellMktPct": "68.42%",
+      "convWidth": "68",
+      "rating": "★★★",
+      "note": "Pure sell 106,399 kitta. 68.42% mkt share. Aggressive distribution."
+    },
+    {
+      "sym": "API",
+      "netKitta": "-79,929",
+      "sellMktPct": "53.79%",
+      "convWidth": "54",
+      "rating": "★★★",
+      "note": "Pure sell 79,929 kitta. 53.79% mkt share. Strong distribution signal."
+    },
+    {
+      "sym": "SOHL",
+      "netKitta": "+24,936",
+      "sellMktPct": "10.02%",
+      "convWidth": "18",
+      "rating": "★★",
+      "note": "Net buy 24,936 kitta. Buy-side dominant. ADX 44.66 strong trend. Bullish."
+    },
+    {
+      "sym": "FMDBL",
+      "netKitta": "+19,207",
+      "sellMktPct": "0%",
+      "convWidth": "54",
+      "rating": "★★",
+      "note": "Pure buy 19,207 kitta. 54.57% mkt share. Strong conviction buy."
+    },
+    {
+      "sym": "FOWAD",
+      "netKitta": "+12,271",
+      "sellMktPct": "0%",
+      "convWidth": "58",
+      "rating": "★★",
+      "note": "Pure buy 12,271 kitta. 58.63% mkt share. B58 accumulating after yesterday's -9.31%."
+    },
+    {
+      "sym": "SYPNL",
+      "netKitta": "+10,625",
+      "sellMktPct": "0%",
+      "convWidth": "25",
+      "rating": "★",
+      "note": "Pure buy 10,625 kitta. 25.31% mkt share. RSI 26.55 oversold — watching for bounce."
+    },
+    {
+      "sym": "JBBL",
+      "netKitta": "-50,443",
+      "sellMktPct": "73.69%",
+      "convWidth": "73",
+      "rating": "★★★",
+      "note": "Pure sell 50,443 kitta. 73.69% mkt share. Heavy distribution."
+    },
+    {
+      "sym": "LBBL",
+      "netKitta": "-46,831",
+      "sellMktPct": "35.96%",
+      "convWidth": "36",
+      "rating": "★★",
+      "note": "Pure sell 46,831 kitta. 35.96% mkt share. Reducing exposure."
+    }
+  ],
+  "technical": [
+    {
+      "sym": "API",
+      "ltp": "331.00",
+      "w52h": "364.20",
+      "w52l": "247.70",
+      "chg": "-0.75%",
+      "rsi": "41.95",
+      "adx": "16.91",
+      "atr": "11.46",
+      "aroon": "92.86%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "ILI",
+      "ltp": "433.00",
+      "w52h": "493.70",
+      "w52l": "411.10",
+      "chg": "+0.23%",
+      "rsi": "40.05",
+      "adx": "21.43",
+      "atr": "9.67",
+      "aroon": "92.86%",
+      "adOsc": "Bullish",
+      "signal": "Neutral-Bearish",
+      "action": "WATCH"
+    },
+    {
+      "sym": "NIMB",
+      "ltp": "197.00",
+      "w52h": "242.60",
+      "w52l": "184.60",
+      "chg": "+0.15%",
+      "rsi": "39.09",
+      "adx": "16.06",
+      "atr": "8.34",
+      "aroon": "92.86%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "NABIL",
+      "ltp": "522.30",
+      "w52h": "554.60",
+      "w52l": "480.50",
+      "chg": "+0.13%",
+      "rsi": "48.32",
+      "adx": "24.74",
+      "atr": "10.44",
+      "aroon": "50.00%",
+      "adOsc": "Bearish",
+      "signal": "Neutral",
+      "action": "HOLD"
+    },
+    {
+      "sym": "PCBL",
+      "ltp": "237.90",
+      "w52h": "269.00",
+      "w52l": "214.80",
+      "chg": "+0.85%",
+      "rsi": "42.12",
+      "adx": "21.11",
+      "atr": "6.72",
+      "aroon": "85.71%",
+      "adOsc": "Bearish",
+      "signal": "Neutral-Bearish",
+      "action": "WATCH"
+    },
+    {
+      "sym": "RIDI",
+      "ltp": "336.90",
+      "w52h": "380.00",
+      "w52l": "209.00",
+      "chg": "-0.33%",
+      "rsi": "44.07",
+      "adx": "15.62",
+      "atr": "21.30",
+      "aroon": "78.57%",
+      "adOsc": "Bullish",
+      "signal": "Neutral",
+      "action": "WATCH"
+    },
+    {
+      "sym": "FMDBL",
+      "ltp": "780.00",
+      "w52h": "1011.00",
+      "w52l": "730.20",
+      "chg": "-1.02%",
+      "rsi": "38.72",
+      "adx": "13.05",
+      "atr": "30.82",
+      "aroon": "78.57%",
+      "adOsc": "Bullish",
+      "signal": "Neutral",
+      "action": "WATCH"
+    },
+    {
+      "sym": "SHEL",
+      "ltp": "304.50",
+      "w52h": "354.10",
+      "w52l": "249.70",
+      "chg": "-0.16%",
+      "rsi": "39.96",
+      "adx": "25.60",
+      "atr": "11.16",
+      "aroon": "92.86%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "PRVU",
+      "ltp": "193.80",
+      "w52h": "245.30",
+      "w52l": "181.20",
+      "chg": "-0.10%",
+      "rsi": "37.04",
+      "adx": "13.90",
+      "atr": "7.40",
+      "aroon": "92.86%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "NGPL",
+      "ltp": "429.40",
+      "w52h": "491.00",
+      "w52l": "334.10",
+      "chg": "-0.37%",
+      "rsi": "37.19",
+      "adx": "16.14",
+      "atr": "16.85",
+      "aroon": "92.86%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "NICA",
+      "ltp": "361.00",
+      "w52h": "420.10",
+      "w52l": "306.40",
+      "chg": "-1.10%",
+      "rsi": "47.92",
+      "adx": "15.08",
+      "atr": "13.72",
+      "aroon": "71.43%",
+      "adOsc": "Bullish",
+      "signal": "Neutral",
+      "action": "WATCH"
+    },
+    {
+      "sym": "SMHL",
+      "ltp": "497.00",
+      "w52h": "1145.40",
+      "w52l": "445.00",
+      "chg": "+0.20%",
+      "rsi": "45.49",
+      "adx": "13.00",
+      "atr": "16.43",
+      "aroon": "92.86%",
+      "adOsc": "Bullish",
+      "signal": "Neutral",
+      "action": "WATCH"
+    },
+    {
+      "sym": "RADHI",
+      "ltp": "735.90",
+      "w52h": "920.00",
+      "w52l": "631.60",
+      "chg": "-0.55%",
+      "rsi": "29.87",
+      "adx": "30.64",
+      "atr": "29.27",
+      "aroon": "92.86%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "ULHC",
+      "ltp": "570.00",
+      "w52h": "587.50",
+      "w52l": "420.00",
+      "chg": "+5.95%",
+      "rsi": "62.57",
+      "adx": "25.17",
+      "atr": "33.85",
+      "aroon": "85.71%",
+      "adOsc": "Bullish",
+      "signal": "Bullish",
+      "action": "WATCH"
+    },
+    {
+      "sym": "HDL",
+      "ltp": "1151.00",
+      "w52h": "1271.40",
+      "w52l": "980.80",
+      "chg": "+0.09%",
+      "rsi": "44.03",
+      "adx": "20.57",
+      "atr": "21.55",
+      "aroon": "50.00%",
+      "adOsc": "Bearish",
+      "signal": "Neutral-Bearish",
+      "action": "WATCH"
+    },
+    {
+      "sym": "SHIVM",
+      "ltp": "662.00",
+      "w52h": "720.00",
+      "w52l": "488.80",
+      "chg": "+0.30%",
+      "rsi": "45.97",
+      "adx": "16.70",
+      "atr": "19.43",
+      "aroon": "78.57%",
+      "adOsc": "Bearish",
+      "signal": "Neutral-Bearish",
+      "action": "WATCH"
+    },
+    {
+      "sym": "NHPC",
+      "ltp": "276.10",
+      "w52h": "331.20",
+      "w52l": "178.60",
+      "chg": "-2.20%",
+      "rsi": "42.38",
+      "adx": "21.87",
+      "atr": "17.03",
+      "aroon": "100.00%",
+      "adOsc": "Bullish",
+      "signal": "Neutral",
+      "action": "AVOID"
+    },
+    {
+      "sym": "SONA",
+      "ltp": "430.00",
+      "w52h": "513.50",
+      "w52l": "401.00",
+      "chg": "-0.35%",
+      "rsi": "40.50",
+      "adx": "14.22",
+      "atr": "14.53",
+      "aroon": "92.86%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "JBBL",
+      "ltp": "352.70",
+      "w52h": "404.70",
+      "w52l": "305.00",
+      "chg": "-0.37%",
+      "rsi": "40.62",
+      "adx": "17.00",
+      "atr": "13.44",
+      "aroon": "92.86%",
+      "adOsc": "Bullish",
+      "signal": "Neutral",
+      "action": "WATCH"
+    },
+    {
+      "sym": "MPFL",
+      "ltp": "562.00",
+      "w52h": "730.00",
+      "w52l": "498.00",
+      "chg": "-1.20%",
+      "rsi": "36.33",
+      "adx": "21.31",
+      "atr": "25.00",
+      "aroon": "78.57%",
+      "adOsc": "Bullish",
+      "signal": "Neutral-Bearish",
+      "action": "WATCH"
+    },
+    {
+      "sym": "SYPNL",
+      "ltp": "1404.00",
+      "w52h": "—",
+      "w52l": "—",
+      "chg": "-0.50%",
+      "rsi": "26.55",
+      "adx": "29.38",
+      "atr": "91.67",
+      "aroon": "78.57%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "SOHL",
+      "ltp": "711.00",
+      "w52h": "—",
+      "w52l": "—",
+      "chg": "-1.04%",
+      "rsi": "55.61",
+      "adx": "44.66",
+      "atr": "53.77",
+      "aroon": "92.86%",
+      "adOsc": "Bullish",
+      "signal": "Neutral-Bullish",
+      "action": "WATCH"
+    },
+    {
+      "sym": "ALICL",
+      "ltp": "449.50",
+      "w52h": "516.00",
+      "w52l": "424.40",
+      "chg": "-0.11%",
+      "rsi": "39.01",
+      "adx": "13.49",
+      "atr": "11.11",
+      "aroon": "85.71%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "BHL",
+      "ltp": "215.80",
+      "w52h": "257.70",
+      "w52l": "167.00",
+      "chg": "+0.79%",
+      "rsi": "42.49",
+      "adx": "13.14",
+      "atr": "9.58",
+      "aroon": "85.71%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    },
+    {
+      "sym": "SAIL",
+      "ltp": "1119.00",
+      "w52h": "—",
+      "w52l": "—",
+      "chg": "-3.53%",
+      "rsi": "40.65",
+      "adx": "14.87",
+      "atr": "95.41",
+      "aroon": "85.71%",
+      "adOsc": "Bearish",
+      "signal": "Bearish",
+      "action": "AVOID"
+    }
+  ],
+  "tradePlan": [
+    {
+      "rk": "1",
+      "sym": "SOHL",
+      "ltp": "711.00",
+      "w52hl": "—/—",
+      "entry": "700-715",
+      "stop": "665",
+      "t1": "750",
+      "t2": "790",
+      "t3": "—",
+      "rr": "1:1.5",
+      "action": "WATCH — B58 net buy 24,936 kitta. RSI 55.61, ADX 44.66 strong trend."
+    },
+    {
+      "rk": "2",
+      "sym": "ULHC",
+      "ltp": "570.00",
+      "w52hl": "587.50/420.00",
+      "entry": "555-572",
+      "stop": "525",
+      "t1": "587",
+      "t2": "610",
+      "t3": "—",
+      "rr": "1:1.2",
+      "action": "WATCH — +5.95% top gainer. RSI 62.57 bullish. But B58 also sold 86% mkt — monitor."
+    },
+    {
+      "rk": "3",
+      "sym": "FMDBL",
+      "ltp": "780.00",
+      "w52hl": "1011.00/730.20",
+      "entry": "770-785",
+      "stop": "745",
+      "t1": "820",
+      "t2": "860",
+      "t3": "—",
+      "rr": "1:1.4",
+      "action": "WATCH — B58 pure buy 19,207 kitta 54.57% mkt. ADX rising."
+    },
+    {
+      "rk": "4",
+      "sym": "FOWAD",
+      "ltp": "1300.00",
+      "w52hl": "—/—",
+      "entry": "1270-1305",
+      "stop": "1220",
+      "t1": "1400",
+      "t2": "1460",
+      "t3": "—",
+      "rr": "1:1.5",
+      "action": "WATCH — B58 pure buy 12,271 kitta 58.63% mkt. Top gainer +13.74%."
+    },
+    {
+      "rk": "5",
+      "sym": "NABIL",
+      "ltp": "522.30",
+      "w52hl": "554.60/480.50",
+      "entry": "515-525",
+      "stop": "500",
+      "t1": "545",
+      "t2": "554",
+      "t3": "—",
+      "rr": "1:1.3",
+      "action": "HOLD — RSI 48.32 improving. ADX 24.74 moderate trend."
+    },
+    {
+      "rk": "6",
+      "sym": "NHPC",
+      "ltp": "276.10",
+      "w52hl": "331.20/178.60",
+      "entry": "—",
+      "stop": "—",
+      "t1": "—",
+      "t2": "—",
+      "t3": "—",
+      "rr": "—",
+      "action": "AVOID — B58 net sold 229,039 kitta. Massive distribution. -2.20% today."
+    },
+    {
+      "rk": "7",
+      "sym": "SHEL",
+      "ltp": "304.50",
+      "w52hl": "354.10/249.70",
+      "entry": "—",
+      "stop": "—",
+      "t1": "—",
+      "t2": "—",
+      "t3": "—",
+      "rr": "—",
+      "action": "AVOID — B58 pure sell 106,399 kitta 68.42% mkt. Strong distribution."
+    },
+    {
+      "rk": "8",
+      "sym": "API",
+      "ltp": "331.00",
+      "w52hl": "364.20/247.70",
+      "entry": "—",
+      "stop": "—",
+      "t1": "—",
+      "t2": "—",
+      "t3": "—",
+      "rr": "—",
+      "action": "AVOID — B58 pure sell 79,929 kitta 53.79% mkt. RSI 41.95 bearish."
+    },
+    {
+      "rk": "9",
+      "sym": "RADHI",
+      "ltp": "735.90",
+      "w52hl": "920.00/631.60",
+      "entry": "—",
+      "stop": "—",
+      "t1": "—",
+      "t2": "—",
+      "t3": "—",
+      "rr": "—",
+      "action": "AVOID — RSI 29.87 deeply oversold. ADX 30.64 strong downtrend. No B58 support."
+    },
+    {
+      "rk": "10",
+      "sym": "SYPNL",
+      "ltp": "1404.00",
+      "w52hl": "—/—",
+      "entry": "—",
+      "stop": "—",
+      "t1": "—",
+      "t2": "—",
+      "t3": "—",
+      "rr": "—",
+      "action": "AVOID — RSI 26.55 deeply oversold. ATR 91.67 extreme volatility. Wait for base."
+    }
+  ],
+  "keyInsights": [
+    {
+      "num": "1",
+      "title": "CRITICAL: B58 Net Seller Rs.246.7M — Hydro Sector Under Heavy Distribution",
+      "body": "Broker 58 turned aggressive net seller today with Rs.246.7M outflow. NHPC was the biggest casualty — B58 sold a colossal 285,127 kitta (53.86% mkt share) against only 56,088 bought, net selling 229,039 kitta. SHEL saw 106,399 kitta pure sell (68.42% mkt), API 79,929 kitta pure sell (53.79% mkt). This confirms continued institutional distribution in the hydro sector for a second consecutive session."
+    },
+    {
+      "num": "2",
+      "title": "ULHC: Two-Way Battle at High Volume — +5.95% Despite B58 Net Sell",
+      "body": "ULHC was the most active stock for B58 on both sides — bought 161,222 kitta (79.14% mkt) but sold 175,770 kitta (86.08% mkt), net selling 14,548 kitta. Yet the stock closed +5.95% at Rs.570. This suggests other participants are accumulating strongly while B58 distributes. RSI 62.57 and ADX 25.17 with Accum/Dist turning positive. Mixed signal — monitor carefully."
+    },
+    {
+      "num": "3",
+      "title": "SOHL Strongest Buy Signal — B58 Pure Buyer, RSI 55.61, ADX 44.66",
+      "body": "SOHL is the cleanest B58 accumulation play for a second day. Net bought 24,936 kitta (buy 55,786 vs sell 30,850). ADX at 44.66 (very strong trend), RSI 55.61 (positive zone), Accum/Dist 355K positive. Despite closing -1.04% at Rs.711, the internal strength remains robust. Watch 700-715 for entry."
+    },
+    {
+      "num": "4",
+      "title": "FOWAD Recovery — B58 Pure Buyer 58.63% Mkt After Two-Day Volatility",
+      "body": "FOWAD surged +13.74% to Rs.1,300 and B58 was a pure buyer with 12,271 kitta at 58.63% market share. This is significant — after the pump (+15% on May 4) and dump (-9.31% on May 5), B58 is accumulating at lower levels again. Could be positioning for another move. Entry zone 1270-1305."
+    },
+    {
+      "num": "5",
+      "title": "JBBL Heavy Distribution — B58 Sold 50,443 Kitta (73.69% Mkt Share)",
+      "body": "JBBL saw pure sell of 50,443 kitta by B58 at 73.69% market share. Combined with LBBL pure sell of 46,831 kitta (35.96% mkt), this suggests institutional exit from development bank names. JBBL closed at Rs.352.70 (-0.37%), RSI 40.62 weakening."
+    },
+    {
+      "num": "6",
+      "title": "FMDBL — Standout Buy: 54.57% Market Share Pure Buy",
+      "body": "First Micro Finance Development Bank Ltd saw B58 pure buy 19,207 kitta at 54.57% market share. This is strong conviction accumulation. FMDBL closed at Rs.780 (-1.02%), RSI 38.72 approaching oversold, ADX 13.05 low trend but Aroon Up at 78.57%. Watch for RSI recovery entry."
+    },
+    {
+      "num": "7",
+      "title": "RADHI and SYPNL — Deeply Oversold, No B58 Support",
+      "body": "RADHI RSI at 29.87 (deeply oversold) with ADX 30.64 confirming strong downtrend. SYPNL RSI 26.55 with ATR 91.67 extreme volatility (-0.50% today). Neither has B58 buying support. These are bounce candidates technically but remain AVOID until B58 accumulation confirmed."
+    },
+    {
+      "num": "8",
+      "title": "Market Breadth Still Negative — 149 Decliners vs 104 Advancers",
+      "body": "Despite NEPSE being nearly flat (-0.06%), breadth remains negative at 149:104 (D:A). Manufacturing & Processing (-0.56%), Dev Bank (-0.51%), Life Insurance (-0.32%), HydroPower (-0.43%) and Trading (-0.25%) sub-indices all declined. Only Finance, Hotels, Investment, Microfinance and Non-Life Insurance showed green sectors."
+    }
+  ],
+  "actionPlan": [
+    {
+      "priority": "STRONG BUY WATCH",
+      "sym": "SOHL",
+      "ltp": "711.00",
+      "w52h": "—",
+      "action": "WATCH",
+      "note": "B58 net buy 24,936 kitta. RSI 55.61. ADX 44.66 strong trend. Watch 700-715.",
+      "type": "monitor"
+    },
+    {
+      "priority": "BUY WATCH",
+      "sym": "FMDBL",
+      "ltp": "780.00",
+      "w52h": "1011.00",
+      "action": "WATCH",
+      "note": "B58 pure buy 19,207 kitta 54.57% mkt. Oversold zone. Watch RSI recovery.",
+      "type": "monitor"
+    },
+    {
+      "priority": "BUY WATCH",
+      "sym": "FOWAD",
+      "ltp": "1300.00",
+      "w52h": "—",
+      "action": "WATCH",
+      "note": "B58 pure buy 12,271 kitta 58.63% mkt. Top gainer +13.74%. Watch for pullback.",
+      "type": "monitor"
+    },
+    {
+      "priority": "MONITOR",
+      "sym": "ULHC",
+      "ltp": "570.00",
+      "w52h": "587.50",
+      "action": "WATCH",
+      "note": "Top gainer +5.95%. RSI 62.57 bullish. But B58 also net seller. Watch other buyer support.",
+      "type": "monitor"
+    },
+    {
+      "priority": "HOLD",
+      "sym": "NABIL",
+      "ltp": "522.30",
+      "w52h": "554.60",
+      "action": "HOLD",
+      "note": "RSI 48.32 improving. ADX 24.74. Hold with stop at 500.",
+      "type": "watch"
+    },
+    {
+      "priority": "URGENT AVOID",
+      "sym": "NHPC",
+      "ltp": "276.10",
+      "w52h": "331.20",
+      "action": "AVOID",
+      "note": "B58 net sold 229,039 kitta. Largest distribution. Stay away.",
+      "type": "avoid-row"
+    },
+    {
+      "priority": "URGENT AVOID",
+      "sym": "SHEL",
+      "ltp": "304.50",
+      "w52h": "354.10",
+      "action": "AVOID",
+      "note": "B58 pure sell 106,399 kitta 68.42% mkt. Aggressive distribution.",
+      "type": "avoid-row"
+    },
+    {
+      "priority": "URGENT AVOID",
+      "sym": "API",
+      "ltp": "331.00",
+      "w52h": "364.20",
+      "action": "AVOID",
+      "note": "B58 pure sell 79,929 kitta 53.79% mkt. Strong distribution.",
+      "type": "avoid-row"
+    },
+    {
+      "priority": "AVOID",
+      "sym": "JBBL",
+      "ltp": "352.70",
+      "w52h": "404.70",
+      "action": "AVOID",
+      "note": "B58 pure sell 50,443 kitta 73.69% mkt. Heavy distribution.",
+      "type": "avoid-row"
+    },
+    {
+      "priority": "AVOID",
+      "sym": "RADHI",
+      "ltp": "735.90",
+      "w52h": "920.00",
+      "action": "AVOID",
+      "note": "RSI 29.87 oversold, ADX 30.64 strong downtrend. No B58 support.",
+      "type": "avoid-row"
+    }
+  ],
+  "disclaimer": [
+    "This report is prepared by Sagun Prajapati, MBA (Finance) for personal tracking and educational purposes only.",
+    "All data sourced from nepalstock.com.np and nepsealpha.com floorsheet. Data may not be 100% accurate.",
+    "This does NOT constitute financial advice. Past performance is not indicative of future results.",
+    "Consult a SEBON-registered investment advisor before making any investment decisions.",
+    "Broker 58 floorsheet analysis is for informational purposes only and should not be the sole basis for trading decisions."
+  ]
+}
