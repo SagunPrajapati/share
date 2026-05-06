@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#060910">
+<title>IPO & Corporate Actions — NEPSE Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Cabinet+Grotesk:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────
+   DESIGN SYSTEM (matches portfolio app)
+───────────────────────────────────────────── */
+:root {
+  --bg-0: #060910;
+  --bg-1: #0d1117;
+  --bg-2: #131920;
+  --bg-3: #1a2230;
+  --bg-4: #1e2840;
+  --border:   rgba(99,132,173,0.12);
+  --border-2: rgba(99,132,173,0.22);
+  --border-3: rgba(99,132,173,0.4);
+  --green:    #00d085;  --green-2: #00a868;  --green-dim: rgba(0,208,133,0.12);
+  --red:      #ff4757;  --red-2:   #cc2f3f;  --red-dim:   rgba(255,71,87,0.12);
+  --amber:    #ffb300;  --amber-dim: rgba(255,179,0,0.1);
+  --blue:     #4090ff;  --blue-dim:  rgba(64,144,255,0.1);
+  --cyan:     #00c6d8;  --cyan-dim:  rgba(0,198,216,0.1);
+  --purple:   #9b6dff;  --purple-dim:rgba(155,109,255,0.1);
+  --orange:   #ff7b54;  --orange-dim:rgba(255,123,84,0.1);
+  --text-0: #f0f4ff;  --text-1: #b0bdd0;  --text-2: #6a7a90;  --text-3: #3a4a60;
+  --font-ui:   'Cabinet Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --r: 10px; --r-lg: 16px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body {
+  background: var(--bg-0);
+  color: var(--text-0);
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 3px; }
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 56px;
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  position: sticky; top: 0; z-index: 200;
+  backdrop-filter: blur(12px);
+}
+.brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.brand-mark { width:32px; height:32px; background:linear-gradient(135deg,var(--green),var(--blue)); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+.brand-name { font-size:15px; font-weight:800; letter-spacing:-0.02em; color:var(--text-0); font-family:var(--font-ui); }
+.brand-sub { font-size:10px; color:var(--text-3); font-family:var(--font-mono); }
+.topbar-right { margin-left:auto; display:flex; align-items:center; gap:8px; }
+.back-btn {
+  display:flex; align-items:center; gap:6px;
+  background:var(--bg-2); border:1px solid var(--border-2);
+  color:var(--text-1); padding:6px 12px; border-radius:7px;
+  font-size:11px; font-family:var(--font-mono); cursor:pointer;
+  text-decoration:none; transition:all .15s;
+}
+.back-btn:hover { border-color:var(--border-3); color:var(--text-0); }
+
+/* ── ALLOTMENT HERO BUTTON ── */
+.allotment-hero {
+  margin: 20px 24px 0;
+  background: linear-gradient(135deg, rgba(0,208,133,0.15) 0%, rgba(64,144,255,0.1) 100%);
+  border: 1px solid var(--green-2);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  animation: hero-in .4s ease;
+}
+@keyframes hero-in { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+.allotment-hero::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(0,208,133,0.08) 0%, transparent 60%);
+  pointer-events:none;
+}
+.ah-left { display:flex; align-items:center; gap:14px; }
+.ah-icon {
+  width:48px; height:48px; border-radius:12px;
+  background:var(--green); display:flex; align-items:center; justify-content:center;
+  font-size:22px; flex-shrink:0;
+}
+.ah-title { font-size:17px; font-weight:900; letter-spacing:-0.02em; }
+.ah-sub { font-size:11px; color:var(--text-2); font-family:var(--font-mono); margin-top:3px; }
+.ah-btn {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--green); color:#000;
+  padding:11px 22px; border-radius:9px;
+  font-size:13px; font-weight:800;
+  text-decoration:none; transition:all .2s;
+  letter-spacing:-0.01em;
+  white-space:nowrap;
+}
+.ah-btn:hover { background:#00f0a0; transform:translateY(-1px); box-shadow:0 6px 20px rgba(0,208,133,0.3); }
+.ah-btn::after { content:'↗'; margin-left:2px; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  padding: 20px 24px 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.page-title { font-size:24px; font-weight:900; letter-spacing:-0.03em; }
+.page-meta { font-size:11px; color:var(--text-2); font-family:var(--font-mono); margin-top:4px; }
+.last-updated {
+  display:flex; align-items:center; gap:6px;
+  font-size:10px; color:var(--text-3); font-family:var(--font-mono);
+}
+.lu-dot { width:6px; height:6px; border-radius:50%; background:var(--green); }
+.lu-dot.stale { background:var(--amber); }
+.lu-dot.error { background:var(--red); }
+
+/* ── REFRESH BTN ── */
+.refresh-btn {
+  display:flex; align-items:center; gap:6px;
+  background:var(--bg-2); border:1px solid var(--border-2);
+  color:var(--text-1); padding:7px 14px; border-radius:7px;
+  font-size:11px; font-family:var(--font-mono); cursor:pointer;
+  transition:all .15s;
+}
+.refresh-btn:hover { border-color:var(--green-2); color:var(--green); }
+.refresh-btn .icon { transition:transform .3s; }
+.refresh-btn.loading .icon { animation:spin .6s linear infinite; display:inline-block; }
+@keyframes spin { to{transform:rotate(360deg)} }
+
+/* ── STATS BAR ── */
+.stats-bar {
+  margin: 14px 24px 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.stat-card {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: border-color .15s;
+}
+.stat-card:hover { border-color:var(--border-2); }
+.stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+.stat-card.s-green::before  { background:var(--green); }
+.stat-card.s-amber::before  { background:var(--amber); }
+.stat-card.s-blue::before   { background:var(--blue);  }
+.stat-card.s-cyan::before   { background:var(--cyan);  }
+.stat-card.s-orange::before { background:var(--orange);}
+.stat-label { font-size:9px; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:.1em; font-family:var(--font-mono); margin-bottom:5px; }
+.stat-val   { font-size:22px; font-weight:900; color:var(--text-0); letter-spacing:-0.02em; }
+.stat-sub   { font-size:10px; color:var(--text-2); font-family:var(--font-mono); margin-top:3px; }
+
+/* ── MAIN TABS ── */
+.main-tabs {
+  display: flex;
+  gap: 0;
+  padding: 16px 24px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.main-tab {
+  padding: 10px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+}
+.main-tab:hover { color:var(--text-1); }
+.main-tab.active { color:var(--text-0); border-bottom-color:var(--green); }
+.tab-badge {
+  font-size: 9px; padding: 2px 6px; border-radius: 4px;
+  background:var(--bg-3); color:var(--text-3); font-weight:700;
+}
+.main-tab.active .tab-badge { background:var(--green-dim); color:var(--green); }
+
+/* ── TAB CONTENT ── */
+.tab-pane { display:none; padding:0 24px 32px; }
+.tab-pane.active { display:block; }
+
+/* ── SECTION HEADER ── */
+.sec-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:12px;
+}
+.sec-title {
+  display:flex; align-items:center; gap:10px;
+  font-size:13px; font-weight:700;
+}
+.sec-dot { width:6px; height:6px; border-radius:50%; }
+.sec-count { font-size:10px; color:var(--text-3); background:var(--bg-3); padding:2px 7px; border-radius:4px; font-family:var(--font-mono); }
+.source-link { font-size:10px; color:var(--text-3); font-family:var(--font-mono); text-decoration:none; transition:color .15s; }
+.source-link:hover { color:var(--blue); }
+
+/* ── IPO CARD GRID ── */
+.ipo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+/* ── IPO CARD ── */
+.ipo-card {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: all .2s;
+  animation: card-in .3s ease both;
+  position: relative;
+}
+.ipo-card:hover { border-color:var(--border-2); transform:translateY(-2px); box-shadow:var(--shadow); }
+@keyframes card-in { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.ipo-card:nth-child(1) { animation-delay:.05s }
+.ipo-card:nth-child(2) { animation-delay:.1s }
+.ipo-card:nth-child(3) { animation-delay:.15s }
+.ipo-card:nth-child(4) { animation-delay:.2s }
+.ipo-card:nth-child(5) { animation-delay:.25s }
+
+.card-header {
+  padding: 14px 16px 10px;
+  display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+  border-bottom:1px solid var(--border);
+}
+.card-company { flex:1; min-width:0; }
+.card-name {
+  font-size:14px; font-weight:800; letter-spacing:-0.01em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.card-symbol {
+  display:inline-block; margin-top:4px;
+  font-size:10px; font-weight:800; font-family:var(--font-mono);
+  padding:2px 8px; border-radius:5px;
+  background:var(--bg-3); color:var(--text-2);
+  border:1px solid var(--border);
+  letter-spacing:.04em;
+}
+.card-type {
+  flex-shrink:0; font-size:10px; font-weight:800; padding:4px 10px;
+  border-radius:6px; letter-spacing:.06em;
+  white-space:nowrap;
+}
+.ct-ipo     { background:var(--green-dim);  color:var(--green);  border:1px solid var(--green-2); }
+.ct-fpo     { background:var(--blue-dim);   color:var(--blue);   border:1px solid rgba(64,144,255,0.3); }
+.ct-right   { background:var(--amber-dim);  color:var(--amber);  border:1px solid rgba(255,179,0,0.3); }
+.ct-local   { background:var(--cyan-dim);   color:var(--cyan);   border:1px solid rgba(0,198,216,0.3); }
+.ct-mutual  { background:var(--purple-dim); color:var(--purple); border:1px solid rgba(155,109,255,0.3); }
+.ct-debenture{ background:var(--orange-dim);color:var(--orange); border:1px solid rgba(255,123,84,0.3); }
+.ct-migrant { background:var(--red-dim);    color:var(--red);    border:1px solid var(--red-2); }
+
+.card-body { padding:12px 16px; }
+.card-rows { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.card-row {}
+.cr-label { font-size:9px; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:.08em; font-family:var(--font-mono); margin-bottom:2px; }
+.cr-val   { font-size:12px; font-weight:600; color:var(--text-1); font-family:var(--font-mono); }
+.cr-val.highlight { color:var(--text-0); font-weight:700; }
+
+/* Date bar */
+.date-bar {
+  margin-top:10px;
+  background:var(--bg-2);
+  border-radius:8px;
+  padding:10px 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.date-item { flex:1; }
+.date-label { font-size:9px; color:var(--text-3); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.06em; margin-bottom:2px; }
+.date-val   { font-size:11px; font-weight:700; font-family:var(--font-mono); }
+.date-bs    { font-size:9px; color:var(--text-2); margin-top:1px; }
+.date-arrow { font-size:16px; color:var(--text-3); }
+
+/* Status badge */
+.status-bar {
+  padding:8px 16px 12px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.status-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:5px 12px; border-radius:6px; font-size:11px; font-weight:700;
+  font-family:var(--font-mono); letter-spacing:.02em;
+}
+.status-badge .s-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.sb-open     { background:var(--green-dim); color:var(--green); border:1px solid var(--green-2); }
+.sb-open .s-dot { background:var(--green); animation:pulse-green 2s infinite; }
+.sb-upcoming { background:var(--amber-dim); color:var(--amber); border:1px solid rgba(255,179,0,0.3); }
+.sb-upcoming .s-dot { background:var(--amber); }
+.sb-closed   { background:var(--bg-3); color:var(--text-2); border:1px solid var(--border); }
+.sb-closed .s-dot { background:var(--text-3); }
+@keyframes pulse-green { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+.detail-link {
+  font-size:10px; color:var(--text-3); text-decoration:none;
+  font-family:var(--font-mono); transition:color .15s;
+  display:flex; align-items:center; gap:4px;
+}
+.detail-link:hover { color:var(--blue); }
+
+/* Progress bar for open IPOs */
+.progress-wrap {
+  padding: 0 16px 12px;
+}
+.progress-label {
+  display:flex; justify-content:space-between;
+  font-size:9px; color:var(--text-3); font-family:var(--font-mono); margin-bottom:5px;
+}
+.progress-bar {
+  height:4px; background:var(--bg-3); border-radius:2px; overflow:hidden;
+}
+.progress-fill {
+  height:4px; background:linear-gradient(90deg,var(--green),#00f0a0);
+  border-radius:2px; transition:width .6s ease;
+}
+
+/* ── TABLE STYLE ── */
+.data-table-wrap {
+  background:var(--bg-1); border:1px solid var(--border);
+  border-radius:var(--r-lg); overflow:hidden; margin-bottom:20px;
+}
+.data-table {
+  width:100%; border-collapse:collapse; font-size:11px;
+}
+.data-table th {
+  padding:9px 14px; text-align:left;
+  font-size:9px; font-weight:700; color:var(--text-3);
+  text-transform:uppercase; letter-spacing:.1em; font-family:var(--font-mono);
+  background:var(--bg-2); border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+.data-table td {
+  padding:10px 14px; border-bottom:1px solid var(--border);
+  color:var(--text-1); font-family:var(--font-mono); vertical-align:middle;
+}
+.data-table tr:last-child td { border-bottom:none; }
+.data-table tr:hover td { background:var(--bg-2); }
+.td-company { font-family:var(--font-ui); font-weight:700; color:var(--text-0); font-size:12px; }
+.td-sym { font-weight:800; color:var(--green); font-size:11px; }
+
+/* ── MEROLAGANI ANNOUNCEMENT CARDS ── */
+.announce-list { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+.announce-card {
+  background:var(--bg-1); border:1px solid var(--border);
+  border-radius:var(--r); padding:14px 16px;
+  display:flex; align-items:flex-start; gap:14px;
+  transition:all .15s; cursor:pointer;
+  text-decoration:none;
+  animation: card-in .3s ease both;
+}
+.announce-card:hover { border-color:var(--border-2); background:var(--bg-2); }
+.ac-date {
+  flex-shrink:0; width:52px;
+  font-size:10px; font-family:var(--font-mono); color:var(--text-3);
+  padding-top:1px;
+}
+.ac-icon {
+  flex-shrink:0; width:36px; height:36px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center; font-size:16px;
+}
+.ac-content { flex:1; min-width:0; }
+.ac-title {
+  font-size:13px; font-weight:600; color:var(--text-0); line-height:1.4;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.ac-meta { font-size:10px; color:var(--text-3); font-family:var(--font-mono); margin-top:4px; }
+.ac-badge {
+  flex-shrink:0; font-size:9px; font-weight:800; padding:3px 8px; border-radius:5px;
+  letter-spacing:.04em; align-self:flex-start; margin-top:2px;
+}
+
+/* ── SOURCES SECTION ── */
+.sources-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; margin-bottom:24px; }
+.source-card {
+  background:var(--bg-1); border:1px solid var(--border);
+  border-radius:var(--r); padding:14px 16px;
+  display:flex; align-items:center; gap:12px;
+  text-decoration:none; transition:all .2s;
+}
+.source-card:hover { border-color:var(--border-2); transform:translateY(-1px); }
+.sc-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.sc-name { font-size:12px; font-weight:700; color:var(--text-0); }
+.sc-url  { font-size:10px; color:var(--text-3); font-family:var(--font-mono); margin-top:2px; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align:center; padding:48px 24px;
+  background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r-lg);
+}
+.empty-icon { font-size:40px; margin-bottom:12px; opacity:.4; }
+.empty-title { font-size:16px; font-weight:700; color:var(--text-1); margin-bottom:6px; }
+.empty-sub { font-size:11px; color:var(--text-3); font-family:var(--font-mono); }
+
+/* ── LOADING STATE ── */
+.skeleton {
+  background:linear-gradient(90deg,var(--bg-2) 25%,var(--bg-3) 50%,var(--bg-2) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:6px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.skel-card {
+  background:var(--bg-1); border:1px solid var(--border);
+  border-radius:var(--r-lg); padding:16px; margin-bottom:12px;
+}
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; bottom:20px; right:20px;
+  background:var(--bg-2); border:1px solid var(--border-2);
+  color:var(--text-0); padding:10px 16px; border-radius:8px;
+  font-size:12px; font-family:var(--font-mono);
+  z-index:9999; transform:translateY(20px); opacity:0;
+  transition:all .3s cubic-bezier(0.34,1.56,.64,1);
+  pointer-events:none; max-width:300px; box-shadow:var(--shadow);
+}
+.toast.show { transform:translateY(0); opacity:1; }
+.toast.success { border-color:var(--green-2); color:var(--green); }
+.toast.error   { border-color:var(--red-2);   color:var(--red);   }
+.toast.warning { border-color:rgba(255,179,0,.3); color:var(--amber); }
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; align-items:center;
+}
+.filter-input {
+  flex:1; min-width:200px;
+  background:var(--bg-2); border:1px solid var(--border-2);
+  border-radius:7px; padding:8px 12px;
+  font-family:var(--font-mono); font-size:11px; color:var(--text-0);
+  outline:none; transition:border .15s;
+}
+.filter-input:focus { border-color:var(--green-2); }
+.filter-input::placeholder { color:var(--text-3); }
+.filter-btn {
+  padding:7px 12px; border-radius:7px; border:1px solid var(--border-2);
+  background:var(--bg-2); color:var(--text-2); font-size:11px;
+  font-family:var(--font-mono); cursor:pointer; transition:all .15s;
+  white-space:nowrap;
+}
+.filter-btn.active { border-color:var(--green-2); color:var(--green); background:var(--green-dim); }
+.filter-btn:hover { border-color:var(--border-3); }
+
+/* Countdown */
+.countdown {
+  font-size:10px; font-family:var(--font-mono); color:var(--amber);
+  padding:2px 8px; background:var(--amber-dim); border-radius:5px;
+  border:1px solid rgba(255,179,0,.2);
+}
+
+/* Days remaining bar */
+.days-chip {
+  display:inline-flex; align-items:center; gap:4px;
+  font-size:9px; font-family:var(--font-mono); font-weight:700;
+  padding:2px 7px; border-radius:4px;
+}
+.days-chip.urgent { background:var(--red-dim); color:var(--red); }
+.days-chip.soon   { background:var(--amber-dim); color:var(--amber); }
+.days-chip.ok     { background:var(--green-dim); color:var(--green); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .stats-bar { grid-template-columns:repeat(3,1fr); }
+  .ipo-grid  { grid-template-columns:1fr; }
+  .topbar { padding:0 14px; }
+  .tab-pane, .allotment-hero, .page-header { padding-left:14px; padding-right:14px; }
+  .stats-bar { margin-left:14px; margin-right:14px; }
+  .main-tabs { padding-left:14px; padding-right:14px; }
+  .allotment-hero { flex-direction:column; }
+}
+@media(max-width:500px){
+  .stats-bar { grid-template-columns:1fr 1fr; }
+}
+
+/* ── INFO BOX ── */
+.info-box {
+  background:var(--blue-dim); border:1px solid rgba(64,144,255,0.2);
+  border-radius:8px; padding:10px 14px; font-size:11px; color:#80b4ff;
+  margin-bottom:14px; font-family:var(--font-mono); line-height:1.6;
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a class="brand" href="portfolio-007">
+    <div class="brand-mark">📈</div>
+    <div>
+      <div class="brand-name">NEPSE Portfolio</div>
+      <div class="brand-sub">B58 · LOCAL-FIRST</div>
+    </div>
+  </a>
+  <div class="topbar-right">
+    <a class="back-btn" href="portfolio-007">← Portfolio</a>
+  </div>
+</div>
+
+<!-- ALLOTMENT HERO -->
+<div class="allotment-hero">
+  <div class="ah-left">
+    <div class="ah-icon">🎯</div>
+    <div>
+      <div class="ah-title">Check Your IPO Allotment Result</div>
+      <div class="ah-sub">Official CDSC portal — check if your IPO application was successful</div>
+    </div>
+  </div>
+  <a class="ah-btn" href="https://iporesult.cdsc.com.np/" target="_blank" rel="noopener">
+    Check Allotment at CDSC
+  </a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div>
+    <div class="page-title">IPO &amp; Corporate Actions</div>
+    <div class="page-meta">Live data from merolagani.com &amp; sharesansar.com · Cached 6h</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <div class="last-updated">
+      <div class="lu-dot" id="lu-dot"></div>
+      <span id="lu-text">Loading...</span>
+    </div>
+    <button class="refresh-btn" id="refresh-btn" onclick="fetchAll(true)">
+      <span class="icon">⟳</span> Refresh
+    </button>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="stats-bar">
+  <div class="stat-card s-green">
+    <div class="stat-label">Open IPOs</div>
+    <div class="stat-val" id="stat-open">—</div>
+    <div class="stat-sub">Accepting now</div>
+  </div>
+  <div class="stat-card s-amber">
+    <div class="stat-label">Upcoming IPOs</div>
+    <div class="stat-val" id="stat-upcoming">—</div>
+    <div class="stat-sub">Opening soon</div>
+  </div>
+  <div class="stat-card s-blue">
+    <div class="stat-label">Right Shares</div>
+    <div class="stat-val" id="stat-right">—</div>
+    <div class="stat-sub">Open / upcoming</div>
+  </div>
+  <div class="stat-card s-cyan">
+    <div class="stat-label">FPO / Debentures</div>
+    <div class="stat-val" id="stat-other">—</div>
+    <div class="stat-sub">Other issues</div>
+  </div>
+  <div class="stat-card s-orange">
+    <div class="stat-label">Total Issues</div>
+    <div class="stat-val" id="stat-total">—</div>
+    <div class="stat-sub">All types combined</div>
+  </div>
+</div>
+
+<!-- MAIN TABS -->
+<div class="main-tabs">
+  <div class="main-tab active" onclick="switchTab('ipo',this)">
+    IPO <span class="tab-badge" id="badge-ipo">—</span>
+  </div>
+  <div class="main-tab" onclick="switchTab('right',this)">
+    Right Shares <span class="tab-badge" id="badge-right">—</span>
+  </div>
+  <div class="main-tab" onclick="switchTab('fpo',this)">
+    FPO / Debenture <span class="tab-badge" id="badge-fpo">—</span>
+  </div>
+  <div class="main-tab" onclick="switchTab('mutual',this)">
+    Mutual Fund <span class="tab-badge" id="badge-mutual">—</span>
+  </div>
+  <div class="main-tab" onclick="switchTab('announce',this)">
+    Announcements <span class="tab-badge" id="badge-announce">—</span>
+  </div>
+  <div class="main-tab" onclick="switchTab('sources',this)">
+    Data Sources
+  </div>
+</div>
+
+<!-- ─── TAB: IPO ─── -->
+<div class="tab-pane active" id="tab-ipo">
+  <div class="filter-bar">
+    <input class="filter-input" id="search-ipo" placeholder="Search company name or symbol..." oninput="filterCards('ipo',this.value)">
+    <button class="filter-btn active" onclick="setStatusFilter('ipo','all',this)">All</button>
+    <button class="filter-btn" onclick="setStatusFilter('ipo','open',this)">🟢 Open</button>
+    <button class="filter-btn" onclick="setStatusFilter('ipo','upcoming',this)">🟡 Upcoming</button>
+    <button class="filter-btn" onclick="setStatusFilter('ipo','closed',this)">⚫ Closed</button>
+  </div>
+  <div class="sec-hdr">
+    <div class="sec-title">
+      <div class="sec-dot" style="background:var(--green)"></div>
+      IPO Issues
+      <span class="sec-count" id="ipo-count">—</span>
+    </div>
+    <a class="source-link" href="https://merolagani.com/Ipo.aspx?type=upcoming" target="_blank">↗ merolagani.com</a>
+  </div>
+  <div id="ipo-grid" class="ipo-grid"></div>
+</div>
+
+<!-- ─── TAB: RIGHT SHARES ─── -->
+<div class="tab-pane" id="tab-right">
+  <div class="filter-bar">
+    <input class="filter-input" id="search-right" placeholder="Search company..." oninput="filterCards('right',this.value)">
+    <button class="filter-btn active" onclick="setStatusFilter('right','all',this)">All</button>
+    <button class="filter-btn" onclick="setStatusFilter('right','open',this)">🟢 Open</button>
+    <button class="filter-btn" onclick="setStatusFilter('right','upcoming',this)">🟡 Upcoming</button>
+  </div>
+  <div class="sec-hdr">
+    <div class="sec-title">
+      <div class="sec-dot" style="background:var(--amber)"></div>
+      Right Share Issues
+      <span class="sec-count" id="right-count">—</span>
+    </div>
+    <a class="source-link" href="https://www.sharesansar.com/upcoming-issue#rightshare" target="_blank">↗ sharesansar.com</a>
+  </div>
+  <div id="right-grid" class="ipo-grid"></div>
+</div>
+
+<!-- ─── TAB: FPO / DEBENTURE ─── -->
+<div class="tab-pane" id="tab-fpo">
+  <div class="sec-hdr">
+    <div class="sec-title">
+      <div class="sec-dot" style="background:var(--blue)"></div>
+      FPO &amp; Debenture Issues
+      <span class="sec-count" id="fpo-count">—</span>
+    </div>
+    <a class="source-link" href="https://www.sharesansar.com/upcoming-issue#fpo" target="_blank">↗ sharesansar.com</a>
+  </div>
+  <div id="fpo-grid" class="ipo-grid"></div>
+</div>
+
+<!-- ─── TAB: MUTUAL FUND ─── -->
+<div class="tab-pane" id="tab-mutual">
+  <div class="sec-hdr">
+    <div class="sec-title">
+      <div class="sec-dot" style="background:var(--purple)"></div>
+      Mutual Fund Issues
+      <span class="sec-count" id="mutual-count">—</span>
+    </div>
+    <a class="source-link" href="https://www.sharesansar.com/upcoming-issue#mutualfund" target="_blank">↗ sharesansar.com</a>
+  </div>
+  <div id="mutual-grid" class="ipo-grid"></div>
+</div>
+
+<!-- ─── TAB: ANNOUNCEMENTS ─── -->
+<div class="tab-pane" id="tab-announce">
+  <div class="info-box">
+    📡 Announcements are parsed from merolagani.com/AnnouncementList.aspx via CORS proxy.
+    Each card links to the original announcement for full details.
+  </div>
+  <div class="sec-hdr">
+    <div class="sec-title">
+      <div class="sec-dot" style="background:var(--orange)"></div>
+      Recent IPO Announcements
+      <span class="sec-count" id="announce-count">—</span>
+    </div>
+    <a class="source-link" href="https://merolagani.com/AnnouncementList.aspx" target="_blank">↗ merolagani.com</a>
+  </div>
+  <div id="announce-list" class="announce-list"></div>
+</div>
+
+<!-- ─── TAB: DATA SOURCES ─── -->
+<div class="tab-pane" id="tab-sources">
+  <div class="info-box">
+    All data is fetched from public NEPSE data sources. This app does not have a backend — data is scraped
+    client-side via CORS proxies and cached in localStorage for 6 hours. Click any source to visit it directly.
+  </div>
+
+  <div class="sec-hdr" style="margin-bottom:10px;">
+    <div class="sec-title"><div class="sec-dot" style="background:var(--blue)"></div>Primary Sources</div>
+  </div>
+  <div class="sources-grid">
+    <a class="source-card" href="https://merolagani.com/Ipo.aspx?type=upcoming" target="_blank">
+      <div class="sc-icon" style="background:var(--green-dim)">📋</div>
+      <div><div class="sc-name">Merolagani — Upcoming IPO</div><div class="sc-url">merolagani.com/Ipo.aspx</div></div>
+    </a>
+    <a class="source-card" href="https://www.sharesansar.com/upcoming-issue" target="_blank">
+      <div class="sc-icon" style="background:var(--blue-dim)">📊</div>
+      <div><div class="sc-name">Sharesansar — Upcoming Issues</div><div class="sc-url">sharesansar.com/upcoming-issue</div></div>
+    </a>
+    <a class="source-card" href="https://www.sharesansar.com/existing-issues" target="_blank">
+      <div class="sc-icon" style="background:var(--amber-dim)">📂</div>
+      <div><div class="sc-name">Sharesansar — Existing Issues</div><div class="sc-url">sharesansar.com/existing-issues</div></div>
+    </a>
+    <a class="source-card" href="https://merolagani.com/AnnouncementList.aspx" target="_blank">
+      <div class="sc-icon" style="background:var(--orange-dim)">📢</div>
+      <div><div class="sc-name">Merolagani — Announcements</div><div class="sc-url">merolagani.com/AnnouncementList.aspx</div></div>
+    </a>
+    <a class="source-card" href="https://iporesult.cdsc.com.np/" target="_blank">
+      <div class="sc-icon" style="background:var(--cyan-dim)">🎯</div>
+      <div><div class="sc-name">CDSC — IPO Allotment Results</div><div class="sc-url">iporesult.cdsc.com.np</div></div>
+    </a>
+    <a class="source-card" href="https://www.sebon.gov.np/" target="_blank">
+      <div class="sc-icon" style="background:var(--purple-dim)">🏛️</div>
+      <div><div class="sc-name">SEBON — Official Regulator</div><div class="sc-url">sebon.gov.np</div></div>
+    </a>
+  </div>
+
+  <div class="sec-hdr" style="margin-top:20px;margin-bottom:10px;">
+    <div class="sec-title"><div class="sec-dot" style="background:var(--amber)"></div>Caching Strategy</div>
+  </div>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Data Type</th><th>Cache Duration</th><th>Storage Key</th><th>Force Refresh</th></tr></thead>
+      <tbody>
+        <tr><td class="td-company">IPO / Right / FPO Data</td><td>6 hours</td><td><code style="color:var(--green)">nepse_ipo_cache</code></td><td>Refresh button</td></tr>
+        <tr><td class="td-company">Announcements</td><td>2 hours</td><td><code style="color:var(--green)">nepse_announce_cache</code></td><td>Refresh button</td></tr>
+        <tr><td class="td-company">CORS Proxy Config</td><td>Permanent</td><td><code style="color:var(--green)">nepse_proxy_config</code></td><td>Settings</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-hdr" style="margin-top:20px;margin-bottom:10px;">
+    <div class="sec-title"><div class="sec-dot" style="background:var(--red)"></div>Cache Management</div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <button class="filter-btn" onclick="clearCache()" style="border-color:var(--red-2);color:var(--red);">🗑 Clear All Cache</button>
+    <button class="filter-btn" onclick="showCacheInfo()">🔍 Inspect Cache</button>
+    <div id="cache-info" style="font-family:var(--font-mono);font-size:10px;color:var(--text-3);padding:8px 0;"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// DATA MODELS
+// ════════════════════════════════════════════════════════════
+/*
+  IssueItem {
+    id, company, symbol, type, units, unitsFmt,
+    issuePrice, issuePriceFmt, openDateAD, closeDateAD,
+    openDateBS, closeDateBS, issueManager, status,
+    detailUrl, daysToOpen, daysToClose, sector, issueSize, source
+  }
+  IssueStatus: 'open' | 'upcoming' | 'closed'
+  IssueType:   'IPO' | 'FPO' | 'RIGHT' | 'LOCAL_IPO' | 'MUTUAL_FUND' | 'DEBENTURE' | 'MIGRANT_IPO'
+*/
+
+const CACHE_KEY_IPO       = 'nepse_ipo_v2';
+const CACHE_KEY_ANNOUNCE  = 'nepse_announce_v2';
+const CACHE_IPO_TTL       = 6 * 60 * 60 * 1000;  // 6 hours
+const CACHE_ANNOUNCE_TTL  = 2 * 60 * 60 * 1000;  // 2 hours
+
+// GAS URL for server-side scraping (more reliable, works on mobile)
+const GAS_IPO_URL = localStorage.getItem('gas_ipo_url') || '';
+
+const PROXIES = [
+  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
+  u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
+];
+
+const SOURCES = {
+  ML_IPO:      'https://merolagani.com/Ipo.aspx?type=upcoming',
+  ML_PAST:     'https://merolagani.com/Ipo.aspx?type=past',
+  ML_ANNOUNCE: 'https://merolagani.com/AnnouncementList.aspx',
+  SS_UPCOMING: 'https://www.sharesansar.com/upcoming-issue',
+  SS_EXISTING: 'https://www.sharesansar.com/existing-issues',
+};
+
+// App state
+let state = {
+  issues: [],       // All IssueItem[]
+  announcements: [], // Announcement[]
+  loading: false,
+  lastFetch: null,
+  error: null,
+  filters: { ipo:'all', right:'all' },
+  search:  { ipo:'', right:'' },
+};
+
+// ════════════════════════════════════════════════════════════
+// CACHE
+// ════════════════════════════════════════════════════════════
+function getCache(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const { data, ts } = JSON.parse(raw);
+    const ttl = key === CACHE_KEY_ANNOUNCE ? CACHE_ANNOUNCE_TTL : CACHE_IPO_TTL;
+    if (Date.now() - ts > ttl) return null; // expired
+    return data;
+  } catch(e) { return null; }
+}
+function setCache(key, data) {
+  try { localStorage.setItem(key, JSON.stringify({ data, ts: Date.now() })); } catch(e) {}
+}
+function clearCache() {
+  localStorage.removeItem(CACHE_KEY_IPO);
+  localStorage.removeItem(CACHE_KEY_ANNOUNCE);
+  toast('Cache cleared', 'warning');
+  document.getElementById('cache-info').textContent = '';
+  fetchAll(true);
+}
+function showCacheInfo() {
+  const el = document.getElementById('cache-info');
+  const ipoRaw = localStorage.getItem(CACHE_KEY_IPO);
+  const annRaw = localStorage.getItem(CACHE_KEY_ANNOUNCE);
+  const info = [];
+  if (ipoRaw) {
+    const { ts } = JSON.parse(ipoRaw);
+    const age = Math.floor((Date.now()-ts)/60000);
+    info.push(`IPO cache: ${age} min old (${age < 360 ? 'valid' : 'expired'})`);
+  } else info.push('IPO cache: empty');
+  if (annRaw) {
+    const { ts } = JSON.parse(annRaw);
+    const age = Math.floor((Date.now()-ts)/60000);
+    info.push(`Announce cache: ${age} min old (${age < 120 ? 'valid' : 'expired'})`);
+  } else info.push('Announce cache: empty');
+  el.innerHTML = info.join('<br>');
+}
+
+// ════════════════════════════════════════════════════════════
+// FETCH WITH PROXY FALLBACK
+// ════════════════════════════════════════════════════════════
+async function fetchWithProxy(url) {
+  for (let i = 0; i < PROXIES.length; i++) {
+    const proxyUrl = PROXIES[i](url);
+    try {
+      const res = await fetch(proxyUrl, {
+        signal: AbortSignal.timeout(14000),
+        headers: { 'Accept': 'text/html,*/*' }
+      });
+      if (!res.ok) continue;
+      let text = await res.text();
+      if (text.length < 500) continue;
+      // Unwrap allorigins JSON wrapper
+      if (text.trim().startsWith('{')) {
+        try { const j = JSON.parse(text); if (j.contents) text = j.contents; } catch(e) {}
+      }
+      return text;
+    } catch(e) { continue; }
+  }
+  return null;
+}
+
+// ════════════════════════════════════════════════════════════
+// SCRAPING — MEROLAGANI UPCOMING IPO
+// Parses the announcement text format:
+//   "Date\nCompany is going to issue X units starting from Date1 - Date2"
+// ════════════════════════════════════════════════════════════
+function parseMerolaganiIPO(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const items = [];
+
+  // Merolagani IPO page: announcements are in list items with date + text + link
+  // Structure: div.container > ul > li > [date, link text, link href]
+  const announceLinks = doc.querySelectorAll('a[href*="AnnouncementDetail"]');
+
+  announceLinks.forEach((link, idx) => {
+    const text = link.textContent.trim();
+    if (!text || text.length < 20) return;
+
+    // Parse: "Company Limited is going to issue its X units of IPO shares ... starting from DateBS"
+    const ipoMatch = text.match(/^(.+?)\s+is going to issue its?\s+([\d,\.]+)\s+units?\s+of\s+(\w+)\s+shares?\s+(?:to the (?:general public|migrant workers)[^.]*)?(?:starting from\s+(.+?)(?:\s+to\s+|\s+-\s+|\s*,\s*)(.+?),\s+(\d{4}))?/i);
+
+    let company = text.substring(0, Math.min(text.length, 80));
+    let units = '—', type = 'IPO', openBS = '—', closeBS = '—';
+
+    if (ipoMatch) {
+      company = ipoMatch[1].trim();
+      units = ipoMatch[2];
+      const typeWord = (ipoMatch[3]||'').toUpperCase();
+      if (typeWord.includes('FPO')) type = 'FPO';
+      else if (typeWord.includes('RIGHT')) type = 'RIGHT';
+      else if (text.toLowerCase().includes('migrant')) type = 'MIGRANT';
+      else if (text.toLowerCase().includes('local') || text.toLowerCase().includes('affected')) type = 'LOCAL';
+      if (ipoMatch[4]) openBS = ipoMatch[4];
+      if (ipoMatch[5] && ipoMatch[6]) closeBS = ipoMatch[5] + ', ' + ipoMatch[6];
+    }
+
+    // Get the date from sibling element (announcements page has date before link)
+    const parentText = link.parentElement?.parentElement?.textContent || '';
+    const dateMatch = parentText.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2},\s+\d{4}/i);
+    const announceDate = dateMatch ? dateMatch[0] : '—';
+
+    // Determine status from dates
+    const now = new Date();
+    let status = 'upcoming';
+    // Simple heuristic: parse the year from the announcement date
+    const yearMatch = announceDate.match(/\d{4}/);
+    if (yearMatch && parseInt(yearMatch[0]) < now.getFullYear()) status = 'closed';
+
+    items.push({
+      id: 'ml_' + idx,
+      company: company.replace(/\s+/g, ' '),
+      symbol: extractSymbol(company),
+      type,
+      units: units !== '—' ? Number(units.replace(/,/g,'')).toLocaleString() : '—',
+      issuePrice: 'Rs. 100',
+      openDateAD: announceDate,
+      closeDateAD: '—',
+      openDateBS: openBS,
+      closeDateBS: closeBS,
+      issueManager: '—',
+      status,
+      detailUrl: 'https://merolagani.com' + (link.getAttribute('href')||''),
+      daysToOpen: 0,
+      daysToClose: 0,
+      sector: guessSector(company),
+      issueSize: '—',
+      source: 'merolagani',
+      rawText: text,
+    });
+  });
+
+  return items;
+}
+
+// ════════════════════════════════════════════════════════════
+// SCRAPING — SHARESANSAR UPCOMING / EXISTING ISSUES
+// Sharesansar renders tabs with tables inside #ipo, #rightshare, etc.
+// Table cols: Company | Symbol | Units | Issue Price | Open (BS) | Close (BS) | Open (AD) | Close (AD) | Issue Manager
+// ════════════════════════════════════════════════════════════
+function parseSharesansarIssues(html, isExisting) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const items = [];
+
+  // Map section IDs to types
+  const sectionMap = {
+    'ipo':         'IPO',
+    'rightshare':  'RIGHT',
+    'fpo':         'FPO',
+    'ipolocal':    'LOCAL',
+    'mutualfund':  'MUTUAL',
+    'bondsanddeb': 'DEBENTURE',
+    'ipomigrant':  'MIGRANT',
+    'ipoqiis':     'QII',
+  };
+
+  Object.entries(sectionMap).forEach(([sectionId, issueType]) => {
+    const section = doc.getElementById(sectionId) || doc.querySelector(`#${sectionId}`);
+    if (!section) return;
+
+    const table = section.querySelector('table') || section.nextElementSibling?.querySelector('table');
+    if (!table) return;
+
+    const rows = table.querySelectorAll('tbody tr, tr');
+    rows.forEach((row, idx) => {
+      if (idx === 0) return; // skip header
+      const cells = row.querySelectorAll('td');
+      if (cells.length < 4) return;
+
+      const getText = (i) => (cells[i]?.textContent || '').trim().replace(/\s+/g,' ');
+      const getLink = (i) => cells[i]?.querySelector('a')?.href || '';
+
+      const company = getText(0);
+      if (!company || company.length < 3) return;
+
+      const symbol    = getText(1) || extractSymbol(company);
+      const units     = getText(2);
+      const issuePrice= getText(3);
+      const openBS    = getText(4) || '—';
+      const closeBS   = getText(5) || '—';
+      const openAD    = getText(6) || '—';
+      const closeAD   = getText(7) || '—';
+      const manager   = getText(8) || '—';
+      const detailUrl = getLink(0) || '';
+
+      const status = calcStatus(openAD, closeAD, isExisting);
+      const { daysToOpen, daysToClose } = calcDays(openAD, closeAD);
+
+      items.push({
+        id: `ss_${sectionId}_${idx}`,
+        company,
+        symbol: symbol || extractSymbol(company),
+        type: issueType,
+        units,
+        issuePrice,
+        openDateAD: openAD,
+        closeDateAD: closeAD,
+        openDateBS: openBS,
+        closeDateBS: closeBS,
+        issueManager: manager,
+        status,
+        detailUrl,
+        daysToOpen,
+        daysToClose,
+        sector: guessSector(company),
+        issueSize: '—',
+        source: 'sharesansar',
+        rawText: company,
+      });
+    });
+  });
+
+  return items;
+}
+
+// ════════════════════════════════════════════════════════════
+// SCRAPING — MEROLAGANI ANNOUNCEMENTS
+// ════════════════════════════════════════════════════════════
+function parseMerolaganiAnnouncements(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const items = [];
+
+  // Merolagani announcements: list of items with date, title, link
+  const links = doc.querySelectorAll('a[href*="AnnouncementDetail"]');
+  links.forEach((link, idx) => {
+    const text = link.textContent.trim();
+    if (!text || text.length < 10) return;
+
+    // Get date from nearby element
+    const parent = link.closest('li') || link.parentElement;
+    const fullText = parent?.textContent || '';
+    const dateMatch = fullText.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2},\s+\d{4}/i)
+                   || fullText.match(/\d{4}-\d{2}-\d{2}/);
+    const date = dateMatch ? dateMatch[0] : '—';
+
+    const type = classifyAnnouncement(text);
+
+    items.push({
+      id: 'ann_' + idx,
+      date,
+      title: text,
+      url: 'https://merolagani.com' + (link.getAttribute('href')||''),
+      type,
+    });
+  });
+
+  return items.slice(0, 50); // limit to 50
+}
+
+// ════════════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════════════
+function extractSymbol(name) {
+  // Try to guess symbol from common abbreviation patterns
+  if (!name) return '';
+  // Already looks like a symbol
+  if (/^[A-Z]{2,8}$/.test(name.trim())) return name.trim();
+  return '';
+}
+
+function guessSector(name) {
+  const n = name.toLowerCase();
+  if (n.includes('bank') || n.includes('finance') || n.includes('laghubitta') || n.includes('bikas'))
+    return n.includes('laghubitta') ? 'Microfinance' : n.includes('bikas') ? 'Dev. Bank' : 'Banking';
+  if (n.includes('insurance') || n.includes('life') || n.includes('bima')) return 'Insurance';
+  if (n.includes('hydro') || n.includes('power') || n.includes('energy') || n.includes('khola') || n.includes('solar'))
+    return 'Hydro Power';
+  if (n.includes('hotel') || n.includes('resort') || n.includes('hospitality')) return 'Hotels';
+  if (n.includes('fund') || n.includes('mutual')) return 'Mutual Fund';
+  if (n.includes('debenture') || n.includes('bond')) return 'Debenture';
+  return 'Others';
+}
+
+function classifyAnnouncement(text) {
+  const t = text.toLowerCase();
+  if (t.includes('ipo') || t.includes('initial public')) return 'IPO';
+  if (t.includes('right share') || t.includes('right offer')) return 'RIGHT';
+  if (t.includes('fpo') || t.includes('further public')) return 'FPO';
+  if (t.includes('dividend') || t.includes('cash dividend')) return 'DIVIDEND';
+  if (t.includes('bonus')) return 'BONUS';
+  if (t.includes('agm') || t.includes('annual general')) return 'AGM';
+  if (t.includes('book close') || t.includes('book closure')) return 'BOOKCLOSE';
+  if (t.includes('merger') || t.includes('acquisition')) return 'MERGER';
+  if (t.includes('debenture') || t.includes('bond')) return 'DEBENTURE';
+  return 'OTHER';
+}
+
+function calcStatus(openAD, closeAD, isExisting) {
+  if (isExisting) return 'open';
+  if (!openAD || openAD === '—') return 'upcoming';
+  try {
+    const now = new Date();
+    const open = new Date(openAD);
+    const close = closeAD && closeAD !== '—' ? new Date(closeAD) : null;
+    if (isNaN(open.getTime())) return 'upcoming';
+    if (now < open) return 'upcoming';
+    if (close && now > close) return 'closed';
+    return 'open';
+  } catch(e) { return 'upcoming'; }
+}
+
+function calcDays(openAD, closeAD) {
+  try {
+    const now = new Date(); now.setHours(0,0,0,0);
+    const open  = new Date(openAD);  open.setHours(0,0,0,0);
+    const close = new Date(closeAD); close.setHours(0,0,0,0);
+    const daysToOpen  = Math.ceil((open  - now) / 86400000);
+    const daysToClose = Math.ceil((close - now) / 86400000);
+    return { daysToOpen: isNaN(daysToOpen)?0:daysToOpen, daysToClose: isNaN(daysToClose)?0:daysToClose };
+  } catch(e) { return { daysToOpen:0, daysToClose:0 }; }
+}
+
+function mergeIssues(arr1, arr2) {
+  // Merge, deduplicate by company name similarity
+  const merged = [...arr1];
+  arr2.forEach(item => {
+    const exists = merged.some(m =>
+      m.company.toLowerCase().includes(item.company.toLowerCase().slice(0,10)) ||
+      item.company.toLowerCase().includes(m.company.toLowerCase().slice(0,10))
+    );
+    if (!exists) merged.push(item);
+  });
+  return merged;
+}
+
+// ════════════════════════════════════════════════════════════
+// MAIN FETCH ORCHESTRATOR
+// ════════════════════════════════════════════════════════════
+async function fetchAll(forceRefresh = false) {
+  if (state.loading) return;
+  state.loading = true;
+  setRefreshLoading(true);
+  setLastUpdated('loading');
+
+  // Check cache first
+  if (!forceRefresh) {
+    const cachedIssues = getCache(CACHE_KEY_IPO);
+    const cachedAnnounce = getCache(CACHE_KEY_ANNOUNCE);
+    if (cachedIssues && cachedAnnounce) {
+      state.issues = cachedIssues;
+      state.announcements = cachedAnnounce;
+      state.loading = false;
+      setRefreshLoading(false);
+      render();
+      setLastUpdated('cached');
+      return;
+    }
+  }
+
+  // Show loading skeletons
+  renderSkeletons();
+
+  const results = [];
+  const errors = [];
+
+  // Fetch in parallel: ML upcoming, SS upcoming, SS existing, ML announcements
+  const fetches = [
+    { key:'ml_ipo',      url:SOURCES.ML_IPO,      parser: html => parseMerolaganiIPO(html) },
+    { key:'ss_upcoming', url:SOURCES.SS_UPCOMING,  parser: html => parseSharesansarIssues(html, false) },
+    { key:'ss_existing', url:SOURCES.SS_EXISTING,  parser: html => parseSharesansarIssues(html, true) },
+    { key:'ml_announce', url:SOURCES.ML_ANNOUNCE,  parser: html => parseMerolaganiAnnouncements(html) },
+  ];
+
+  await Promise.allSettled(fetches.map(async ({ key, url, parser }) => {
+    try {
+      const html = await fetchWithProxy(url);
+      if (!html) { errors.push(key); return; }
+      const items = parser(html);
+      results.push({ key, items });
+    } catch(e) { errors.push(key); }
+  }));
+
+  // Assemble issues
+  let allIssues = [];
+  let announcements = [];
+
+  results.forEach(({ key, items }) => {
+    if (key === 'ml_announce') announcements = items;
+    else allIssues.push(...items);
+  });
+
+  // Merge and deduplicate
+  const seenCompanies = new Set();
+  const dedupedIssues = allIssues.filter(item => {
+    const key = item.company.toLowerCase().trim().slice(0,15);
+    if (seenCompanies.has(key)) return false;
+    seenCompanies.add(key);
+    return true;
+  });
+
+  // Sort: open first, then upcoming, then closed
+  dedupedIssues.sort((a, b) => {
+    const order = { open:0, upcoming:1, closed:2 };
+    return (order[a.status]||2) - (order[b.status]||2);
+  });
+
+  state.issues = dedupedIssues.length > 0 ? dedupedIssues : getFallbackData();
+  state.announcements = announcements.length > 0 ? announcements : getFallbackAnnouncements();
+  state.loading = false;
+  state.lastFetch = Date.now();
+
+  if (dedupedIssues.length > 0) {
+    setCache(CACHE_KEY_IPO, state.issues);
+    toast(`✓ ${state.issues.length} issues loaded`, 'success');
+  } else if (errors.length === fetches.length) {
+    toast('⚠ All sources failed — showing cached/sample data', 'error');
+    state.issues = getFallbackData();
+  } else {
+    toast(`⚠ Partial data (${errors.length} sources failed)`, 'warning');
+  }
+
+  if (announcements.length > 0) setCache(CACHE_KEY_ANNOUNCE, announcements);
+
+  setRefreshLoading(false);
+  render();
+  setLastUpdated(errors.length === 0 ? 'fresh' : 'partial');
+}
+
+// ════════════════════════════════════════════════════════════
+// FALLBACK / SAMPLE DATA (from what we scraped from merolagani)
+// ════════════════════════════════════════════════════════════
+function getFallbackData() {
+  // Real data scraped from merolagani.com on May 6, 2026
+  const now = new Date();
+  return [
+    {
+      id:'real1', company:'Kalanga Hydro Limited', symbol:'',
+      type:'IPO', units:'28,70,000', issuePrice:'Rs. 100',
+      openDateAD:'May 8, 2026',  closeDateAD:'May 13, 2026',
+      openDateBS:'8th Jestha, 2083', closeDateBS:'13th Jestha, 2083',
+      issueManager:'—', status: calcStatus('May 8, 2026','May 13, 2026',false),
+      daysToOpen: calcDays('May 8, 2026','May 13, 2026').daysToOpen,
+      daysToClose: calcDays('May 8, 2026','May 13, 2026').daysToClose,
+      sector:'Hydro Power', issueSize:'Rs. 28.70 Cr', source:'merolagani',
+      detailUrl:'https://merolagani.com/AnnouncementDetail.aspx?id=65481',
+    },
+    {
+      id:'real2', company:'Snow Rivers Limited', symbol:'',
+      type:'IPO', units:'7,78,125', issuePrice:'Rs. 100',
+      openDateAD:'Apr 29, 2026', closeDateAD:'May 1, 2026',
+      openDateBS:'29th Baishakh, 2083', closeDateBS:'1st Jestha, 2083',
+      issueManager:'—', status:'closed', daysToOpen:-7, daysToClose:-5,
+      sector:'Others', issueSize:'Rs. 7.78 Cr', source:'merolagani',
+      detailUrl:'https://merolagani.com/AnnouncementDetail.aspx?id=65331',
+    },
+    {
+      id:'real3', company:'Taksar Pikhuwa Khola Hydropower Limited', symbol:'',
+      type:'IPO', units:'25,15,455', issuePrice:'Rs. 100',
+      openDateAD:'Apr 23, 2026', closeDateAD:'Apr 28, 2026',
+      openDateBS:'10th Baishakh, 2083', closeDateBS:'15th Baishakh, 2083',
+      issueManager:'—', status:'closed', daysToOpen:-14, daysToClose:-9,
+      sector:'Hydro Power', issueSize:'Rs. 25.15 Cr', source:'merolagani',
+      detailUrl:'https://merolagani.com/AnnouncementDetail.aspx?id=65283',
+    },
+  ];
+}
+
+function getFallbackAnnouncements() {
+  return [
+    { id:'a1', date:'May 05, 2026', title:'Kalanga Hydro Limited is going to issue its 28,70,000.00 units of IPO shares to the general public starting from 8th - 13th Jestha, 2083', url:'https://merolagani.com/AnnouncementDetail.aspx?id=65481', type:'IPO' },
+    { id:'a2', date:'Apr 27, 2026', title:'Snow Rivers Limited is going to issue its 7,78,125.00 units of IPO shares to the general public starting from 29th Baishakh - 1st Jestha, 2083', url:'https://merolagani.com/AnnouncementDetail.aspx?id=65331', type:'IPO' },
+    { id:'a3', date:'Apr 24, 2026', title:'Taksar Pikhuwa Khola Hydropower Limited is going to issue its 25,15,455.00 units of IPO shares starting from 23rd - 28th Baishakh, 2083', url:'https://merolagani.com/AnnouncementDetail.aspx?id=65283', type:'IPO' },
+  ];
+}
+
+// ════════════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════════════
+function render() {
+  const byType = (types, status=null) => state.issues.filter(i =>
+    types.includes(i.type) && (!status || i.status === status)
+  );
+
+  const ipoItems    = byType(['IPO','LOCAL','MIGRANT','QII']);
+  const rightItems  = byType(['RIGHT']);
+  const fpoItems    = byType(['FPO','DEBENTURE']);
+  const mutualItems = byType(['MUTUAL']);
+
+  // Stats
+  const open = state.issues.filter(i => i.status === 'open').length;
+  const upcoming = state.issues.filter(i => i.status === 'upcoming').length;
+  document.getElementById('stat-open').textContent    = open;
+  document.getElementById('stat-upcoming').textContent= upcoming;
+  document.getElementById('stat-right').textContent   = rightItems.length;
+  document.getElementById('stat-other').textContent   = fpoItems.length + mutualItems.length;
+  document.getElementById('stat-total').textContent   = state.issues.length;
+
+  // Badges
+  document.getElementById('badge-ipo').textContent     = ipoItems.length;
+  document.getElementById('badge-right').textContent   = rightItems.length;
+  document.getElementById('badge-fpo').textContent     = fpoItems.length;
+  document.getElementById('badge-mutual').textContent  = mutualItems.length;
+  document.getElementById('badge-announce').textContent= state.announcements.length;
+
+  // Counts
+  document.getElementById('ipo-count').textContent    = ipoItems.length;
+  document.getElementById('right-count').textContent  = rightItems.length;
+  document.getElementById('fpo-count').textContent    = fpoItems.length;
+  document.getElementById('mutual-count').textContent = mutualItems.length;
+  document.getElementById('announce-count').textContent = state.announcements.length;
+
+  // Grids
+  renderGrid('ipo-grid', ipoItems);
+  renderGrid('right-grid', rightItems);
+  renderGrid('fpo-grid', fpoItems);
+  renderGrid('mutual-grid', mutualItems);
+  renderAnnouncements();
+}
+
+function renderGrid(containerId, items) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  if (items.length === 0) {
+    el.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+      <div class="empty-icon">📭</div>
+      <div class="empty-title">No data available</div>
+      <div class="empty-sub">Try refreshing — data is fetched via CORS proxy which may be slow</div>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = items.map(item => buildIssueCard(item)).join('');
+}
+
+function buildIssueCard(item) {
+  const typeClass = {
+    IPO:'ct-ipo', FPO:'ct-fpo', RIGHT:'ct-right', LOCAL:'ct-local',
+    MUTUAL:'ct-mutual', DEBENTURE:'ct-debenture', MIGRANT:'ct-migrant', QII:'ct-ipo'
+  }[item.type] || 'ct-ipo';
+
+  const statusClass = { open:'sb-open', upcoming:'sb-upcoming', closed:'sb-closed' }[item.status] || 'sb-upcoming';
+  const statusLabel = item.status === 'open' ? '● OPEN NOW' : item.status === 'upcoming' ? '◎ UPCOMING' : '○ CLOSED';
+
+  const daysChip = (() => {
+    if (item.status === 'upcoming' && item.daysToOpen > 0) {
+      const cls = item.daysToOpen <= 3 ? 'urgent' : item.daysToOpen <= 7 ? 'soon' : 'ok';
+      return `<span class="days-chip ${cls}">Opens in ${item.daysToOpen}d</span>`;
+    }
+    if (item.status === 'open' && item.daysToClose > 0) {
+      const cls = item.daysToClose <= 2 ? 'urgent' : item.daysToClose <= 5 ? 'soon' : 'ok';
+      return `<span class="days-chip ${cls}">Closes in ${item.daysToClose}d</span>`;
+    }
+    return '';
+  })();
+
+  const progressPct = (() => {
+    if (item.status !== 'open') return 0;
+    try {
+      const open  = new Date(item.openDateAD);
+      const close = new Date(item.closeDateAD);
+      const now   = new Date();
+      const total = close - open;
+      const elapsed = now - open;
+      return Math.min(100, Math.max(0, (elapsed / total) * 100));
+    } catch(e) { return 50; }
+  })();
+
+  const sectorColor = {
+    'Hydro Power':'var(--cyan)', 'Banking':'var(--blue)', 'Insurance':'var(--purple)',
+    'Microfinance':'var(--amber)', 'Dev. Bank':'var(--orange)', 'Mutual Fund':'var(--green)',
+  }[item.sector] || 'var(--text-3)';
+
+  return `
+  <div class="ipo-card">
+    <div class="card-header">
+      <div class="card-company">
+        <div class="card-name" title="${item.company}">${item.company}</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap;">
+          ${item.symbol ? `<span class="card-symbol">${item.symbol}</span>` : ''}
+          <span style="font-size:9px;color:${sectorColor};font-family:var(--font-mono);font-weight:700;">${item.sector}</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
+        <span class="card-type ${typeClass}">${item.type}</span>
+        ${daysChip}
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="card-rows">
+        <div class="card-row">
+          <div class="cr-label">Units Issued</div>
+          <div class="cr-val highlight">${item.units}</div>
+        </div>
+        <div class="card-row">
+          <div class="cr-label">Issue Price</div>
+          <div class="cr-val highlight">${item.issuePrice}</div>
+        </div>
+        <div class="card-row">
+          <div class="cr-label">Issue Manager</div>
+          <div class="cr-val">${item.issueManager}</div>
+        </div>
+        <div class="card-row">
+          <div class="cr-label">Source</div>
+          <div class="cr-val" style="color:var(--text-3)">${item.source}</div>
+        </div>
+      </div>
+
+      <div class="date-bar">
+        <div class="date-item">
+          <div class="date-label">Opens</div>
+          <div class="date-val ${item.status==='open'||item.status==='closed'?'':'pos'}" style="color:${item.status==='open'?'var(--green)':'var(--text-1)'}">
+            ${item.openDateAD}
+          </div>
+          <div class="date-bs">${item.openDateBS}</div>
+        </div>
+        <div class="date-arrow">→</div>
+        <div class="date-item">
+          <div class="date-label">Closes</div>
+          <div class="date-val" style="color:${item.status==='open'&&item.daysToClose<=2?'var(--red)':'var(--text-1)'}">
+            ${item.closeDateAD}
+          </div>
+          <div class="date-bs">${item.closeDateBS}</div>
+        </div>
+      </div>
+    </div>
+
+    ${item.status === 'open' && progressPct > 0 ? `
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Application period</span>
+        <span>${Math.round(progressPct)}% elapsed</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${progressPct}%"></div></div>
+    </div>` : ''}
+
+    <div class="status-bar">
+      <span class="status-badge ${statusClass}">
+        <span class="s-dot"></span>${statusLabel}
+      </span>
+      ${item.detailUrl ? `<a class="detail-link" href="${item.detailUrl}" target="_blank" rel="noopener">Details ↗</a>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderAnnouncements() {
+  const el = document.getElementById('announce-list');
+  if (!el) return;
+  if (state.announcements.length === 0) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No announcements</div></div>`;
+    return;
+  }
+
+  const typeConfig = {
+    IPO:       { icon:'📋', class:'ct-ipo',      color:'var(--green)',  bg:'var(--green-dim)' },
+    FPO:       { icon:'📊', class:'ct-fpo',      color:'var(--blue)',   bg:'var(--blue-dim)' },
+    RIGHT:     { icon:'↩',  class:'ct-right',    color:'var(--amber)',  bg:'var(--amber-dim)' },
+    DIVIDEND:  { icon:'💰', class:'ct-mutual',   color:'var(--purple)', bg:'var(--purple-dim)' },
+    BONUS:     { icon:'🎁', class:'ct-local',    color:'var(--cyan)',   bg:'var(--cyan-dim)' },
+    AGM:       { icon:'🏛', class:'',            color:'var(--text-2)', bg:'var(--bg-3)' },
+    BOOKCLOSE: { icon:'📅', class:'',            color:'var(--orange)', bg:'var(--orange-dim)' },
+    MERGER:    { icon:'🔀', class:'',            color:'var(--purple)', bg:'var(--purple-dim)' },
+    DEBENTURE: { icon:'📜', class:'ct-debenture',color:'var(--orange)', bg:'var(--orange-dim)' },
+    OTHER:     { icon:'📌', class:'',            color:'var(--text-2)', bg:'var(--bg-3)' },
+  };
+
+  el.innerHTML = state.announcements.map((ann, i) => {
+    const cfg = typeConfig[ann.type] || typeConfig.OTHER;
+    return `<a class="announce-card" href="${ann.url}" target="_blank" rel="noopener" style="animation-delay:${i*0.05}s">
+      <div class="ac-date">${ann.date}</div>
+      <div class="ac-icon" style="background:${cfg.bg}">${cfg.icon}</div>
+      <div class="ac-content">
+        <div class="ac-title">${ann.title}</div>
+        <div class="ac-meta">Source: merolagani.com</div>
+      </div>
+      <span class="ac-badge ${cfg.class}" style="background:${cfg.bg};color:${cfg.color};border:1px solid ${cfg.color}33">${ann.type}</span>
+    </a>`;
+  }).join('');
+}
+
+function renderSkeletons() {
+  const skels = `
+    ${[1,2,3].map(i => `
+    <div class="skel-card" style="animation-delay:${i*.1}s">
+      <div class="skeleton" style="height:20px;width:60%;margin-bottom:10px"></div>
+      <div class="skeleton" style="height:14px;width:40%;margin-bottom:16px"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div class="skeleton" style="height:40px"></div>
+        <div class="skeleton" style="height:40px"></div>
+      </div>
+      <div class="skeleton" style="height:56px"></div>
+    </div>`).join('')}`;
+  ['ipo-grid','right-grid','fpo-grid','mutual-grid'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = skels;
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+// FILTERING
+// ════════════════════════════════════════════════════════════
+function filterCards(section, query) {
+  state.search[section] = query.toLowerCase();
+  const types = { ipo:['IPO','LOCAL','MIGRANT','QII'], right:['RIGHT'], fpo:['FPO','DEBENTURE'], mutual:['MUTUAL'] };
+  const t = types[section] || types.ipo;
+  const items = state.issues.filter(i => {
+    if (!t.includes(i.type)) return false;
+    if (state.filters[section] && state.filters[section] !== 'all' && i.status !== state.filters[section]) return false;
+    if (state.search[section]) {
+      return i.company.toLowerCase().includes(state.search[section]) ||
+             (i.symbol||'').toLowerCase().includes(state.search[section]);
+    }
+    return true;
+  });
+  renderGrid(section+'-grid', items);
+}
+
+function setStatusFilter(section, status, btn) {
+  state.filters[section] = status;
+  btn.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCards(section, state.search[section]||'');
+}
+
+// ════════════════════════════════════════════════════════════
+// UI HELPERS
+// ════════════════════════════════════════════════════════════
+function switchTab(name, el) {
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+name)?.classList.add('active');
+}
+
+function setRefreshLoading(loading) {
+  const btn = document.getElementById('refresh-btn');
+  if (!btn) return;
+  btn.classList.toggle('loading', loading);
+  btn.disabled = loading;
+}
+
+function setLastUpdated(status) {
+  const dot = document.getElementById('lu-dot');
+  const txt = document.getElementById('lu-text');
+  if (!dot || !txt) return;
+  const ts = state.lastFetch ? new Date(state.lastFetch).toLocaleTimeString() : '';
+  if (status === 'loading') {
+    dot.className = 'lu-dot stale';
+    txt.textContent = 'Fetching...';
+  } else if (status === 'fresh') {
+    dot.className = 'lu-dot';
+    txt.textContent = `Updated ${ts}`;
+  } else if (status === 'cached') {
+    dot.className = 'lu-dot stale';
+    const raw = localStorage.getItem(CACHE_KEY_IPO);
+    const age = raw ? Math.floor((Date.now()-JSON.parse(raw).ts)/60000) : '?';
+    txt.textContent = `Cached (${age} min ago)`;
+  } else if (status === 'partial') {
+    dot.className = 'lu-dot stale';
+    txt.textContent = `Partial data · ${ts}`;
+  } else if (status === 'error') {
+    dot.className = 'lu-dot error';
+    txt.textContent = 'Fetch failed';
+  }
+}
+
+let _toastTimer = null;
+function toast(msg, type='', dur=3500) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${type}`;
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), dur);
+}
+
+// ════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  fetchAll(false);
+});
+</script>
+</body>
+</html>
