@@ -1,0 +1,71 @@
+{
+  "date": "2026-05-08",
+  "headline": "GREEN / Steady Rally",
+  "nepseClose": "2745.65",
+  "nepseChg": "+27.49 (+1.01%)",
+  "turnover": "Rs.3.29B",
+  "sharesTraded": "7,478,562",
+  "transactions": "53,014",
+  "advDecUnch": "235 / 26 / 8",
+  "marketCap": "Rs.4.68T",
+  "floatCap": "Rs.1.56T",
+  "b58Stance": "NET SELLER",
+  "b58Net": "-Rs.2.09M",
+  "b58Purchase": "Rs.225.91M",
+  "b58SalesTotal": "Rs.228M",
+  "b58TopBuy": "NGPL",
+  "b58PeakMkt": "—",
+  "marketPulseNote": "Market closed green with 235 advancing stocks against 26 decliners. Total turnover reached Rs. 3.29 billion with Hydro and Finance sectors showing strength.",
+  "subIndices": [
+    {"name":"Banking","value":"1444.93","chg":"+9.63","chgPct":"+0.67%","direction":"up"},
+    {"name":"Development Bank","value":"5864.09","chg":"+54.22","chgPct":"+0.93%","direction":"up"},
+    {"name":"Finance","value":"2378.29","chg":"+43.86","chgPct":"+1.87%","direction":"up"},
+    {"name":"Hotels And Tourism","value":"7938.12","chg":"+116.33","chgPct":"+1.48%","direction":"up"},
+    {"name":"HydroPower","value":"3850.87","chg":"+64.85","chgPct":"+1.71%","direction":"up"},
+    {"name":"Investment","value":"102.58","chg":"+1.13","chgPct":"+1.12%","direction":"up"},
+    {"name":"Life Insurance","value":"12430.11","chg":"+79.23","chgPct":"+0.64%","direction":"up"},
+    {"name":"Manufacturing And Processing","value":"11287.55","chg":"+156.51","chgPct":"+1.40%","direction":"up"},
+    {"name":"Microfinance","value":"4813.29","chg":"+8.16","chgPct":"+0.16%","direction":"up"},
+    {"name":"Mutual Fund","value":"21.83","chg":"+0.12","chgPct":"+0.55%","direction":"up"}
+  ],
+  "topGainers": [
+    {"sym":"TVCL","close":"561.00","chgPct":"+10.00%"},
+    {"sym":"HFN","close":"1073.00","chgPct":"+7.90%"},
+    {"sym":"SKHEL","close":"1369.00","chgPct":"+6.12%"},
+    {"sym":"NICBF","close":"9.95","chgPct":"+5.74%"},
+    {"sym":"AKJCL","close":"365.90","chgPct":"+5.48%"}
+  ],
+  "topLosers": [
+    {"sym":"SWBBL","close":"757.00","chgPct":"-6.54%"},
+    {"sym":"GBIMESY2","close":"9.30","chgPct":"-2.62%"},
+    {"sym":"FOWAD","close":"1100.00","chgPct":"-2.47%"},
+    {"sym":"SBLD89","close":"1220.00","chgPct":"-2.40%"}
+  ],
+  "topTurnover": [
+    {"sym":"HFN","turnover":"Rs.138.69M","ltp":"1073.00"},
+    {"sym":"RSML","turnover":"Rs.136.46M","ltp":"3800.00"},
+    {"sym":"SOHL","turnover":"Rs.120.31M","ltp":"719.00"},
+    {"sym":"NGPL","turnover":"Rs.116.37M","ltp":"444.90"},
+    {"sym":"RIDI","turnover":"Rs.101.50M","ltp":"346.80"}
+  ],
+  "topVolume": [
+    {"sym":"RIDI","shares":"294,378","ltp":"346.80"},
+    {"sym":"AKJCL","shares":"268,683","ltp":"365.90"},
+    {"sym":"NHPC","shares":"267,595","ltp":"283.10"},
+    {"sym":"NGPL","shares":"265,612","ltp":"444.90"}
+  ],
+  "b58Purchases": [
+    {"sym":"NGPL","mktPct":"15.70%","amount":"Rs.18.27M","kitta":"41598","avgPrice":"439.19","txns":"133"},
+    {"sym":"HFN","mktPct":"9.87%","amount":"Rs.13.69M","kitta":"13177","avgPrice":"1039.07","txns":"434"}
+  ],
+  "b58SalesList": [
+    {"sym":"SOHL","mktPct":"21.13%","amount":"Rs.25.43M","kitta":"35561","avgPrice":"715.04","txns":"395"},
+    {"sym":"RIDI","mktPct":"20.65%","amount":"Rs.20.96M","kitta":"60826","avgPrice":"344.58","txns":"84"}
+  ],
+  "netAccum": [],
+  "technical": [],
+  "tradePlan": [],
+  "keyInsights": [],
+  "actionPlan": [],
+  "disclaimer": ["Not financial advice — Personal tracking only."]
+}
