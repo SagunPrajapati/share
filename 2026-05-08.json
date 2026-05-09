@@ -1,6 +1,6 @@
 {
   "date": "2026-05-08",
-  "headline": "GREEN / Steady Rally",
+  "headline": "GREEN / Broad Rally",
   "nepseClose": "2745.65",
   "nepseChg": "+27.49 (+1.01%)",
   "turnover": "Rs.3.29B",
@@ -12,10 +12,10 @@
   "b58Stance": "NET SELLER",
   "b58Net": "-Rs.2.09M",
   "b58Purchase": "Rs.225.91M",
-  "b58SalesTotal": "Rs.228M",
+  "b58SalesTotal": "Rs.228.00M",
   "b58TopBuy": "NGPL",
-  "b58PeakMkt": "—",
-  "marketPulseNote": "Market closed green with 235 advancing stocks against 26 decliners. Total turnover reached Rs. 3.29 billion with Hydro and Finance sectors showing strength.",
+  "b58PeakMkt": "15.70% (NGPL)",
+  "marketPulseNote": "NEPSE closed at 2,745.65, up 27.49 points (+1.01%). Strong broad rally with 235 advancing stocks against only 26 decliners. Turnover Rs.3.29B. Broker 58 was marginal net seller.",
   "subIndices": [
     {"name":"Banking","value":"1444.93","chg":"+9.63","chgPct":"+0.67%","direction":"up"},
     {"name":"Development Bank","value":"5864.09","chg":"+54.22","chgPct":"+0.93%","direction":"up"},
@@ -42,30 +42,78 @@
     {"sym":"SBLD89","close":"1220.00","chgPct":"-2.40%"}
   ],
   "topTurnover": [
-    {"sym":"HFN","turnover":"Rs.138.69M","ltp":"1073.00"},
-    {"sym":"RSML","turnover":"Rs.136.46M","ltp":"3800.00"},
-    {"sym":"SOHL","turnover":"Rs.120.31M","ltp":"719.00"},
+    {"sym":"HFN","turnover":"Rs.138.69M","ltp":"1073"},
+    {"sym":"RSML","turnover":"Rs.136.46M","ltp":"3800"},
+    {"sym":"SOHL","turnover":"Rs.120.31M","ltp":"719"},
     {"sym":"NGPL","turnover":"Rs.116.37M","ltp":"444.90"},
     {"sym":"RIDI","turnover":"Rs.101.50M","ltp":"346.80"}
   ],
   "topVolume": [
-    {"sym":"RIDI","shares":"294,378","ltp":"346.80"},
-    {"sym":"AKJCL","shares":"268,683","ltp":"365.90"},
-    {"sym":"NHPC","shares":"267,595","ltp":"283.10"},
-    {"sym":"NGPL","shares":"265,612","ltp":"444.90"}
+    {"sym":"RIDI","shares":"294378","ltp":"346.80"},
+    {"sym":"AKJCL","shares":"268683","ltp":"365.90"},
+    {"sym":"NHPC","shares":"267595","ltp":"283.10"},
+    {"sym":"NGPL","shares":"265612","ltp":"444.90"}
   ],
   "b58Purchases": [
     {"sym":"NGPL","mktPct":"15.70%","amount":"Rs.18.27M","kitta":"41598","avgPrice":"439.19","txns":"133"},
-    {"sym":"HFN","mktPct":"9.87%","amount":"Rs.13.69M","kitta":"13177","avgPrice":"1039.07","txns":"434"}
+    {"sym":"HFN","mktPct":"9.87%","amount":"Rs.13.69M","kitta":"13177","avgPrice":"1039.07","txns":"434"},
+    {"sym":"SOHL","mktPct":"8.88%","amount":"Rs.10.69M","kitta":"14958","avgPrice":"714.34","txns":"216"},
+    {"sym":"PCIL","mktPct":"14.77%","amount":"Rs.8.64M","kitta":"9719","avgPrice":"888.81","txns":"674"}
   ],
   "b58SalesList": [
     {"sym":"SOHL","mktPct":"21.13%","amount":"Rs.25.43M","kitta":"35561","avgPrice":"715.04","txns":"395"},
-    {"sym":"RIDI","mktPct":"20.65%","amount":"Rs.20.96M","kitta":"60826","avgPrice":"344.58","txns":"84"}
+    {"sym":"RIDI","mktPct":"20.65%","amount":"Rs.20.96M","kitta":"60826","avgPrice":"344.58","txns":"84"},
+    {"sym":"NRN","mktPct":"30.50%","amount":"Rs.13.24M","kitta":"9503","avgPrice":"1393.73","txns":"56"},
+    {"sym":"SYPNL","mktPct":"13.14%","amount":"Rs.12.93M","kitta":"8863","avgPrice":"1459.04","txns":"186"}
   ],
-  "netAccum": [],
-  "technical": [],
-  "tradePlan": [],
-  "keyInsights": [],
-  "actionPlan": [],
+  "netAccum": [
+    {"sym":"NGPL","netKitta":"+41598","sellMktPct":"—","convWidth":"80","rating":"★★★★","note":"Strong B58 conviction buy"},
+    {"sym":"NHPC","netKitta":"+16252","sellMktPct":"—","convWidth":"65","rating":"★★★","note":"High volume accumulation"},
+    {"sym":"HFN","netKitta":"+13177","sellMktPct":"—","convWidth":"60","rating":"★★★","note":"B58 aggressive buyer"},
+    {"sym":"RIDI","netKitta":"-60826","sellMktPct":"20.65%","convWidth":"35","rating":"★","note":"Net distribution"}
+  ],
+  "technical": [
+    {"sym":"NHPC","ltp":"283.10","w52h":"331.20","w52l":"178.60","chg":"+3.70%","rsi":"46.47","adx":"21.41","atr":"16.72","aroon":"92.86%","adOsc":"Bullish","signal":"Bullish","action":"ADD"},
+    {"sym":"SOHL","ltp":"719.00","w52h":"—","w52l":"—","chg":"+1.28%","rsi":"56.55","adx":"39.32","atr":"50.67","aroon":"78.57%","adOsc":"Bullish","signal":"Strong Trend","action":"MONITOR"},
+    {"sym":"NGPL","ltp":"444.90","w52h":"491.00","w52l":"334.10","chg":"+3.11%","rsi":"48.99","adx":"15.22","atr":"17.39","aroon":"92.86%","adOsc":"Bullish","signal":"Bullish","action":"ADD"},
+    {"sym":"RIDI","ltp":"346.80","w52h":"380.00","w52l":"209.00","chg":"+2.63%","rsi":"49.55","adx":"15.46","atr":"20.06","aroon":"64.29%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"SYPNL","ltp":"1465.00","w52h":"—","w52l":"—","chg":"+4.57%","rsi":"34.96","adx":"31.78","atr":"92.41","aroon":"92.86%","adOsc":"Bearish","signal":"Oversold Bounce","action":"WATCH"},
+    {"sym":"NABIL","ltp":"523.00","w52h":"554.60","w52l":"480.50","chg":"0.00%","rsi":"49.15","adx":"26.64","atr":"9.75","aroon":"35.71%","adOsc":"Bearish","signal":"Neutral","action":"WATCH"},
+    {"sym":"NICA","ltp":"356.70","w52h":"420.10","w52l":"306.40","chg":"+0.20%","rsi":"45.37","adx":"13.80","atr":"13.17","aroon":"57.14%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"RADHI","ltp":"769.90","w52h":"920.00","w52l":"631.60","chg":"+3.07%","rsi":"43.48","adx":"30.01","atr":"29.80","aroon":"78.57%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"SHIVM","ltp":"676.90","w52h":"720.00","w52l":"488.80","chg":"+1.48%","rsi":"53.12","adx":"14.97","atr":"18.48","aroon":"64.29%","adOsc":"Neutral","signal":"Bullish","action":"MONITOR"},
+    {"sym":"MPFL","ltp":"617.00","w52h":"730.00","w52l":"498.00","chg":"+2.00%","rsi":"43.68","adx":"16.25","atr":"22.21","aroon":"64.29%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"SONA","ltp":"437.10","w52h":"513.50","w52l":"401.00","chg":"+0.95%","rsi":"45.77","adx":"13.09","atr":"13.75","aroon":"78.57%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"ULHC","ltp":"510.00","w52h":"587.50","w52l":"420.00","chg":"-1.54%","rsi":"48.02","adx":"29.18","atr":"34.92","aroon":"71.43%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"JBBL","ltp":"330.50","w52h":"404.70","w52l":"305.00","chg":"-0.48%","rsi":"46.27","adx":"17.84","atr":"11.36","aroon":"78.57%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"API","ltp":"337.00","w52h":"364.20","w52l":"247.70","chg":"+1.41%","rsi":"48.51","adx":"15.70","atr":"10.86","aroon":"78.57%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"SMHL","ltp":"497.60","w52h":"1145.40","w52l":"445.00","chg":"+0.55%","rsi":"46.20","adx":"13.06","atr":"15.53","aroon":"78.57%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"ILI","ltp":"437.50","w52h":"493.70","w52l":"411.10","chg":"+0.69%","rsi":"46.51","adx":"21.60","atr":"9.21","aroon":"78.57%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"BHL","ltp":"219.50","w52h":"257.70","w52l":"167.00","chg":"+1.39%","rsi":"47.36","adx":"13.39","atr":"9.52","aroon":"100.00%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"ALICL","ltp":"453.00","w52h":"516.00","w52l":"424.40","chg":"+0.49%","rsi":"43.93","adx":"12.14","atr":"10.43","aroon":"71.43%","adOsc":"Bearish","signal":"Neutral","action":"WATCH"},
+    {"sym":"SAIL","ltp":"1145.00","w52h":"—","w52l":"—","chg":"+2.42%","rsi":"43.42","adx":"16.41","atr":"88.10","aroon":"64.29%","adOsc":"Neutral","signal":"Bullish","action":"MONITOR"},
+    {"sym":"HDL","ltp":"1155.00","w52h":"1271.40","w52l":"980.80","chg":"+0.45%","rsi":"46.87","adx":"21.87","atr":"19.89","aroon":"35.71%","adOsc":"Neutral","signal":"Neutral","action":"WATCH"},
+    {"sym":"FMDBL","ltp":"804.80","w52h":"1011.00","w52l":"730.20","chg":"+0.60%","rsi":"47.97","adx":"12.90","atr":"30.41","aroon":"92.86%","adOsc":"Bullish","signal":"Neutral","action":"WATCH"},
+    {"sym":"PRVU","ltp":"199.80","w52h":"245.30","w52l":"181.20","chg":"+1.94%","rsi":"47.35","adx":"13.21","atr":"7.12","aroon":"92.86%","adOsc":"Bearish","signal":"Neutral","action":"WATCH"}
+  ],
+  "tradePlan": [
+    {"rk":"1","sym":"NHPC","ltp":"283.10","w52hl":"331.20/178.60","entry":"275-290","stop":"265","t1":"310","t2":"331","t3":"—","rr":"1:2.5","action":"ADD"},
+    {"rk":"2","sym":"NGPL","ltp":"444.90","w52hl":"491/334","entry":"430-450","stop":"410","t1":"480","t2":"510","t3":"—","rr":"1:2.2","action":"ADD"},
+    {"rk":"3","sym":"SOHL","ltp":"719.00","w52hl":"—","entry":"700-730","stop":"670","t1":"780","t2":"850","t3":"—","rr":"1:2.3","action":"MONITOR"},
+    {"rk":"4","sym":"SYPNL","ltp":"1465.00","w52hl":"—","entry":"1420-1480","stop":"1380","t1":"1550","t2":"—","t3":"—","rr":"1:1.8","action":"WATCH"},
+    {"rk":"5","sym":"RADHI","ltp":"769.90","w52hl":"920/631","entry":"750-780","stop":"720","t1":"820","t2":"—","t3":"—","rr":"1:2.0","action":"WATCH"},
+    {"rk":"6","sym":"NABIL","ltp":"523.00","w52hl":"554.60/480.50","entry":"515-530","stop":"500","t1":"550","t2":"—","t3":"—","rr":"1:2.0","action":"WATCH"}
+  ],
+  "keyInsights": [
+    {"num":"1","title":"Broad Based Strength","body":"Strong breadth (235 up) across Hydro, Finance, and Manufacturing sectors."},
+    {"num":"2","title":"B58 Selective Accumulation","body":"Clear buying interest in NGPL, HFN, and NHPC despite overall net selling."},
+    {"num":"3","title":"Momentum in Newly Listed SOHL","body":"Strong technical readings with high ADX on debut."},
+    {"num":"4","title":"Oversold Bounce Candidates","body":"SYPNL and others showing low RSI with high volume."}
+  ],
+  "actionPlan": [
+    {"priority":"URGENT","sym":"NHPC","ltp":"283.10","w52h":"331.20","action":"ADD","note":"High volume + positive setup","type":"urgent"},
+    {"priority":"URGENT","sym":"NGPL","ltp":"444.90","w52h":"491","action":"ADD","note":"B58 pure buy","type":"urgent"},
+    {"priority":"MONITOR","sym":"SOHL","ltp":"719.00","w52h":"—","action":"MONITOR","note":"Strong ADX & momentum","type":"monitor"}
+  ],
   "disclaimer": ["Not financial advice — Personal tracking only."]
 }
