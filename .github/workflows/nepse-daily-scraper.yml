@@ -1,0 +1,83 @@
+name: NEPSE Daily Scraper
+
+on:
+  schedule:
+    - cron: '30 9 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Report date (YYYY-MM-DD). Leave blank for today.'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-and-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install playwright requests
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Determine report date
+        id: date
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            echo "date=${{ github.event.inputs.date }}" >> $GITHUB_OUTPUT
+          else
+            echo "date=$(TZ='Asia/Kathmandu' date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run NEPSE scraper
+        env:
+          REPORT_DATE: ${{ steps.date.outputs.date }}
+        run: |
+          python python/nepse_scraper.py --date $REPORT_DATE
+        continue-on-error: true
+
+      - name: Update config.py with new date
+        env:
+          REPORT_DATE: ${{ steps.date.outputs.date }}
+        run: |
+          python - <<'PYEOF'
+          import os, re
+          date = os.environ['REPORT_DATE']
+          config_path = 'python/config.py'
+          with open(config_path) as f:
+              content = f.read()
+          if f'"{date}"' not in content:
+              content = re.sub(
+                  r'(DATESs*=s*[)(.*?)(])',
+                  lambda m: m.group(1) + m.group(2).rstrip() + f'\n    "{date}",\n' + m.group(3),
+                  content, flags=re.DOTALL
+              )
+              with open(config_path, 'w') as f:
+                  f.write(content)
+              print(f"Added {date} to DATES list")
+          PYEOF
+
+      - name: Commit and push
+        env:
+          REPORT_DATE: ${{ steps.date.outputs.date }}
+        run: |
+          git config user.name "NEPSE Bot"
+          git config user.email "nepse-bot@users.noreply.github.com"
+          git add "$REPORT_DATE.json" python/config.py || true
+          git diff --staged --quiet || git commit -m "Auto: Add report $REPORT_DATE"
+          git push
