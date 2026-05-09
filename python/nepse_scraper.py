@@ -11,6 +11,8 @@ Usage:
 """
 
 import asyncio, json, re, os, argparse, sys
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from datetime import datetime, date
 from pathlib import Path
 
@@ -52,7 +54,7 @@ def fmt_rs(val):
 
 def get(url, params=None):
     try:
-        r = requests.get(url, headers=HEADERS, params=params, timeout=TIMEOUT)
+        r = requests.get(url, headers=HEADERS, params=params, timeout=TIMEOUT, verify=False)
         r.raise_for_status()
         return r.json()
     except Exception as e:
