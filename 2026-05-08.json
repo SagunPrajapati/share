@@ -3,7 +3,7 @@
   "headline": "MIXED / B58 Buying on Dip",
   "nepseClose": "—",
   "nepseChg": "—",
-  "turnover": [],
+  "turnover": "Rs.0",
   "sharesTraded": "0",
   "transactions": "0",
   "advDecUnch": "— / — / —",
@@ -15,7 +15,7 @@
   "b58SalesTotal": "Rs.0",
   "b58TopBuy": "—",
   "b58PeakMkt": "—",
-  "marketPulseNote": "NEPSE — (—) turnover []. B58 NET BUYER +Rs.0.",
+  "marketPulseNote": "NEPSE — (—) turnover Rs.0. B58 NET BUYER +Rs.0.",
   "subIndices": [],
   "topGainers": [],
   "topLosers": [],
@@ -316,7 +316,7 @@
     {
       "num": "2",
       "title": "NEPSE declined —",
-      "body": "A/D/U: — / — / —. Turnover: []."
+      "body": "A/D/U: — / — / —. Turnover: Rs.0."
     }
   ],
   "actionPlan": [
@@ -504,6 +504,6 @@
   "disclaimer": [
     "Not financial advice — personal tracking only.",
     "Data: nepalstock.com.np",
-    "Generated: 2026-05-10 02:09:35 NPT"
+    "Generated: 2026-05-10 02:20:05 NPT"
   ]
 }
