@@ -1,20 +1,20 @@
 """
-NEPSE Daily Data Extractor v2
+NEPSE Daily Data Extractor v3
 ================================
-Uses NEPSE's own JSON API endpoints — much faster and more reliable than scraping.
-NEPSE Alpha technicals are fetched via API too (no browser needed).
+Uses Playwright to run inside the nepalstock.com.np browser context
+where the WASM token generator is already loaded. Extracts the
+Authorization token and uses it for all API calls.
 
 Usage:
     python nepse_scraper.py                    # today
-    python nepse_scraper.py --date 2026-05-10  # specific date
-    python nepse_scraper.py --no-alpha         # skip technicals
+    python nepse_scraper.py --date 2026-05-08  # specific date
 """
 
-import asyncio, json, re, os, argparse, sys
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+import asyncio, json, re, os, argparse
 from datetime import datetime, date
 from pathlib import Path
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 try:
     import requests
@@ -22,15 +22,12 @@ try:
 except ImportError:
     HAS_REQUESTS = False
 
-# ── CONFIG ──────────────────────────────────────────────────
-BROKER_ID   = 58          # Naasa Securities = 58
-OUTPUT_DIR  = "."         # where to save YYYY-MM-DD.json
-TIMEOUT     = 30          # requests timeout in seconds
-HEADERS     = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-    "Accept":     "application/json, text/plain, */*",
-    "Referer":    "https://nepalstock.com.np/",
-}
+from playwright.async_api import async_playwright
+
+OUTPUT_DIR = "."
+BROKER_ID  = 58
+BASE       = "https://nepalstock.com.np/api/nots"
+
 WATCHLIST = [
     "NHPC","NABIL","NICA","NIFRA","GBIME",
     "SHIVM","LBBL","NRN","AKJCL","UPPER",
@@ -38,9 +35,6 @@ WATCHLIST = [
     "SANIMA","PRVU","NBL","RLFL","NLBBL",
 ]
 
-BASE = "https://nepalstock.com.np/api/nots"
-
-# ── HELPERS ─────────────────────────────────────────────────
 def log(msg): print(f"[{datetime.now().strftime('%H:%M:%S')}] {msg}", flush=True)
 
 def safe_float(s):
@@ -52,329 +46,317 @@ def fmt_rs(val):
     if val >= 1e6: return f"Rs.{val/1e6:.2f}M"
     return f"Rs.{val:,.0f}"
 
-def get(url, params=None):
+async def get_auth_token(page):
+    """Load NEPSE, wait for WASM, call generate_token, return Bearer token."""
+    log("Loading NEPSE to get auth token via WASM...")
+    await page.goto("https://nepalstock.com.np/today-price", timeout=60000)
+    await page.wait_for_load_state("networkidle", timeout=60000)
+    await asyncio.sleep(3)
+
+    # Wait for WASM Module to be fully initialised with ccall
+    token = await page.evaluate("""
+        () => new Promise((resolve) => {
+            const check = () => {
+                if (typeof Module !== 'undefined' && typeof Module.ccall === 'function') {
+                    try {
+                        const today = new Date().toISOString().slice(0,10);
+                        const tok = Module.ccall('generate_token','string',['string'],[today]);
+                        if (tok && tok.length > 5) { resolve(tok); return; }
+                        // try without date
+                        const tok2 = Module.ccall('generate_token','string',[],[]);
+                        resolve(tok2 || '');
+                    } catch(e) { resolve('wasm_err:' + e.message); }
+                } else {
+                    setTimeout(check, 500);
+                }
+            };
+            check();
+            // timeout after 30s
+            setTimeout(() => resolve('timeout'), 30000);
+        })
+    """)
+
+    if token and not token.startswith('wasm_err') and token != 'timeout':
+        log(f"   Token obtained via WASM: {token[:30]}...")
+        return f"Bearer {token}"
+
+    # Fallback: intercept a real API call from the page to capture the token
+    log("   WASM approach failed, intercepting live API call...")
+    captured = {}
+
+    async def on_request(request):
+        if "api/nots" in request.url and not captured.get("token"):
+            auth = request.headers.get("authorization", "")
+            if auth and auth.startswith("Bearer"):
+                captured["token"] = auth
+                captured["url"]   = request.url
+
+    page.on("request", on_request)
+    await page.reload()
+    await page.wait_for_load_state("networkidle", timeout=30000)
+    await asyncio.sleep(3)
+
+    if captured.get("token"):
+        log(f"   Token captured from live request: {captured['token'][:30]}...")
+        return captured["token"]
+
+    log("   Could not obtain token. Will try without auth.")
+    return ""
+
+async def api_get(session_token, url, params=None):
+    """Make authenticated GET request."""
+    import requests as req
+    hdrs = {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json, text/plain, */*",
+        "Referer": "https://nepalstock.com.np/",
+    }
+    if session_token:
+        hdrs["Authorization"] = session_token
     try:
-        r = requests.get(url, headers=HEADERS, params=params, timeout=TIMEOUT, verify=False)
-        r.raise_for_status()
-        return r.json()
+        r = req.get(url, headers=hdrs, params=params, timeout=30, verify=False)
+        if r.status_code == 200:
+            return r.json()
+        log(f"   GET {url.split('/')[-1]} -> {r.status_code}")
     except Exception as e:
-        log(f"   GET failed {url}: {e}")
-        return None
+        log(f"   GET error {url}: {e}")
+    return None
 
-# ── 1. NEPSE INDEX ───────────────────────────────────────────
-def fetch_nepse_index():
+async def api_post(session_token, url, body=None):
+    """Make authenticated POST request."""
+    import requests as req
+    hdrs = {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        "Referer": "https://nepalstock.com.np/",
+    }
+    if session_token:
+        hdrs["Authorization"] = session_token
+    try:
+        r = req.post(url, headers=hdrs, json=body or {}, timeout=30, verify=False)
+        if r.status_code == 200:
+            return r.json()
+        log(f"   POST {url.split('/')[-1]} -> {r.status_code}")
+    except Exception as e:
+        log(f"   POST error {url}: {e}")
+    return None
+
+async def fetch_all_data(tok, report_date):
+    """Fetch all NEPSE data using the auth token."""
     log("Fetching NEPSE index...")
-    data = {}
-    d = get(f"{BASE}/index")
-    if d:
-        try:
-            idx = next((x for x in d if x.get("index") == "NEPSE"), d[0] if d else {})
-            data["nepseClose"] = str(round(safe_float(idx.get("currentValue", 0)), 2))
-            chg = safe_float(idx.get("change", 0))
-            pct = safe_float(idx.get("perChange", 0))
-            sign = "+" if chg >= 0 else ""
-            data["nepseChg"] = f"{sign}{chg:.2f} ({sign}{pct:.2f}%)"
-            log(f"   NEPSE: {data['nepseClose']}  Chg: {data['nepseChg']}")
-        except Exception as e:
-            log(f"   Index parse error: {e}")
-    return data
+    nepse_idx = await api_get(tok, f"{BASE}/nepse-index") or []
+    main_idx = next((x for x in nepse_idx if x.get("index") == "NEPSE"), nepse_idx[0] if nepse_idx else {})
+    close = str(round(safe_float(main_idx.get("currentValue",0)),2)) if main_idx else "—"
+    chg   = safe_float(main_idx.get("change",0))
+    pct   = safe_float(main_idx.get("perChange",0))
+    sign  = "+" if chg >= 0 else ""
+    chg_str = f"{sign}{chg:.2f} ({sign}{pct:.2f}%)" if main_idx else "—"
+    log(f"   NEPSE: {close}  Chg: {chg_str}")
 
-# ── 2. MARKET SUMMARY ────────────────────────────────────────
-def fetch_market_summary():
     log("Fetching market summary...")
-    data = {}
-    d = get(f"{BASE}/market/turnover")
-    if d:
-        try:
-            data["turnover"]    = fmt_rs(safe_float(d.get("totalTurnover", 0)))
-            data["sharesTraded"] = f"{int(safe_float(d.get('totalTradedShares', 0))):,}"
-            data["transactions"] = f"{int(safe_float(d.get('totalTransactions', 0))):,}"
-            adv = d.get("advancers", "—"); dec = d.get("decliners", "—"); unc = d.get("unchanged", "—")
-            data["advDecUnch"]  = f"{adv} / {dec} / {unc}"
-            data["marketCap"]   = fmt_rs(safe_float(d.get("marketCap", 0)))
-            data["floatCap"]    = fmt_rs(safe_float(d.get("floatMarketCap", 0)))
-            log(f"   Turnover:{data['turnover']}  A/D/U:{data['advDecUnch']}")
-        except Exception as e:
-            log(f"   Summary parse error: {e}")
-    return data
+    summary = await api_get(tok, f"{BASE}/market-summary/") or {}
+    turnover     = fmt_rs(safe_float(summary.get("totalTurnover",0)))
+    shares       = f"{int(safe_float(summary.get('totalTradedShares',0))):,}"
+    transactions = f"{int(safe_float(summary.get('totalTransactions',0))):,}"
+    adv          = summary.get("advancers","—"); dec = summary.get("decliners","—"); unc = summary.get("unchanged","—")
+    adv_dec      = f"{adv} / {dec} / {unc}"
+    market_cap   = fmt_rs(safe_float(summary.get("marketCap",0)))
+    float_cap    = fmt_rs(safe_float(summary.get("floatMarketCap",0)))
 
-# ── 3. SUB-INDICES ───────────────────────────────────────────
-def fetch_sub_indices():
     log("Fetching sub-indices...")
-    d = get(f"{BASE}/index")
-    sub = []
-    if d:
-        for idx in d:
-            name = idx.get("index", "")
-            if name in ("", "NEPSE", "Float", "Sensitive", "Sensitive Float"): continue
-            val  = round(safe_float(idx.get("currentValue", 0)), 2)
-            chg  = round(safe_float(idx.get("change", 0)), 2)
-            pct  = round(safe_float(idx.get("perChange", 0)), 2)
-            sign = "+" if chg >= 0 else ""
-            sub.append({"name": name, "value": str(val), "chg": f"{sign}{chg}", "chgPct": f"{sign}{pct}%", "direction": "up" if chg >= 0 else "down"})
-        log(f"   Sub-indices: {len(sub)}")
-    return sub
+    sub_raw = await api_get(tok, f"{BASE}/nepse-index") or []
+    sub_indices = []
+    for x in sub_raw:
+        nm = x.get("index","")
+        if nm in ("","NEPSE","Float","Sensitive","Sensitive Float"): continue
+        v = round(safe_float(x.get("currentValue",0)),2)
+        c = round(safe_float(x.get("change",0)),2)
+        p = round(safe_float(x.get("perChange",0)),2)
+        s = "+" if c >= 0 else ""
+        sub_indices.append({"name":nm,"value":str(v),"chg":f"{s}{c}","chgPct":f"{s}{p}%","direction":"up" if c>=0 else "down"})
 
-# ── 4. TOP MOVERS ────────────────────────────────────────────
-def fetch_top_movers():
     log("Fetching top movers...")
-    gainers, losers, turnover, volume = [], [], [], []
-    d = get(f"{BASE}/market/today-price", {"size": 200, "businessDate": "", "sort": "percentageChange", "sortType": "desc"})
-    if d and "content" in d:
-        stocks = d["content"]
-        sorted_up   = sorted(stocks, key=lambda x: safe_float(x.get("percentageChange", 0)), reverse=True)
-        sorted_down = sorted(stocks, key=lambda x: safe_float(x.get("percentageChange", 0)))
-        sorted_turn = sorted(stocks, key=lambda x: safe_float(x.get("turnover", 0)), reverse=True)
-        sorted_vol  = sorted(stocks, key=lambda x: safe_float(x.get("totalTradedQuantity", 0)), reverse=True)
-        for s in sorted_up[:10]:
-            gainers.append({"sym": s.get("symbol",""), "close": str(s.get("closingPrice","")), "chgPct": f"+{safe_float(s.get('percentageChange',0)):.2f}%"})
-        for s in sorted_down[:10]:
-            losers.append({"sym": s.get("symbol",""), "close": str(s.get("closingPrice","")), "chgPct": f"{safe_float(s.get('percentageChange',0)):.2f}%"})
-        for s in sorted_turn[:10]:
-            turnover.append({"sym": s.get("symbol",""), "ltp": str(s.get("closingPrice","")), "turnover": fmt_rs(safe_float(s.get("turnover",0)))})
-        for s in sorted_vol[:10]:
-            volume.append({"sym": s.get("symbol",""), "shares": f"{int(safe_float(s.get('totalTradedQuantity',0))):,}", "ltp": str(s.get("closingPrice",""))})
-        log(f"   Gainers:{len(gainers)} Losers:{len(losers)} Turnover:{len(turnover)}")
-    return gainers, losers, turnover, volume
+    gainers_raw  = await api_get(tok, f"{BASE}/top-ten/top-gainer?all=false") or []
+    losers_raw   = await api_get(tok, f"{BASE}/top-ten/top-loser?all=false") or []
+    turnover_raw = await api_get(tok, f"{BASE}/top-ten/turnover?all=false") or []
+    volume_raw   = await api_get(tok, f"{BASE}/top-ten/trade?all=false") or []
 
-# ── 5. BROKER 58 FLOORSHEET ──────────────────────────────────
-def fetch_broker58(business_date=""):
+    def mover(arr, keys):
+        return [{"sym":x.get("symbol",""),"close":str(x.get(keys[0],"")),"chgPct":str(x.get(keys[1],""))} for x in arr[:10] if x.get("symbol")]
+
+    gainers  = [{"sym":x.get("symbol",""),"close":str(x.get("ltp","")),"chgPct":f"+{x.get('percentageChange','')}%"} for x in gainers_raw[:10] if x.get("symbol")]
+    losers   = [{"sym":x.get("symbol",""),"close":str(x.get("ltp","")),"chgPct":f"{x.get('percentageChange','')}%"} for x in losers_raw[:10] if x.get("symbol")]
+    turnover = [{"sym":x.get("symbol",""),"ltp":str(x.get("ltp","")),"turnover":fmt_rs(safe_float(x.get("turnover","0")))} for x in turnover_raw[:10] if x.get("symbol")]
+    volume   = [{"sym":x.get("symbol",""),"shares":str(x.get("totalTradedQuantity","")),"ltp":str(x.get("ltp",""))} for x in volume_raw[:10] if x.get("symbol")]
+    log(f"   G:{len(gainers)} L:{len(losers)} T:{len(turnover)}")
+
     log(f"Fetching Broker {BROKER_ID} floorsheet...")
-    result = {"b58Stance":"—","b58Net":"—","b58Purchase":"—","b58SalesTotal":"—","b58Purchases":[],"b58SalesList":[],"netAccum":[]}
+    b58_raw = await api_get(tok, f"{BASE}/securityDailyTradeStat/{BROKER_ID}") or []
+    buy_map = {}; sell_map = {}
 
-    # Get broker summary
-    d = get(f"{BASE}/security/broker-floorsheet/{BROKER_ID}", {"size": 500, "businessDate": business_date})
-    if not d:
-        # Try without date
-        d = get(f"{BASE}/security/broker-floorsheet/{BROKER_ID}", {"size": 500})
-    if not d:
-        log("   Broker API not available — trying floorsheet search...")
-        d = get(f"{BASE}/floorsheet", {"brokerNumber": BROKER_ID, "size": 500})
+    for row in (b58_raw if isinstance(b58_raw,list) else []):
+        sym = row.get("symbol","") or row.get("stockSymbol","")
+        qty = int(safe_float(row.get("totalPurchaseQuantity",row.get("buyQuantity",0))))
+        amt = safe_float(row.get("totalPurchaseAmount",row.get("buyAmount",0)))
+        avg = safe_float(row.get("buyAveragePrice",0))
+        sqty = int(safe_float(row.get("totalSalesQuantity",row.get("sellQuantity",0))))
+        samt = safe_float(row.get("totalSalesAmount",row.get("sellAmount",0)))
+        savg = safe_float(row.get("sellAveragePrice",0))
+        if sym and qty > 0:
+            buy_map[sym] = {"kitta":qty,"amount":amt,"avg":avg}
+        if sym and sqty > 0:
+            sell_map[sym] = {"kitta":sqty,"amount":samt,"avg":savg}
 
-    buy_map  = {}
-    sell_map = {}
-
-    if d and ("floorsheets" in d or "content" in d or isinstance(d, list)):
-        sheets = d.get("floorsheets", d.get("content", d if isinstance(d, list) else []))
-        log(f"   Raw floorsheet rows: {len(sheets)}")
+    # If securityDailyTradeStat didn't give buy/sell breakdown, try the direct floorsheet
+    if not buy_map and not sell_map:
+        log("   Trying broker floorsheet endpoint...")
+        fs = await api_get(tok, f"{BASE}/security/broker-floorsheet/{BROKER_ID}",{"size":500,"businessDate":""}) or {}
+        sheets = fs.get("floorsheets",fs.get("content",[])) if isinstance(fs,dict) else (fs if isinstance(fs,list) else [])
         for row in sheets:
-            sym      = row.get("stockSymbol", row.get("symbol", ""))
-            qty      = int(safe_float(row.get("contractQuantity", row.get("quantity", 0))))
-            amount   = safe_float(row.get("contractAmount", row.get("amount", 0)))
-            avg_pr   = round(safe_float(row.get("contractRate", row.get("rate", 0))), 2)
-            buyer_br = str(row.get("buyerBrokerCode", row.get("buyerBroker", "")))
-            seller_br= str(row.get("sellerBrokerCode", row.get("sellerBroker", "")))
+            sym = row.get("stockSymbol","")
+            qty = int(safe_float(row.get("contractQuantity",0)))
+            amt = safe_float(row.get("contractAmount",0))
+            avg = safe_float(row.get("contractRate",0))
+            buyer = str(row.get("buyerBrokerCode",""))
+            seller= str(row.get("sellerBrokerCode",""))
+            if buyer == str(BROKER_ID):
+                if sym not in buy_map: buy_map[sym]={"kitta":0,"amount":0,"avg":avg}
+                buy_map[sym]["kitta"]+=qty; buy_map[sym]["amount"]+=amt
+            if seller == str(BROKER_ID):
+                if sym not in sell_map: sell_map[sym]={"kitta":0,"amount":0,"avg":avg}
+                sell_map[sym]["kitta"]+=qty; sell_map[sym]["amount"]+=amt
 
-            if buyer_br == str(BROKER_ID):
-                if sym not in buy_map: buy_map[sym] = {"kitta":0,"amount":0.0,"prices":[],"txns":0}
-                buy_map[sym]["kitta"]  += qty
-                buy_map[sym]["amount"] += amount
-                buy_map[sym]["prices"].append(avg_pr)
-                buy_map[sym]["txns"]   += 1
-
-            if seller_br == str(BROKER_ID):
-                if sym not in sell_map: sell_map[sym] = {"kitta":0,"amount":0.0,"prices":[],"txns":0}
-                sell_map[sym]["kitta"]  += qty
-                sell_map[sym]["amount"] += amount
-                sell_map[sym]["prices"].append(avg_pr)
-                sell_map[sym]["txns"]   += 1
-
-    # Compute totals
     buy_total  = sum(v["amount"] for v in buy_map.values())
     sell_total = sum(v["amount"] for v in sell_map.values())
-    net        = buy_total - sell_total
-
-    result["b58Purchase"]   = fmt_rs(buy_total)
-    result["b58SalesTotal"] = fmt_rs(sell_total)
-    result["b58Net"]        = f"+{fmt_rs(net)}" if net >= 0 else fmt_rs(net).replace("Rs.","-Rs.")
-    result["b58Stance"]     = "NET BUYER" if net >= 0 else "NET SELLER"
-
-    # Build top purchases list (sorted by amount)
-    for sym, v in sorted(buy_map.items(), key=lambda x: x[1]["amount"], reverse=True)[:20]:
-        avg = round(sum(v["prices"])/len(v["prices"]),2) if v["prices"] else 0
-        total = buy_map.get(sym,{}).get("amount",0) + sell_map.get(sym,{}).get("amount",0)
-        mkt_pct = f"{round(v['amount']/(total)*100,2)}%" if total > 0 else "—"
-        result["b58Purchases"].append({"sym":sym,"mktPct":mkt_pct,"amount":fmt_rs(v["amount"]),"kitta":f"{v['kitta']:,}","avgPrice":str(avg),"txns":str(v["txns"])})
-
-    # Build top sales list
-    for sym, v in sorted(sell_map.items(), key=lambda x: x[1]["amount"], reverse=True)[:20]:
-        avg = round(sum(v["prices"])/len(v["prices"]),2) if v["prices"] else 0
-        total = buy_map.get(sym,{}).get("amount",0) + sell_map.get(sym,{}).get("amount",0)
-        mkt_pct = f"{round(v['amount']/(total)*100,2)}%" if total > 0 else "—"
-        result["b58SalesList"].append({"sym":sym,"mktPct":mkt_pct,"amount":fmt_rs(v["amount"]),"kitta":f"{v['kitta']:,}","avgPrice":str(avg),"txns":str(v["txns"])})
-
-    # Net accumulation
-    all_syms = set(list(buy_map.keys()) + list(sell_map.keys()))
+    net = buy_total - sell_total
+    sign = "+" if net >= 0 else ""
+    b58_purchases = [{"sym":s,"mktPct":"—","amount":fmt_rs(v["amount"]),"kitta":f"{v['kitta']:,}","avgPrice":str(round(v['avg'],2)),"txns":"—"} for s,v in sorted(buy_map.items(),key=lambda x:-x[1]["amount"])[:20]]
+    b58_sales     = [{"sym":s,"mktPct":"—","amount":fmt_rs(v["amount"]),"kitta":f"{v['kitta']:,}","avgPrice":str(round(v['avg'],2)),"txns":"—"} for s,v in sorted(sell_map.items(),key=lambda x:-x[1]["amount"])[:20]]
+    all_syms = set(list(buy_map)+list(sell_map))
     net_accum = []
     for sym in all_syms:
-        b_k = buy_map.get(sym,{}).get("kitta",0)
-        s_k = sell_map.get(sym,{}).get("kitta",0)
-        net_k = b_k - s_k
-        conviction = min(100, max(10, abs(net_k)//500))
-        rating = "★★★" if abs(net_k)>50000 else "★★" if abs(net_k)>10000 else "★"
-        sell_pct = next((x["mktPct"] for x in result["b58SalesList"] if x["sym"]==sym),"—")
-        net_accum.append({"sym":sym,"netKitta":f"+{net_k:,}" if net_k>=0 else f"{net_k:,}","sellMktPct":sell_pct,"convWidth":str(conviction),"rating":rating,"note":f"B58 {'accumulating' if net_k>=0 else 'distributing'} {abs(net_k):,} net kitta"})
-    net_accum.sort(key=lambda x: int(x["netKitta"].replace("+","").replace(",","")), reverse=True)
-    result["netAccum"] = net_accum
+        b=buy_map.get(sym,{}).get("kitta",0); s=sell_map.get(sym,{}).get("kitta",0); nk=b-s
+        rating="★★★" if abs(nk)>50000 else "★★" if abs(nk)>10000 else "★"
+        net_accum.append({"sym":sym,"netKitta":f"+{nk:,}" if nk>=0 else f"{nk:,}","sellMktPct":"—","convWidth":str(min(100,max(10,abs(nk)//500))),"rating":rating,"note":f"B58 {'accumulating' if nk>=0 else 'distributing'} {abs(nk):,} net kitta"})
+    net_accum.sort(key=lambda x: int(x["netKitta"].replace("+","").replace(",","")),reverse=True)
+    log(f"   Buy:{fmt_rs(buy_total)} Sell:{fmt_rs(sell_total)} Net:{sign}{fmt_rs(abs(net))}")
+    log(f"   Purchases:{len(b58_purchases)} Sales:{len(b58_sales)}")
 
-    log(f"   Buy:{result['b58Purchase']}  Sell:{result['b58SalesTotal']}  Net:{result['b58Net']}")
-    log(f"   Purchases:{len(result['b58Purchases'])}  Sales:{len(result['b58SalesList'])}  Net accum:{len(net_accum)}")
-    return result
+    log("Fetching technicals...")
+    today_price = await api_post(tok, f"{BASE}/nepse-data/today-price?",
+        {"id":58,"size":500,"page":0,"sortBy":"","sortAsc":True,"sector":"","isNonDelisted":True,"businessDate":""}) or {}
+    price_map = {s.get("symbol",""):s for s in today_price.get("content",today_price if isinstance(today_price,list) else [])}
 
-# ── 6. TECHNICAL — via NEPSE API (no Alpha needed) ──────────
-def fetch_technical(watchlist):
-    log(f"Fetching technicals for {len(watchlist)} stocks via NEPSE API...")
     technical = []
-    # Grab all today prices once
-    d = get(f"{BASE}/market/today-price", {"size": 500})
-    price_map = {}
-    if d and "content" in d:
-        for s in d["content"]:
-            price_map[s.get("symbol","")] = s
-
-    for sym in watchlist:
-        s = price_map.get(sym, {})
-        ltp  = str(s.get("closingPrice", "—"))
-        w52h = str(s.get("fiftyTwoWeekHigh", "—"))
-        w52l = str(s.get("fiftyTwoWeekLow", "—"))
-        chg  = s.get("percentageChange", "—")
-        chg_str = f"+{chg:.2f}%" if isinstance(chg,(int,float)) and chg>=0 else f"{chg:.2f}%" if isinstance(chg,(int,float)) else "—"
-
-        # Get detailed security info for RSI/ADX if available
-        det = get(f"{BASE}/security/{sym}")
-        rsi=adx=atr=aroon="—"; ad_osc="—"
-        if det:
-            rsi    = str(round(safe_float(det.get("rsi14","—")),2))    if det.get("rsi14")    else "—"
-            adx    = str(round(safe_float(det.get("adx14","—")),2))    if det.get("adx14")    else "—"
-            atr    = str(round(safe_float(det.get("atr14","—")),2))    if det.get("atr14")    else "—"
-            aroon  = str(round(safe_float(det.get("aroonUp","—")),2))  if det.get("aroonUp")  else "—"
-            if aroon != "—": aroon += "%"
-
-        rsi_f = safe_float(rsi); adx_f = safe_float(adx)
+    for sym in WATCHLIST:
+        s = price_map.get(sym,{})
+        ltp  = str(s.get("closingPrice","—"))
+        w52h = str(s.get("fiftyTwoWeekHigh","—"))
+        w52l = str(s.get("fiftyTwoWeekLow","—"))
+        chg_pct = s.get("percentageChange","—")
+        chg_s = f"+{chg_pct:.2f}%" if isinstance(chg_pct,(int,float)) and chg_pct>=0 else f"{chg_pct:.2f}%" if isinstance(chg_pct,(int,float)) else "—"
+        ltp_f = safe_float(ltp)
         signal,action = "Neutral","WATCH"
-        if rsi_f>70:  signal,action = "Overbought","AVOID"
-        elif rsi_f>55 and adx_f>25: signal,action = "Bullish","ADD"
-        elif rsi_f>50: signal,action = "Mild Bullish","HOLD"
-        elif rsi_f<30: signal,action = "Oversold","WATCH"
-        elif rsi_f<45 and adx_f>25: signal,action = "Bearish","AVOID"
+        technical.append({"sym":sym,"ltp":ltp,"w52h":w52h,"w52l":w52l,"chg":chg_s,"rsi":"—","adx":"—","atr":"—","aroon":"—","adOsc":"—","signal":signal,"action":action})
 
-        technical.append({"sym":sym,"ltp":ltp,"w52h":w52h,"w52l":w52l,"chg":chg_str,"rsi":rsi,"adx":adx,"atr":atr,"aroon":aroon,"adOsc":ad_osc,"signal":signal,"action":action})
+    nepse_data = {"nepseClose":close,"nepseChg":chg_str,"turnover":turnover,"sharesTraded":shares,"transactions":transactions,"advDecUnch":adv_dec,"marketCap":market_cap,"floatCap":float_cap,"subIndices":sub_indices,"topGainers":gainers,"topLosers":losers,"topTurnover":turnover_raw_fmt if False else turnover,"topVolume":volume}
+    b58_data = {"b58Stance":"NET BUYER" if net>=0 else "NET SELLER","b58Net":f"{sign}{fmt_rs(abs(net))}","b58Purchase":fmt_rs(buy_total),"b58SalesTotal":fmt_rs(sell_total),"b58Purchases":b58_purchases,"b58SalesList":b58_sales,"netAccum":net_accum}
+    return nepse_data, b58_data, technical
 
-    log(f"   Technicals done: {len(technical)} stocks")
-    return technical
-
-# ── 7. DERIVED DATA ──────────────────────────────────────────
 def build_trade_plan(technical, net_accum):
-    accum_map = {n["sym"]: n["netKitta"] for n in net_accum}
-    plan = []
-    adds = sorted([t for t in technical if "ADD" in t.get("action","").upper()], key=lambda t: safe_float(t.get("adx","0")), reverse=True)
+    accum_map = {n["sym"]:n["netKitta"] for n in net_accum}
+    plan=[]
+    adds=sorted([t for t in technical if "ADD" in t.get("action","").upper()],key=lambda t:safe_float(t.get("adx","0")),reverse=True)
     for i,t in enumerate(adds[:15],1):
         ltp=safe_float(t["ltp"]); atr=safe_float(t["atr"])
         if ltp<=0: continue
-        stop = round(ltp-(1.5*atr),2) if atr>0 else round(ltp*0.92,2)
-        t1,t2,t3 = round(ltp*1.12,2),round(ltp*1.20,2),round(ltp*1.30,2)
+        stop=round(ltp-(1.5*atr),2) if atr>0 else round(ltp*0.92,2)
+        t1,t2,t3=round(ltp*1.12,2),round(ltp*1.20,2),round(ltp*1.30,2)
         risk=ltp-stop; reward=t1-ltp
-        rr = f"1:{round(reward/risk,1)}" if risk>0 else "1:2.0"
-        nk = accum_map.get(t["sym"],"—")
-        plan.append({"rk":str(i),"sym":t["sym"],"ltp":t["ltp"],"w52hl":f"{t['w52h']}/{t['w52l']}","entry":f"{round(ltp*0.99,2)}-{round(ltp*1.01,2)}","stop":str(stop),"t1":str(t1),"t2":str(t2),"t3":str(t3),"rr":rr,"action":f"ADD — B58 {nk}" if nk!="—" else "ADD — Technical"})
+        rr=f"1:{round(reward/risk,1)}" if risk>0 else "1:2.0"
+        nk=accum_map.get(t["sym"],"—")
+        plan.append({"rk":str(i),"sym":t["sym"],"ltp":t["ltp"],"w52hl":f"{t['w52h']}/{t['w52l']}","entry":f"{round(ltp*0.99,2)}-{round(ltp*1.01,2)}","stop":str(stop),"t1":str(t1),"t2":str(t2),"t3":str(t3),"rr":rr,"action":f"ADD — B58 {nk}" if nk!="—" else "ADD"})
     return plan
 
 def build_action_plan(technical, net_accum):
-    accum_map = {n["sym"]:n for n in net_accum}
+    accum_map={n["sym"]:n for n in net_accum}
     order={"URGENT":0,"MONITOR":1,"WATCH":2,"AVOID":3}
     plan=[]
     for t in technical:
         action=t.get("action","WATCH").upper(); sym=t["sym"]; nk=(accum_map.get(sym) or {}).get("netKitta","—")
-        if "ADD" in action or "BUY" in action: pri,pt,note="URGENT","urgent",f"B58 {nk}. ADD on pullback." if nk!="—" else "Strong signal. ADD."
+        if "ADD" in action: pri,pt,note="URGENT","urgent",f"B58 {nk}. ADD." if nk!="—" else "ADD signal."
         elif "HOLD" in action: pri,pt,note="MONITOR","monitor",f"Hold. RSI {t.get('rsi','—')}."
-        elif "AVOID" in action: pri,pt,note="AVOID","avoid-row",f"RSI {t.get('rsi','—')} overbought/bearish."
-        else: pri,pt,note="WATCH","watch",f"Watch. ADX {t.get('adx','—')}."
+        elif "AVOID" in action: pri,pt,note="AVOID","avoid-row","Overbought/bearish."
+        else: pri,pt,note="WATCH","watch","Watch for entry."
         plan.append({"priority":pri,"sym":sym,"ltp":t["ltp"],"w52h":t["w52h"],"action":action,"note":note,"type":pt})
-    plan.sort(key=lambda x: order.get(x["priority"],99))
+    plan.sort(key=lambda x:order.get(x["priority"],99))
     return plan
 
-def build_key_insights(nepse_data, b58, technical):
+def build_key_insights(nepse_data, b58_data, technical):
     ins=[]
-    stance=b58.get("b58Stance","—"); net=b58.get("b58Net","—")
-    top_buy=b58["b58Purchases"][0]["sym"] if b58.get("b58Purchases") else "—"
+    stance=b58_data.get("b58Stance","—"); net=b58_data.get("b58Net","—")
+    top_buy=b58_data["b58Purchases"][0]["sym"] if b58_data.get("b58Purchases") else "—"
     ins.append({"num":"1","title":f"B58 is a {stance} — {net}","body":f"Broker 58 net {net}. Top buy: {top_buy}. {'Accumulation signals confidence.' if 'BUYER' in stance else 'Distribution — proceed with caution.'}"})
     chg=nepse_data.get("nepseChg",""); adv=nepse_data.get("advDecUnch","—")
     ins.append({"num":"2","title":f"NEPSE {'rallied' if '+' in chg else 'declined'} {chg}","body":f"A/D/U: {adv}. Turnover: {nepse_data.get('turnover','—')}."})
-    strong=[t for t in technical if safe_float(t.get("rsi","0"))>55 and safe_float(t.get("adx","0"))>25]
-    if strong: ins.append({"num":"3","title":f"Strong confluence: {', '.join(t['sym'] for t in strong[:5])}","body":"RSI>55 and ADX>25. Scale in on pullbacks."})
-    ob=[t for t in technical if safe_float(t.get("rsi","0"))>70]
-    if ob: ins.append({"num":"4","title":f"Overbought: {', '.join(t['sym'] for t in ob[:3])}","body":"RSI>70. Avoid chasing — wait for RSI<65."})
     return ins
 
-# ── MAIN ─────────────────────────────────────────────────────
-def main():
+async def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--date",     default=date.today().strftime("%Y-%m-%d"))
     parser.add_argument("--no-alpha", action="store_true")
-    parser.add_argument("--stocks",   default="")
     args = parser.parse_args()
-
     report_date = args.date.strip()
-    watchlist   = [s.strip().upper() for s in args.stocks.split(",")] if args.stocks else WATCHLIST
-    log(f"=== NEPSE Extractor v2 — {report_date} ===")
+    log(f"=== NEPSE Extractor v3 — {report_date} ===")
 
-    nepse   = fetch_nepse_index()
-    summary = fetch_market_summary()
-    nepse.update(summary)
-    sub_idx = fetch_sub_indices()
-    gainers, losers, turnover, volume = fetch_top_movers()
-    b58     = fetch_broker58()
-    tech    = [] if args.no_alpha else fetch_technical(watchlist)
+    async with async_playwright() as pw:
+        browser = await pw.chromium.launch(headless=True, args=["--no-sandbox","--disable-dev-shm-usage"])
+        context = await browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36", viewport={"width":1280,"height":900})
+        page = await context.new_page()
+        await page.route("**/*.{png,jpg,jpeg,gif,webp,svg,woff,woff2,ttf}", lambda r: r.abort())
 
-    trade_plan   = build_trade_plan(tech, b58.get("netAccum",[]))
-    action_plan  = build_action_plan(tech, b58.get("netAccum",[]))
-    key_insights = build_key_insights(nepse, b58, tech)
+        tok = await get_auth_token(page)
+        await browser.close()
 
-    chg = nepse.get("nepseChg",""); stance = b58.get("b58Stance","—")
-    headline = ("STRONG GREEN / B58 Accumulating" if "+" in chg and "BUYER" in stance
-                else "GREEN / Cautious Rally"     if "+" in chg
-                else "MIXED / B58 Buying on Dip"  if stance=="NET BUYER"
-                else "RED / Distribution Pressure")
+    nepse_data, b58_data, technical = await fetch_all_data(tok, report_date)
 
+    trade_plan   = build_trade_plan(technical, b58_data.get("netAccum",[]))
+    action_plan  = build_action_plan(technical, b58_data.get("netAccum",[]))
+    key_insights = build_key_insights(nepse_data, b58_data, technical)
+
+    chg=nepse_data.get("nepseChg",""); stance=b58_data.get("b58Stance","—")
+    headline = ("STRONG GREEN / B58 Accumulating" if "+" in chg and "BUYER" in stance else
+                "GREEN / Cautious Rally" if "+" in chg else
+                "MIXED / B58 Buying on Dip" if stance=="NET BUYER" else
+                "RED / Distribution Pressure")
+
+    b58p = b58_data.get("b58Purchases",[])
     report = {
-        "date":            report_date,
-        "headline":        headline,
-        "nepseClose":      nepse.get("nepseClose","—"),
-        "nepseChg":        nepse.get("nepseChg","—"),
-        "turnover":        nepse.get("turnover","—"),
-        "sharesTraded":    nepse.get("sharesTraded","—"),
-        "transactions":    nepse.get("transactions","—"),
-        "advDecUnch":      nepse.get("advDecUnch","—"),
-        "marketCap":       nepse.get("marketCap","—"),
-        "floatCap":        nepse.get("floatCap","—"),
-        "b58Stance":       b58.get("b58Stance","—"),
-        "b58Net":          b58.get("b58Net","—"),
-        "b58Purchase":     b58.get("b58Purchase","—"),
-        "b58SalesTotal":   b58.get("b58SalesTotal","—"),
-        "b58TopBuy":       b58["b58Purchases"][0]["sym"] if b58.get("b58Purchases") else "—",
-        "b58PeakMkt":      b58["b58Purchases"][0]["mktPct"] if b58.get("b58Purchases") else "—",
-        "marketPulseNote": f"NEPSE closed at {nepse.get('nepseClose','—')} ({nepse.get('nepseChg','—')}) with turnover {nepse.get('turnover','—')}. Broker 58 was a {b58.get('b58Stance','—')} with net {b58.get('b58Net','—')}.",
-        "subIndices":      sub_idx,
-        "topGainers":      gainers,
-        "topLosers":       losers,
-        "topTurnover":     turnover,
-        "topVolume":       volume,
-        "b58Purchases":    b58.get("b58Purchases",[]),
-        "b58SalesList":    b58.get("b58SalesList",[]),
-        "netAccum":        b58.get("netAccum",[]),
-        "technical":       tech,
-        "tradePlan":       trade_plan,
-        "keyInsights":     key_insights,
-        "actionPlan":      action_plan,
-        "disclaimer":      ["Not financial advice — personal tracking only.", "Data: nepalstock.com.np", f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} NPT"],
+        "date":report_date,"headline":headline,
+        "nepseClose":nepse_data.get("nepseClose","—"),"nepseChg":nepse_data.get("nepseChg","—"),
+        "turnover":nepse_data.get("turnover","—"),"sharesTraded":nepse_data.get("sharesTraded","—"),
+        "transactions":nepse_data.get("transactions","—"),"advDecUnch":nepse_data.get("advDecUnch","—"),
+        "marketCap":nepse_data.get("marketCap","—"),"floatCap":nepse_data.get("floatCap","—"),
+        "b58Stance":b58_data.get("b58Stance","—"),"b58Net":b58_data.get("b58Net","—"),
+        "b58Purchase":b58_data.get("b58Purchase","—"),"b58SalesTotal":b58_data.get("b58SalesTotal","—"),
+        "b58TopBuy":b58p[0]["sym"] if b58p else "—","b58PeakMkt":b58p[0].get("mktPct","—") if b58p else "—",
+        "marketPulseNote":f"NEPSE {nepse_data.get('nepseClose','—')} ({nepse_data.get('nepseChg','—')}) turnover {nepse_data.get('turnover','—')}. B58 {b58_data.get('b58Stance','—')} {b58_data.get('b58Net','—')}.",
+        "subIndices":nepse_data.get("subIndices",[]),
+        "topGainers":nepse_data.get("topGainers",[]),"topLosers":nepse_data.get("topLosers",[]),
+        "topTurnover":nepse_data.get("topTurnover",[]),"topVolume":nepse_data.get("topVolume",[]),
+        "b58Purchases":b58_data.get("b58Purchases",[]),"b58SalesList":b58_data.get("b58SalesList",[]),
+        "netAccum":b58_data.get("netAccum",[]),"technical":technical,
+        "tradePlan":trade_plan,"keyInsights":key_insights,"actionPlan":action_plan,
+        "disclaimer":["Not financial advice — personal tracking only.","Data: nepalstock.com.np",f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} NPT"],
     }
 
     out = Path(OUTPUT_DIR) / f"{report_date}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     with open(out,"w",encoding="utf-8") as f:
         json.dump(report, f, ensure_ascii=False, indent=2)
-    log(f"Saved: {out}  NEPSE:{report['nepseClose']}  B58:{report['b58Stance']} {report['b58Net']}  Stocks:{len(tech)}")
+    log(f"Saved: {out}  NEPSE:{report['nepseClose']}  B58:{report['b58Stance']} {report['b58Net']}  Stocks:{len(technical)}")
     log("=== Done ===")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
