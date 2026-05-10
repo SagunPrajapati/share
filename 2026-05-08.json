@@ -3,19 +3,19 @@
   "headline": "MIXED / B58 Buying on Dip",
   "nepseClose": "—",
   "nepseChg": "—",
-  "turnover": "—",
-  "sharesTraded": "—",
-  "transactions": "—",
-  "advDecUnch": "—",
-  "marketCap": "—",
-  "floatCap": "—",
+  "turnover": [],
+  "sharesTraded": "0",
+  "transactions": "0",
+  "advDecUnch": "— / — / —",
+  "marketCap": "Rs.0",
+  "floatCap": "Rs.0",
   "b58Stance": "NET BUYER",
   "b58Net": "+Rs.0",
   "b58Purchase": "Rs.0",
   "b58SalesTotal": "Rs.0",
   "b58TopBuy": "—",
   "b58PeakMkt": "—",
-  "marketPulseNote": "NEPSE closed at — (—) with turnover —. Broker 58 was a NET BUYER with net +Rs.0.",
+  "marketPulseNote": "NEPSE — (—) turnover []. B58 NET BUYER +Rs.0.",
   "subIndices": [],
   "topGainers": [],
   "topLosers": [],
@@ -36,7 +36,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -50,7 +50,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -64,7 +64,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -78,7 +78,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -92,7 +92,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -106,7 +106,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -120,7 +120,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -134,7 +134,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -148,7 +148,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -162,7 +162,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -176,7 +176,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -190,7 +190,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -204,7 +204,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -218,7 +218,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -232,7 +232,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -246,7 +246,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -260,7 +260,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -274,7 +274,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -288,7 +288,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     },
     {
@@ -302,7 +302,7 @@
       "atr": "—",
       "aroon": "—",
       "adOsc": "—",
-      "signal": "Oversold",
+      "signal": "Neutral",
       "action": "WATCH"
     }
   ],
@@ -315,8 +315,8 @@
     },
     {
       "num": "2",
-      "title": "NEPSE declined ",
-      "body": "A/D/U: —. Turnover: —."
+      "title": "NEPSE declined —",
+      "body": "A/D/U: — / — / —. Turnover: []."
     }
   ],
   "actionPlan": [
@@ -326,7 +326,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -335,7 +335,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -344,7 +344,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -353,7 +353,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -362,7 +362,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -371,7 +371,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -380,7 +380,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -389,7 +389,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -398,7 +398,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -407,7 +407,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -416,7 +416,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -425,7 +425,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -434,7 +434,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -443,7 +443,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -452,7 +452,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -461,7 +461,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -470,7 +470,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -479,7 +479,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -488,7 +488,7 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     },
     {
@@ -497,13 +497,13 @@
       "ltp": "—",
       "w52h": "—",
       "action": "WATCH",
-      "note": "Watch. ADX —.",
+      "note": "Watch for entry.",
       "type": "watch"
     }
   ],
   "disclaimer": [
     "Not financial advice — personal tracking only.",
     "Data: nepalstock.com.np",
-    "Generated: 2026-05-09 19:25:41 NPT"
+    "Generated: 2026-05-10 02:09:35 NPT"
   ]
 }
