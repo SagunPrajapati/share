@@ -164,23 +164,7 @@
 
   
   "summary": 
-              "Let me fetch the JSON data directly from GitHub.I can see the file is open in GitHub editor. Let me get the content from that tab.I have the header data. Let me get the full JSON with the stock-level data from the JavaScript editor content.The editor is showing the stock-level data. The file has 64 lines but the editor is rendering them with virtual scrolling. Let me navigate to the raw view page to get the complete data.I now have all the data I need. Let me also get the full technical screener and remaining key insights.I now have a comprehensive picture of the data. Let me build the analysis widget.Now I have everything I need. Let me build the comprehensive stock analysis report.Here's my full analysis based on the May 19, 2026 NEPSE data from your repository. Let me walk you through the key takeaways:
-
-**The market context** is important: NEPSE closed slightly red (-0.23%) but the real story is in the broker flow data. Broker 58 (Naasa Securities) flipped to a net seller for the first time in the tracked series — distributing Rs.86.12M net. This is a caution signal for the overall market, meaning you should be selective and not buy broadly.
-
-**My top picks for today (May 20):**
-
-**CITY** is the most compelling trade. Being the worst performer (-6.84%) while B58 silently absorbed 117,976 kitta is a classic institutional dip-buying pattern — smart money uses retail panic to accumulate. Entry 355–375, hard stop at 340.
-
-**SHPC** is the second strongest conviction buy — 36.25% market share on the buy side is enormous. B58 clearly believes hydro is undervalued here.
-
-**API** stands out technically — RSI 59.59 is the highest in the entire screener, and it closed green on a red market day. Relative strength in a down market is a powerful signal.
-
-**NABIL** offers a defensive large-cap play with the screener's highest ADX (31.58), suggesting a strong ongoing trend.
-
-**Hard avoids:** NHPC, RIDI, and AKJCL — all showing B58 distribution after prior accumulation. When smart money reverses course, don't stand in the way.
-
-> ⚠️ This analysis is for informational purposes only. I am not a licensed investment advisor. Please exercise your own judgment and risk management before placing any trades.",
+              "Test.",
 
     
   "disclaimer": [
