@@ -161,6 +161,11 @@
     {"priority": "CAUTION", "sym": "SAIL", "ltp": "—", "w52h": "—", "action": "AVOID", "note": "B58 pure sell at 51.88% market share. Heavy distribution.", "type": "caution"},
     {"priority": "CAUTION", "sym": "SYPNL", "ltp": "1467.00", "w52h": "—", "action": "CAUTION", "note": "RSI 39.68, ADX 26.18, ATR 89.42. High volatility. Near oversold.", "type": "caution"}
   ],
+
+  / ← Add your new long summary here
+  "summary": "Your long paragraph goes here. You can write multiple sentences, even 300-500+ words. This will appear at the bottom of the page before the disclaimer. Broker 58 showed strong conviction in select hydropower and financial stocks while trimming positions in others...",
+
+    
   "disclaimer": [
     "Not financial advice — Personal tracking only.",
     "Data sourced from nepalstock.com and nepsealpha.com floorsheet as of May 19, 2026 market close.",
