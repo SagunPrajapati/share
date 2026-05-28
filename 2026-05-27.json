@@ -1,0 +1,499 @@
+{
+  "date": "2026-05-27",
+  "headline": "GREEN / Narrow Advance — Mixed Breadth",
+  "nepseClose": "2782.10",
+  "nepseChg": "+4.99 (+0.17%)",
+  "turnover": "Rs.6,030,064,840.96",
+  "sharesTraded": "15,249,712",
+  "transactions": "60,562",
+  "scripsTraded": "354",
+  "advDecUnch": "151 / 105 / 14",
+  "marketCap": "Rs.4,746,825,954,877",
+  "floatCap": "Rs.1,586,232,535,801.1",
+  "b58Stance": "NET SELLER",
+  "b58Net": "-Rs.89,099,303",
+  "b58Purchase": "Rs.440,565,425.00",
+  "b58SalesTotal": "Rs.529,664,728.00",
+  "b58TopBuy": "NHPC",
+  "b58PeakMkt": "19.78% (NHPC BUY) / 51.39% (CREST BUY by market %)",
+  "marketPulseNote": "NEPSE eked out a marginal gain on May 27, 2026, closing at 2782.10 (+4.99, +0.17%). Despite total turnover hitting Rs.6.03B — the highest in the tracked series — breadth was weak at 151/105/14. Only 8 of 13 sub-indices closed green. Finance, Hotels & Tourism, Manufacturing & Others were red. Broker 58 was a significant NET SELLER at -Rs.89.1M — the largest net sell in the series. Key distribution: AKJCL (304,830 kitta sold at 18.67%), CITY (78,881 kitta at 48.60%), NHPC two-sided (net sell 103,061 kitta vs 212,152 bought but also 109,061 sold). CREST was top buy at 51.39% share.",
+
+  "indices": [
+    {"name": "NEPSE Index",           "value": "2782.10", "chg": "+4.99", "chgPct": "+0.17%", "direction": "up"},
+    {"name": "Sensitive Index",        "value": "475.51",  "chg": "+1.21", "chgPct": "+0.25%", "direction": "up"},
+    {"name": "Float Index",            "value": "188.96",  "chg": "+0.43", "chgPct": "+0.22%", "direction": "up"},
+    {"name": "Sensitive Float Index",  "value": "160.32",  "chg": "+0.43", "chgPct": "+0.26%", "direction": "up"}
+  ],
+
+  "subIndices": [
+    {"name": "Banking SubIndex",             "value": "1469.80",  "chg": "+3.98",  "chgPct": "+0.27%", "direction": "up"},
+    {"name": "Development Bank Index",       "value": "5915.63",  "chg": "+8.19",  "chgPct": "+0.13%", "direction": "up"},
+    {"name": "Finance Index",                "value": "2385.35",  "chg": "-9.16",  "chgPct": "-0.38%", "direction": "down"},
+    {"name": "Hotels And Tourism Index",     "value": "7927.36",  "chg": "-19.47", "chgPct": "-0.24%", "direction": "down"},
+    {"name": "HydroPower Index",             "value": "3949.19",  "chg": "+2.40",  "chgPct": "+0.06%", "direction": "up"},
+    {"name": "Investment Index",             "value": "103.55",   "chg": "+0.58",  "chgPct": "+0.57%", "direction": "up"},
+    {"name": "Life Insurance",               "value": "12616.09", "chg": "+86.13", "chgPct": "+0.68%", "direction": "up"},
+    {"name": "Manufacturing And Processing", "value": "11328.89", "chg": "-49.75", "chgPct": "-0.43%", "direction": "down"},
+    {"name": "Microfinance Index",           "value": "4824.54",  "chg": "+14.65", "chgPct": "+0.30%", "direction": "up"},
+    {"name": "Mutual Fund",                  "value": "21.99",    "chg": "+0.08",  "chgPct": "+0.39%", "direction": "up"},
+    {"name": "Non Life Insurance",           "value": "10992.63", "chg": "+59.23", "chgPct": "+0.54%", "direction": "up"},
+    {"name": "Others Index",                 "value": "2018.99",  "chg": "-6.07",  "chgPct": "-0.30%", "direction": "down"},
+    {"name": "Trading Index",                "value": "3802.97",  "chg": "+27.60", "chgPct": "+0.73%", "direction": "up"}
+  ],
+
+  "topGainers": [
+    {"sym": "KHPL",   "ltp": "376.80",  "ptChg": "+49.10",  "chgPct": "+14.98%"},
+    {"sym": "BUNGAL", "ltp": "841.00",  "ptChg": "+108.90", "chgPct": "+14.88%"},
+    {"sym": "CREST",  "ltp": "1350.00", "ptChg": "+106.00", "chgPct": "+8.52%"},
+    {"sym": "KBLD86", "ltp": "1257.00", "ptChg": "+72.00",  "chgPct": "+6.08%"},
+    {"sym": "AKJCL",  "ltp": "440.00",  "ptChg": "+17.10",  "chgPct": "+4.04%"}
+  ],
+
+  "topLosers": [
+    {"sym": "SBD89",    "ltp": "1195.00", "ptChg": "-85.00", "chgPct": "-6.64%"},
+    {"sym": "MFLD85",   "ltp": "1064.00", "ptChg": "-70.50", "chgPct": "-6.21%"},
+    {"sym": "MBLD2085", "ltp": "1129.10", "ptChg": "-70.90", "chgPct": "-5.91%"},
+    {"sym": "SHLB",     "ltp": "1472.70", "ptChg": "-76.30", "chgPct": "-4.93%"},
+    {"sym": "PBD84",    "ltp": "1084.00", "ptChg": "-56.00", "chgPct": "-4.91%"}
+  ],
+
+  "topTurnover": [
+    {"sym": "AKJCL", "turnover": "712,233,632.80", "ltp": "440.00"},
+    {"sym": "RIDI",  "turnover": "432,764,226.50", "ltp": "376.00"},
+    {"sym": "NHPC",  "turnover": "321,530,116.00", "ltp": "301.00"},
+    {"sym": "API",   "turnover": "208,599,998.00", "ltp": "364.00"},
+    {"sym": "NGPL",  "turnover": "157,012,496.50", "ltp": "455.50"}
+  ],
+
+  "topVolume": [
+    {"sym": "AKJCL", "shares": "1,635,606", "ltp": "440.00"},
+    {"sym": "RIDI",  "shares": "1,144,591", "ltp": "376.00"},
+    {"sym": "NHPC",  "shares": "1,073,288", "ltp": "301.00"},
+    {"sym": "API",   "shares": "577,850",   "ltp": "364.00"},
+    {"sym": "KDBY",  "shares": "477,100",   "ltp": "11.51"}
+  ],
+
+  "topTransactions": [
+    {"sym": "AKJCL", "txns": "2684", "ltp": "440.00"},
+    {"sym": "RIDI",  "txns": "2592", "ltp": "376.00"},
+    {"sym": "NHPC",  "txns": "1982", "ltp": "301.00"},
+    {"sym": "SOHL",  "txns": "1780", "ltp": "676.00"},
+    {"sym": "PCIL",  "txns": "1713", "ltp": "820.00"}
+  ],
+
+  "b58Purchases": [
+    {"sym": "NHPC",  "mktPct": "19.78%", "amount": "63,600,504.00", "kitta": "212152", "avgPrice": "299.79", "txns": "284"},
+    {"sym": "RIDI",  "mktPct": "11.57%", "amount": "50,060,064.00", "kitta": "132258", "avgPrice": "378.50", "txns": "303"},
+    {"sym": "AKJCL", "mktPct": "6.80%",  "amount": "48,428,516.00", "kitta": "111228", "avgPrice": "435.40", "txns": "213"},
+    {"sym": "NRN",   "mktPct": "29.20%", "amount": "21,573,098.00", "kitta": "15349",  "avgPrice": "1405.51","txns": "52"},
+    {"sym": "NGPL",  "mktPct": "13.50%", "amount": "21,203,625.00", "kitta": "46542",  "avgPrice": "455.58", "txns": "49"},
+    {"sym": "CREST", "mktPct": "51.39%", "amount": "16,922,470.00", "kitta": "13519",  "avgPrice": "1251.75","txns": "132"},
+    {"sym": "SOHL",  "mktPct": "5.61%",  "amount": "7,777,374.00",  "kitta": "11367",  "avgPrice": "684.21", "txns": "173"},
+    {"sym": "API",   "mktPct": "2.84%",  "amount": "5,922,890.00",  "kitta": "16435",  "avgPrice": "360.38", "txns": "97"},
+    {"sym": "LBBL",  "mktPct": "18.98%", "amount": "5,061,266.00",  "kitta": "10341",  "avgPrice": "489.44", "txns": "10"},
+    {"sym": "TAMOR", "mktPct": "8.01%",  "amount": "4,752,433.00",  "kitta": "9831",   "avgPrice": "483.41", "txns": "83"}
+  ],
+
+  "b58Sales": [
+    {"sym": "AKJCL", "mktPct": "18.67%", "amount": "132,986,187.00","kitta": "304830", "avgPrice": "436.26", "txns": "309"},
+    {"sym": "RIDI",  "mktPct": "11.62%", "amount": "50,294,788.00", "kitta": "132909", "avgPrice": "378.42", "txns": "262"},
+    {"sym": "NHPC",  "mktPct": "10.19%", "amount": "32,760,951.00", "kitta": "109061", "avgPrice": "300.39", "txns": "242"},
+    {"sym": "CITY",  "mktPct": "48.60%", "amount": "30,612,283.00", "kitta": "78881",  "avgPrice": "388.08", "txns": "257"},
+    {"sym": "NRN",   "mktPct": "21.16%", "amount": "15,631,415.00", "kitta": "11150",  "avgPrice": "1401.92","txns": "31"},
+    {"sym": "SOHL",  "mktPct": "10.95%", "amount": "15,161,291.00", "kitta": "22093",  "avgPrice": "686.25", "txns": "322"},
+    {"sym": "SHPC",  "mktPct": "30.83%", "amount": "12,670,265.00", "kitta": "22855",  "avgPrice": "554.38", "txns": "8"},
+    {"sym": "KBL",   "mktPct": "21.54%", "amount": "12,404,709.00", "kitta": "56223",  "avgPrice": "220.63", "txns": "123"},
+    {"sym": "CREST", "mktPct": "33.99%", "amount": "11,192,040.00", "kitta": "9136",   "avgPrice": "1225.05","txns": "139"},
+    {"sym": "API",   "mktPct": "5.25%",  "amount": "10,958,317.00", "kitta": "30407",  "avgPrice": "360.39", "txns": "75"}
+  ],
+
+  "netAccum": [
+    {"sym": "NHPC",  "buyKitta": "212152", "sellKitta": "109061", "netKitta": "+103091", "buyMktPct": "19.78%", "sellMktPct": "10.19%", "rating": "★★★", "note": "Massive net buy: 212,152 bought vs 109,061 sold. Net +103,091 kitta — largest net accumulation of the day. B58 aggressively re-accumulating NHPC."},
+    {"sym": "RIDI",  "buyKitta": "132258", "sellKitta": "132909", "netKitta": "-651",    "buyMktPct": "11.57%", "sellMktPct": "11.62%", "rating": "★",   "note": "Near perfectly neutral: 132,258 bought vs 132,909 sold. B58 acting as market maker in RIDI — two-sided liquidity provider."},
+    {"sym": "AKJCL", "buyKitta": "111228", "sellKitta": "304830", "netKitta": "-193602", "buyMktPct": "6.80%",  "sellMktPct": "18.67%", "rating": "⚠⚠",  "note": "HEAVY net sell: 111,228 bought vs 304,830 sold. Net -193,602 kitta — the largest absolute net sell in this tracked series. Major AKJCL distribution despite it being top gainer +4.04%."},
+    {"sym": "CITY",  "buyKitta": "0",      "sellKitta": "78881",  "netKitta": "-78881",  "buyMktPct": "—",      "sellMktPct": "48.60%", "rating": "⚠⚠",  "note": "Pure sell 78,881 kitta at 48.60% market share. B58 has been consistently selling CITY across multiple sessions. Major sustained distribution."},
+    {"sym": "NRN",   "buyKitta": "15349",  "sellKitta": "11150",  "netKitta": "+4199",   "buyMktPct": "29.20%", "sellMktPct": "21.16%", "rating": "★★",  "note": "Net buyer: 15,349 bought vs 11,150 sold. Net +4,199 kitta. B58 bought at avg 1405.51 vs sold at avg 1401.92 — slight accumulation."},
+    {"sym": "CREST", "buyKitta": "13519",  "sellKitta": "9136",   "netKitta": "+4383",   "buyMktPct": "51.39%", "sellMktPct": "33.99%", "rating": "★★",  "note": "Net buyer: 13,519 bought at 51.39% market share vs 9,136 sold. Net +4,383 kitta. CREST was top gainer +8.52% today. B58 two-sided but net accumulator."},
+    {"sym": "SOHL",  "buyKitta": "11367",  "sellKitta": "22093",  "netKitta": "-10726",  "buyMktPct": "5.61%",  "sellMktPct": "10.95%", "rating": "⚠",   "note": "Net seller: 11,367 bought vs 22,093 sold. Net -10,726 kitta. SOHL has been B58 sell target across multiple sessions."},
+    {"sym": "API",   "buyKitta": "16435",  "sellKitta": "30407",  "netKitta": "-13972",  "buyMktPct": "2.84%",  "sellMktPct": "5.25%",  "rating": "⚠",   "note": "Net seller: 16,435 bought vs 30,407 sold. Net -13,972 kitta. Despite strong API technicals, B58 distributing today."},
+    {"sym": "NGPL",  "buyKitta": "46542",  "sellKitta": "0",      "netKitta": "+46542",  "buyMktPct": "13.50%", "sellMktPct": "—",      "rating": "★★★", "note": "Pure buy 46,542 kitta at 13.50% market share. NGPL consistent B58 accumulation target."},
+    {"sym": "SHPC",  "buyKitta": "0",      "sellKitta": "22855",  "netKitta": "-22855",  "buyMktPct": "—",      "sellMktPct": "30.83%", "rating": "⚠",   "note": "Pure sell 22,855 kitta at 30.83% market share. B58 consistent SHPC distributor."},
+    {"sym": "KBL",   "buyKitta": "0",      "sellKitta": "56223",  "netKitta": "-56223",  "buyMktPct": "—",      "sellMktPct": "21.54%", "rating": "⚠",   "note": "Pure sell 56,223 kitta at 21.54% market share. Large KBL distribution."},
+    {"sym": "LBBL",  "buyKitta": "10341",  "sellKitta": "0",      "netKitta": "+10341",  "buyMktPct": "18.98%", "sellMktPct": "—",      "rating": "★★",  "note": "Pure buy 10,341 kitta at 18.98% market share."},
+    {"sym": "TAMOR", "buyKitta": "9831",   "sellKitta": "0",      "netKitta": "+9831",   "buyMktPct": "8.01%",  "sellMktPct": "—",      "rating": "★★",  "note": "Pure buy 9,831 kitta at 8.01% market share."}
+  ],
+
+  "technical": [
+    {
+      "sym": "NIMB",  "name": "Nepal Investment Mega Bank Limited",
+      "ltp": "200.60", "w52h": "242.60", "w52l": "184.60",
+      "ohlc": {"o": "210.00", "h": "210.00", "l": "198.60", "c": "200.60"},
+      "chgPct": "-0.05%",
+      "rsi": "49.70", "adx": "24.08", "atr": "6.88",
+      "aroonUp": "28.57%", "aroonDown": "71.43%",
+      "adOsc": "Bearish", "accDist": "-7.77M",
+      "macd": {"macd": "0.62", "signal": "-1.29", "hist": "-1.91", "trend": "Bearish — MACD below signal, histogram negative and widening"},
+      "signal": "Neutral-Bearish", "action": "WATCH",
+      "sector": "Commercial Banks"
+    },
+    {
+      "sym": "NABIL", "name": "Nabil Bank Limited",
+      "ltp": "537.00", "w52h": "554.60", "w52l": "483.00",
+      "ohlc": {"o": "538.70", "h": "540.00", "l": "534.00", "c": "537.00"},
+      "chgPct": "0.00%",
+      "rsi": "68.52", "adx": "35.69", "atr": "7.42",
+      "aroonUp": "100.00%", "aroonDown": "7.14%",
+      "adOsc": "Bearish", "accDist": "-3.314M",
+      "macd": {"macd": "1.23", "signal": "2.73", "hist": "1.50", "trend": "Bullish — MACD positive, histogram positive but MACD below signal line — momentum slowing"},
+      "signal": "Bullish", "action": "WATCH — Near 52W High",
+      "sector": "Commercial Banks"
+    },
+    {
+      "sym": "PCBL",  "name": "Prime Commercial Bank Ltd",
+      "ltp": "247.00", "w52h": "269.00", "w52l": "214.80",
+      "ohlc": {"o": "246.00", "h": "247.60", "l": "242.50", "c": "247.00"},
+      "chgPct": "+0.53%",
+      "rsi": "61.40", "adx": "18.55", "atr": "5.00",
+      "aroonUp": "100.00%", "aroonDown": "28.57%",
+      "adOsc": "Bullish", "accDist": "-1.546M",
+      "macd": {"macd": "1.15", "signal": "0.27", "hist": "-0.88", "trend": "Bullish — MACD above signal (bullish cross), histogram negative means momentum fading slightly"},
+      "signal": "Neutral-Bullish", "action": "WATCH",
+      "sector": "Commercial Banks"
+    },
+    {
+      "sym": "PRVU",  "name": "Prabhu Bank Limited",
+      "ltp": "200.40", "w52h": "245.30", "w52l": "181.20",
+      "ohlc": {"o": "200.00", "h": "200.80", "l": "199.00", "c": "200.40"},
+      "chgPct": "+0.20%",
+      "rsi": "50.26", "adx": "14.47", "atr": "5.94",
+      "aroonUp": "21.43%", "aroonDown": "85.71%",
+      "adOsc": "Bearish", "accDist": "-8.934M",
+      "macd": {"macd": "0.58", "signal": "-0.77", "hist": "-1.36", "trend": "Bearish — MACD below signal, histogram negative and widening downward"},
+      "signal": "Neutral-Bearish", "action": "WATCH",
+      "sector": "Commercial Banks"
+    },
+    {
+      "sym": "NICA",  "name": "NIC Asia Bank Ltd",
+      "ltp": "350.50", "w52h": "420.10", "w52l": "306.40",
+      "ohlc": {"o": "354.00", "h": "354.00", "l": "349.00", "c": "350.50"},
+      "chgPct": "+0.92%",
+      "rsi": "44.75", "adx": "13.07", "atr": "12.01",
+      "aroonUp": "85.71%", "aroonDown": "42.86%",
+      "adOsc": "Bearish", "accDist": "-2.367M",
+      "macd": {"macd": "-0.21", "signal": "-3.45", "hist": "-3.24", "trend": "Bearish — MACD negative, below signal, histogram deeply negative"},
+      "signal": "Neutral-Bearish", "action": "WATCH",
+      "sector": "Commercial Banks"
+    },
+    {
+      "sym": "SMHL",  "name": "Super Madi Hydropower Limited",
+      "ltp": "510.00", "w52h": "1145.40", "w52l": "445.00",
+      "ohlc": {"o": "506.00", "h": "519.80", "l": "505.00", "c": "510.00"},
+      "chgPct": "+0.99%",
+      "rsi": "56.63", "adx": "11.79", "atr": "13.02",
+      "aroonUp": "28.57%", "aroonDown": "35.71%",
+      "adOsc": "Bearish", "accDist": "+254.699K",
+      "macd": {"macd": "1.89", "signal": "-0.29", "hist": "-2.18", "trend": "Bullish cross — MACD crossed above signal recently, histogram negative means early stage"},
+      "signal": "Neutral", "action": "WATCH",
+      "sector": "Hydro Power"
+    },
+    {
+      "sym": "SHIVM", "name": "Shivam Cements Ltd",
+      "ltp": "685.00", "w52h": "720.00", "w52l": "488.80",
+      "ohlc": {"o": "695.00", "h": "695.00", "l": "684.50", "c": "685.00"},
+      "chgPct": "-0.58%",
+      "rsi": "53.96", "adx": "21.31", "atr": "14.95",
+      "aroonUp": "71.43%", "aroonDown": "7.14%",
+      "adOsc": "Bearish", "accDist": "-8.178M",
+      "macd": {"macd": "1.31", "signal": "4.02", "hist": "2.71", "trend": "Bullish — MACD positive, histogram positive. MACD below signal suggests softening but still bullish zone"},
+      "signal": "Neutral-Bullish", "action": "WATCH",
+      "sector": "Manufacturing And Processing"
+    },
+    {
+      "sym": "NHPC",  "name": "National Hydro Power Company Limited",
+      "ltp": "301.00", "w52h": "331.20", "w52l": "178.60",
+      "ohlc": {"o": "280.00", "h": "305.00", "l": "280.00", "c": "301.00"},
+      "chgPct": "+2.73%",
+      "rsi": "56.94", "adx": "11.43", "atr": "15.53",
+      "aroonUp": "85.71%", "aroonDown": "0.00%",
+      "adOsc": "Bearish", "accDist": "-6.649M",
+      "macd": {"macd": "1.52", "signal": "1.01", "hist": "-0.51", "trend": "Bullish — MACD above signal, both positive. Histogram slightly negative — momentum slowing but trend intact"},
+      "signal": "Neutral-Bullish", "action": "WATCH — B58 massive net buyer +103K kitta",
+      "sector": "Hydro Power"
+    },
+    {
+      "sym": "SONA",  "name": "Sonapur Minerals and Oil Limited",
+      "ltp": "463.10", "w52h": "513.50", "w52l": "401.00",
+      "ohlc": {"o": "445.00", "h": "471.90", "l": "445.00", "c": "463.10"},
+      "chgPct": "-0.84%",
+      "rsi": "60.68", "adx": "25.44", "atr": "15.13",
+      "aroonUp": "85.71%", "aroonDown": "0.00%",
+      "adOsc": "Bullish", "accDist": "-2.199M",
+      "macd": {"macd": "3.65", "signal": "4.63", "hist": "0.98", "trend": "Bullish — MACD positive, histogram positive but MACD below signal — momentum peaking, watch for rollover"},
+      "signal": "Bullish", "action": "WATCH",
+      "sector": "Manufacturing And Processing"
+    },
+    {
+      "sym": "MPFL",  "name": "Multipurpose Finance Company Limited",
+      "ltp": "620.90", "w52h": "730.00", "w52l": "498.00",
+      "ohlc": {"o": "616.20", "h": "623.00", "l": "610.10", "c": "620.90"},
+      "chgPct": "+0.16%",
+      "rsi": "49.08", "adx": "10.78", "atr": "18.96",
+      "aroonUp": "21.43%", "aroonDown": "78.57%",
+      "adOsc": "Bullish", "accDist": "-222.753K",
+      "macd": {"macd": "2.60", "signal": "-3.94", "hist": "-6.53", "trend": "Bearish — MACD above signal (crossing up) but both near zero and histogram very negative — weak recovery signal only"},
+      "signal": "Neutral", "action": "WATCH",
+      "sector": "Finance"
+    },
+    {
+      "sym": "SOHL",  "name": "Solu Hydropower Limited",
+      "ltp": "676.00", "w52h": "—", "w52l": "—",
+      "ohlc": {"o": "690.00", "h": "699.00", "l": "675.00", "c": "676.00"},
+      "chgPct": "-2.42%",
+      "rsi": "48.18", "adx": "22.49", "atr": "35.83",
+      "aroonUp": "0.00%", "aroonDown": "64.29%",
+      "adOsc": "Bullish", "accDist": "+18.047K",
+      "macd": {"macd": "-7.13", "signal": "-0.48", "hist": "6.65", "trend": "Bearish — MACD deeply negative and below signal. Histogram positive suggests MACD is recovering from bottom but still in bearish territory"},
+      "signal": "Caution", "action": "MONITOR — B58 net seller across sessions",
+      "sector": "Hydro Power"
+    },
+    {
+      "sym": "ALICL", "name": "Asian Life Insurance Co. Limited",
+      "ltp": "454.00", "w52h": "516.00", "w52l": "424.40",
+      "ohlc": {"o": "455.00", "h": "455.00", "l": "451.50", "c": "454.00"},
+      "chgPct": "+1.05%",
+      "rsi": "48.54", "adx": "8.92", "atr": "8.26",
+      "aroonUp": "21.43%", "aroonDown": "0.00%",
+      "adOsc": "Bearish", "accDist": "-1.465M",
+      "macd": {"macd": "0.37", "signal": "-1.70", "hist": "-2.07", "trend": "Bearish — MACD below signal, histogram negative. MACD crossing toward zero but signal deeply negative"},
+      "signal": "Neutral", "action": "WATCH",
+      "sector": "Life Insurance"
+    },
+    {
+      "sym": "BHL",   "name": "Balephi Hydropower Limited",
+      "ltp": "227.00", "w52h": "257.70", "w52l": "167.00",
+      "ohlc": {"o": "238.10", "h": "238.10", "l": "220.00", "c": "227.00"},
+      "chgPct": "+0.09%",
+      "rsi": "55.38", "adx": "8.56", "atr": "10.51",
+      "aroonUp": "92.86%", "aroonDown": "7.14%",
+      "adOsc": "Bearish", "accDist": "-23.662M",
+      "macd": {"macd": "0.95", "signal": "0.96", "hist": "0.01", "trend": "Neutral — MACD and signal nearly identical. Zero histogram = perfect crossover point. Direction pending"},
+      "signal": "Neutral", "action": "WATCH",
+      "sector": "Hydro Power"
+    },
+    {
+      "sym": "SAIL",  "name": "Shreenagar Agritech Industries Ltd",
+      "ltp": "1139.00", "w52h": "—", "w52l": "—",
+      "ohlc": {"o": "1083.00", "h": "1148.00", "l": "1083.00", "c": "1139.00"},
+      "chgPct": "-0.09%",
+      "rsi": "45.18", "adx": "26.41", "atr": "65.88",
+      "aroonUp": "50.00%", "aroonDown": "100.00%",
+      "adOsc": "Bearish", "accDist": "-15.015K",
+      "macd": {"macd": "4.72", "signal": "-22.89", "hist": "-27.61", "trend": "Deeply Bearish — MACD far below signal, histogram massively negative. Strong confirmed downtrend"},
+      "signal": "Bearish", "action": "AVOID — B58 consistent seller, MACD deeply bearish",
+      "sector": "Manufacturing And Processing"
+    },
+    {
+      "sym": "RADHI", "name": "Radhi Bidyut Company Ltd",
+      "ltp": "785.00", "w52h": "920.00", "w52l": "631.60",
+      "ohlc": {"o": "795.00", "h": "795.00", "l": "775.10", "c": "785.00"},
+      "chgPct": "-0.88%",
+      "rsi": "51.54", "adx": "20.27", "atr": "22.57",
+      "aroonUp": "85.71%", "aroonDown": "0.00%",
+      "adOsc": "Bearish", "accDist": "-9.251M",
+      "macd": {"macd": "6.76", "signal": "-3.07", "hist": "-9.83", "trend": "Bearish — MACD positive but deeply below signal, histogram very negative. Downward pressure despite positive MACD value"},
+      "signal": "Neutral", "action": "WATCH",
+      "sector": "Hydro Power"
+    },
+    {
+      "sym": "ULHC",  "name": "Upper Lohore Hydropower Company Limited",
+      "ltp": "475.10", "w52h": "587.50", "w52l": "420.00",
+      "ohlc": {"o": "478.00", "h": "478.90", "l": "471.50", "c": "475.10"},
+      "chgPct": "-0.63%",
+      "rsi": "43.82", "adx": "45.27", "atr": "28.57",
+      "aroonUp": "64.29%", "aroonDown": "64.29%",
+      "adOsc": "Bullish", "accDist": "-585.651K",
+      "macd": {"macd": "-2.63", "signal": "-9.69", "hist": "-7.06", "trend": "Bearish — MACD negative, below signal, histogram deeply negative. ADX 45.27 confirms very strong downtrend"},
+      "signal": "Bearish", "action": "AVOID — ADX 45.27 strong downtrend confirmed",
+      "sector": "Hydro Power",
+      "note": "ADX 45.27 — strongest trend reading in entire tracked universe. All MACD components bearish. RSI 43.82 weak. Despite Bullish AD oscillator, everything else points down."
+    },
+    {
+      "sym": "HDL",   "name": "Himalayan Distillery Limited",
+      "ltp": "1175.00", "w52h": "1271.40", "w52l": "1003.40",
+      "ohlc": {"o": "1161.10", "h": "1179.00", "l": "1150.20", "c": "1175.00"},
+      "chgPct": "-0.34%",
+      "rsi": "52.77", "adx": "31.70", "atr": "24.54",
+      "aroonUp": "42.86%", "aroonDown": "85.71%",
+      "adOsc": "Bearish", "accDist": "-3.954M",
+      "macd": {"macd": "0.41", "signal": "-0.36", "hist": "-0.77", "trend": "Neutral-Bearish — MACD positive but barely, below signal, histogram negative. Trend weakening"},
+      "signal": "Neutral", "action": "WATCH",
+      "sector": "Manufacturing And Processing"
+    },
+    {
+      "sym": "SHEL",  "name": "Singati Hydro Energy Limited",
+      "ltp": "322.80", "w52h": "354.10", "w52l": "252.50",
+      "ohlc": {"o": "320.90", "h": "325.40", "l": "320.00", "c": "322.80"},
+      "chgPct": "+0.59%",
+      "rsi": "57.80", "adx": "18.93", "atr": "8.50",
+      "aroonUp": "92.86%", "aroonDown": "0.00%",
+      "adOsc": "Bearish", "accDist": "-10.214M",
+      "macd": {"macd": "1.82", "signal": "1.11", "hist": "-0.71", "trend": "Bullish — MACD above signal (bullish), both positive. Histogram slightly negative — momentum slowing but bullish structure intact"},
+      "signal": "Neutral-Bullish", "action": "WATCH",
+      "sector": "Hydro Power"
+    },
+    {
+      "sym": "NGPL",  "name": "Ngadi Group Power Ltd",
+      "ltp": "455.50", "w52h": "491.00", "w52l": "334.10",
+      "ohlc": {"o": "455.00", "h": "458.10", "l": "450.00", "c": "455.50"},
+      "chgPct": "+0.44%",
+      "rsi": "55.62", "adx": "9.32", "atr": "13.62",
+      "aroonUp": "92.86%", "aroonDown": "0.00%",
+      "adOsc": "Bearish", "accDist": "-17.005M",
+      "macd": {"macd": "2.09", "signal": "1.22", "hist": "-0.88", "trend": "Bullish — MACD above signal, both positive. Histogram slightly negative — minor pullback in momentum"},
+      "signal": "Neutral-Bullish", "action": "WATCH — B58 pure buyer 46,542 kitta",
+      "sector": "Hydro Power"
+    },
+    {
+      "sym": "API",   "name": "API Power Company Limited",
+      "ltp": "364.00", "w52h": "364.20", "w52l": "247.70",
+      "ohlc": {"o": "360.00", "h": "364.80", "l": "356.50", "c": "364.00"},
+      "chgPct": "+1.45%",
+      "rsi": "68.94", "adx": "28.98", "atr": "9.66",
+      "aroonUp": "21.43%", "aroonDown": "0.00%",
+      "adOsc": "Bearish", "accDist": "-7.598M",
+      "macd": {"macd": "1.90", "signal": "5.33", "hist": "3.43", "trend": "Bullish — MACD positive, histogram positive and large. MACD below signal but strong bullish momentum confirmed"},
+      "signal": "Bullish", "action": "BUY — At 52W High breakout (364.00 vs 364.20)",
+      "sector": "Hydro Power",
+      "note": "API LTP 364.00 vs 52W High 364.20 — effectively AT the 52W high. RSI 68.94 strong momentum. ADX 28.98 confirmed trend. MACD histogram 3.43 bullish. A close above 364.20 confirms breakout."
+    },
+    {
+      "sym": "ILI",   "name": "IME Life Insurance Company Limited",
+      "ltp": "447.00", "w52h": "493.70", "w52l": "411.10",
+      "ohlc": {"o": "440.00", "h": "447.00", "l": "440.00", "c": "447.00"},
+      "chgPct": "+1.13%",
+      "rsi": "61.64", "adx": "15.88", "atr": "7.43",
+      "aroonUp": "21.43%", "aroonDown": "0.00%",
+      "adOsc": "Bullish", "accDist": "-622.737K",
+      "macd": {"macd": "1.55", "signal": "0.25", "hist": "-1.30", "trend": "Bullish — MACD above signal (bullish). Histogram slightly negative but both MACD and signal positive"},
+      "signal": "Neutral-Bullish", "action": "WATCH",
+      "sector": "Life Insurance"
+    }
+  ],
+
+  "tradePlan": [
+    {
+      "rk": "1", "sym": "API", "ltp": "364.00", "w52h": "364.20", "w52l": "247.70",
+      "entry": "360-366", "stop": "345", "t1": "385", "t2": "410", "rr": "1:2.8",
+      "action": "BUY — 52W HIGH BREAKOUT",
+      "note": "LTP 364.00 vs 52W High 364.20 — AT breakout. RSI 68.94, ADX 28.98, MACD hist +3.43 all bullish. A sustained close above 364.20 on volume = confirmed breakout. Multi-session B58 buyer."
+    },
+    {
+      "rk": "2", "sym": "NABIL", "ltp": "537.00", "w52h": "554.60", "w52l": "483.00",
+      "entry": "530-540", "stop": "515", "t1": "555", "t2": "580", "rr": "1:2.1",
+      "action": "BUY / WATCH",
+      "note": "RSI 68.52, ADX 35.69 strong trend. Aroon Up 100%/Down 7.14%. MACD 1.23 above signal 2.73 — bullish. 3.3% from 52W high 554.60."
+    },
+    {
+      "rk": "3", "sym": "NHPC", "ltp": "301.00", "w52h": "331.20", "w52l": "178.60",
+      "entry": "295-305", "stop": "278", "t1": "331", "t2": "350", "rr": "1:2.5",
+      "action": "BUY / WATCH",
+      "note": "B58 massive net buyer +103,091 kitta today. RSI 56.94, MACD 1.52 above signal 1.01. Aroon Up 85.71%/Down 0%. Strong accumulation signal."
+    },
+    {
+      "rk": "4", "sym": "SONA", "ltp": "463.10", "w52h": "513.50", "w52l": "401.00",
+      "entry": "455-468", "stop": "438", "t1": "513", "t2": "—", "rr": "1:2.3",
+      "action": "WATCH",
+      "note": "RSI 60.68, ADX 25.44. Aroon Up 85.71%/Down 0%. MACD hist +0.98 bullish. AD Bullish. Consistent performer."
+    },
+    {
+      "rk": "5", "sym": "NGPL", "ltp": "455.50", "w52h": "491.00", "w52l": "334.10",
+      "entry": "448-460", "stop": "430", "t1": "491", "t2": "—", "rr": "1:2.0",
+      "action": "WATCH",
+      "note": "B58 pure buyer 46,542 kitta. RSI 55.62. MACD above signal. Top 5 market turnover today at Rs.157M. Approaching 52W high 491."
+    },
+    {
+      "rk": "6", "sym": "CREST", "ltp": "1350.00", "w52h": "—", "w52l": "—",
+      "entry": "1320-1360", "stop": "1260", "t1": "1450", "t2": "—", "rr": "1:1.5",
+      "action": "WATCH — B58 net buyer at 51.39% market share",
+      "note": "B58 bought 13,519 kitta at 51.39% market share. Top gainer +8.52% today. Two-sided but net accumulator. New entry to watch."
+    },
+    {
+      "rk": "7", "sym": "AKJCL", "ltp": "440.00", "w52h": "—", "w52l": "—",
+      "entry": "—", "stop": "—", "t1": "—", "t2": "—", "rr": "—",
+      "action": "AVOID / EXTREME CAUTION",
+      "note": "B58 net sold 193,602 kitta — largest absolute net sell in entire tracked series. Despite being top gainer +4.04%, this level of B58 distribution is a major red flag."
+    },
+    {
+      "rk": "8", "sym": "CITY", "ltp": "—", "w52h": "—", "w52l": "—",
+      "entry": "—", "stop": "—", "t1": "—", "t2": "—", "rr": "—",
+      "action": "AVOID",
+      "note": "B58 pure sell 78,881 kitta at 48.60% market share. Consistent multi-session distribution pattern."
+    },
+    {
+      "rk": "9", "sym": "ULHC", "ltp": "475.10", "w52h": "587.50", "w52l": "420.00",
+      "entry": "—", "stop": "—", "t1": "—", "t2": "—", "rr": "—",
+      "action": "AVOID — Strongest downtrend (ADX 45.27)",
+      "note": "ADX 45.27 highest in universe. MACD deeply negative. RSI 43.82. All indicators confirm strong downtrend."
+    },
+    {
+      "rk": "10", "sym": "SAIL", "ltp": "1139.00", "w52h": "—", "w52l": "—",
+      "entry": "—", "stop": "—", "t1": "—", "t2": "—", "rr": "—",
+      "action": "AVOID",
+      "note": "MACD histogram -27.61 — deepest bearish histogram in entire tracked universe. ADX 26.41 downtrend. Aroon Down 100%. B58 consistent seller."
+    }
+  ],
+
+  "keyInsights": [
+    {
+      "num": "1",
+      "title": "Record Turnover Rs.6.03B — But Breadth Only 151/105",
+      "body": "May 27 set another turnover record at Rs.6,030,064,840.96, yet market breadth was weak at 151 advances vs 105 declines. This divergence between high turnover and poor breadth — combined with B58 being the largest net seller in the series (-Rs.89.1M) — suggests institutional distribution into retail-driven volume."
+    },
+    {
+      "num": "2",
+      "title": "B58 Largest Net Sell in Series — Rs.89.1M Distribution",
+      "body": "Broker 58 sold Rs.529.7M vs bought Rs.440.6M, a net sell of Rs.89.1M — the highest single-day net sell in this tracked series. The most alarming signal: AKJCL net sold 193,602 kitta (largest absolute net sell ever recorded) and CITY pure sold 78,881 kitta at 48.60% share. B58 is clearly in heavy distribution mode."
+    },
+    {
+      "num": "3",
+      "title": "API AT 52W High — Breakout Imminent",
+      "body": "API closed at 364.00, just 0.20 below its 52W high of 364.20. RSI 68.94 shows strong momentum. MACD histogram +3.43 is bullish. ADX 28.98 confirms the trend. This is the most technically compelling setup in the entire tracked universe. A sustained close above 364.20 confirms a new 52W high breakout."
+    },
+    {
+      "num": "4",
+      "title": "NABIL RSI 68.52 + ADX 35.69 — Best Bank Setup",
+      "body": "Among commercial banks, NABIL remains the strongest setup: RSI 68.52, ADX 35.69 (highest in banking sector), Aroon Up 100%/Down 7.14%, and MACD 1.23 above signal 2.73 with positive histogram. Only 3.3% below its 52W high 554.60."
+    },
+    {
+      "num": "5",
+      "title": "NHPC B58 Massive Re-Accumulation — +103K Kitta Net",
+      "body": "B58 bought 212,152 kitta and sold 109,061 kitta of NHPC — net +103,091 kitta, the largest net accumulation trade of the day. This is a strong institutional signal. NHPC surged +2.73% to 301.00. MACD bullish (1.52 above signal 1.01). Aroon Up 85.71%/Down 0%."
+    },
+    {
+      "num": "6",
+      "title": "AKJCL — Distribution Warning Despite +4.04% Gain",
+      "body": "AKJCL was the top turnover stock (Rs.712M) and gained +4.04%, yet B58 net sold 193,602 kitta (304,830 sold vs 111,228 bought). This is a classic 'distribution into strength' pattern. When the largest broker is offloading at this scale into a price rally, caution is warranted for AKJCL longs."
+    },
+    {
+      "num": "7",
+      "title": "SAIL MACD Histogram -27.61 — Deepest Bearish Signal",
+      "body": "SAIL has the most extreme MACD reading in the entire tracked universe: histogram -27.61, MACD 4.72 vs signal -22.89. ADX 26.41 confirms strong downtrend. Aroon Down 100%. B58 has been a consistent seller. This stock is in a confirmed, strong downtrend."
+    },
+    {
+      "num": "8",
+      "title": "ULHC ADX 45.27 — Extreme Downtrend Confirmed",
+      "body": "ULHC's ADX of 45.27 is the highest in the entire tracked universe and indicates an extremely strong trend. With Aroon Down 64.29% vs Up 64.29% (neutral) and MACD deeply negative (-2.63 vs signal -9.69), ULHC remains in a confirmed strong downtrend. RSI 43.82. Avoid until reversal confirmed."
+    }
+  ],
+
+  "summary": "NEPSE marginally gained +4.99 points (+0.17%) on May 27, 2026 to close at 2782.10 on record Rs.6.03B turnover. However, the session had serious underlying distribution signals: breadth was only 151/105, 5 of 13 sub-indices were red, and Broker 58 posted its largest net sell in the tracked series at -Rs.89.1M. The standout alert is API — now effectively AT its 52W high of 364.20 (LTP 364.00) with RSI 68.94, ADX 28.98, and MACD histogram +3.43. NHPC saw massive B58 re-accumulation (+103,091 net kitta). NABIL maintains the strongest banking setup. Critical warnings: AKJCL distribution (193,602 net kitta sold), CITY sustained selling (78,881 kitta at 48.60%), SAIL MACD histogram -27.61, and ULHC ADX 45.27 downtrend.",
+
+  "disclaimer": [
+    "Not financial advice — Personal tracking only.",
+    "Data sourced from nepalstock.com and nepsealpha.com floorsheet as of May 27, 2026 market close.",
+    "Broker 58 (Naasa Securities Co. Ltd.) data is for tracking institutional flow only and does not constitute a recommendation.",
+    "Technical indicators (RSI, ADX, ATR, Aroon, AD Oscillator, MACD) are derived from nepsealpha.com charts and are for informational purposes only.",
+    "MACD settings: 12, 26, 9 (standard). MACD line = fast - slow EMA. Signal = 9-period EMA of MACD. Histogram = MACD - Signal.",
+    "Past performance does not guarantee future results. Always do your own research before investing."
+  ]
+}
