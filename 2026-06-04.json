@@ -138,11 +138,7 @@
     {"sym": "BJHL",   "ltp": "891.10",  "w52h": "—",       "w52l": "—",      "chg": "-1.66%", "rsi": "45.12", "adx": "20.62", "atr": "56.88", "aroon": "64.29%",  "adOsc": "Bullish", "signal": "Bearish",  "action": "CAUTION"},
     {"sym": "HFIN",   "ltp": "925.00",  "w52h": "—",       "w52l": "—",      "chg": "-3.66%", "rsi": "47.30", "adx": "35.92", "atr": "47.69", "aroon": "57.14%",  "adOsc": "Bearish", "signal": "Bearish",  "action": "AVOID"}
   ],
-  "externalRecommendations": {
-    "source": "NEPSE Learning Hub",
-    "date": "2026-06-04",
-    "disclaimer": "These are third-party recommendations. Cross-verify with B58 flow and personal technical analysis before acting.",
-    "picks": [
+  "NEPSE": [
       {
         "sym": "SNLI",
         "name": "Sun Nepal Life Insurance Company Limited",
@@ -251,8 +247,8 @@
         "overallRating": "★☆☆",
         "action": "AVOID — Ext. rec. conflicts with technicals. ADX 35.92 strong downtrend, RSI <50, Aroon Down 100%, AD Osc bearish."
       }
-    ]
-  },
+    ],
+  
   "tradePlan": [
     {"rk": "1",  "sym": "CITY",   "ltp": "—",      "w52hl": "—/—",           "entry": "368-380", "stop": "350",  "t1": "415",  "t2": "—",   "t3": "—", "rr": "1:2.0", "action": "WATCH — B58 pure buy 101,340 kitta at 51.58% market share. 2nd consecutive session of B58 dip-buying."},
     {"rk": "2",  "sym": "SALICO", "ltp": "—",      "w52hl": "—/—",           "entry": "655-675", "stop": "630",  "t1": "720",  "t2": "—",   "t3": "—", "rr": "1:2.0", "action": "WATCH — B58 pure buy at 53.47% market share — highest buy concentration of session."},
