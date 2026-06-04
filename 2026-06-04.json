@@ -247,7 +247,7 @@
         "overallRating": "★☆☆",
         "action": "AVOID — Ext. rec. conflicts with technicals. ADX 35.92 strong downtrend, RSI <50, Aroon Down 100%, AD Osc bearish."
       }
-    ],
+  ],
   
   "tradePlan": [
     {"rk": "1",  "sym": "CITY",   "ltp": "—",      "w52hl": "—/—",           "entry": "368-380", "stop": "350",  "t1": "415",  "t2": "—",   "t3": "—", "rr": "1:2.0", "action": "WATCH — B58 pure buy 101,340 kitta at 51.58% market share. 2nd consecutive session of B58 dip-buying."},
