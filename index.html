@@ -1206,6 +1206,12 @@ function buildHTML(r){
     ${filterBarHTML('technical')}
     <div style="overflow-x:auto;"><table><thead><tr><th>Stock</th><th>LTP</th><th>52W High</th><th>52W Low</th><th>Chg%</th><th>RSI</th><th>ADX</th><th>Aroon↑</th><th>A/D Signal</th><th>Action</th></tr></thead><tbody>${techR||'<tr><td colspan="10" style="color:#aaa;">No data</td></tr>'}</tbody></table></div>
   </div>
+    
+  <div class="section" id="NEPSE-Learning-Hub">
+    <div class="section-title">📉 7. NEPSE Learning Hub — ${r.date}</div>
+    ${filterBarHTML('NEPSE-Learning-Hub')}
+    <div style="overflow-x:auto;"><table><thead><tr><th>Stock</th><th>LTP</th><th>52W High</th><th>52W Low</th><th>Chg%</th><th>RSI</th><th>ADX</th><th>Aroon↑</th><th>A/D Signal</th><th>Action</th></tr></thead><tbody>${techR||'<tr><td colspan="10" style="color:#aaa;">No data</td></tr>'}</tbody></table></div>
+  </div>
 
   <div class="section" id="trade-plan">
     <div class="section-title">🎯 8. Trade Plan — Entry · Stop · Targets</div>
